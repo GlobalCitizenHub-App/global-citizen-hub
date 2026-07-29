@@ -94,12 +94,10 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
-    // 1. Exact short inputs priority
     if (cleanInput === "ho") {
         return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     }
 
-    // 2. Keyword, alias, and typo mappings
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -123,7 +121,6 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
 
-    // Unrecognized typo fallback
     return { key: cleanInput, data: { country: "Unknown", zone: "continental", hemi: "north", type: "unknown" }, isTypo: true };
 }
 
@@ -166,7 +163,6 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Live typing feedback requiring user confirmation before proceeding
 document.getElementById('cityInput').addEventListener('input', function() {
     const rawInput = this.value.trim();
     const detectedZoneDiv = document.getElementById('detectedZone');
