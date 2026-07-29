@@ -26,6 +26,8 @@ const globalLocationMap = {
     "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city" },
     "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city" },
     "moscow": { country: "Russia", zone: "arctic", hemi: "north", type: "city" },
+    "kyiv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
+    "lviv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
     "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city" },
     "milan": { country: "Italy", zone: "continental", hemi: "north", type: "city" },
     "madrid": { country: "Spain", zone: "mediterranean", hemi: "north", type: "city" },
@@ -44,6 +46,7 @@ const globalLocationMap = {
     "osaka": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
     "beijing": { country: "China", zone: "continental", hemi: "north", type: "city" },
     "ho chi minh city": { country: "Vietnam", zone: "tropical", hemi: "north", type: "city" },
+    "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
     "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city" },
     "bangkok": { country: "Thailand", zone: "tropical", hemi: "north", type: "city" },
     "manila": { country: "Philippines", zone: "tropical", hemi: "north", type: "city" },
@@ -73,7 +76,8 @@ const globalLocationMap = {
     "canada": { country: "Canada", zone: "arctic", hemi: "north", type: "country" },
     "australia": { country: "Australia", zone: "mediterranean", hemi: "south", type: "country" },
     "brazil": { country: "Brazil", zone: "continental", hemi: "south", type: "country" },
-    "vietnam": { country: "Vietnam", zone: "tropical", hemi: "north", type: "country" }
+    "vietnam": { country: "Vietnam", zone: "tropical", hemi: "north", type: "country" },
+    "ukraine": { country: "Ukraine", zone: "continental", hemi: "north", type: "country" }
 };
 
 let verifiedLocationKey = null;
@@ -91,8 +95,11 @@ function resolveBestMatch(input) {
     }
 
     // Common typo & variation mappings
-    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi") || cleanInput === "ho") {
+    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
+    }
+    if (cleanInput === "ho") {
+        return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     }
     if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
     if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"], isTypo: false };
@@ -102,6 +109,8 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
     if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
     if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
+    if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
+    if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
