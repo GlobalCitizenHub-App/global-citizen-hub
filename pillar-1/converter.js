@@ -89,8 +89,8 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput] };
     }
 
-    // Keyword & typo mappings
-    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput === "ho") {
+    // Comprehensive keyword & typo mappings
+    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi") || cleanInput === "ho") {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"] };
     }
     if (cleanInput.includes("york")) return { key: "new york", data: globalLocationMap["new york"] };
@@ -157,7 +157,7 @@ document.getElementById('cityInput').addEventListener('input', function() {
         } else {
             let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
             let countryName = match.data.country;
-            let promptText = match.data.type === "country" ? `Country: ${formalName}` : `${formalCity} in ${countryName}`;
+            let promptText = match.data.type === "country" ? `Country: ${formalCity}` : `${formalCity} in ${countryName}`;
             
             detectedZoneDiv.innerHTML = `
                 <span style="color: #e67e22;">Did you mean <strong>${promptText}</strong>? 
