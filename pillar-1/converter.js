@@ -78,34 +78,36 @@ const globalLocationMap = {
 
 let verifiedLocationKey = null;
 
+// Smart matcher to handle typos, misspellings, and partial entries
 function resolveBestMatch(input) {
     let cleanInput = input.trim().toLowerCase();
     
     if (verifiedLocationKey && verifiedLocationKey === cleanInput) {
-        return { key: cleanInput, data: globalLocationMap[cleanInput] };
+        return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
     if (globalLocationMap[cleanInput]) {
-        return { key: cleanInput, data: globalLocationMap[cleanInput] };
+        return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
-    // Expanded keyword & typo mappings
+    // Common typo & variation mappings
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi") || cleanInput === "ho") {
-        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"] };
+        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
-    if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"] };
-    if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"] };
-    if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"] };
-    if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"] };
-    if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"] };
-    if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"] };
-    if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"] };
-    if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"] };
-    if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"] };
-    if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"] };
+    if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
+    if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"], isTypo: false };
+    if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
+    if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
+    if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
+    if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
+    if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
+    if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
+    if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
+    if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
+    if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
 
-    // Smart fallback for unmatched entries: map to a standard temperate baseline instead of throwing errors
-    return { key: cleanInput, data: { country: "Global Standard", zone: "continental", hemi: "north", type: "city" } };
+    // Unrecognized typo fallback
+    return { key: cleanInput, data: { country: "Unknown", zone: "continental", hemi: "north", type: "unknown" }, isTypo: true };
 }
 
 function determineSeasonalMatrix(locData, month) {
@@ -147,7 +149,7 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Live typing feedback asking "City in Country?" confirmation
+// Live typing feedback requiring user confirmation before proceeding
 document.getElementById('cityInput').addEventListener('input', function() {
     const rawInput = this.value.trim();
     const detectedZoneDiv = document.getElementById('detectedZone');
@@ -155,25 +157,30 @@ document.getElementById('cityInput').addEventListener('input', function() {
     
     if (rawInput.length > 1) {
         let match = resolveBestMatch(rawInput);
-        let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
-        let countryName = match.data.country || "Global Region";
-        let promptText = match.data.type === "country" ? `Country: ${formalCity}` : `${formalCity} in ${countryName}`;
         
-        detectedZoneDiv.innerHTML = `
-            <span style="color: #2980b9;">Did you mean <strong>${promptText}</strong>? 
-            <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
-            </span>`;
-        
-        setTimeout(() => {
-            const confirmBtn = document.getElementById('confirmLocationBtn');
-            if (confirmBtn) {
-                confirmBtn.onclick = function() {
-                    document.getElementById('cityInput').value = formalCity;
-                    verifiedLocationKey = match.key;
-                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} (${countryName})</strong>. Ready to generate!</span>`;
-                };
-            }
-        }, 100);
+        if (match.isTypo) {
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
+        } else {
+            let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
+            let countryName = match.data.country || "Global Region";
+            let promptText = match.data.type === "country" ? `Country: ${formalCity}` : `${formalCity} in ${countryName}`;
+            
+            detectedZoneDiv.innerHTML = `
+                <span style="color: #2980b9;">Did you mean <strong>${promptText}</strong>? 
+                <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
+                </span>`;
+            
+            setTimeout(() => {
+                const confirmBtn = document.getElementById('confirmLocationBtn');
+                if (confirmBtn) {
+                    confirmBtn.onclick = function() {
+                        document.getElementById('cityInput').value = formalCity;
+                        verifiedLocationKey = match.key;
+                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} (${countryName})</strong>. Ready to generate!</span>`;
+                    };
+                }
+            }, 100);
+        }
     } else {
         detectedZoneDiv.textContent = "";
     }
@@ -192,6 +199,11 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     }
 
     let match = resolveBestMatch(rawInput);
+    if (match.isTypo || !verifiedLocationKey) {
+        alert('Please select a valid destination and click "Confirm" before generating the matrix.');
+        return;
+    }
+
     let matrixType = determineSeasonalMatrix(match.data, travelMonth);
     let formattedLocation = match.key.charAt(0).toUpperCase() + match.key.slice(1);
     let countryName = match.data.country || "Global Region";
@@ -214,3 +226,63 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
                     <li><strong>Strategic Utility:</strong> Optimized for high ambient temperatures, UV defense, and rapid sweat evaporation.</li>
                 </ul>`;
             break;
+        case 'winter_cold':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Winter Freeze Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
+                    <li><strong>Mid Layer:</strong> Heavy fleece, wool knit sweaters, or insulated cardigans</li>
+                    <li><strong>Outer Shell:</strong> Windproof down jacket or heavy winter overcoat</li>
+                    <li><strong>Strategic Utility:</strong> Engineered for sub-zero wind chills, thermal retention, and layer stacking.</li>
+                </ul>`;
+            break;
+        case 'winter_mild':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
+                    <li><strong>Mid Layer:</strong> Lightweight windbreaker, fleece, or cozy cardigan</li>
+                    <li><strong>Outer Shell:</strong> Moderate water-resistant jacket (coastal breezes)</li>
+                    <li><strong>Strategic Utility:</strong> Tailored for mild coastal winters with moderate winds and minimal freezing.</li>
+                </ul>`;
+            break;
+        case 'temperate_transition':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Transitional Climate Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
+                    <li><strong>Mid Layer:</strong> Lightweight cardigan, fleece, or versatile denim jacket</li>
+                    <li><strong>Outer Shell:</strong> Packable wind-resistant shell or trench</li>
+                    <li><strong>Strategic Utility:</strong> Tailored for seasonal shifts with warm daytime peaks and crisp evening drops.</li>
+                </ul>`;
+            break;
+        case 'tropical':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Tropical & Equatorial</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
+                    <li><strong>Mid Layer:</strong> UV-shielding long-sleeve barrier against intense sun</li>
+                    <li><strong>Outer Shell:</strong> Lightweight breathable rain shell</li>
+                    <li><strong>Strategic Utility:</strong> Built for continuous humidity, high heat, and frequent washing cycles.</li>
+                </ul>`;
+            break;
+        default:
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Standard Temperate</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
+                    <li><strong>Mid Layer:</strong> Moderate wool cardigan or transitional jacket</li>
+                    <li><strong>Outer Shell:</strong> Water-resistant windbreaker</li>
+                    <li><strong>Strategic Utility:</strong> Balanced for mild, changing seasonal conditions.</li>
+                </ul>`;
+            break;
+    }
+
+    outputContent.innerHTML = recommendation;
+    resultsBox.classList.remove('hidden');
+});
