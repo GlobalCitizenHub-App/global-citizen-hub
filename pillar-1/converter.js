@@ -79,27 +79,87 @@ const globalLocationMap = {
     "kenya": { zone: "tropical", hemi: "south" }
 };
 
-function resolveLocation(input) {
-    let cleanInput = input.trim().toLowerCase();
-    
-    if (globalLocationMap[cleanInput]) {
-        return { data: globalLocationMap[cleanInput], status: "exact", name: cleanInput };
+// Simple Levenshtein distance algorithm to find the closest matching city name for typos
+function findClosestMatch(input) {
+    let keys = Object.keys(globalLocationMap);
+    let closest = keys[0];
+    let minDistance = Infinity;
+
+    for (let key of keys) {
+        let distance = levenshtein(input, key);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closest = key;
+        }
     }
 
-    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: "new york" };
-    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north" }, status: "exact", name: "dubai" };
-    if (cleanInput.includes("nairobi") || cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south" }, status: "exact", name: "nairobi" };
-    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north" }, status: "exact", name: "mexico city" };
-    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: "paris" };
-    if (cleanInput.includes("seoul") || cleanInput.includes("incheon") || cleanInput.includes("busan") || cleanInput.includes("jeju")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: cleanInput };
-    if (cleanInput.includes("sydney") || cleanInput.includes("melbourne")) return { data: { zone: "mediterranean", hemi: "south" }, status: "exact", name: cleanInput };
-    if (cleanInput.includes("braz")) return { data: { zone: "continental", hemi: "south" }, status: "exact", name: "brazil" };
-
-    return { data: { zone: "continental", hemi: "north" }, status: "smart_fallback", name: cleanInput };
+    // Only suggest if the typo is reasonably close (e.g. distance <= 3)
+    if (minDistance <= 3) {
+        return closest;
+    }
+    return null;
 }
 
-function determineSeasonalMatrix(locData, month) {
+function levenshtein(a, b) {
+    let matrix = [];
+    for (let i = 0; i <= b.length; i++) { matrix[i] = [i]; }
+    for (let j = 0; j <= a.length; j++) { matrix[0][j] = [j]; }
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+            }
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
+let confirmedLocation = null;
+
+// Live typing feedback with interactive typo suggestion
+document.getElementById('cityInput').addEventListener('input', function() {
+    const rawInput = this.value.trim().toLowerCase();
+    const detectedZoneDiv = document.getElementById('detectedZone');
+    confirmedLocation = null; // Reset confirmation on new typing
+
+    if (rawInput.length > 1) {
+        if (globalLocationMap[rawInput]) {
+            confirmedLocation = rawInput;
+            detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ Location registered successfully.</span>`;
+        } else {
+            let suggestion = findClosestMatch(rawInput);
+            if (suggestion) {
+                let formattedSuggestion = suggestion.charAt(0).toUpperCase() + suggestion.slice(1);
+                detectedZoneDiv.innerHTML = `
+                    <span style="color: #e67e22;">Did you mean <strong>${formattedSuggestion}</strong>? 
+                    <button type="button" id="acceptSuggestion" style="margin-left: 8px; padding: 2px 8px; background: #2980b9; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    </span>`;
+                
+                // Attach event listener to the dynamically created confirmation button
+                setTimeout(() => {
+                    const acceptBtn = document.getElementById('acceptSuggestion');
+                    if (acceptBtn) {
+                        acceptBtn.onclick = function() {
+                            document.getElementById('cityInput').value = formattedSuggestion;
+                            confirmedLocation = suggestion;
+                            detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Updated to ${formattedSuggestion}!</span>`;
+                        };
+                    }
+                }, 100);
+            } else {
+                detectedZoneDiv.innerHTML = `<span style="color: #7f8c8d;">✓ Custom location baseline applied.</span>`;
+            }
+        }
+    } else {
+        detectedZoneDiv.textContent = "";
+    }
+});
+
+function determineSeasonalMatrix(locKey, month) {
     const m = parseInt(month);
+    let locData = globalLocationMap[locKey] || { zone: "continental", hemi: "north" };
     let zone = locData.zone;
     let hemi = locData.hemi;
 
@@ -130,23 +190,6 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Live typing feedback
-document.getElementById('cityInput').addEventListener('input', function() {
-    const rawInput = this.value.trim();
-    const detectedZoneDiv = document.getElementById('detectedZone');
-    
-    if (rawInput.length > 1) {
-        let resolved = resolveLocation(rawInput);
-        if (resolved.status === "smart_fallback" && rawInput.length < 4) {
-            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Unrecognized location. Using standard baseline.</span>`;
-        } else {
-            detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ Location registered successfully.</span>`;
-        }
-    } else {
-        detectedZoneDiv.textContent = "";
-    }
-});
-
 document.getElementById('calculateBtn').addEventListener('click', function() {
     const rawInput = document.getElementById('cityInput').value.trim();
     const duration = document.getElementById('duration').value;
@@ -159,20 +202,17 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
         return;
     }
 
-    let resolved = resolveLocation(rawInput);
-    let matrixType = determineSeasonalMatrix(resolved.data, travelMonth);
+    let lookupKey = confirmedLocation ? confirmedLocation : rawInput.toLowerCase();
+    let matrixType = determineSeasonalMatrix(lookupKey, travelMonth);
     let formattedLocation = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
     
     const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
-    let noticeBanner = (resolved.status === "smart_fallback" && rawInput.length < 4) ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: "${rawInput}" mapped to standard temperate baseline.</p>` : '';
-
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
@@ -183,7 +223,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
@@ -194,7 +233,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_mild':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
@@ -205,7 +243,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'temperate_transition':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
@@ -216,7 +253,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
@@ -227,7 +263,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
