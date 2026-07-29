@@ -59,7 +59,7 @@ const globalLocationMap = {
     "buenos aires": { zone: "continental", hemi: "south", type: "city" },
     "lima": { zone: "mediterranean", hemi: "south", type: "city" },
 
-    // Country Fallbacks (Flagged as 'country')
+    // Country Fallbacks
     "united states": { zone: "continental", hemi: "north", type: "country" },
     "usa": { zone: "continental", hemi: "north", type: "country" },
     "south korea": { zone: "continental", hemi: "north", type: "country" },
@@ -80,24 +80,71 @@ const globalLocationMap = {
     "kenya": { zone: "tropical", hemi: "south", type: "country" }
 };
 
+let confirmedLocation = null;
+
+// Simple Levenshtein distance check to find closest valid city name
+function findClosestMatch(input) {
+    let keys = Object.keys(globalLocationMap);
+    let closest = null;
+    let minDistance = Infinity;
+
+    for (let key of keys) {
+        // Skip broad country fallbacks for typo suggestions to prioritize major cities
+        if (globalLocationMap[key].type === "country" && key.length > 5) continue;
+        
+        let distance = levenshtein(input, key);
+        if (distance < minDistance) {
+            minDistance = distance;
+            closest = key;
+        }
+    }
+
+    // Only suggest if the typo is within 2-3 character differences (e.g. "jeji" -> "jeju")
+    if (minDistance <= 2) {
+        return closest;
+    }
+    return null;
+}
+
+function levenshtein(a, b) {
+    let matrix = [];
+    for (let i = 0; i <= b.length; i++) { matrix[i] = [i]; }
+    for (let j = 0; j <= a.length; j++) { matrix[0][j] = [j]; }
+    for (let i = 1; i <= b.length; i++) {
+        for (let j = 1; j <= a.length; j++) {
+            if (b.charAt(i - 1) == a.charAt(j - 1)) {
+                matrix[i][j] = matrix[i - 1][j - 1];
+            } else {
+                matrix[i][j] = Math.min(matrix[i - 1][j - 1] + 1, Math.min(matrix[i][j - 1] + 1, matrix[i - 1][j] + 1));
+            }
+        }
+    }
+    return matrix[b.length][a.length];
+}
+
 function resolveLocation(input) {
     let cleanInput = input.trim().toLowerCase();
     
-    if (globalLocationMap[cleanInput]) {
-        return { data: globalLocationMap[cleanInput], name: cleanInput };
+    // If explicitly confirmed via suggestion button
+    if (confirmedLocation && confirmedLocation === cleanInput) {
+        return { data: globalLocationMap[cleanInput], name: cleanInput, isTypo: false };
     }
 
-    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: "new york" };
-    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north", type: "city" }, name: "dubai" };
-    if (cleanInput.includes("nairobi") || cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south", type: "country" }, name: "kenya" };
-    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, name: "mexico" };
-    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: "paris" };
-    if (cleanInput.includes("seoul") || cleanInput.includes("incheon") || cleanInput.includes("busan") || cleanInput.includes("jeju")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: cleanInput };
-    if (cleanInput.includes("sydney") || cleanInput.includes("melbourne")) return { data: { zone: "mediterranean", hemi: "south", type: "city" }, name: cleanInput };
-    if (cleanInput.includes("braz")) return { data: { zone: "continental", hemi: "south", type: "country" }, name: "brazil" };
-    if (cleanInput.includes("ital")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, name: "italy" };
+    if (globalLocationMap[cleanInput]) {
+        return { data: globalLocationMap[cleanInput], name: cleanInput, isTypo: false };
+    }
 
-    return { data: { zone: "continental", hemi: "north", type: "city" }, name: cleanInput };
+    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: "new york", isTypo: false };
+    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north", type: "city" }, name: "dubai", isTypo: false };
+    if (cleanInput.includes("nairobi") || cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south", type: "country" }, name: "kenya", isTypo: false };
+    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, name: "mexico", isTypo: false };
+    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: "paris", isTypo: false };
+    if (cleanInput.includes("seoul") || cleanInput.includes("incheon") || cleanInput.includes("busan") || cleanInput.includes("jeju")) return { data: { zone: "continental", hemi: "north", type: "city" }, name: cleanInput, isTypo: false };
+    if (cleanInput.includes("sydney") || cleanInput.includes("melbourne")) return { data: { zone: "mediterranean", hemi: "south", type: "city" }, name: cleanInput, isTypo: false };
+    if (cleanInput.includes("brazi")) return { data: { zone: "continental", hemi: "south", type: "country" }, name: "brazil", isTypo: false };
+    if (cleanInput.includes("ital")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, name: "italy", isTypo: false };
+
+    return { data: { zone: "continental", hemi: "north", type: "unknown" }, name: cleanInput, isTypo: true };
 }
 
 function determineSeasonalMatrix(locData, month) {
@@ -106,7 +153,6 @@ function determineSeasonalMatrix(locData, month) {
     let hemi = locData.hemi;
     let type = locData.type;
 
-    // Broad country search fallback to balanced transitional profiles to avoid regional distortion
     if (type === "country") {
         if (m >= 6 && m <= 8) return "summer_heat";
         if (m === 12 || m === 1 || m === 2) return "temperate_transition";
@@ -140,17 +186,41 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Live typing feedback prompting for a specific city if a country is recognized
+// Live typing feedback with interactive confirmation prompt
 document.getElementById('cityInput').addEventListener('input', function() {
     const rawInput = this.value.trim().toLowerCase();
     const detectedZoneDiv = document.getElementById('detectedZone');
+    confirmedLocation = null; // Reset on new typing
     
     if (rawInput.length > 1) {
-        let resolved = resolveLocation(rawInput);
-        if (resolved.data.type === "country") {
-            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">💡 Country detected. For precise micro-climate results, please enter a specific city name (e.g., São Paulo, Rio, Rome).</span>`;
+        if (globalLocationMap[rawInput]) {
+            if (globalLocationMap[rawInput].type === "country") {
+                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">💡 Country detected. For precise micro-climate results, please enter a specific city name.</span>`;
+            } else {
+                detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ City profile loaded successfully.</span>`;
+            }
         } else {
-            detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ City profile loaded successfully.</span>`;
+            let suggestion = findClosestMatch(rawInput);
+            if (suggestion) {
+                let formattedSuggestion = suggestion.charAt(0).toUpperCase() + suggestion.slice(1);
+                detectedZoneDiv.innerHTML = `
+                    <span style="color: #e67e22;">Did you mean <strong>${formattedSuggestion}</strong>? 
+                    <button type="button" id="confirmYes" style="margin-left: 6px; padding: 2px 8px; background: #2980b9; color: white; border: none; border-radius: 3px; cursor: pointer;">Yes</button>
+                    </span>`;
+                
+                setTimeout(() => {
+                    const yesBtn = document.getElementById('confirmYes');
+                    if (yesBtn) {
+                        yesBtn.onclick = function() {
+                            document.getElementById('cityInput').value = formattedSuggestion;
+                            confirmedLocation = suggestion;
+                            detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: ${formattedSuggestion}! Ready to generate.</span>`;
+                        };
+                    }
+                }, 100);
+            } else {
+                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please verify spelling.</span>`;
+            }
         }
     } else {
         detectedZoneDiv.textContent = "";
@@ -170,6 +240,11 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     }
 
     let resolved = resolveLocation(rawInput);
+    if (resolved.isTypo && !confirmedLocation) {
+        alert('Please confirm your destination spelling or select a valid city before generating the matrix.');
+        return;
+    }
+
     let matrixType = determineSeasonalMatrix(resolved.data, travelMonth);
     let formattedLocation = resolved.name.charAt(0).toUpperCase() + resolved.name.slice(1);
     
@@ -177,13 +252,12 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
-    // Actionable prompt inside the results box when a country is used
-    let countryPromptNotice = resolved.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying broad baseline for ${formattedLocation}. <strong>Tip: Search a specific destination city (e.g., São Paulo, Rome) to unlock full precision accuracy.</strong></p>` : '';
+    let noticeBanner = resolved.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying broad baseline for ${formattedLocation}. <strong>Tip: Search a specific destination city to unlock full precision accuracy.</strong></p>` : '';
 
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
@@ -194,7 +268,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
@@ -205,7 +279,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_mild':
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
@@ -216,7 +290,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'temperate_transition':
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
@@ -227,7 +301,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
@@ -238,7 +312,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
-                ${countryPromptNotice}
+                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
