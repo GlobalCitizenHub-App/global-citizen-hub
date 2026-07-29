@@ -48,14 +48,33 @@
             <h3>Interactive Climate & Layering Calculator</h3>
             <form id="climateForm">
                 <div class="form-group">
-                    <label for="cityInput">Enter Your Destination City (e.g., Seoul, Los Angeles, Toronto, Singapore):</label>
-                    <input type="text" id="cityInput" placeholder="Type any global city..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+                    <label for="cityInput">Destination (City or Country e.g., Seoul, Los Angeles, London, Brazil):</label>
+                    <input type="text" id="cityInput" placeholder="Type any global city or country..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
                     <div id="detectedZone" style="margin-top: 8px; font-size: 0.9rem; color: #2980b9; font-weight: bold;"></div>
                 </div>
 
                 <div class="form-group">
+                    <label for="travelMonth">Planned Travel Month (Seasonality):</label>
+                    <select id="travelMonth" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
+                        <option value="" disabled selected>Select travel month...</option>
+                        <option value="1">January (Winter Peak)</option>
+                        <option value="2">February</option>
+                        <option value="3">March</option>
+                        <option value="4">April (Spring)</option>
+                        <option value="5">May</option>
+                        <option value="6">June (Summer Peak)</option>
+                        <option value="7">July</option>
+                        <option value="8">August</option>
+                        <option value="9">September (Autumn)</option>
+                        <option value="10">October</option>
+                        <option value="11">November</option>
+                        <option value="12">December (Winter)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="duration">Stay Duration / Exposure Level:</label>
-                    <select id="duration" required>
+                    <select id="duration" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
                         <option value="" disabled selected>Select duration...</option>
                         <option value="short">Short Trip (1–2 Weeks)</option>
                         <option value="extended">Extended Stay (1–6 Months)</option>
@@ -87,7 +106,7 @@
             <p>Calculating the cost-per-wear and material durability ensures that capsule wardrobes perform efficiently across diverse geographic transitions. Emphasizing modularity over single-use garments directly supports continuous quality improvement in personal sustainability frameworks.</p>
             
             <h4>3. Navigating Global Climate Classifications</h4>
-            <p>Determining your destination's true environmental profile goes beyond simple weather forecasts. Our tool utilizes standardized geographic and climatological data to map global cities into primary environmental tiers:</p>
+            <p>Determining your destination's true environmental profile goes beyond simple weather forecasts. Our tool utilizes standardized geographic and climatological data to map global cities and countries into primary environmental tiers:</p>
             <ul>
                 <li><strong>Humid Continental & Temperate:</strong> Characterized by four distinct seasons with moderate-to-high precipitation (e.g., New York, Seoul, Berlin). Requires versatile layering with emphasis on moisture defense.</li>
                 <li><strong>Mediterranean:</strong> Defined by warm, dry summers and mild, wet winters (e.g., Rome, San Francisco, Cape Town). Focuses on breathable natural fibers with packable rain defense.</li>
@@ -106,4 +125,3 @@
     <script src="converter.js"></script>
 </body>
 </html>
-<script src="./converter.js"></script>
