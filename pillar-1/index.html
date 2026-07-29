@@ -3,125 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wardrobe & Climate Converter | Sustainable Apparel & Packing Guide</title>
-    <meta name="description" content="Calculate regional climate adaptability, thermal layering requirements, and sustainable capsule wardrobe lifecycles with our free interactive tool.">
-    <meta name="keywords" content="sustainable wardrobe, climate converter, packing layer calculator, capsule wardrobe utility, precision apparel planning">
-    <link rel="stylesheet" href="style.css">
-    
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "Wardrobe & Climate Converter",
-      "operatingSystem": "All",
-      "applicationCategory": "UtilityApplication",
-      "description": "Interactive calculator matching historical regional climates to sustainable apparel layers and lifecycle utility metrics.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "USD"
-      }
-    }
-    </script>
+    <title>Global Travel & Climate Intelligence Platform</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #1f618d;
+        }
+        .hidden {
+            display: none;
+        }
+        #results {
+            background: #eaf2f8;
+            border-left: 5px solid #2980b9;
+            padding: 15px 20px;
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+        #detectedZone {
+            font-size: 14px;
+            margin-bottom: 15px;
+            min-height: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <header class="site-header">
-        <div class="container">
-            <h1>Global Citizen Hub</h1>
-            <nav>
-                <a href="../index.html">Home</a>
-                <a href="#tool" class="active">Pillar 1: Wardrobe & Climate</a>
-                <a href="#guide">Companion Guide</a>
-            </nav>
-        </div>
-    </header>
-
-    <main class="container main-content">
+    <div class="card">
+        <h1>Pillar 1: Interactive Climate & Layering Engine</h1>
+        <p>Enter your travel destination and timeframe to generate a precision seasonal matrix and leverage global conversion standards.</p>
         
-        <section class="hero">
-            <h2>Wardrobe & Climate Converter</h2>
-            <p>Optimize your travel packing and long-term apparel utility through evidence-based climate matching and sustainable layering metrics.</p>
-        </section>
+        <label for="cityInput">Destination (City or Country):</label>
+        <input type="text" id="cityInput" placeholder="e.g., Tokyo, Seoul, Japan, Mexico">
+        <div id="detectedZone"></div>
 
-        <section id="tool" class="tool-card">
-            <h3>Interactive Climate & Layering Calculator</h3>
-            <form id="climateForm">
-                <div class="form-group">
-                    <label for="cityInput">Destination (US & Global Cities e.g., New York, Dubai, Kenya, Mexico City, Paris, Seoul, Sydney):</label>
-                    <input type="text" id="cityInput" placeholder="Type city or country name..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
-                    <div id="detectedZone" style="margin-top: 8px; font-size: 0.9rem; color: #2980b9; font-weight: bold;"></div>
-                </div>
+        <label for="travelMonth">Travel Month:</label>
+        <select id="travelMonth">
+            <option value="">Select Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
 
-                <div class="form-group">
-                    <label for="travelMonth">Planned Travel Month:</label>
-                    <select id="travelMonth" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
-                        <option value="" disabled selected>Select travel month...</option>
-                        <option value="1">January</option>
-                        <option value="2">February</option>
-                        <option value="3">March</option>
-                        <option value="4">April</option>
-                        <option value="5">May</option>
-                        <option value="6">June</option>
-                        <option value="7">July</option>
-                        <option value="8">August</option>
-                        <option value="9">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
-                    </select>
-                </div>
+        <label for="duration">Duration (Days):</label>
+        <input type="number" id="duration" placeholder="e.g., 7" min="1" max="365">
 
-                <div class="form-group">
-                    <label for="duration">Stay Duration / Exposure Level:</label>
-                    <select id="duration" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem;">
-                        <option value="" disabled selected>Select duration...</option>
-                        <option value="short">Short Trip (1–2 Weeks)</option>
-                        <option value="extended">Extended Stay (1–6 Months)</option>
-                        <option value="relocation">Permanent Relocation</option>
-                    </select>
-                </div>
+        <button id="calculateBtn">Generate Precision Matrix</button>
 
-                <button type="button" id="calculateBtn" class="btn-primary">Generate Sustainable Matrix</button>
-            </form>
-
-            <div id="results" class="results-box hidden">
-                <h4>Recommended Capsule Matrix</h4>
-                <div id="outputContent"></div>
-            </div>
-        </section>
-
-        <div class="adsense-container">
-            <span class="ad-placeholder">Advertisement Space (Optimized for AdSense)</span>
+        <div id="results" class="hidden">
+            <h3>Matrix Output</h3>
+            <div id="outputContent"></div>
         </div>
+    </div>
 
-        <article id="guide" class="seo-guide">
-            <h3>Pillar 1 Companion Guide: The Framework of Precision Apparel Planning</h3>
-            <p>Over-consumption and poor climate alignment remain leading drivers of textile waste in modern global mobility. Traditional packing often relies on reactionary choices rather than methodical environmental matching. This guide explores the foundational mechanics of sustainable apparel management.</p>
+    <script>
+        // ==========================================
+        // 1. GLOBAL STANDARDS & CONVERSION UTILITY
+        // ==========================================
+        const GlobalStandards = {
+            temp: {
+                toCelsius: (f) => (parseFloat(f) - 32) * (5 / 9),
+                toFahrenheit: (c) => (parseFloat(c) * 9 / 5) + 32
+            },
+            length: {
+                inchesToCm: (inch) => parseFloat(inch) * 2.54,
+                cmToInches: (cm) => parseFloat(cm) / 2.54,
+                feetToMeters: (ft) => parseFloat(ft) * 0.3048,
+                metersToFeet: (m) => parseFloat(m) / 0.3048,
+                milesToKm: (mi) => parseFloat(mi) * 1.60934,
+                kmToMiles: (km) => parseFloat(km) / 1.60934
+            },
+            weight: {
+                gramsToOz: (g) => parseFloat(g) * 0.035274,
+                ozToGrams: (oz) => parseFloat(oz) / 0.035274,
+                kgToLbs: (kg) => parseFloat(kg) * 2.20462,
+                lbsToKg: (lbs) => parseFloat(lbs) / 2.20462
+            },
+            volume: {
+                ozToMl: (oz) => parseFloat(oz) * 29.5735,
+                mlToOz: (ml) => parseFloat(ml) / 29.5735,
+                litersToGallons: (l) => parseFloat(l) * 0.264172,
+                gallonsToLiters: (gal) => parseFloat(gal) / 0.264172,
+                cupsToMl: (cups) => parseFloat(cups) * 240,
+                mlToCups: (ml) => parseFloat(ml) / 240
+            },
+            electrical: {
+                "South Korea": { volts: "220V", hz: "60Hz", plugs: ["Type C", "Type F"] },
+                "Japan": { volts: "100V", hz: "50Hz/60Hz", plugs: ["Type A", "Type B"] },
+                "United States": { volts: "120V", hz: "60Hz", plugs: ["Type A", "Type B"] },
+                "Mexico": { volts: "127V", hz: "60Hz", plugs: ["Type A", "Type B"] },
+                "United Kingdom": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
+                "France": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type E"] },
+                "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] }
+            },
+            getElectricalStandard(countryName) {
+                return this.electrical[countryName] || { volts: "Standard varies", hz: "50/60Hz", plugs: ["Check local adapters"] };
+            }
+        };
+
+        // ==========================================
+        // 2. LOCATION RESOLUTION & CONVERTER LOGIC
+        // ==========================================
+        const globalLocationMap = {
+            "new york": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+            "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+            "boston": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+            "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+            "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+            "miami": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+            "honolulu": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+            "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city" },
+            "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+            "denver": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+            "houston": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+            "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
             
-            <h4>1. Thermal Layering Principles</h4>
-            <p>Effective environmental adaptation relies on a three-tier system: moisture-managing base layers, thermal-regulating mid layers, and weather-deflecting outer shells. By optimizing these choices based on regional baseline data, individuals can reduce total garment volume by up to 40% while improving comfort across variable micro-climates.</p>
+            "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" },
+            "cairo": { country: "Egypt", zone: "mediterranean", hemi: "north", type: "city" },
+            "cape town": { country: "South Africa", zone: "mediterranean", hemi: "south", type: "city" },
+            "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
+            "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city" },
+            "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
 
-            <h4>2. Lifecycle Utility & Waste Reduction</h4>
-            <p>Calculating the cost-per-wear and material durability ensures that capsule wardrobes perform efficiently across diverse geographic transitions. Emphasizing modularity over single-use garments directly supports continuous quality improvement in personal sustainability frameworks.</p>
+            "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
+            "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city" },
+            "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city" },
+            "moscow": { country: "Russia", zone: "arctic", hemi: "north", type: "city" },
+            "kyiv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
+            "lviv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
+            "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city" },
+            "milan": { country: "Italy", zone: "continental", hemi: "north", type: "city" },
+            "madrid": { country: "Spain", zone: "mediterranean", hemi: "north", type: "city" },
+            "lisbon": { country: "Portugal", zone: "mediterranean", hemi: "north", type: "city" },
+            "oslo": { country: "Norway", zone: "arctic", hemi: "north", type: "city" },
+            "reykjavik": { country: "Iceland", zone: "arctic", hemi: "north", type: "city" },
+            "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+
+            "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
+            "incheon": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
+            "busan": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
+            "jeju": { country: "South Korea", zone: "subtropical", hemi: "north", type: "city" },
+            "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
+            "osaka": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
+            "beijing": { country: "China", zone: "continental", hemi: "north", type: "city" },
+            "ho chi minh city": { country: "Vietnam", zone: "tropical", hemi: "north", type: "city" },
+            "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city" },
+            "bangkok": { country: "Thailand", zone: "tropical", hemi: "north", type: "city" },
+            "manila": { country: "Philippines", zone: "tropical", hemi: "north", type: "city" },
+            "delhi": { country: "India", zone: "tropical", hemi: "north", type: "city" },
+            "mumbai": { country: "India", zone: "tropical", hemi: "north", type: "city" },
+            "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
+            "melbourne": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
+            "auckland": { country: "New Zealand", zone: "mediterranean", hemi: "south", type: "city" },
+
+            "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
+            "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
+            "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
+            "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
+            "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
+
+            // Countries with Capital Mappings
+            "korea": { country: "South Korea", type: "country", capital: "Seoul" },
+            "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
+            "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
+            "brazil": { country: "Brazil", type: "country", capital: "Brasília" },
+            "ukraine": { country: "Ukraine", type: "country", capital: "Kyiv" },
+            "vietnam": { country: "Vietnam", type: "country", capital: "Hanoi" },
+            "italy": { country: "Italy", type: "country", capital: "Rome" },
+            "japan": { country: "Japan", type: "country", capital: "Tokyo" }
+        };
+
+        let verifiedLocationKey = null;
+
+        function resolveBestMatch(input) {
+            let cleanInput = input.trim().toLowerCase();
+            if (verifiedLocationKey && verifiedLocationKey === cleanInput) {
+                return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+            }
+            if (globalLocationMap[cleanInput]) {
+                return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+            }
+            if (cleanInput === "ho") {
+                return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
+            }
+            if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh")) return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
+            if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
+            if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"], isTypo: false };
+            if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
+            if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
+            if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
+            if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
+            if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
+            if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
+            if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
+            if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
+            if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+            if (cleanInput === "mexico") return { key: "mexico", data: globalLocationMap["mexico"], isTypo: false };
+            if (cleanInput.includes("korea")) return { key: "korea", data: globalLocationMap["korea"], isTypo: false };
+            if (cleanInput.includes("japan") || cleanInput.includes("japay")) return { key: "japan", data: globalLocationMap["japan"], isTypo: false };
+            if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
+            if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
+
+            return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
+        }
+
+        function determineSeasonalMatrix(locData, month) {
+            const m = parseInt(month);
+            let zone = locData.zone || "continental";
+            let hemi = locData.hemi || "north";
+
+            if (locData.type === "country") {
+                if (m >= 6 && m <= 8) return "summer_heat";
+                return "temperate_transition";
+            }
+            if (zone === "subtropical") {
+                if (m >= 6 && m <= 8) return "summer_heat";
+                if (m === 12 || m === 1 || m === 2) return "winter_mild";
+                return "temperate_transition";
+            }
+            if (hemi === "south") {
+                if (m >= 6 && m <= 8) return "winter_cold";
+                if (m === 12 || m === 1 || m === 2) return "summer_heat";
+                return "temperate_transition";
+            }
+            if (hemi === "north") {
+                if (m >= 6 && m <= 8) return "summer_heat";
+                if (m === 12 || m === 1 || m === 2) return "winter_cold";
+            }
+            return zone;
+        }
+
+        document.getElementById('cityInput').addEventListener('input', function() {
+            const rawInput = this.value.trim();
+            const detectedZoneDiv = document.getElementById('detectedZone');
+            verifiedLocationKey = null; 
             
-            <h4>3. Navigating Global Climate Classifications</h4>
-            <p>Determining your destination's true environmental profile goes beyond simple weather forecasts. Our tool utilizes standardized geographic and climatological data to map global cities and countries into primary environmental tiers:</p>
-            <ul>
-                <li><strong>Humid Continental & Temperate:</strong> Characterized by four distinct seasons with moderate-to-high precipitation (e.g., New York, Seoul, Berlin). Requires versatile layering with emphasis on moisture defense.</li>
-                <li><strong>Mediterranean:</strong> Defined by warm, dry summers and mild, wet winters (e.g., Rome, San Francisco, Cape Town). Focuses on breathable natural fibers with packable rain defense.</li>
-                <li><strong>Tropical & Equatorial:</strong> High year-round humidity and thermal baselines (e.g., Singapore, Bangkok, Miami). Demands ultra-lightweight technical fabrics with rapid evaporation rates.</li>
-            </ul>
-        </article>
+            if (rawInput.length > 0) {
+                let match = resolveBestMatch(rawInput);
+                
+                if (match.isTypo) {
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
+                } else if (match.data.type === "country") {
+                    let countryFormal = match.key.charAt(0).toUpperCase() + match.key.slice(1);
+                    if (countryFormal.toLowerCase() === "korea" || countryFormal.toLowerCase() === "south korea") countryFormal = "South Korea";
+                    let capitalExample = match.data.capital || "a major city";
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
+                } else {
+                    let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
+                    let countryName = match.data.country || "Global Region";
+                    detectedZoneDiv.innerHTML = `
+                        <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
+                        <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
+                        </span>`;
+                    
+                    setTimeout(() => {
+                        const confirmBtn = document.getElementById('confirmLocationBtn');
+                        if (confirmBtn) {
+                            confirmBtn.onclick = function() {
+                                document.getElementById('cityInput').value = formalCity;
+                                verifiedLocationKey = match.key;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} (${countryName})</strong>. Ready to generate!</span>`;
+                            };
+                        }
+                    }, 100);
+                }
+            } else {
+                detectedZoneDiv.textContent = "";
+            }
+        });
 
-    </main>
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            const rawInput = document.getElementById('cityInput').value.trim();
+            const duration = document.getElementById('duration').value;
+            const travelMonth = document.getElementById('travelMonth').value;
+            const resultsBox = document.getElementById('results');
+            const outputContent = document.getElementById('outputContent');
 
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 Global Citizen Hub. Built for open research and education.</p>
-        </div>
-    </footer>
+            if (!rawInput || !duration || !travelMonth) {
+                alert('Please enter a destination, select a travel month, and duration.');
+                return;
+            }
 
-    <script src="converter.js"></script>
+            let match = resolveBestMatch(rawInput);
+            if (match.isTypo || match.data.type === "country") {
+                alert('Please enter and confirm a specific city name before generating the matrix.');
+                return;
+            }
+            if (!verifiedLocationKey) {
+                alert('Please click "Confirm" on your selected city before generating.');
+                return;
+            }
+
+            let matrixType = determineSeasonalMatrix(match.data, travelMonth);
+            let formattedLocation = match.key.charAt(0).toUpperCase() + match.key.slice(1);
+            let countryName = match.data.country || "Global Region";
+            
+            // Example leveraging GlobalStandards utility integration
+            let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
+
+            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            
+            let recommendation = `
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${monthNames[travelMonth]})</strong></p>
+                <ul>
+                    <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
+                    <li><strong>Climate Profile Type:</strong> ${matrixType.toUpperCase().replace('_', ' ')}</li>
+                    <li><strong>Layering Strategy:</strong> Optimized for ${duration}-day endurance matching local weather profile.</li>
+                </ul>`;
+
+            outputContent.innerHTML = recommendation;
+            resultsBox.classList.remove('hidden');
+        });
+    </script>
 </body>
 </html>
