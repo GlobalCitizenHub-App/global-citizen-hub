@@ -61,24 +61,7 @@ const globalLocationMap = {
     "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
     "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
     "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
-    "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
-
-    // Country Fallbacks
-    "united states": { country: "United States", zone: "continental", hemi: "north", type: "country" },
-    "usa": { country: "United States", zone: "continental", hemi: "north", type: "country" },
-    "south korea": { country: "South Korea", zone: "continental", hemi: "north", type: "country" },
-    "japan": { country: "Japan", zone: "continental", hemi: "north", type: "country" },
-    "united kingdom": { country: "United Kingdom", zone: "continental", hemi: "north", type: "country" },
-    "france": { country: "France", zone: "continental", hemi: "north", type: "country" },
-    "germany": { country: "Germany", zone: "continental", hemi: "north", type: "country" },
-    "italy": { country: "Italy", zone: "mediterranean", hemi: "north", type: "country" },
-    "spain": { country: "Spain", zone: "mediterranean", hemi: "north", type: "country" },
-    "canada": { country: "Canada", zone: "arctic", hemi: "north", type: "country" },
-    "australia": { country: "Australia", zone: "mediterranean", hemi: "south", type: "country" },
-    "brazil": { country: "Brazil", zone: "continental", hemi: "south", type: "country" },
-    "vietnam": { country: "Vietnam", zone: "tropical", hemi: "north", type: "country" },
-    "ukraine": { country: "Ukraine", zone: "continental", hemi: "north", type: "country" },
-    "mexico": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "country" }
+    "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" }
 };
 
 let verifiedLocationKey = null;
@@ -94,10 +77,27 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
+    // Exact short or country-to-city priority mapping
     if (cleanInput === "ho") {
         return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     }
+    if (cleanInput === "korea" || cleanInput.includes("south korea")) {
+        return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
+    }
+    if (cleanInput === "mexico") {
+        return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    }
+    if (cleanInput === "ukraine") {
+        return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
+    }
+    if (cleanInput === "vietnam") {
+        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
+    }
+    if (cleanInput === "brazil") {
+        return { key: "sao paulo", data: globalLocationMap["sao paulo"], isTypo: false };
+    }
 
+    // Substring and alias mappings
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -106,17 +106,11 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
     if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
     if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
-    if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
-    if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
-    if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
-    if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
+    if (cleanInput.includes("brazi")) return { key: "sao paulo", data: globalLocationMap["sao paulo"], isTypo: false };
+    if (cleanInput.includes("ital")) return { key: "rome", data: globalLocationMap["rome"], isTypo: false };
+    if (cleanInput.includes("ukrain")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
     if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
-    if (cleanInput === "mexico") {
-        return { key: "mexico", data: globalLocationMap["mexico"], isTypo: false };
-    }
-    if (cleanInput.includes("mexico city")) {
-        return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
-    }
+    if (cleanInput.includes("mexico")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
@@ -128,13 +122,6 @@ function determineSeasonalMatrix(locData, month) {
     const m = parseInt(month);
     let zone = locData.zone;
     let hemi = locData.hemi;
-    let type = locData.type;
-
-    if (type === "country") {
-        if (m >= 6 && m <= 8) return "summer_heat";
-        if (m === 12 || m === 1 || m === 2) return "temperate_transition";
-        return "temperate_transition";
-    }
 
     if (zone === "subtropical") {
         if (m >= 6 && m <= 8) return "summer_heat";
@@ -176,10 +163,9 @@ document.getElementById('cityInput').addEventListener('input', function() {
         } else {
             let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
             let countryName = match.data.country || "Global Region";
-            let promptText = match.data.type === "country" ? `Country: ${formalCity}` : `${formalCity} in ${countryName}`;
             
             detectedZoneDiv.innerHTML = `
-                <span style="color: #2980b9;">Did you mean <strong>${promptText}</strong>? 
+                <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
                 <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
                 </span>`;
             
@@ -225,12 +211,9 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
-    let noticeBanner = match.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying broad national baseline for ${formattedLocation}. <strong>Tip: Search a specific destination city to unlock full precision accuracy.</strong></p>` : '';
-
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
@@ -241,7 +224,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
@@ -252,7 +234,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_mild':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
@@ -263,7 +244,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'temperate_transition':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
@@ -274,7 +254,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
@@ -285,7 +264,6 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
-                ${noticeBanner}
                 <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
