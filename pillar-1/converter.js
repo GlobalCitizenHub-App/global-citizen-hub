@@ -1,105 +1,113 @@
-// Comprehensive location database mapping cities and countries to base climate zones and hemispheres
+// Comprehensive location database mapping major hubs and countries
 const globalLocationMap = {
     // US & Americas
-    "new york": { zone: "continental", hemi: "north", type: "city" },
-    "chicago": { zone: "continental", hemi: "north", type: "city" },
-    "boston": { zone: "continental", hemi: "north", type: "city" },
-    "los angeles": { zone: "mediterranean", hemi: "north", type: "city" },
-    "san francisco": { zone: "mediterranean", hemi: "north", type: "city" },
-    "miami": { zone: "tropical", hemi: "north", type: "city" },
-    "honolulu": { zone: "tropical", hemi: "north", type: "city" },
-    "anchorage": { zone: "arctic", hemi: "north", type: "city" },
-    "seattle": { zone: "continental", hemi: "north", type: "city" },
-    "denver": { zone: "continental", hemi: "north", type: "city" },
-    "houston": { zone: "tropical", hemi: "north", type: "city" },
-    "mexico city": { zone: "mediterranean", hemi: "north", type: "city" },
+    "new york": { zone: "continental", hemi: "north" },
+    "chicago": { zone: "continental", hemi: "north" },
+    "boston": { zone: "continental", hemi: "north" },
+    "los angeles": { zone: "mediterranean", hemi: "north" },
+    "san francisco": { zone: "mediterranean", hemi: "north" },
+    "miami": { zone: "tropical", hemi: "north" },
+    "honolulu": { zone: "tropical", hemi: "north" },
+    "anchorage": { zone: "arctic", hemi: "north" },
+    "seattle": { zone: "continental", hemi: "north" },
+    "denver": { zone: "continental", hemi: "north" },
+    "houston": { zone: "tropical", hemi: "north" },
+    "mexico city": { zone: "mediterranean", hemi: "north" },
     
     // Middle East & Africa
-    "dubai": { zone: "tropical", hemi: "north", type: "city" },
-    "cairo": { zone: "mediterranean", hemi: "north", type: "city" },
-    "cape town": { zone: "mediterranean", hemi: "south", type: "city" },
-    "nairobi": { zone: "tropical", hemi: "south", type: "city" },
-    "lagos": { zone: "tropical", hemi: "north", type: "city" },
+    "dubai": { zone: "tropical", hemi: "north" },
+    "cairo": { zone: "mediterranean", hemi: "north" },
+    "cape town": { zone: "mediterranean", hemi: "south" },
+    "nairobi": { zone: "tropical", hemi: "south" },
+    "lagos": { zone: "tropical", hemi: "north" },
 
     // Europe
-    "paris": { zone: "continental", hemi: "north", type: "city" },
-    "london": { zone: "continental", hemi: "north", type: "city" },
-    "berlin": { zone: "continental", hemi: "north", type: "city" },
-    "moscow": { zone: "arctic", hemi: "north", type: "city" },
-    "rome": { zone: "mediterranean", hemi: "north", type: "city" },
-    "madrid": { zone: "mediterranean", hemi: "north", type: "city" },
-    "lisbon": { zone: "mediterranean", hemi: "north", type: "city" },
-    "oslo": { zone: "arctic", hemi: "north", type: "city" },
-    "reykjavik": { zone: "arctic", hemi: "north", type: "city" },
+    "paris": { zone: "continental", hemi: "north" },
+    "london": { zone: "continental", hemi: "north" },
+    "berlin": { zone: "continental", hemi: "north" },
+    "moscow": { zone: "arctic", hemi: "north" },
+    "rome": { zone: "mediterranean", hemi: "north" },
+    "madrid": { zone: "mediterranean", hemi: "north" },
+    "lisbon": { zone: "mediterranean", hemi: "north" },
+    "oslo": { zone: "arctic", hemi: "north" },
+    "reykjavik": { zone: "arctic", hemi: "north" },
+    "toronto": { zone: "continental", hemi: "north" },
 
     // Asia & Oceania
-    "seoul": { zone: "continental", hemi: "north", type: "city" },
-    "tokyo": { zone: "continental", hemi: "north", type: "city" },
-    "beijing": { zone: "continental", hemi: "north", type: "city" },
-    "singapore": { zone: "tropical", hemi: "north", type: "city" },
-    "bangkok": { zone: "tropical", hemi: "north", type: "city" },
-    "manila": { zone: "tropical", hemi: "north", type: "city" },
-    "delhi": { zone: "tropical", hemi: "north", type: "city" },
-    "mumbai": { zone: "tropical", hemi: "north", type: "city" },
-    "sydney": { zone: "mediterranean", hemi: "south", type: "city" },
-    "melbourne": { zone: "mediterranean", hemi: "south", type: "city" },
-    "auckland": { zone: "mediterranean", hemi: "south", type: "city" },
+    "seoul": { zone: "continental", hemi: "north" },
+    "incheon": { zone: "continental", hemi: "north" },
+    "busan": { zone: "continental", hemi: "north" },
+    "jeju": { zone: "subtropical", hemi: "north" },
+    "jeju island": { zone: "subtropical", hemi: "north" },
+    "tokyo": { zone: "continental", hemi: "north" },
+    "osaka": { zone: "continental", hemi: "north" },
+    "beijing": { zone: "continental", hemi: "north" },
+    "singapore": { zone: "tropical", hemi: "north" },
+    "bangkok": { zone: "tropical", hemi: "north" },
+    "manila": { zone: "tropical", hemi: "north" },
+    "delhi": { zone: "tropical", hemi: "north" },
+    "mumbai": { zone: "tropical", hemi: "north" },
+    "sydney": { zone: "mediterranean", hemi: "south" },
+    "melbourne": { zone: "mediterranean", hemi: "south" },
+    "auckland": { zone: "mediterranean", hemi: "south" },
 
     // South America
-    "rio de janeiro": { zone: "tropical", hemi: "south", type: "city" },
-    "sao paulo": { zone: "continental", hemi: "south", type: "city" },
-    "bogota": { zone: "tropical", hemi: "south", type: "city" },
-    "buenos aires": { zone: "continental", hemi: "south", type: "city" },
-    "lima": { zone: "mediterranean", hemi: "south", type: "city" },
+    "rio de janeiro": { zone: "tropical", hemi: "south" },
+    "sao paulo": { zone: "continental", hemi: "south" },
+    "bogota": { zone: "tropical", hemi: "south" },
+    "buenos aires": { zone: "continental", hemi: "south" },
+    "lima": { zone: "mediterranean", hemi: "south" },
 
     // Country Fallbacks
-    "united states": { zone: "continental", hemi: "north", type: "country" },
-    "usa": { zone: "continental", hemi: "north", type: "country" },
-    "south korea": { zone: "continental", hemi: "north", type: "country" },
-    "korea": { zone: "continental", hemi: "north", type: "country" },
-    "japan": { zone: "continental", hemi: "north", type: "country" },
-    "china": { zone: "continental", hemi: "north", type: "country" },
-    "united kingdom": { zone: "continental", hemi: "north", type: "country" },
-    "uk": { zone: "continental", hemi: "north", type: "country" },
-    "france": { zone: "continental", hemi: "north", type: "country" },
-    "germany": { zone: "continental", hemi: "north", type: "country" },
-    "italy": { zone: "mediterranean", hemi: "north", type: "country" },
-    "spain": { zone: "mediterranean", hemi: "north", type: "country" },
-    "canada": { zone: "arctic", hemi: "north", type: "country" },
-    "australia": { zone: "mediterranean", hemi: "south", type: "country" },
-    "brazil": { zone: "continental", hemi: "south", type: "country" },
-    "brazal": { zone: "continental", hemi: "south", type: "country" },
-    "egypt": { zone: "mediterranean", hemi: "north", type: "country" },
-    "mexico": { zone: "mediterranean", hemi: "north", type: "country" },
-    "kenya": { zone: "tropical", hemi: "south", type: "country" }
+    "united states": { zone: "continental", hemi: "north" },
+    "usa": { zone: "continental", hemi: "north" },
+    "south korea": { zone: "continental", hemi: "north" },
+    "korea": { zone: "continental", hemi: "north" },
+    "japan": { zone: "continental", hemi: "north" },
+    "china": { zone: "continental", hemi: "north" },
+    "united kingdom": { zone: "continental", hemi: "north" },
+    "uk": { zone: "continental", hemi: "north" },
+    "france": { zone: "continental", hemi: "north" },
+    "germany": { zone: "continental", hemi: "north" },
+    "italy": { zone: "mediterranean", hemi: "north" },
+    "spain": { zone: "mediterranean", hemi: "north" },
+    "canada": { zone: "arctic", hemi: "north" },
+    "australia": { zone: "mediterranean", hemi: "south" },
+    "brazil": { zone: "continental", hemi: "south" },
+    "egypt": { zone: "mediterranean", hemi: "north" },
+    "mexico": { zone: "mediterranean", hemi: "north" },
+    "kenya": { zone: "tropical", hemi: "south" }
 };
 
 function resolveLocation(input) {
     let cleanInput = input.trim().toLowerCase();
     
     if (globalLocationMap[cleanInput]) {
-        return { data: globalLocationMap[cleanInput], isTypo: false };
+        return { data: globalLocationMap[cleanInput], status: "exact", name: cleanInput };
     }
 
-    // Fuzzy keyword matching for typos
-    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
-    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north", type: "city" }, isTypo: false };
-    if (cleanInput.includes("nairobi")) return { data: { zone: "tropical", hemi: "south", type: "city" }, isTypo: false };
-    if (cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south", type: "country" }, isTypo: false };
-    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, isTypo: false };
-    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
-    if (cleanInput.includes("seoul")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
-    if (cleanInput.includes("sydney")) return { data: { zone: "mediterranean", hemi: "south", type: "city" }, isTypo: false };
-    if (cleanInput.includes("braz") || cleanInput.includes("brazal")) return { data: { zone: "continental", hemi: "south", type: "country" }, isTypo: false };
+    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: "new york" };
+    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north" }, status: "exact", name: "dubai" };
+    if (cleanInput.includes("nairobi") || cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south" }, status: "exact", name: "nairobi" };
+    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north" }, status: "exact", name: "mexico city" };
+    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: "paris" };
+    if (cleanInput.includes("seoul") || cleanInput.includes("incheon") || cleanInput.includes("busan") || cleanInput.includes("jeju")) return { data: { zone: "continental", hemi: "north" }, status: "exact", name: cleanInput };
+    if (cleanInput.includes("sydney") || cleanInput.includes("melbourne")) return { data: { zone: "mediterranean", hemi: "south" }, status: "exact", name: cleanInput };
+    if (cleanInput.includes("braz")) return { data: { zone: "continental", hemi: "south" }, status: "exact", name: "brazil" };
 
-    // Unrecognized typo fallback
-    return { data: { zone: "continental", hemi: "north", type: "unknown" }, isTypo: true };
+    return { data: { zone: "continental", hemi: "north" }, status: "smart_fallback", name: cleanInput };
 }
 
 function determineSeasonalMatrix(locData, month) {
     const m = parseInt(month);
     let zone = locData.zone;
     let hemi = locData.hemi;
+
+    if (zone === "subtropical") {
+        if (m >= 6 && m <= 8) return "summer_heat";
+        if (m === 12 || m === 1 || m === 2) return "winter_mild";
+        return "temperate_transition";
+    }
 
     if (hemi === "south") {
         if (m === 3 || m === 4) return "temperate_transition";
@@ -129,8 +137,8 @@ document.getElementById('cityInput').addEventListener('input', function() {
     
     if (rawInput.length > 1) {
         let resolved = resolveLocation(rawInput);
-        if (resolved.isTypo) {
-            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Defaulting to standard temperate baseline.</span>`;
+        if (resolved.status === "smart_fallback" && rawInput.length < 4) {
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Unrecognized location. Using standard baseline.</span>`;
         } else {
             detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ Location registered successfully.</span>`;
         }
@@ -153,20 +161,19 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
 
     let resolved = resolveLocation(rawInput);
     let matrixType = determineSeasonalMatrix(resolved.data, travelMonth);
-    let exactTypedLocation = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
+    let formattedLocation = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
     
     const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
-    // Add typo warning banner inside the results box if a typo was detected
-    let typoAdvisory = resolved.isTypo ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: "${exactTypedLocation}" was not found in our database. We are displaying a standard temperate baseline.</p>` : '';
+    let noticeBanner = (resolved.status === "smart_fallback" && rawInput.length < 4) ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: "${rawInput}" mapped to standard temperate baseline.</p>` : '';
 
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
-                ${typoAdvisory}
-                <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
                     <li><strong>Mid Layer:</strong> None required; optional light linen button-down for sun protection</li>
@@ -176,8 +183,8 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
-                ${typoAdvisory}
-                <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
                     <li><strong>Mid Layer:</strong> Heavy fleece, wool knit sweaters, or insulated cardigans</li>
@@ -185,10 +192,21 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
                     <li><strong>Strategic Utility:</strong> Engineered for sub-zero wind chills, thermal retention, and layer stacking.</li>
                 </ul>`;
             break;
+        case 'winter_mild':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
+                    <li><strong>Mid Layer:</strong> Lightweight windbreaker, fleece, or cozy cardigan</li>
+                    <li><strong>Outer Shell:</strong> Moderate water-resistant jacket (coastal breezes)</li>
+                    <li><strong>Strategic Utility:</strong> Tailored for mild coastal winters with moderate winds and minimal freezing.</li>
+                </ul>`;
+            break;
         case 'temperate_transition':
             recommendation = `
-                ${typoAdvisory}
-                <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
                     <li><strong>Mid Layer:</strong> Lightweight cardigan, fleece, or versatile denim jacket</li>
@@ -198,8 +216,8 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
-                ${typoAdvisory}
-                <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
                     <li><strong>Mid Layer:</strong> UV-shielding long-sleeve barrier against intense sun</li>
@@ -209,8 +227,8 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
-                ${typoAdvisory}
-                <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Standard Temperate</strong></p>
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
                     <li><strong>Mid Layer:</strong> Moderate wool cardigan or transitional jacket</li>
