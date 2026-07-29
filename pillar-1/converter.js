@@ -1,10 +1,10 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Dynamic Country Catching & "City in Country" Format
+// Bulletproof Global Country Catching & "City in Country" Format
 // ==========================================
 
 const globalLocationMap = {
-    // === CITIES ===
+    // === CITIES IN DATABASE ===
     "cairo": { country: "Egypt", zone: "mediterranean", hemi: "north", type: "city" },
     "cape town": { country: "South Africa", zone: "mediterranean", hemi: "south", type: "city" },
     "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
@@ -61,18 +61,43 @@ const globalLocationMap = {
     "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
     "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
 
-    "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" },
+    "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" }
+};
 
-    // === COUNTRY ALIASES (For common alternate spellings) ===
-    "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
-    "korea": { country: "South Korea", type: "country", capital: "Seoul" },
-    "japan": { country: "Japan", type: "country", capital: "Tokyo" },
-    "united states": { country: "United States", type: "country", capital: "New York" },
-    "us": { country: "United States", type: "country", capital: "New York" },
-    "usa": { country: "United States", type: "country", capital: "New York" },
-    "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
-    "uk": { country: "United Kingdom", type: "country", capital: "London" },
-    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
+// Massive dictionary to ensure NO country fails, even if a city isn't mapped above
+const globalCountryDictionary = {
+    "afghanistan": "Kabul", "albania": "Tirana", "algeria": "Algiers", "andorra": "Andorra la Vella",
+    "angola": "Luanda", "argentina": "Buenos Aires", "armenia": "Yerevan", "australia": "Sydney",
+    "austria": "Vienna", "azerbaijan": "Baku", "bahamas": "Nassau", "bahrain": "Manama",
+    "bangladesh": "Dhaka", "belarus": "Minsk", "belgium": "Brussels", "bolivia": "La Paz",
+    "brazil": "Rio de Janeiro", "bulgaria": "Sofia", "cambodia": "Phnom Penh", "cameroon": "Yaounde",
+    "canada": "Toronto", "chile": "Santiago", "china": "Beijing", "colombia": "Bogota",
+    "costa rica": "San Jose", "croatia": "Zagreb", "cuba": "Havana", "cyprus": "Nicosia",
+    "czech republic": "Prague", "denmark": "Copenhagen", "ecuador": "Quito", "egypt": "Cairo",
+    "el salvador": "San Salvador", "estonia": "Tallinn", "ethiopia": "Addis Ababa", "fiji": "Suva",
+    "finland": "Helsinki", "france": "Paris", "georgia": "Tbilisi", "germany": "Berlin",
+    "ghana": "Accra", "greece": "Athens", "guatemala": "Guatemala City", "honduras": "Tegucigalpa",
+    "hungary": "Budapest", "iceland": "Reykjavik", "india": "New Delhi", "indonesia": "Jakarta",
+    "iran": "Tehran", "iraq": "Baghdad", "ireland": "Dublin", "israel": "Jerusalem",
+    "italy": "Rome", "jamaica": "Kingston", "japan": "Tokyo", "jordan": "Amman",
+    "kazakhstan": "Astana", "kenya": "Nairobi", "kuwait": "Kuwait City", "lebanon": "Beirut",
+    "libya": "Tripoli", "lithuania": "Vilnius", "luxembourg": "Luxembourg", "madagascar": "Antananarivo",
+    "malaysia": "Kuala Lumpur", "mexico": "Mexico City", "monaco": "Monaco", "mongolia": "Ulaanbaatar",
+    "morocco": "Rabat", "nepal": "Kathmandu", "netherlands": "Amsterdam", "new zealand": "Auckland",
+    "nicaragua": "Managua", "nigeria": "Lagos", "north korea": "Pyongyang", "norway": "Oslo",
+    "oman": "Muscat", "pakistan": "Islamabad", "panama": "Panama City", "paraguay": "Asuncion",
+    "peru": "Lima", "philippines": "Manila", "poland": "Warsaw", "portugal": "Lisbon",
+    "qatar": "Doha", "romania": "Bucharest", "russia": "Moscow", "saudi arabia": "Riyadh",
+    "senegal": "Dakar", "serbia": "Belgrade", "singapore": "Singapore", "slovakia": "Bratislava",
+    "south africa": "Cape Town", "south korea": "Seoul", "spain": "Madrid", "sri lanka": "Colombo",
+    "sweden": "Stockholm", "switzerland": "Zurich", "syria": "Damascus", "taiwan": "Taipei",
+    "tanzania": "Dodoma", "thailand": "Bangkok", "tunisia": "Tunis", "turkey": "Istanbul",
+    "uganda": "Kampala", "ukraine": "Kyiv", "united arab emirates": "Dubai", "united kingdom": "London",
+    "united states": "New York", "uruguay": "Montevideo", "uzbekistan": "Tashkent", "venezuela": "Caracas",
+    "vietnam": "Ho Chi Minh City", "zimbabwe": "Harare",
+    
+    // Aliases
+    "uk": "London", "usa": "New York", "us": "New York", "korea": "Seoul"
 };
 
 let verifiedLocationKey = null;
@@ -80,7 +105,7 @@ let verifiedLocationKey = null;
 function resolveBestMatch(input) {
     let cleanInput = input.trim().toLowerCase();
     
-    // 1. Direct match
+    // 1. Direct city match in database
     if (verifiedLocationKey && verifiedLocationKey === cleanInput) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
@@ -88,7 +113,7 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
     
-    // 2. Fixed Abbreviation Matches (Stripped out sloppy "includes" logic)
+    // 2. Fixed specific abbreviations (No sloppy .includes)
     if (cleanInput === "hochimin" || cleanInput === "ho chi minh") {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -96,16 +121,20 @@ function resolveBestMatch(input) {
         return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
     }
 
-    // 3. DYNAMIC COUNTRY MATCHER
-    for (const key in globalLocationMap) {
-        if (globalLocationMap[key].type === "city" && globalLocationMap[key].country.toLowerCase() === cleanInput) {
-            let exampleCity = key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-            return {
-                key: cleanInput,
-                data: { type: "country", country: globalLocationMap[key].country, capital: exampleCity },
-                isTypo: false
-            };
-        }
+    // 3. BULLETPROOF COUNTRY MATCHER 
+    // Uses the massive dictionary above so Austria, Ukraine, etc. never fail
+    if (globalCountryDictionary[cleanInput]) {
+        let countryFormal = cleanInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        // Hardcode capitalization fixes for US/UK
+        if (cleanInput === "us" || cleanInput === "usa") countryFormal = "United States";
+        if (cleanInput === "uk") countryFormal = "United Kingdom";
+        if (cleanInput === "korea") countryFormal = "South Korea";
+
+        return {
+            key: cleanInput,
+            data: { type: "country", country: countryFormal, capital: globalCountryDictionary[cleanInput] },
+            isTypo: false
+        };
     }
 
     // 4. Truly Unknown
@@ -161,16 +190,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
-                    let capitalExample = match.data.capital || "Seoul";
+                    let capitalExample = match.data.capital || "a specific city";
                     
-                    // FEEDBACK PROMPT FOR COUNTRIES
+                    // FIXED COUNTRY FORMAT
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                     
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
                     
-                    // FEEDBACK PROMPT FOR CITIES (Format: "City in Country")
+                    // FIXED CITY FORMAT: "City in Country"
                     detectedZoneDiv.innerHTML = `
                         <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
                         <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
