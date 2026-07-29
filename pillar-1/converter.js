@@ -1,6 +1,6 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Clean City/Country Resolution with Streamlined Feedback
+// Clean City/Country Resolution with Corrected Feedback Prompt
 // ==========================================
 
 const globalLocationMap = {
@@ -72,7 +72,14 @@ const globalLocationMap = {
     "usa": { country: "United States", type: "country", capital: "New York" },
     "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
     "uk": { country: "United Kingdom", type: "country", capital: "London" },
-    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
+    "brazil": { country: "Brazil", type: "country", capital: "São Paulo or Rio de Janeiro" },
+    "australia": { country: "Australia", type: "country", capital: "Sydney or Melbourne" },
+    "canada": { country: "Canada", type: "country", capital: "Toronto" },
+    "france": { country: "France", type: "country", capital: "Paris" },
+    "italy": { country: "Italy", type: "country", capital: "Rome or Milan" },
+    "germany": { country: "Germany", type: "country", capital: "Berlin" },
+    "spain": { country: "Spain", type: "country", capital: "Madrid" }
 };
 
 let verifiedLocationKey = null;
@@ -149,8 +156,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
-                    let capitalExample = match.data.capital || "Seoul";
+                    let capitalExample = match.data.capital || "a major city";
+                    
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
+                    
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
