@@ -150,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
                     let capitalExample = match.data.capital || "a major city";
-                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name in format (City in Country?), e.g., ${capitalExample} in ${countryFormal}.</span>`;
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample} in ${countryFormal}).</span>`;
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
@@ -193,7 +193,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             let match = resolveBestMatch(rawInput);
             if (match.isTypo || match.data.type === "country") {
-                alert('Please enter and confirm a specific city name (in City in Country format) before generating.');
+                alert('Please enter and confirm a specific city name before generating.');
                 return;
             }
             
