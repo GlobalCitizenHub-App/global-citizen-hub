@@ -63,7 +63,7 @@ const globalLocationMap = {
     "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
     "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
 
-    // Explicit Countries with Designated Capital Examples
+    // Explicit Countries with Direct Capital Mapping
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
@@ -91,7 +91,7 @@ function resolveBestMatch(input) {
         return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     }
 
-    // Substring and alias mappings
+    // Substring and alias mappings preventing typos on country/city names
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -100,9 +100,9 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
     if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
     if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
-    if (cleanInput.includes("brazi") && cleanInput.length > 5) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
-    if (cleanInput.includes("ital") && cleanInput.length > 4) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
-    if (cleanInput.includes("vietnam") && cleanInput.length > 6) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
+    if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
+    if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
+    if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
     if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
     if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
     if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
