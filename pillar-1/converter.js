@@ -20,6 +20,7 @@ const globalLocationMap = {
     "cape town": { country: "South Africa", zone: "mediterranean", hemi: "south", type: "city" },
     "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
     "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city" },
+    "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
 
     // Europe
     "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
@@ -46,7 +47,6 @@ const globalLocationMap = {
     "osaka": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
     "beijing": { country: "China", zone: "continental", hemi: "north", type: "city" },
     "ho chi minh city": { country: "Vietnam", zone: "tropical", hemi: "north", type: "city" },
-    "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
     "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city" },
     "bangkok": { country: "Thailand", zone: "tropical", hemi: "north", type: "city" },
     "manila": { country: "Philippines", zone: "tropical", hemi: "north", type: "city" },
@@ -82,7 +82,6 @@ const globalLocationMap = {
 
 let verifiedLocationKey = null;
 
-// Smart matcher to handle typos, misspellings, and partial entries
 function resolveBestMatch(input) {
     let cleanInput = input.trim().toLowerCase();
     
@@ -94,12 +93,14 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
-    // Common typo & variation mappings
-    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
-        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
-    }
+    // 1. Check exact short inputs FIRST before broad substring checks
     if (cleanInput === "ho") {
         return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
+    }
+
+    // 2. Multi-word and explicit variation mappings
+    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
+        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
     if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
     if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"], isTypo: false };
@@ -164,7 +165,7 @@ document.getElementById('cityInput').addEventListener('input', function() {
     const detectedZoneDiv = document.getElementById('detectedZone');
     verifiedLocationKey = null; 
     
-    if (rawInput.length > 1) {
+    if (rawInput.length > 0) {
         let match = resolveBestMatch(rawInput);
         
         if (match.isTypo) {
