@@ -63,14 +63,15 @@ const globalLocationMap = {
     "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
     "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
 
-    // Explicit Countries
-    "korea": { country: "South Korea", type: "country" },
-    "south korea": { country: "South Korea", type: "country" },
-    "mexico": { country: "Mexico", type: "country" },
-    "brazil": { country: "Brazil", type: "country" },
-    "ukraine": { country: "Ukraine", type: "country" },
-    "vietnam": { country: "Vietnam", type: "country" },
-    "italy": { country: "Italy", type: "country" }
+    // Explicit Countries with Designated Capital Examples
+    "korea": { country: "South Korea", type: "country", capital: "Seoul" },
+    "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
+    "brazil": { country: "Brazil", type: "country", capital: "Brasília" },
+    "ukraine": { country: "Ukraine", type: "country", capital: "Kyiv" },
+    "vietnam": { country: "Vietnam", type: "country", capital: "Hanoi" },
+    "italy": { country: "Italy", type: "country", capital: "Rome" },
+    "japan": { country: "Japan", type: "country", capital: "Tokyo" }
 };
 
 let verifiedLocationKey = null;
@@ -107,6 +108,7 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
     if (cleanInput === "mexico") return { key: "mexico", data: globalLocationMap["mexico"], isTypo: false };
     if (cleanInput.includes("korea")) return { key: "korea", data: globalLocationMap["korea"], isTypo: false };
+    if (cleanInput.includes("japan") || cleanInput.includes("japay")) return { key: "japan", data: globalLocationMap["japan"], isTypo: false };
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
@@ -167,7 +169,9 @@ document.getElementById('cityInput').addEventListener('input', function() {
                 countryFormal = "South Korea";
             }
             
-            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., Seoul, Busan, Mexico City).</span>`;
+            let capitalExample = match.data.capital || "a major city";
+            
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
         } else {
             let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
             let countryName = match.data.country || "Global Region";
