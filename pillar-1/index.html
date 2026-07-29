@@ -48,14 +48,9 @@
             <h3>Interactive Climate & Layering Calculator</h3>
             <form id="climateForm">
                 <div class="form-group">
-                    <label for="region">Target Destination / City:</label>
-                    <select id="region" required>
-                        <option value="" disabled selected>Select your travel destination...</option>
-                        <option value="continental">New York, Seoul, Berlin (Humid Continental / 4 Seasons)</option>
-                        <option value="mediterranean">Rome, San Francisco, Cape Town (Mediterranean / Mild & Dry)</option>
-                        <option value="tropical">Singapore, Bangkok, Miami (Tropical / High Humidity)</option>
-                        <option value="arctic">Oslo, Reykjavik, Anchorage (Sub-Arctic / Extreme Cold)</option>
-                    </select>
+                    <label for="cityInput">Enter Your Destination City (e.g., Seoul, Los Angeles, Toronto, Singapore):</label>
+                    <input type="text" id="cityInput" placeholder="Type any global city..." required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; box-sizing: border-box;">
+                    <div id="detectedZone" style="margin-top: 8px; font-size: 0.9rem; color: #2980b9; font-weight: bold;"></div>
                 </div>
 
                 <div class="form-group">
