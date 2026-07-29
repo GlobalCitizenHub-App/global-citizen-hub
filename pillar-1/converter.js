@@ -1,6 +1,6 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Clean City/Country Resolution with Corrected Feedback Prompt
+// Dynamic Country Catching & Streamlined Feedback
 // ==========================================
 
 const globalLocationMap = {
@@ -63,7 +63,7 @@ const globalLocationMap = {
 
     "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
 
-    // === COUNTRIES ===
+    // === COUNTRY ALIASES (For common alternate spellings) ===
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "japan": { country: "Japan", type: "country", capital: "Tokyo" },
@@ -72,20 +72,15 @@ const globalLocationMap = {
     "usa": { country: "United States", type: "country", capital: "New York" },
     "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
     "uk": { country: "United Kingdom", type: "country", capital: "London" },
-    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
-    "brazil": { country: "Brazil", type: "country", capital: "São Paulo or Rio de Janeiro" },
-    "australia": { country: "Australia", type: "country", capital: "Sydney or Melbourne" },
-    "canada": { country: "Canada", type: "country", capital: "Toronto" },
-    "france": { country: "France", type: "country", capital: "Paris" },
-    "italy": { country: "Italy", type: "country", capital: "Rome or Milan" },
-    "germany": { country: "Germany", type: "country", capital: "Berlin" },
-    "spain": { country: "Spain", type: "country", capital: "Madrid" }
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
 };
 
 let verifiedLocationKey = null;
 
 function resolveBestMatch(input) {
     let cleanInput = input.trim().toLowerCase();
+    
+    // 1. Direct match
     if (verifiedLocationKey && verifiedLocationKey === cleanInput) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
@@ -93,6 +88,7 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
     
+    // 2. Fuzzy matches for cities
     if (cleanInput === "ho") return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh")) return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
@@ -104,6 +100,20 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
 
+    // 3. DYNAMIC COUNTRY MATCHER (Fixes the Brazil issue)
+    // If the user types ANY valid country in the database, this catches it and asks for a city.
+    for (const key in globalLocationMap) {
+        if (globalLocationMap[key].type === "city" && globalLocationMap[key].country.toLowerCase() === cleanInput) {
+            let exampleCity = key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            return {
+                key: cleanInput,
+                data: { type: "country", country: globalLocationMap[key].country, capital: exampleCity },
+                isTypo: false
+            };
+        }
+    }
+
+    // 4. Truly Unknown
     return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
 }
 
@@ -156,8 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
-                    let capitalExample = match.data.capital || "a major city";
+                    let capitalExample = match.data.capital || "Seoul";
                     
+                    // THIS IS THE EXACT LINE FIXED TO YOUR SPECIFICATION
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                     
                 } else {
