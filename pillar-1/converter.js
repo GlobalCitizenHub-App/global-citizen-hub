@@ -59,7 +59,18 @@ const globalLocationMap = {
     "rio de janeiro": { country: "Brazil", continent: "South America", zone: "tropical", hemi: "south", type: "city" },
     "sao paulo": { country: "Brazil", continent: "South America", zone: "continental", hemi: "south", type: "city" },
 
-    "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" }
+    "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
+
+    // Country mappings
+    "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
+    "korea": { country: "South Korea", type: "country", capital: "Seoul" },
+    "japan": { country: "Japan", type: "country", capital: "Tokyo" },
+    "united states": { country: "United States", type: "country", capital: "New York or Chicago" },
+    "us": { country: "United States", type: "country", capital: "New York or Chicago" },
+    "usa": { country: "United States", type: "country", capital: "New York or Chicago" },
+    "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
+    "uk": { country: "United Kingdom", type: "country", capital: "London" },
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
 };
 
 let verifiedLocationKey = null;
@@ -123,7 +134,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 let match = resolveBestMatch(rawInput);
                 
                 if (match.isTypo) {
-                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ City not recognized. Please check your spelling.</span>`;
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
+                } else if (match.data.type === "country") {
+                    let countryFormal = match.data.country;
+                    let capitalExample = match.data.capital || "a major city";
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
@@ -165,8 +180,8 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             let match = resolveBestMatch(rawInput);
-            if (match.isTypo) {
-                alert('Please enter and confirm a recognized city name before generating.');
+            if (match.isTypo || match.data.type === "country") {
+                alert('Please enter and confirm a specific city name before generating.');
                 return;
             }
             
