@@ -1,8 +1,10 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
+// Dual City & Country Resolution with Wardrobe Matrix Integration
 // ==========================================
 
 const globalLocationMap = {
+    // === CITIES ===
     "cairo": { country: "Egypt", continent: "Africa", zone: "mediterranean", hemi: "north", type: "city" },
     "cape town": { country: "South Africa", continent: "Africa", zone: "mediterranean", hemi: "south", type: "city" },
     "ho": { country: "Ghana", continent: "Africa", zone: "tropical", hemi: "north", type: "city" },
@@ -61,7 +63,7 @@ const globalLocationMap = {
 
     "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
 
-    // Country mappings
+    // === COUNTRIES (Triggers Capital & City Feedback Prompt) ===
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "japan": { country: "Japan", type: "country", capital: "Tokyo" },
@@ -120,6 +122,16 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
+function getWardrobeMatrix(matrixType) {
+    const wardrobeDb = {
+        "summer_heat": "Lightweight breathable fabrics (linen/cotton), UV protection, moisture-wicking layers, open footwear.",
+        "winter_cold": "Thermal base layers, insulating mid-layers (fleece/wool), windproof/waterproof outer shell, insulated boots, beanie/gloves.",
+        "winter_mild": "Medium-weight jacket, layered sweaters, comfortable walking shoes, light scarf.",
+        "temperate_transition": "Versatile layering system (cardigans, light jackets), convertible trousers, transitional footwear."
+    };
+    return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const cityInput = document.getElementById('cityInput');
     const calculateBtn = document.getElementById('calculateBtn');
@@ -138,14 +150,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
                     let capitalExample = match.data.capital || "a major city";
-                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name in format (City in Country?), e.g., ${capitalExample} in ${countryFormal}.</span>`;
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
                     let continentName = match.data.continent ? ` (${match.data.continent})` : "";
                     
                     detectedZoneDiv.innerHTML = `
-                        <span style="color: #2980b9;">Did you mean <strong>${formalCity}, ${countryName}${continentName}</strong>? 
+                        <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>${continentName}? 
                         <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
                         </span>`;
                     
@@ -155,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             confirmBtn.onclick = function() {
                                 document.getElementById('cityInput').value = formalCity;
                                 verifiedLocationKey = match.key;
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} (${countryName}${continentName})</strong>. Ready to generate!</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} in ${countryName}</strong>${continentName}. Ready to generate!</span>`;
                             };
                         }
                     }, 100);
@@ -175,13 +187,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const outputContent = document.getElementById('outputContent');
 
             if (!rawInput || !termDuration || !travelMonth) {
-                alert('Please enter a destination city, select a travel month, and select a term duration.');
+                alert('Please enter a destination, select a travel month, and select a term duration.');
                 return;
             }
 
             let match = resolveBestMatch(rawInput);
             if (match.isTypo || match.data.type === "country") {
-                alert('Please enter and confirm a specific city name before generating.');
+                alert('Please enter and confirm a specific city name (in City in Country format) before generating.');
                 return;
             }
             
@@ -195,13 +207,15 @@ document.addEventListener("DOMContentLoaded", () => {
             let continentName = match.data.continent ? ` [${match.data.continent}]` : "";
             
             let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
+            let wardrobeAdvice = getWardrobeMatrix(matrixType);
             const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
             let recommendation = `
-                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName}${continentName} (${monthNames[travelMonth]})</strong></p>
+                <p><strong>Precision Matrix: ${formattedLocation} in ${countryName}${continentName} (${monthNames[travelMonth]})</strong></p>
                 <ul>
                     <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
                     <li><strong>Climate Profile Type:</strong> ${matrixType.toUpperCase().replace('_', ' ')}</li>
+                    <li><strong>Wardrobe Matrix Strategy:</strong> ${wardrobeAdvice}</li>
                     <li><strong>Term Duration:</strong> Optimized for ${termDuration} engagement framework.</li>
                 </ul>`;
 
