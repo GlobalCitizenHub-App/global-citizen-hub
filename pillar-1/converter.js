@@ -23,6 +23,9 @@ const globalLocationMap = {
     "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
     "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city" },
     "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
+    "kuala lumpur": { country: "Malaysia", zone: "tropical", hemi: "north", type: "city" },
+    "jakarta": { country: "Indonesia", zone: "tropical", hemi: "north", type: "city" },
+    "taipei": { country: "Taiwan", zone: "subtropical", hemi: "north", type: "city" },
 
     "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city" },
     "kyiv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
@@ -36,6 +39,19 @@ const globalLocationMap = {
     "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
     "reykjavik": { country: "Iceland", zone: "arctic", hemi: "north", type: "city" },
     "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city" },
+    
+    // NEWLY ADDED EUROPEAN CITIES
+    "vienna": { country: "Austria", zone: "continental", hemi: "north", type: "city" },
+    "amsterdam": { country: "Netherlands", zone: "continental", hemi: "north", type: "city" },
+    "dublin": { country: "Ireland", zone: "continental", hemi: "north", type: "city" },
+    "stockholm": { country: "Sweden", zone: "arctic", hemi: "north", type: "city" },
+    "copenhagen": { country: "Denmark", zone: "continental", hemi: "north", type: "city" },
+    "helsinki": { country: "Finland", zone: "arctic", hemi: "north", type: "city" },
+    "prague": { country: "Czech Republic", zone: "continental", hemi: "north", type: "city" },
+    "budapest": { country: "Hungary", zone: "continental", hemi: "north", type: "city" },
+    "warsaw": { country: "Poland", zone: "continental", hemi: "north", type: "city" },
+    "athens": { country: "Greece", zone: "mediterranean", hemi: "north", type: "city" },
+    "istanbul": { country: "Turkey", zone: "mediterranean", hemi: "north", type: "city" },
 
     "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city" },
     "boston": { country: "United States", zone: "continental", hemi: "north", type: "city" },
@@ -50,6 +66,8 @@ const globalLocationMap = {
     "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
     "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city" },
     "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+    "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+    "montreal": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
 
     "auckland": { country: "New Zealand", zone: "mediterranean", hemi: "south", type: "city" },
     "melbourne": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
@@ -60,8 +78,11 @@ const globalLocationMap = {
     "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
     "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
     "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
+    "santiago": { country: "Chile", zone: "mediterranean", hemi: "south", type: "city" },
 
-    "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" }
+    "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" },
+    "riyadh": { country: "Saudi Arabia", zone: "tropical", hemi: "north", type: "city" },
+    "doha": { country: "Qatar", zone: "tropical", hemi: "north", type: "city" }
 };
 
 // Massive dictionary to ensure NO country fails, even if a city isn't mapped above
@@ -113,7 +134,7 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
     
-    // 2. Fixed specific abbreviations (No sloppy .includes)
+    // 2. Fixed specific abbreviations
     if (cleanInput === "hochimin" || cleanInput === "ho chi minh") {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -122,7 +143,6 @@ function resolveBestMatch(input) {
     }
 
     // 3. BULLETPROOF COUNTRY MATCHER 
-    // Uses the massive dictionary above so Austria, Ukraine, etc. never fail
     if (globalCountryDictionary[cleanInput]) {
         let countryFormal = cleanInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
         // Hardcode capitalization fixes for US/UK
@@ -190,80 +210,4 @@ document.addEventListener("DOMContentLoaded", () => {
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
-                    let capitalExample = match.data.capital || "a specific city";
-                    
-                    // FIXED COUNTRY FORMAT
-                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
-                    
-                } else {
-                    let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    let countryName = match.data.country || "Global Region";
-                    
-                    // FIXED CITY FORMAT: "City in Country"
-                    detectedZoneDiv.innerHTML = `
-                        <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
-                        <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
-                        </span>`;
-                    
-                    setTimeout(() => {
-                        const confirmBtn = document.getElementById('confirmLocationBtn');
-                        if (confirmBtn) {
-                            confirmBtn.onclick = function() {
-                                document.getElementById('cityInput').value = formalCity;
-                                verifiedLocationKey = match.key;
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} in ${countryName}</strong>. Ready to generate!</span>`;
-                            };
-                        }
-                    }, 100);
-                }
-            } else {
-                detectedZoneDiv.textContent = "";
-            }
-        });
-    }
-
-    if (calculateBtn) {
-        calculateBtn.addEventListener('click', function() {
-            const rawInput = document.getElementById('cityInput').value.trim();
-            const termDuration = document.getElementById('termDuration').value;
-            const travelMonth = document.getElementById('travelMonth').value;
-            const resultsBox = document.getElementById('results');
-            const outputContent = document.getElementById('outputContent');
-
-            if (!rawInput || !termDuration || !travelMonth) {
-                alert('Please enter a destination, select a travel month, and select a term duration.');
-                return;
-            }
-
-            let match = resolveBestMatch(rawInput);
-            if (match.isTypo || match.data.type === "country") {
-                alert('Please enter and confirm a specific city name before generating.');
-                return;
-            }
-            
-            if (!verifiedLocationKey) {
-                verifiedLocationKey = match.key;
-            }
-
-            let matrixType = determineSeasonalMatrix(match.data, travelMonth);
-            let formattedLocation = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-            let countryName = match.data.country || "Global Region";
-            
-            let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
-            let wardrobeAdvice = getWardrobeMatrix(matrixType);
-            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-            
-            let recommendation = `
-                <p><strong>Precision Matrix: ${formattedLocation} in ${countryName} (${monthNames[travelMonth]})</strong></p>
-                <ul>
-                    <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
-                    <li><strong>Climate Profile Type:</strong> ${matrixType.toUpperCase().replace('_', ' ')}</li>
-                    <li><strong>Wardrobe Matrix Strategy:</strong> ${wardrobeAdvice}</li>
-                    <li><strong>Term Duration:</strong> Optimized for ${termDuration} engagement framework.</li>
-                </ul>`;
-
-            outputContent.innerHTML = recommendation;
-            resultsBox.classList.remove('hidden');
-        });
-    }
-});
+                    let capital
