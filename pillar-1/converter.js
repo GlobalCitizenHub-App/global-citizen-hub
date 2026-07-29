@@ -59,7 +59,7 @@ const globalLocationMap = {
     "buenos aires": { zone: "continental", hemi: "south", type: "city" },
     "lima": { zone: "mediterranean", hemi: "south", type: "city" },
 
-    // Country Fallbacks (Explicitly flagged as 'country')
+    // Country Fallbacks (Flagged as 'country')
     "united states": { zone: "continental", hemi: "north", type: "country" },
     "usa": { zone: "continental", hemi: "north", type: "country" },
     "south korea": { zone: "continental", hemi: "north", type: "country" },
@@ -106,10 +106,10 @@ function determineSeasonalMatrix(locData, month) {
     let hemi = locData.hemi;
     let type = locData.type;
 
-    // If it's a broad country search, avoid extreme freezing profiles to prevent regional mismatch
+    // Broad country search fallback to balanced transitional profiles to avoid regional distortion
     if (type === "country") {
         if (m >= 6 && m <= 8) return "summer_heat";
-        if (m === 12 || m === 1 || m === 2) return "temperate_transition"; // Balanced national winter profile
+        if (m === 12 || m === 1 || m === 2) return "temperate_transition";
         return "temperate_transition";
     }
 
@@ -140,7 +140,7 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Live typing feedback with country-specific advisory prompt
+// Live typing feedback prompting for a specific city if a country is recognized
 document.getElementById('cityInput').addEventListener('input', function() {
     const rawInput = this.value.trim().toLowerCase();
     const detectedZoneDiv = document.getElementById('detectedZone');
@@ -148,7 +148,7 @@ document.getElementById('cityInput').addEventListener('input', function() {
     if (rawInput.length > 1) {
         let resolved = resolveLocation(rawInput);
         if (resolved.data.type === "country") {
-            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">ℹ Country registered. Tip: Enter a specific city (e.g., Rome, Milan) for precise regional accuracy!</span>`;
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">💡 Country detected. For precise micro-climate results, please enter a specific city name (e.g., São Paulo, Rio, Rome).</span>`;
         } else {
             detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ City profile loaded successfully.</span>`;
         }
@@ -177,13 +177,13 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
-    // Notice banner for country-level inputs
-    let countryAdvisory = resolved.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying a balanced national baseline for ${formattedLocation}. Search a specific city for regional micro-climate accuracy.</p>` : '';
+    // Actionable prompt inside the results box when a country is used
+    let countryPromptNotice = resolved.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying broad baseline for ${formattedLocation}. <strong>Tip: Search a specific destination city (e.g., São Paulo, Rome) to unlock full precision accuracy.</strong></p>` : '';
 
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
@@ -194,7 +194,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
@@ -205,7 +205,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_mild':
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
@@ -216,7 +216,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'temperate_transition':
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
@@ -227,7 +227,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
@@ -238,7 +238,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
-                ${countryAdvisory}
+                ${countryPromptNotice}
                 <p><strong>Precision Matrix: ${formattedLocation} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
