@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wardrobe & Climate Converter | Sustainable Apparel & Packing Guide</title>
+    <meta name="description" content="Calculate regional climate adaptability, thermal layering requirements, and sustainable capsule wardrobe lifecycles with our free interactive tool.">
+    <meta name="keywords" content="sustainable wardrobe, climate converter, packing layer calculator, capsule wardrobe utility, precision apparel planning">
+    <link rel="stylesheet" href="style.css">
+    
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "Wardrobe & Climate Converter",
+      "operatingSystem": "All",
+      "applicationCategory": "UtilityApplication",
+      "description": "Interactive calculator matching historical regional climates to sustainable apparel layers and lifecycle utility metrics.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="container">
+            <h1>Global Citizen Hub</h1>
+            <nav>
+                <a href="../index.html">Home</a>
+                <a href="#tool" class="active">Pillar 1: Wardrobe & Climate</a>
+                <a href="#guide">Companion Guide</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container main-content">
+        
+        <section class="hero">
+            <h2>Wardrobe & Climate Converter</h2>
+            <p>Optimize your travel packing and long-term apparel utility through evidence-based climate matching and sustainable layering metrics.</p>
+        </section>
+
+        <section id="tool" class="tool-card">
+            <h3>Interactive Climate & Layering Calculator</h3>
+            <form id="climateForm">
+                <div class="form-group">
+                    <label for="region">Target Climate Zone / Region:</label>
+                    <select id="region" required>
+                        <option value="" disabled selected>Select climate profile...</option>
+                        <option value="arctic">Sub-Arctic / Tundra (Cold & Arid)</option>
+                        <option value="temperate">Temperate / Continental (Four Seasons)</option>
+                        <option value="mediterranean">Mediterranean (Mild, Wet Winters / Dry Summers)</option>
+                        <option value="tropical">Tropical / Equatorial (High Humidity & Heat)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="duration">Stay Duration / Exposure Level:</label>
+                    <select id="duration" required>
+                        <option value="" disabled selected>Select duration...</option>
+                        <option value="short">Short Trip (1–2 Weeks)</option>
+                        <option value="extended">Extended Stay (1–6 Months)</option>
+                        <option value="relocation">Permanent Relocation</option>
+                    </select>
+                </div>
+
+                <button type="button" id="calculateBtn" class="btn-primary">Generate Sustainable Matrix</button>
+            </form>
+
+            <div id="results" class="results-box hidden">
+                <h4>Recommended Capsule Matrix</h4>
+                <div id="outputContent"></div>
+            </div>
+        </section>
+
+        <div class="adsense-container">
+            <span class="ad-placeholder">Advertisement Space (Optimized for AdSense)</span>
+        </div>
+
+        <article id="guide" class="seo-guide">
+            <h3>Pillar 1 Companion Guide: The Framework of Precision Apparel Planning</h3>
+            <p>Over-consumption and poor climate alignment remain leading drivers of textile waste in modern global mobility. Traditional packing often relies on reactionary choices rather than methodical environmental matching. This guide explores the foundational mechanics of sustainable apparel management.</p>
+            
+            <h4>1. Thermal Layering Principles</h4>
+            <p>Effective environmental adaptation relies on a three-tier system: moisture-managing base layers, thermal-regulating mid layers, and weather-deflecting outer shells. By optimizing these choices based on regional baseline data, individuals can reduce total garment volume by up to 40% while improving comfort across variable micro-climates.</p>
+
+            <h4>2. Lifecycle Utility & Waste Reduction</h4>
+            <p>Calculating the cost-per-wear and material durability ensures that capsule wardrobes perform efficiently across diverse geographic transitions. Emphasizing modularity over single-use garments directly supports continuous quality improvement in personal sustainability frameworks.</p>
+        </article>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>&copy; 2026 Global Citizen Hub. Built for open research and education.</p>
+        </div>
+    </footer>
+
+    <script src="converter.js"></script>
+</body>
+</html>
+Add Pillar 1 HTML interface
