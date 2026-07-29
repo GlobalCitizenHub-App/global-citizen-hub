@@ -78,23 +78,22 @@ function resolveLocation(input) {
     let cleanInput = input.trim().toLowerCase();
     
     if (globalLocationMap[cleanInput]) {
-        return globalLocationMap[cleanInput];
+        return { data: globalLocationMap[cleanInput], isTypo: false };
     }
 
-    // Fuzzy typo matching
-    if (cleanInput.includes("york")) return { zone: "continental", hemi: "north", type: "city" };
-    if (cleanInput.includes("dubai")) return { zone: "tropical", hemi: "north", type: "city" };
-    if (cleanInput.includes("nairobi")) return { zone: "tropical", hemi: "south", type: "city" };
-    if (cleanInput.includes("kenya")) return { zone: "tropical", hemi: "south", type: "country" };
-    if (cleanInput.includes("mexico")) return { zone: "mediterranean", hemi: "north", type: "country" };
-    if (cleanInput.includes("paris")) return { zone: "continental", hemi: "north", type: "city" };
-    if (cleanInput.includes("seoul")) return { zone: "continental", hemi: "north", type: "city" };
-    if (cleanInput.includes("sydney")) return { zone: "mediterranean", hemi: "south", type: "city" };
-    if (cleanInput.includes("braz") || cleanInput.includes("brazal")) return { zone: "continental", hemi: "south", type: "country" };
-    if (cleanInput.includes("australia")) return { zone: "mediterranean", hemi: "south", type: "country" };
+    // Fuzzy keyword matching for typos
+    if (cleanInput.includes("york")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
+    if (cleanInput.includes("dubai")) return { data: { zone: "tropical", hemi: "north", type: "city" }, isTypo: false };
+    if (cleanInput.includes("nairobi")) return { data: { zone: "tropical", hemi: "south", type: "city" }, isTypo: false };
+    if (cleanInput.includes("kenya")) return { data: { zone: "tropical", hemi: "south", type: "country" }, isTypo: false };
+    if (cleanInput.includes("mexico")) return { data: { zone: "mediterranean", hemi: "north", type: "country" }, isTypo: false };
+    if (cleanInput.includes("paris")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
+    if (cleanInput.includes("seoul")) return { data: { zone: "continental", hemi: "north", type: "city" }, isTypo: false };
+    if (cleanInput.includes("sydney")) return { data: { zone: "mediterranean", hemi: "south", type: "city" }, isTypo: false };
+    if (cleanInput.includes("braz") || cleanInput.includes("brazal")) return { data: { zone: "continental", hemi: "south", type: "country" }, isTypo: false };
 
-    // Default fallback for any unrecognized typo
-    return { zone: "continental", hemi: "north", type: "city" };
+    // Unrecognized typo fallback
+    return { data: { zone: "continental", hemi: "north", type: "unknown" }, isTypo: true };
 }
 
 function determineSeasonalMatrix(locData, month) {
@@ -123,13 +122,18 @@ function determineSeasonalMatrix(locData, month) {
     return zone;
 }
 
-// Clear feedback indicator on typing
+// Live typing feedback
 document.getElementById('cityInput').addEventListener('input', function() {
     const rawInput = this.value.trim();
     const detectedZoneDiv = document.getElementById('detectedZone');
     
     if (rawInput.length > 1) {
-        detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ Location registered. Select your month and duration.</span>`;
+        let resolved = resolveLocation(rawInput);
+        if (resolved.isTypo) {
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Defaulting to standard temperate baseline.</span>`;
+        } else {
+            detectedZoneDiv.innerHTML = `<span style="color: #2980b9;">✓ Location registered successfully.</span>`;
+        }
     } else {
         detectedZoneDiv.textContent = "";
     }
@@ -147,17 +151,21 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
         return;
     }
 
-    let locData = resolveLocation(rawInput);
-    let matrixType = determineSeasonalMatrix(locData, travelMonth);
+    let resolved = resolveLocation(rawInput);
+    let matrixType = determineSeasonalMatrix(resolved.data, travelMonth);
     let exactTypedLocation = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
     
     const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let seasonContext = `${monthNames[travelMonth]} Travel`;
     let recommendation = '';
 
+    // Add typo warning banner inside the results box if a typo was detected
+    let typoAdvisory = resolved.isTypo ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: "${exactTypedLocation}" was not found in our database. We are displaying a standard temperate baseline.</p>` : '';
+
     switch(matrixType) {
         case 'summer_heat':
             recommendation = `
+                ${typoAdvisory}
                 <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — High Heat & Summer Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
@@ -168,6 +176,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'winter_cold':
             recommendation = `
+                ${typoAdvisory}
                 <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Winter Freeze Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
@@ -178,6 +187,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'temperate_transition':
             recommendation = `
+                ${typoAdvisory}
                 <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Transitional Climate Profile</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
@@ -188,6 +198,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         case 'tropical':
             recommendation = `
+                ${typoAdvisory}
                 <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Tropical & Equatorial</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
@@ -198,6 +209,7 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
             break;
         default:
             recommendation = `
+                ${typoAdvisory}
                 <p><strong>Precision Matrix: ${exactTypedLocation} (${seasonContext}) — Standard Temperate</strong></p>
                 <ul>
                     <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
