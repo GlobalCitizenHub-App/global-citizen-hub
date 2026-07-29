@@ -40,3 +40,7 @@ const GlobalStandards = {
         return this.electrical[countryName] || { volts: "Standard varies", hz: "50/60Hz", plugs: ["Check local adapters"] };
     }
 };
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = GlobalStandards;
+}
