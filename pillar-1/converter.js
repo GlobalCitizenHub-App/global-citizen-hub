@@ -9,15 +9,15 @@ const cityClimateMap = {
     "manila": "tropical", "rio de janeiro": "tropical", "oslo": "arctic", "reykjavik": "arctic"
 };
 
-// Smart heuristic function to handle any unlisted global city
+// Smart heuristic function with a fail-safe fallback
 function determineClimateZone(cityName) {
+    if (!cityName) return "continental";
     if (cityClimateMap[cityName]) {
         return cityClimateMap[cityName];
     }
 
-    // Heuristic rules for global regions and common naming patterns
-    const arcticKeywords = ["anchorage", "helsinki", "stockholm", "reykjavik", "nuuk", "sapporo", "moscow", "ottawa"];
-    const tropicalKeywords = ["jakarta", "kuala lumpur", "mumbai", "delhi", "lagos", "nairobi", "bogota", "havana", "caracas", "sao paulo"];
+    const arcticKeywords = ["anchorage", "helsinki", "stockholm", "reykjavik", "nuuk", "sapporo", "moscow", "ottawa", "nebraska", "monowi"];
+    const tropicalKeywords = ["jakarta", "kuala lumpur", "mumbai", "delhi", "lagos", "nairobi", "bogota", "havana", "caracas", "sao paulo", "singapore"];
     const medKeywords = ["madrid", "lisbon", "valencia", "perth", "melbourne", "auckland", "cairo", "tel aviv", "beirut"];
 
     if (arcticKeywords.some(k => cityName.includes(k)) || cityName.includes("north") || cityName.includes("alaska")) {
@@ -30,7 +30,7 @@ function determineClimateZone(cityName) {
         return "mediterranean";
     }
 
-    // Default fallback for general temperate/continental global cities
+    // Universal fallback: ensures even small towns like Monowi successfully render a matrix
     return "continental";
 }
 
@@ -39,7 +39,7 @@ document.getElementById('cityInput').addEventListener('input', function() {
     const cityName = this.value.trim().toLowerCase();
     const detectedZoneDiv = document.getElementById('detectedZone');
     
-    if (cityName.length > 2) {
+    if (cityName.length > 0) {
         let zoneKey = determineClimateZone(cityName);
         let zoneNames = {
             'continental': 'Humid Continental / Four Seasons',
@@ -59,8 +59,12 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     const resultsBox = document.getElementById('results');
     const outputContent = document.getElementById('outputContent');
 
-    if (!rawCity || !duration) {
-        alert('Please enter a destination city and select a duration.');
+    if (!rawCity) {
+        alert('Please enter a destination city.');
+        return;
+    }
+    if (!duration) {
+        alert('Please select a stay duration.');
         return;
     }
 
