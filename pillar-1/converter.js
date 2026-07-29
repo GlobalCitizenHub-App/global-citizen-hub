@@ -88,17 +88,13 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
     
-    // 2. Fuzzy matches for cities
-    if (cleanInput === "ho") return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
-    if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh")) return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
-    if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
-    if (cleanInput.includes("dubai")) return { key: "dubai", data: globalLocationMap["dubai"], isTypo: false };
-    if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
-    if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
-    if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
-    if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
-    if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
-    if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    // 2. Fixed Abbreviation Matches (Stripped out sloppy "includes" logic)
+    if (cleanInput === "hochimin" || cleanInput === "ho chi minh") {
+        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
+    }
+    if (cleanInput === "ny" || cleanInput === "nyc" || cleanInput === "new york city") {
+        return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
+    }
 
     // 3. DYNAMIC COUNTRY MATCHER
     for (const key in globalLocationMap) {
