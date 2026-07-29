@@ -1,6 +1,6 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Dynamic Country Catching & Streamlined Feedback
+// Clean City/Country Resolution with Corrected Feedback Prompt
 // ==========================================
 
 const globalLocationMap = {
@@ -63,7 +63,7 @@ const globalLocationMap = {
 
     "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
 
-    // === COUNTRY ALIASES (For common alternate spellings) ===
+    // === COUNTRIES ===
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "japan": { country: "Japan", type: "country", capital: "Tokyo" },
@@ -72,7 +72,9 @@ const globalLocationMap = {
     "usa": { country: "United States", type: "country", capital: "New York" },
     "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
     "uk": { country: "United Kingdom", type: "country", capital: "London" },
-    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
+    "ukraine": { country: "Ukraine", type: "country", capital: "Kyiv" },
+    "brazil": { country: "Brazil", type: "country", capital: "Rio de Janeiro" }
 };
 
 let verifiedLocationKey = null;
@@ -100,8 +102,7 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
 
-    // 3. DYNAMIC COUNTRY MATCHER (Fixes the Brazil issue)
-    // If the user types ANY valid country in the database, this catches it and asks for a city.
+    // 3. DYNAMIC COUNTRY MATCHER
     for (const key in globalLocationMap) {
         if (globalLocationMap[key].type === "city" && globalLocationMap[key].country.toLowerCase() === cleanInput) {
             let exampleCity = key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
@@ -168,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     let countryFormal = match.data.country;
                     let capitalExample = match.data.capital || "Seoul";
                     
-                    // THIS IS THE EXACT LINE FIXED TO YOUR SPECIFICATION
+                    // FEEDBACK PROMPT
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                     
                 } else {
