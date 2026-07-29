@@ -1,33 +1,62 @@
 // Comprehensive location database mapping cities and countries to base climate zones
 const globalLocationMap = {
-    // US
+    // US & Americas
     "new york": "continental", "chicago": "continental", "boston": "continental",
     "los angeles": "mediterranean", "san francisco": "mediterranean", "miami": "tropical", "honolulu": "tropical",
-    "anchorage": "arctic", "seattle": "continental", "denver": "continental", "houston": "tropical",
-    // Asia
+    "anchorage": "arctic", "seattle": "continental", "denver": "continental", "houston": "tropical", "mexico city": "mediterranean",
+    
+    // Middle East & Africa
+    "dubai": "tropical", "cairo": "mediterranean", "cape town": "mediterranean", "nairobi": "tropical", "kenya": "tropical", "lagos": "tropical",
+
+    // Europe
+    "paris": "continental", "london": "continental", "berlin": "continental", "moscow": "arctic",
+    "rome": "mediterranean", "madrid": "mediterranean", "lisbon": "mediterranean", "oslo": "arctic", "reykjavik": "arctic",
+
+    // Asia & Oceania
     "seoul": "continental", "tokyo": "continental", "beijing": "continental",
     "singapore": "tropical", "bangkok": "tropical", "manila": "tropical", "delhi": "tropical", "mumbai": "tropical",
-    // Europe
-    "london": "continental", "paris": "continental", "berlin": "continental", "moscow": "arctic",
-    "rome": "mediterranean", "madrid": "mediterranean", "lisbon": "mediterranean", "oslo": "arctic", "reykjavik": "arctic",
+    "sydney": "mediterranean", "melbourne": "mediterranean", "auckland": "mediterranean",
+
     // South America
     "rio de janeiro": "tropical", "sao paulo": "tropical", "bogota": "tropical", "buenos aires": "continental", "lima": "mediterranean",
-    // Africa & Oceania
-    "cairo": "mediterranean", "cape town": "mediterranean", "nairobi": "tropical", "lagos": "tropical", "sydney": "mediterranean",
+
     // Country Fallbacks
     "united states": "continental", "usa": "continental", "south korea": "continental", "korea": "continental",
     "japan": "continental", "china": "continental", "united kingdom": "continental", "uk": "continental",
     "france": "continental", "germany": "continental", "italy": "mediterranean", "spain": "mediterranean",
-    "canada": "arctic", "australia": "mediterranean", "brazil": "tropical", "egypt": "mediterranean"
+    "canada": "arctic", "australia": "mediterranean", "brazil": "tropical", "egypt": "mediterranean", "mexico": "mediterranean"
 };
 
-function determineSeasonalMatrix(locationName, month) {
-    const rawZone = globalLocationMap[locationName] || "continental";
+// Smart typo-tolerant matching function
+function resolveLocation(input) {
+    let cleanInput = input.trim().toLowerCase();
+    
+    // Exact match
+    if (globalLocationMap[cleanInput]) {
+        return { zone: globalLocationMap[cleanInput], name: cleanInput };
+    }
+
+    // Fuzzy typo matching based on keywords
+    if (cleanInput.includes("york")) return { zone: "continental", name: "new york" };
+    if (cleanInput.includes("dubai")) return { zone: "tropical", name: "dubai" };
+    if (cleanInput.includes("kenya") || cleanInput.includes("nairobi")) return { zone: "tropical", name: "nairobi (kenya)" };
+    if (cleanInput.includes("mexico")) return { zone: "mediterranean", name: "mexico city" };
+    if (cleanInput.includes("paris")) return { zone: "continental", name: "paris" };
+    if (cleanInput.includes("seoul")) return { zone: "continental", name: "seoul" };
+    if (cleanInput.includes("sydney")) return { zone: "mediterranean", name: "sydney" };
+    if (cleanInput.includes("tokyo")) return { zone: "continental", name: "tokyo" };
+    if (cleanInput.includes("london")) return { zone: "continental", name: "london" };
+
+    // Default fallback if typo is completely unrecognized
+    return { zone: "continental", name: cleanInput };
+}
+
+function determineSeasonalMatrix(zone, month) {
     const m = parseInt(month);
 
     // Northern Hemisphere Summer (June, July, August) -> Summer heat profile
     if (m >= 6 && m <= 8) {
-        if (rawZone === "continental" || rawZone === "mediterranean" || rawZone === "arctic") {
+        if (zone === "continental" || zone === "mediterranean" || zone === "arctic") {
             return "summer_heat";
         }
         return "tropical";
@@ -35,18 +64,17 @@ function determineSeasonalMatrix(locationName, month) {
 
     // Northern Hemisphere Winter (December, January, February) -> Winter cold profile
     if (m === 12 || m === 1 || m === 2) {
-        if (rawZone === "continental" || rawZone === "mediterranean") {
+        if (zone === "continental" || zone === "mediterranean") {
             return "winter_cold";
         }
-        if (rawZone === "arctic") return "arctic";
+        if (zone === "arctic") return "arctic";
     }
 
-    // Default to standard base zone mapping for Spring/Autumn
-    return rawZone;
+    return zone;
 }
 
 document.getElementById('calculateBtn').addEventListener('click', function() {
-    const rawInput = document.getElementById('cityInput').value.trim().toLowerCase();
+    const rawInput = document.getElementById('cityInput').value.trim();
     const duration = document.getElementById('duration').value;
     const travelMonth = document.getElementById('travelMonth').value;
     const resultsBox = document.getElementById('results');
@@ -57,8 +85,9 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
         return;
     }
 
-    let matrixType = determineSeasonalMatrix(rawInput, travelMonth);
-    let formattedLocation = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
+    let resolved = resolveLocation(rawInput);
+    let matrixType = determineSeasonalMatrix(resolved.zone, travelMonth);
+    let formattedLocation = resolved.name.charAt(0).toUpperCase() + resolved.name.slice(1);
     
     const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let seasonContext = `${monthNames[travelMonth]} Travel`;
