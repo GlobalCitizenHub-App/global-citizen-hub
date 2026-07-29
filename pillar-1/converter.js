@@ -61,7 +61,16 @@ const globalLocationMap = {
     "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
     "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
     "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
-    "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" }
+    "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
+
+    // Explicit Countries
+    "korea": { country: "South Korea", type: "country" },
+    "south korea": { country: "South Korea", type: "country" },
+    "mexico": { country: "Mexico", type: "country" },
+    "brazil": { country: "Brazil", type: "country" },
+    "ukraine": { country: "Ukraine", type: "country" },
+    "vietnam": { country: "Vietnam", type: "country" },
+    "italy": { country: "Italy", type: "country" }
 };
 
 let verifiedLocationKey = null;
@@ -77,27 +86,10 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
 
-    // Exact short or country-to-city priority mapping
     if (cleanInput === "ho") {
         return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     }
-    if (cleanInput === "korea" || cleanInput.includes("south korea")) {
-        return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
-    }
-    if (cleanInput === "mexico") {
-        return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
-    }
-    if (cleanInput === "ukraine") {
-        return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
-    }
-    if (cleanInput === "vietnam") {
-        return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
-    }
-    if (cleanInput === "brazil") {
-        return { key: "sao paulo", data: globalLocationMap["sao paulo"], isTypo: false };
-    }
 
-    // Substring and alias mappings
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh") || cleanInput.includes("ho chi")) {
         return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     }
@@ -106,22 +98,30 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("seoul")) return { key: "seoul", data: globalLocationMap["seoul"], isTypo: false };
     if (cleanInput.includes("tokyo")) return { key: "tokyo", data: globalLocationMap["tokyo"], isTypo: false };
     if (cleanInput.includes("sydney")) return { key: "sydney", data: globalLocationMap["sydney"], isTypo: false };
-    if (cleanInput.includes("brazi")) return { key: "sao paulo", data: globalLocationMap["sao paulo"], isTypo: false };
-    if (cleanInput.includes("ital")) return { key: "rome", data: globalLocationMap["rome"], isTypo: false };
-    if (cleanInput.includes("ukrain")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
+    if (cleanInput.includes("brazi")) return { key: "brazil", data: globalLocationMap["brazil"], isTypo: false };
+    if (cleanInput.includes("ital")) return { key: "italy", data: globalLocationMap["italy"], isTypo: false };
+    if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
+    if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
     if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
-    if (cleanInput.includes("mexico")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    if (cleanInput.includes("mexico city")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    if (cleanInput === "mexico") return { key: "mexico", data: globalLocationMap["mexico"], isTypo: false };
+    if (cleanInput.includes("korea")) return { key: "korea", data: globalLocationMap["korea"], isTypo: false };
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
 
-    return { key: cleanInput, data: { country: "Unknown", zone: "continental", hemi: "north", type: "unknown" }, isTypo: true };
+    return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
 }
 
 function determineSeasonalMatrix(locData, month) {
     const m = parseInt(month);
-    let zone = locData.zone;
-    let hemi = locData.hemi;
+    let zone = locData.zone || "continental";
+    let hemi = locData.hemi || "north";
+
+    if (locData.type === "country") {
+        if (m >= 6 && m <= 8) return "summer_heat";
+        return "temperate_transition";
+    }
 
     if (zone === "subtropical") {
         if (m >= 6 && m <= 8) return "summer_heat";
@@ -160,6 +160,11 @@ document.getElementById('cityInput').addEventListener('input', function() {
         
         if (match.isTypo) {
             detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
+        } else if (match.data.type === "country") {
+            let countryFormal = match.key.charAt(0).toUpperCase() + match.key.slice(1);
+            if (countryFormal === "Korea") countryFormal = "South Korea";
+            
+            detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., Seoul).</span>`;
         } else {
             let formalCity = match.key.charAt(0).toUpperCase() + match.key.slice(1);
             let countryName = match.data.country || "Global Region";
@@ -198,8 +203,13 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     }
 
     let match = resolveBestMatch(rawInput);
-    if (match.isTypo || !verifiedLocationKey) {
-        alert('Please select a valid destination and click "Confirm" before generating the matrix.');
+    if (match.isTypo || match.data.type === "country") {
+        alert('Please enter and confirm a specific city name before generating the matrix.');
+        return;
+    }
+
+    if (!verifiedLocationKey) {
+        alert('Please click "Confirm" on your selected city before generating.');
         return;
     }
 
