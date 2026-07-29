@@ -113,7 +113,12 @@ function resolveBestMatch(input) {
     if (cleanInput.includes("vietnam")) return { key: "vietnam", data: globalLocationMap["vietnam"], isTypo: false };
     if (cleanInput.includes("ukrain")) return { key: "ukraine", data: globalLocationMap["ukraine"], isTypo: false };
     if (cleanInput.includes("kyiv") || cleanInput.includes("kiev")) return { key: "kyiv", data: globalLocationMap["kyiv"], isTypo: false };
-    if (cleanInput.includes("mexico")) return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    if (cleanInput === "mexico") {
+        return { key: "mexico", data: globalLocationMap["mexico"], isTypo: false };
+    }
+    if (cleanInput.includes("mexico city")) {
+        return { key: "mexico city", data: globalLocationMap["mexico city"], isTypo: false };
+    }
     if (cleanInput.includes("paris")) return { key: "paris", data: globalLocationMap["paris"], isTypo: false };
     if (cleanInput.includes("london")) return { key: "london", data: globalLocationMap["london"], isTypo: false };
     if (cleanInput.includes("jeji") || cleanInput.includes("zeju")) return { key: "jeju", data: globalLocationMap["jeju"], isTypo: false };
@@ -222,4 +227,79 @@ document.getElementById('calculateBtn').addEventListener('click', function() {
     
     const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     let seasonContext = `${monthNames[travelMonth]} Travel`;
-    let recommendation
+    let recommendation = '';
+
+    let noticeBanner = match.data.type === "country" ? `<p style="font-size: 0.85rem; color: #e67e22; font-style: italic; margin-bottom: 10px;">Notice: Displaying broad national baseline for ${formattedLocation}. <strong>Tip: Search a specific destination city to unlock full precision accuracy.</strong></p>` : '';
+
+    switch(matrixType) {
+        case 'summer_heat':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — High Heat & Summer Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Featherweight linen, organic cotton tees, and high-breathability tanks</li>
+                    <li><strong>Mid Layer:</strong> None required; optional light linen button-down for sun protection</li>
+                    <li><strong>Outer Shell:</strong> Ultra-light packable rain poncho for summer downpours</li>
+                    <li><strong>Strategic Utility:</strong> Optimized for high ambient temperatures, UV defense, and rapid sweat evaporation.</li>
+                </ul>`;
+            break;
+        case 'winter_cold':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Winter Freeze Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Thermal moisture-wicking undergarments or merino wool tops</li>
+                    <li><strong>Mid Layer:</strong> Heavy fleece, wool knit sweaters, or insulated cardigans</li>
+                    <li><strong>Outer Shell:</strong> Windproof down jacket or heavy winter overcoat</li>
+                    <li><strong>Strategic Utility:</strong> Engineered for sub-zero wind chills, thermal retention, and layer stacking.</li>
+                </ul>`;
+            break;
+        case 'winter_mild':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Subtropical Mild Winter Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Comfortable cotton-alternative layers and long-sleeve tees</li>
+                    <li><strong>Mid Layer:</strong> Lightweight windbreaker, fleece, or cozy cardigan</li>
+                    <li><strong>Outer Shell:</strong> Moderate water-resistant jacket (coastal breezes)</li>
+                    <li><strong>Strategic Utility:</strong> Tailored for mild coastal winters with moderate winds and minimal freezing.</li>
+                </ul>`;
+            break;
+        case 'temperate_transition':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Transitional Climate Profile</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Breathable cotton blends and layered long-sleeve tees</li>
+                    <li><strong>Mid Layer:</strong> Lightweight cardigan, fleece, or versatile denim jacket</li>
+                    <li><strong>Outer Shell:</strong> Packable wind-resistant shell or trench</li>
+                    <li><strong>Strategic Utility:</strong> Tailored for seasonal shifts with warm daytime peaks and crisp evening drops.</li>
+                </ul>`;
+            break;
+        case 'tropical':
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Tropical & Equatorial</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Ultra-lightweight technical fibers with rapid-dry capacity</li>
+                    <li><strong>Mid Layer:</strong> UV-shielding long-sleeve barrier against intense sun</li>
+                    <li><strong>Outer Shell:</strong> Lightweight breathable rain shell</li>
+                    <li><strong>Strategic Utility:</strong> Built for continuous humidity, high heat, and frequent washing cycles.</li>
+                </ul>`;
+            break;
+        default:
+            recommendation = `
+                ${noticeBanner}
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName} (${seasonContext}) — Standard Temperate</strong></p>
+                <ul>
+                    <li><strong>Base Layer:</strong> Standard breathable cotton-alternative blends</li>
+                    <li><strong>Mid Layer:</strong> Moderate wool cardigan or transitional jacket</li>
+                    <li><strong>Outer Shell:</strong> Water-resistant windbreaker</li>
+                    <li><strong>Strategic Utility:</strong> Balanced for mild, changing seasonal conditions.</li>
+                </ul>`;
+            break;
+    }
+
+    outputContent.innerHTML = recommendation;
+    resultsBox.classList.remove('hidden');
+});
