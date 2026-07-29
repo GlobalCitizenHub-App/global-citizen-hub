@@ -1,6 +1,6 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Clean City-First Resolution with Seamless Confirmation and Matrix Generation
+// Fully Validated City Resolution with Robust Matrix Output Generation
 // ==========================================
 
 const globalLocationMap = {
@@ -81,7 +81,7 @@ function resolveBestMatch(input) {
         return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
     }
     
-    // Fuzzy matching aliases for supported cities
+    // Fuzzy matching aliases
     if (cleanInput === "ho") return { key: "ho", data: globalLocationMap["ho"], isTypo: false };
     if (cleanInput.includes("hochimin") || cleanInput.includes("ho chi minh")) return { key: "ho chi minh city", data: globalLocationMap["ho chi minh city"], isTypo: false };
     if (cleanInput.includes("york") || cleanInput.includes("ny")) return { key: "new york", data: globalLocationMap["new york"], isTypo: false };
@@ -178,9 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 alert('Please enter and confirm a recognized city name before generating.');
                 return;
             }
+            
+            // Auto-verify if user typed a valid city directly without clicking confirm button
             if (!verifiedLocationKey) {
-                alert('Please click "Confirm" on your selected city before generating.');
-                return;
+                verifiedLocationKey = match.key;
             }
 
             let matrixType = determineSeasonalMatrix(match.data, travelMonth);
