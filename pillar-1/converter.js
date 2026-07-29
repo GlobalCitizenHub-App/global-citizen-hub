@@ -1,69 +1,69 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Clean City/Country Resolution with Corrected Feedback Prompt
+// Dynamic Country Catching & "City in Country" Format
 // ==========================================
 
 const globalLocationMap = {
     // === CITIES ===
-    "cairo": { country: "Egypt", continent: "Africa", zone: "mediterranean", hemi: "north", type: "city" },
-    "cape town": { country: "South Africa", continent: "Africa", zone: "mediterranean", hemi: "south", type: "city" },
-    "ho": { country: "Ghana", continent: "Africa", zone: "tropical", hemi: "north", type: "city" },
-    "lagos": { country: "Nigeria", continent: "Africa", zone: "tropical", hemi: "north", type: "city" },
-    "nairobi": { country: "Kenya", continent: "Africa", zone: "tropical", hemi: "south", type: "city" },
+    "cairo": { country: "Egypt", zone: "mediterranean", hemi: "north", type: "city" },
+    "cape town": { country: "South Africa", zone: "mediterranean", hemi: "south", type: "city" },
+    "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
+    "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city" },
+    "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
 
-    "bangkok": { country: "Thailand", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "beijing": { country: "China", continent: "Asia", zone: "continental", hemi: "north", type: "city" },
-    "delhi": { country: "India", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "ho chi minh city": { country: "Vietnam", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "incheon": { country: "South Korea", continent: "Asia", zone: "continental", hemi: "north", type: "city" },
-    "jeju": { country: "South Korea", continent: "Asia", zone: "subtropical", hemi: "north", type: "city" },
-    "manila": { country: "Philippines", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "mumbai": { country: "India", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "osaka": { country: "Japan", continent: "Asia", zone: "continental", hemi: "north", type: "city" },
-    "seoul": { country: "South Korea", continent: "Asia", zone: "continental", hemi: "north", type: "city" },
-    "singapore": { country: "Singapore", continent: "Asia", zone: "tropical", hemi: "north", type: "city" },
-    "tokyo": { country: "Japan", continent: "Asia", zone: "continental", hemi: "north", type: "city" },
+    "bangkok": { country: "Thailand", zone: "tropical", hemi: "north", type: "city" },
+    "beijing": { country: "China", zone: "continental", hemi: "north", type: "city" },
+    "delhi": { country: "India", zone: "tropical", hemi: "north", type: "city" },
+    "ho chi minh city": { country: "Vietnam", zone: "tropical", hemi: "north", type: "city" },
+    "incheon": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
+    "jeju": { country: "South Korea", zone: "subtropical", hemi: "north", type: "city" },
+    "manila": { country: "Philippines", zone: "tropical", hemi: "north", type: "city" },
+    "mumbai": { country: "India", zone: "tropical", hemi: "north", type: "city" },
+    "osaka": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
+    "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
+    "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city" },
+    "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
 
-    "berlin": { country: "Germany", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "kyiv": { country: "Ukraine", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "lisbon": { country: "Portugal", continent: "Europe", zone: "mediterranean", hemi: "north", type: "city" },
-    "london": { country: "United Kingdom", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "lviv": { country: "Ukraine", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "madrid": { country: "Spain", continent: "Europe", zone: "mediterranean", hemi: "north", type: "city" },
-    "milan": { country: "Italy", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "moscow": { country: "Russia", continent: "Europe", zone: "arctic", hemi: "north", type: "city" },
-    "oslo": { country: "Norway", continent: "Europe", zone: "arctic", hemi: "north", type: "city" },
-    "paris": { country: "France", continent: "Europe", zone: "continental", hemi: "north", type: "city" },
-    "reykjavik": { country: "Iceland", continent: "Europe", zone: "arctic", hemi: "north", type: "city" },
-    "rome": { country: "Italy", continent: "Europe", zone: "mediterranean", hemi: "north", type: "city" },
+    "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city" },
+    "kyiv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
+    "lisbon": { country: "Portugal", zone: "mediterranean", hemi: "north", type: "city" },
+    "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city" },
+    "lviv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
+    "madrid": { country: "Spain", zone: "mediterranean", hemi: "north", type: "city" },
+    "milan": { country: "Italy", zone: "continental", hemi: "north", type: "city" },
+    "moscow": { country: "Russia", zone: "arctic", hemi: "north", type: "city" },
+    "oslo": { country: "Norway", zone: "arctic", hemi: "north", type: "city" },
+    "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
+    "reykjavik": { country: "Iceland", zone: "arctic", hemi: "north", type: "city" },
+    "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city" },
 
-    "anchorage": { country: "United States", continent: "North America", zone: "arctic", hemi: "north", type: "city" },
-    "boston": { country: "United States", continent: "North America", zone: "continental", hemi: "north", type: "city" },
-    "chicago": { country: "United States", continent: "North America", zone: "continental", hemi: "north", type: "city" },
-    "denver": { country: "United States", continent: "North America", zone: "continental", hemi: "north", type: "city" },
-    "honolulu": { country: "United States", continent: "North America", zone: "tropical", hemi: "north", type: "city" },
-    "houston": { country: "United States", continent: "North America", zone: "tropical", hemi: "north", type: "city" },
-    "los angeles": { country: "United States", continent: "North America", zone: "mediterranean", hemi: "north", type: "city" },
-    "mexico city": { country: "Mexico", continent: "North America", zone: "mediterranean", hemi: "north", type: "city" },
-    "miami": { country: "United States", continent: "North America", zone: "tropical", hemi: "north", type: "city" },
-    "new york": { country: "United States", continent: "North America", zone: "continental", hemi: "north", type: "city" },
-    "san francisco": { country: "United States", continent: "North America", zone: "mediterranean", hemi: "north", type: "city" },
-    "seattle": { country: "United States", continent: "North America", zone: "continental", hemi: "north", type: "city" },
-    "toronto": { country: "Canada", continent: "North America", zone: "continental", hemi: "north", type: "city" },
+    "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city" },
+    "boston": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+    "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+    "denver": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+    "honolulu": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+    "houston": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+    "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+    "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
+    "miami": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+    "new york": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+    "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+    "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+    "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
 
-    "auckland": { country: "New Zealand", continent: "Oceania", zone: "mediterranean", hemi: "south", type: "city" },
-    "melbourne": { country: "Australia", continent: "Oceania", zone: "mediterranean", hemi: "south", type: "city" },
-    "sydney": { country: "Australia", continent: "Oceania", zone: "mediterranean", hemi: "south", type: "city" },
+    "auckland": { country: "New Zealand", zone: "mediterranean", hemi: "south", type: "city" },
+    "melbourne": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
+    "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
 
-    "bogota": { country: "Colombia", continent: "South America", zone: "tropical", hemi: "south", type: "city" },
-    "buenos aires": { country: "Argentina", continent: "South America", zone: "continental", hemi: "south", type: "city" },
-    "lima": { country: "Peru", continent: "South America", zone: "mediterranean", hemi: "south", type: "city" },
-    "rio de janeiro": { country: "Brazil", continent: "South America", zone: "tropical", hemi: "south", type: "city" },
-    "sao paulo": { country: "Brazil", continent: "South America", zone: "continental", hemi: "south", type: "city" },
+    "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
+    "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
+    "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
+    "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
+    "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
 
-    "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
+    "dubai": { country: "United Arab Emirates", zone: "tropical", hemi: "north", type: "city" },
 
-    // === COUNTRIES ===
+    // === COUNTRY ALIASES (For common alternate spellings) ===
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "japan": { country: "Japan", type: "country", capital: "Tokyo" },
@@ -72,9 +72,7 @@ const globalLocationMap = {
     "usa": { country: "United States", type: "country", capital: "New York" },
     "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
     "uk": { country: "United Kingdom", type: "country", capital: "London" },
-    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" },
-    "ukraine": { country: "Ukraine", type: "country", capital: "Kyiv" },
-    "brazil": { country: "Brazil", type: "country", capital: "Rio de Janeiro" }
+    "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
 };
 
 let verifiedLocationKey = null;
@@ -169,16 +167,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     let countryFormal = match.data.country;
                     let capitalExample = match.data.capital || "Seoul";
                     
-                    // FEEDBACK PROMPT
+                    // FEEDBACK PROMPT FOR COUNTRIES
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                     
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
-                    let continentName = match.data.continent ? ` (${match.data.continent})` : "";
                     
+                    // FEEDBACK PROMPT FOR CITIES (Format: "City in Country")
                     detectedZoneDiv.innerHTML = `
-                        <span style="color: #2980b9;">Did you mean <strong>${formalCity}, ${countryName}</strong>${continentName}? 
+                        <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
                         <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
                         </span>`;
                     
@@ -188,7 +186,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             confirmBtn.onclick = function() {
                                 document.getElementById('cityInput').value = formalCity;
                                 verifiedLocationKey = match.key;
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity}, ${countryName}</strong>${continentName}. Ready to generate!</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} in ${countryName}</strong>. Ready to generate!</span>`;
                             };
                         }
                     }, 100);
@@ -225,14 +223,13 @@ document.addEventListener("DOMContentLoaded", () => {
             let matrixType = determineSeasonalMatrix(match.data, travelMonth);
             let formattedLocation = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
             let countryName = match.data.country || "Global Region";
-            let continentName = match.data.continent ? ` [${match.data.continent}]` : "";
             
             let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
             let wardrobeAdvice = getWardrobeMatrix(matrixType);
             const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
             let recommendation = `
-                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName}${continentName} (${monthNames[travelMonth]})</strong></p>
+                <p><strong>Precision Matrix: ${formattedLocation} in ${countryName} (${monthNames[travelMonth]})</strong></p>
                 <ul>
                     <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
                     <li><strong>Climate Profile Type:</strong> ${matrixType.toUpperCase().replace('_', ' ')}</li>
