@@ -1,6 +1,6 @@
 // ==========================================
 // PILLAR 1: LOCATION RESOLUTION & CONVERTER LOGIC
-// Dual City & Country Resolution with Wardrobe Matrix Integration
+// Clean City/Country Resolution with Streamlined Feedback
 // ==========================================
 
 const globalLocationMap = {
@@ -63,13 +63,13 @@ const globalLocationMap = {
 
     "dubai": { country: "United Arab Emirates", continent: "Middle East", zone: "tropical", hemi: "north", type: "city" },
 
-    // === COUNTRIES (Triggers Capital & City Feedback Prompt) ===
+    // === COUNTRIES ===
     "south korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "korea": { country: "South Korea", type: "country", capital: "Seoul" },
     "japan": { country: "Japan", type: "country", capital: "Tokyo" },
-    "united states": { country: "United States", type: "country", capital: "New York or Chicago" },
-    "us": { country: "United States", type: "country", capital: "New York or Chicago" },
-    "usa": { country: "United States", type: "country", capital: "New York or Chicago" },
+    "united states": { country: "United States", type: "country", capital: "New York" },
+    "us": { country: "United States", type: "country", capital: "New York" },
+    "usa": { country: "United States", type: "country", capital: "New York" },
     "united kingdom": { country: "United Kingdom", type: "country", capital: "London" },
     "uk": { country: "United Kingdom", type: "country", capital: "London" },
     "mexico": { country: "Mexico", type: "country", capital: "Mexico City" }
@@ -149,15 +149,15 @@ document.addEventListener("DOMContentLoaded", () => {
                     detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
                 } else if (match.data.type === "country") {
                     let countryFormal = match.data.country;
-                    let capitalExample = match.data.capital || "a major city";
-                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample} in ${countryFormal}).</span>`;
+                    let capitalExample = match.data.capital || "Seoul";
+                    detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
                 } else {
                     let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let countryName = match.data.country || "Global Region";
                     let continentName = match.data.continent ? ` (${match.data.continent})` : "";
                     
                     detectedZoneDiv.innerHTML = `
-                        <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>${continentName}? 
+                        <span style="color: #2980b9;">Did you mean <strong>${formalCity}, ${countryName}</strong>${continentName}? 
                         <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
                         </span>`;
                     
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             confirmBtn.onclick = function() {
                                 document.getElementById('cityInput').value = formalCity;
                                 verifiedLocationKey = match.key;
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} in ${countryName}</strong>${continentName}. Ready to generate!</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity}, ${countryName}</strong>${continentName}. Ready to generate!</span>`;
                             };
                         }
                     }, 100);
@@ -211,7 +211,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
             let recommendation = `
-                <p><strong>Precision Matrix: ${formattedLocation} in ${countryName}${continentName} (${monthNames[travelMonth]})</strong></p>
+                <p><strong>Precision Matrix: ${formattedLocation}, ${countryName}${continentName} (${monthNames[travelMonth]})</strong></p>
                 <ul>
                     <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
                     <li><strong>Climate Profile Type:</strong> ${matrixType.toUpperCase().replace('_', ' ')}</li>
