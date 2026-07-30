@@ -394,7 +394,7 @@
                             if (match.isTypo) {
                                 let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `
-                                    <span style="color: #e67e22;">We don't have street-level data for <strong>${formalInput}</strong>. What country is it in?</span>
+                                    <span style="color: #e67e22;">To calibrate the regional matrix for <strong>${formalInput}</strong>, please confirm its host country:</span>
                                     <div style="margin-top: 8px; display: flex; gap: 8px;">
                                         <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1; border: 1px solid #ccc; border-radius: 4px;">
                                         <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; width: auto;">Confirm</button>
