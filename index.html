@@ -104,13 +104,12 @@
             <h3>Holistic Travel Intelligence: Master Dashboard</h3>
             <p><strong>The Operational Baseline</strong><br>
             Navigating global relocation or extended travel requires synthesizing fragmented data. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
-            <p><em>Input your operational parameters below to generate your complete intelligence brief. (Inclusive global coverage: New York, Dubai, Mexico City, Paris, Seoul, Sydney).</em></p>
         </div>
 
         <div class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city...">
+                <label for="cityInput">Destination (City, e.g., Seoul, Rome, New York):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Seoul)...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -391,8 +390,7 @@
                                     }
                                 }, 100);
                             } else if (match.data.type === "country") {
-                                // FIXED: If user types a country directly, instruct them to enter a city instead of throwing an error loop
-                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., Rome, Seoul).</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., Seoul).</span>`;
                             } else {
                                 let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
