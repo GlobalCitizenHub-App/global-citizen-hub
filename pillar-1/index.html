@@ -199,7 +199,7 @@
                 "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city" },
                 "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
 
-                // === AMERICAS (Expanded US, Canada, LATAM) ===
+                // === AMERICAS ===
                 "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
                 "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
                 "montreal": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
@@ -212,7 +212,7 @@
                 "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
                 "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
                 
-                // === MEGA-DICTIONARY: UNITED STATES MAJOR CITIES ===
+                // === UNITED STATES MAJOR CITIES ===
                 "new york": { country: "United States", zone: "continental", hemi: "north", type: "city" },
                 "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
                 "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city" },
@@ -340,6 +340,8 @@
                         isTypo: false
                     };
                 }
+                
+                // If completely unknown, return unknown flag to trigger Smart Fallback
                 return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
             }
 
@@ -388,12 +390,47 @@
                         if (rawInput.length > 0) {
                             let match = resolveBestMatch(rawInput);
                             
+                            // 1. SMART FALLBACK TRIGGER
                             if (match.isTypo) {
-                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">⚠ Location not recognized. Please check your spelling.</span>`;
+                                let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                detectedZoneDiv.innerHTML = `
+                                    <span style="color: #e67e22;">We don't have street-level data for <strong>${formalInput}</strong>. What country is it in?</span>
+                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                        <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1; border: 1px solid #ccc; border-radius: 4px;">
+                                        <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; width: auto;">Confirm</button>
+                                    </div>
+                                `;
+                                
+                                setTimeout(() => {
+                                    const fallbackBtn = document.getElementById('confirmFallbackBtn');
+                                    if (fallbackBtn) {
+                                        fallbackBtn.onclick = function() {
+                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
+                                            if (fbCountry) {
+                                                let fbMatch = resolveBestMatch(fbCountry);
+                                                if (fbMatch.data.type === "country") {
+                                                    verifiedLocationKey = "FALLBACK";
+                                                    window.currentSyntheticData = {
+                                                        city: formalInput,
+                                                        country: fbMatch.data.country,
+                                                        capital: fbMatch.data.capital
+                                                    };
+                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalInput} in ${fbMatch.data.country}</strong>. Ready to generate!</span>`;
+                                                } else {
+                                                    alert("Please enter a recognized country name (e.g., United States, Japan, Brazil).");
+                                                }
+                                            }
+                                        };
+                                    }
+                                }, 100);
+
+                            // 2. COUNTRY ROUTING
                             } else if (match.data.type === "country") {
                                 let countryFormal = match.data.country;
                                 let capitalExample = match.data.capital;
                                 detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
+                            
+                            // 3. PERFECT CITY MATCH
                             } else {
                                 let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 let countryName = match.data.country;
@@ -433,30 +470,48 @@
                             return;
                         }
 
-                        let match = resolveBestMatch(rawInput);
-                        if (match.isTypo || match.data.type === "country") {
-                            alert('Please enter and confirm a specific city name before generating.');
-                            return;
-                        }
-                        
-                        if (!verifiedLocationKey) verifiedLocationKey = match.key;
+                        let formalCity, countryName, matrixType, risksHTML;
 
-                        let matrixType = determineSeasonalMatrix(match.data, travelMonth);
-                        let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                        let countryName = match.data.country;
+                        // HANDLE SMART FALLBACK ROUTING
+                        if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
+                            formalCity = window.currentSyntheticData.city;
+                            countryName = window.currentSyntheticData.country;
+                            
+                            let capitalData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
+                            matrixType = determineSeasonalMatrix(capitalData || {zone: "continental", hemi: "north"}, travelMonth);
+                            
+                            let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
+                            if (countryDataForRisks && countryDataForRisks.risks) {
+                                risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            } else {
+                                risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            }
                         
+                        // HANDLE STANDARD CITY ROUTING
+                        } else {
+                            let match = resolveBestMatch(rawInput);
+                            if (match.isTypo || match.data.type === "country") {
+                                alert('Please confirm a specific city or utilize the country fallback before generating.');
+                                return;
+                            }
+                            if (!verifiedLocationKey) verifiedLocationKey = match.key;
+
+                            matrixType = determineSeasonalMatrix(match.data, travelMonth);
+                            formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            countryName = match.data.country;
+                            
+                            let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
+                            if (countryDataForRisks && countryDataForRisks.risks) {
+                                risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            } else {
+                                risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            }
+                        }
+
+                        // GENERATE MATRIX OUTPUT
                         let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
                         let wardrobeAdvice = getWardrobeMatrix(matrixType, termDuration);
                         const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-                        
-                        // Extract country risks or set default
-                        let risksHTML = "";
-                        let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
-                        if (countryDataForRisks && countryDataForRisks.risks) {
-                            risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
-                        } else {
-                            risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
-                        }
 
                         let recommendation = `
                             <p style="font-size: 1.1em; border-bottom: 1px solid #ccc; padding-bottom: 10px;"><strong>${formalCity} in ${countryName} (${monthNames[travelMonth]})</strong></p>
