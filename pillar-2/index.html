@@ -151,7 +151,6 @@
 
     <script>
         (function() {
-            // --- COMBINED DATABASE ---
             const GlobalStandards = {
                 electrical: {
                     "South Korea": { volts: "220V", hz: "60Hz", plugs: ["Type C", "Type F"] },
@@ -191,6 +190,7 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline (Verify local norms)", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
+            // --- LOCATION MAP WITH TEMPORAL RISK TAGS ---
             const globalLocationMap = {
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
                 "kyoto": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
@@ -219,47 +219,71 @@
             };
 
             const globalCountryDictionary = {
-                "japan": { isMacro: false, risks: ["⚠️ Extreme Seismic Hazards", "⚠️ High Typhoon risk (Late Summer)"] },
-                "south korea": { isMacro: false, risks: ["⚠️ High Typhoon risk"] },
-                "united kingdom": { isMacro: false, risks: ["⚠️ Coastal storm risks"] },
-                "france": { isMacro: false, risks: ["⚠️ Storms"] },
-                "germany": { isMacro: false, risks: ["⚠️ Storms"] },
-                "italy": { isMacro: false, risks: ["⚠️ High Seismic Hazards", "⚠️ Volcanic risks"] },
-                "spain": { isMacro: false, risks: ["⚠️ High Seismic Hazards"] },
-                "mexico": { isMacro: false, risks: ["⚠️ Extreme Seismic Hazards", "⚠️ Hurricane risk (coast)"] },
-                "brazil": { isMacro: false, risks: ["⚠️ Sudden thunderstorms", "⚠️ Coastal flooding risks"] },
+                "japan": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
+                "south korea": { isMacro: false, risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
+                "united kingdom": { isMacro: false, risks: [{text: "⚠️ Coastal Storm Risks", months: [10,11,12,1,2]}] },
+                "france": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "germany": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "italy": { isMacro: false, risks: [{text: "⚠️ High Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
+                "spain": { isMacro: false, risks: [{text: "⚠️ High Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
+                "mexico": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
+                "brazil": { isMacro: false, risks: [{text: "⚠️ Sudden Thunderstorms", months: [11,12,1,2,3]}] },
                 
                 "united states": { 
                     isMacro: true, capital: "Washington", 
                     regions: {
-                        "West (Pacific/Mountain)": { risks: ["⚠️ Seismic Hazards (West Coast)", "⚠️ Wildfire Risk"], zone: "mediterranean", hemi: "north" },
-                        "Midwest": { risks: ["⚠️ Severe Tornado Risk (Spring)", "⚠️ Extreme Winter Blizzards"], zone: "continental", hemi: "north" },
-                        "South": { risks: ["⚠️ Hurricane Risk (Gulf/Coast)", "⚠️ High Heat/Humidity"], zone: "subtropical", hemi: "north" },
-                        "Northeast": { risks: ["⚠️ Severe Nor'easters (Winter)", "⚠️ Coastal Storms"], zone: "continental", hemi: "north" }
+                        "West (Pacific/Mountain)": { 
+                            risks: [
+                                {text: "⚠️ Seismic Hazards (West Coast)", months: [1,2,3,4,5,6,7,8,9,10,11,12]},
+                                {text: "⚠️ Wildfire Risk", months: [6,7,8,9,10]}
+                            ], 
+                            zone: "mediterranean", hemi: "north" 
+                        },
+                        "Midwest": { 
+                            risks: [
+                                {text: "⚠️ Severe Tornado Risk", months: [4,5,6,7]},
+                                {text: "⚠️ Extreme Winter Blizzards", months: [12,1,2]}
+                            ], 
+                            zone: "continental", hemi: "north" 
+                        },
+                        "South": { 
+                            risks: [
+                                {text: "⚠️ Hurricane Risk (Gulf/Coast)", months: [6,7,8,9,10,11]},
+                                {text: "⚠️ High Heat / Humidity Advisory", months: [6,7,8]}
+                            ], 
+                            zone: "subtropical", hemi: "north" 
+                        },
+                        "Northeast": { 
+                            risks: [
+                                {text: "⚠️ Severe Nor'easters", months: [12,1,2,3]},
+                                {text: "⚠️ Coastal Storms", months: [9,10,11]}
+                            ], 
+                            zone: "continental", hemi: "north" 
+                        }
                     }
                 },
                 "canada": { 
                     isMacro: true, capital: "Ottawa", 
                     regions: {
-                        "West Coast (BC)": { risks: ["⚠️ Seismic Hazards", "⚠️ Coastal Storms"], zone: "mediterranean", hemi: "north" },
-                        "Central/Prairies": { risks: ["⚠️ Extreme Winter Cold", "⚠️ Severe Blizzards"], zone: "continental", hemi: "north" },
-                        "East (ON/QC/Maritimes)": { risks: ["⚠️ Severe Winter Storms", "⚠️ Coastal Cyclones"], zone: "continental", hemi: "north" }
+                        "West Coast (BC)": { risks: [{text: "⚠️ Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Coastal Storms", months: [10,11,12,1]}], zone: "mediterranean", hemi: "north" },
+                        "Central/Prairies": { risks: [{text: "⚠️ Extreme Winter Cold & Blizzards", months: [11,12,1,2,3]}], zone: "continental", hemi: "north" },
+                        "East (ON/QC/Maritimes)": { risks: [{text: "⚠️ Severe Winter Storms", months: [12,1,2,3]}, {text: "⚠️ Coastal Cyclones", months: [10,11,12]}], zone: "continental", hemi: "north" }
                     }
                 },
                 "australia": { 
                     isMacro: true, capital: "Canberra", 
                     regions: {
-                        "Northern (Tropical)": { risks: ["⚠️ Cyclones (Summer)", "⚠️ Extreme Heat"], zone: "tropical", hemi: "south" },
-                        "Southern/Coastal": { risks: ["⚠️ Bushfires (Summer)", "⚠️ Coastal Storms"], zone: "mediterranean", hemi: "south" },
-                        "Outback (Interior)": { risks: ["⚠️ Extreme Heat", "⚠️ Drought"], zone: "subtropical", hemi: "south" }
+                        "Northern (Tropical)": { risks: [{text: "⚠️ Tropical Cyclones", months: [11,12,1,2,3,4]}, {text: "⚠️ Extreme Heat", months: [12,1,2]}], zone: "tropical", hemi: "south" },
+                        "Southern/Coastal": { risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}, {text: "⚠️ Coastal Storms", months: [6,7,8]}], zone: "mediterranean", hemi: "south" },
+                        "Outback (Interior)": { risks: [{text: "⚠️ Extreme Heat", months: [12,1,2,3]}], zone: "subtropical", hemi: "south" }
                     }
                 },
                 "china": { 
                     isMacro: true, capital: "Beijing", 
                     regions: {
-                        "North/Northeast": { risks: ["⚠️ Extreme Winter Cold", "⚠️ Dust Storms"], zone: "continental", hemi: "north" },
-                        "South/Southeast": { risks: ["⚠️ Typhoon Risk", "⚠️ Heavy Monsoon Flooding"], zone: "subtropical", hemi: "north" },
-                        "West (Inland)": { risks: ["⚠️ Seismic Hazards", "⚠️ Extreme Temperature Shifts"], zone: "continental", hemi: "north" }
+                        "North/Northeast": { risks: [{text: "⚠️ Extreme Winter Cold", months: [11,12,1,2]}, {text: "⚠️ Spring Dust Storms", months: [3,4]}], zone: "continental", hemi: "north" },
+                        "South/Southeast": { risks: [{text: "⚠️ Typhoon Risk", months: [7,8,9]}, {text: "⚠️ Monsoon Flooding", months: [6,7,8]}], zone: "subtropical", hemi: "north" },
+                        "West (Inland)": { risks: [{text: "⚠️ Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "continental", hemi: "north" }
                     }
                 }
             };
@@ -329,6 +353,16 @@
                 return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
             }
 
+            // Helper to filter risks temporally
+            function filterRisksByMonth(riskArray, selectedMonth) {
+                const m = parseInt(selectedMonth);
+                let activeRisks = riskArray.filter(r => r.months.includes(m));
+                if (activeRisks.length === 0) {
+                    return "<div class='icon-text'>✅ No active seasonal environmental hazards documented for this month.</div>";
+                }
+                return activeRisks.map(r => `<div class='icon-text'>${r.text}</div>`).join('');
+            }
+
             document.addEventListener("DOMContentLoaded", () => {
                 const cityInput = document.getElementById('cityInput');
                 const calculateBtn = document.getElementById('calculateBtn');
@@ -343,7 +377,6 @@
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
                             
-                            // SMART FALLBACK
                             if (match.isTypo) {
                                 let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `
@@ -364,11 +397,10 @@
                                                     let formalCountryName = fbMatch.data.country;
                                                     let countryData = globalCountryDictionary[formalCountryName.toLowerCase()];
                                                     
-                                                    // MACRO REGION ROUTING
                                                     if (countryData && countryData.isMacro) {
                                                         let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
                                                         detectedZoneDiv.innerHTML = `
-                                                            <span style="color: #2980b9;">Select the macro-region for ${formalInput} (${formalCountryName}):</span>
+                                                            <span style="color: #2980b9;">Select the U.S. region where this <strong>${formalInput}</strong> is located:</span>
                                                             <div style="margin-top: 8px; display: flex; gap: 8px;">
                                                                 <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
                                                                     <option value="">Select Region...</option>${regionOptions}
@@ -433,7 +465,7 @@
                             countryName = window.currentSyntheticData.country;
                             let regionData = globalCountryDictionary[countryName.toLowerCase()].regions[window.currentSyntheticData.region];
                             matrixType = determineSeasonalMatrix({zone: regionData.zone, hemi: regionData.hemi}, travelMonth);
-                            risksHTML = regionData.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            risksHTML = filterRisksByMonth(regionData.risks, travelMonth);
                             costMultiplier = 0.85; 
                         } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
                             formalCity = window.currentSyntheticData.city;
@@ -441,7 +473,7 @@
                             let capData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
                             matrixType = determineSeasonalMatrix(capData || {zone: "continental", hemi: "north"}, travelMonth);
                             let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            risksHTML = (cData && cData.risks) ? cData.risks.map(r => `<div class='icon-text'>${r}</div>`).join('') : "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
                             costMultiplier = 0.85; 
                         } else {
                             let match = resolveBestMatch(rawInput);
@@ -455,11 +487,11 @@
                             let cData = globalCountryDictionary[countryName.toLowerCase()];
                             if (cData) {
                                 if (cData.isMacro && match.data.region && cData.regions[match.data.region]) {
-                                    risksHTML = cData.regions[match.data.region].risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                                    risksHTML = filterRisksByMonth(cData.regions[match.data.region].risks, travelMonth);
                                 } else if (!cData.isMacro && cData.risks) {
-                                    risksHTML = cData.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
-                                } else { risksHTML = "<div class='icon-text'>✅ No extreme historical hazards documented.</div>"; }
-                            } else { risksHTML = "<div class='icon-text'>✅ No extreme historical hazards documented.</div>"; }
+                                    risksHTML = filterRisksByMonth(cData.risks, travelMonth);
+                                } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
+                            } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
                         }
 
                         let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
@@ -482,7 +514,7 @@
                             <div class="sub-grid">
                                 <div>
                                     <div class="dashboard-section">
-                                        <h4>🌍 Environmental Baseline</h4>
+                                        <h4>🌍 Environmental Baseline (Active for ${monthNames[travelMonth]})</h4>
                                         ${risksHTML}
                                         <p style="margin-top: 15px; margin-bottom: 5px;"><strong>Seasonal Wardrobe:</strong></p>
                                         <div class='icon-text'>${wardrobeAdvice}</div>
@@ -504,7 +536,7 @@
 
                                     <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
                                         <h4>📉 Economic Calibrator</h4>
-                                        <p style="margin:0;"><strong>Profile:</strong> ${profileTitle}</p>
+                                        <p style="margin:0;"><strong>Profile: ${profileTitle}</strong></p>
                                         <div class='cost-highlight' style="margin-top: 8px;">Est. ${finalCost} ${sustMatrix.cost.currency} / day</div>
                                         <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px; line-height: 1.3;">*Excludes accommodation and international transit. Multiplier applied for local indexing.</p>
                                     </div>
