@@ -104,7 +104,6 @@
 
     <script>
         (function() {
-            // --- GLOBAL STANDARDS ---
             const GlobalStandards = {
                 electrical: {
                     "South Korea": { volts: "220V", hz: "60Hz", plugs: ["Type C", "Type F"] },
@@ -138,7 +137,6 @@
                 }
             };
 
-            // --- CONVERTER LOGIC (EXPANDED MEGA-DICTIONARY) ---
             const globalLocationMap = {
                 // === ASIA & PACIFIC ===
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
@@ -148,10 +146,6 @@
                 "busan": { country: "South Korea", zone: "subtropical", hemi: "north", type: "city" },
                 "incheon": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
                 "jeju": { country: "South Korea", zone: "subtropical", hemi: "north", type: "city" },
-                "beijing": { country: "China", zone: "continental", hemi: "north", type: "city" },
-                "shanghai": { country: "China", zone: "subtropical", hemi: "north", type: "city" },
-                "guangzhou": { country: "China", zone: "subtropical", hemi: "north", type: "city" },
-                "shenzhen": { country: "China", zone: "subtropical", hemi: "north", type: "city" },
                 "bangkok": { country: "Thailand", zone: "tropical", hemi: "north", type: "city" },
                 "ho chi minh city": { country: "Vietnam", zone: "tropical", hemi: "north", type: "city" },
                 "hanoi": { country: "Vietnam", zone: "subtropical", hemi: "north", type: "city" },
@@ -163,10 +157,6 @@
                 "delhi": { country: "India", zone: "tropical", hemi: "north", type: "city" },
                 "mumbai": { country: "India", zone: "tropical", hemi: "north", type: "city" },
                 "bangalore": { country: "India", zone: "tropical", hemi: "north", type: "city" },
-                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
-                "melbourne": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
-                "brisbane": { country: "Australia", zone: "subtropical", hemi: "south", type: "city" },
-                "perth": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
                 "auckland": { country: "New Zealand", zone: "mediterranean", hemi: "south", type: "city" },
 
                 // === EUROPE ===
@@ -190,7 +180,6 @@
                 "budapest": { country: "Hungary", zone: "continental", hemi: "north", type: "city" },
                 "warsaw": { country: "Poland", zone: "continental", hemi: "north", type: "city" },
                 "kyiv": { country: "Ukraine", zone: "continental", hemi: "north", type: "city" },
-                "moscow": { country: "Russia", zone: "arctic", hemi: "north", type: "city" },
                 "stockholm": { country: "Sweden", zone: "arctic", hemi: "north", type: "city" },
                 "oslo": { country: "Norway", zone: "arctic", hemi: "north", type: "city" },
                 "copenhagen": { country: "Denmark", zone: "continental", hemi: "north", type: "city" },
@@ -209,11 +198,7 @@
                 "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city" },
                 "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
 
-                // === AMERICAS ===
-                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
-                "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
-                "montreal": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
-                "calgary": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+                // === AMERICAS (Non-Macro) ===
                 "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
                 "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
                 "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
@@ -221,57 +206,79 @@
                 "santiago": { country: "Chile", zone: "mediterranean", hemi: "south", type: "city" },
                 "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
                 "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
+
+                // === MACRO-REGIONAL PREDEFINED CITIES (Tagged with regions) ===
+                // United States
+                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
+                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "philadelphia": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
+                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "dallas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "san jose": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "austin": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "fort worth": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "columbus": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "indianapolis": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "denver": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "washington": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
+                "boston": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
+                "el paso": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "nashville": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "detroit": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "South" },
+                "portland": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "memphis": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "louisville": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "South" },
+                "baltimore": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
+                "milwaukee": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "albuquerque": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "tucson": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "fresno": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "sacramento": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "kansas city": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "mesa": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "omaha": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "colorado springs": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "miami": { country: "United States", zone: "tropical", hemi: "north", type: "city", region: "South" },
+                "orlando": { country: "United States", zone: "tropical", hemi: "north", type: "city", region: "South" },
+                "tampa": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "minneapolis": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "cleveland": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" },
+                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South" },
+                "honolulu": { country: "United States", zone: "tropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
+                "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
                 
-                // === UNITED STATES MAJOR CITIES ===
-                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "philadelphia": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "dallas": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "san jose": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "austin": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "fort worth": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "columbus": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "indianapolis": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "denver": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "washington": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "boston": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "el paso": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "nashville": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "detroit": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "portland": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "memphis": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "louisville": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "baltimore": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "milwaukee": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "albuquerque": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "tucson": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "fresno": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "sacramento": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
-                "kansas city": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "mesa": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "omaha": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "colorado springs": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "miami": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
-                "orlando": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
-                "tampa": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "minneapolis": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "cleveland": { country: "United States", zone: "continental", hemi: "north", type: "city" },
-                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
-                "honolulu": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
-                "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city" }
+                // Canada
+                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city", region: "East (ON/QC/Maritimes)" },
+                "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city", region: "West Coast (BC)" },
+                "montreal": { country: "Canada", zone: "continental", hemi: "north", type: "city", region: "East (ON/QC/Maritimes)" },
+                "calgary": { country: "Canada", zone: "continental", hemi: "north", type: "city", region: "Central/Prairies" },
+                
+                // Australia
+                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", region: "Southern/Coastal" },
+                "melbourne": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", region: "Southern/Coastal" },
+                "brisbane": { country: "Australia", zone: "subtropical", hemi: "south", type: "city", region: "Northern (Tropical)" },
+                "perth": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", region: "Southern/Coastal" },
+                
+                // China
+                "beijing": { country: "China", zone: "continental", hemi: "north", type: "city", region: "North/Northeast" },
+                "shanghai": { country: "China", zone: "subtropical", hemi: "north", type: "city", region: "South/Southeast" },
+                "guangzhou": { country: "China", zone: "subtropical", hemi: "north", type: "city", region: "South/Southeast" },
+                "shenzhen": { country: "China", zone: "subtropical", hemi: "north", type: "city", region: "South/Southeast" },
+
+                // Russia
+                "moscow": { country: "Russia", zone: "arctic", hemi: "north", type: "city", region: "European Russia" }
             };
 
             const globalCountryDictionary = {
@@ -364,7 +371,6 @@
                     return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
                 }
                 
-                // Dynamic Alias Handling
                 let countryCheck = cleanInput;
                 if (countryCheck === "us" || countryCheck === "usa") countryCheck = "united states";
                 if (countryCheck === "uk") countryCheck = "united kingdom";
@@ -383,8 +389,6 @@
                         isTypo: false
                     };
                 }
-                
-                // Unknown -> triggers Smart Fallback
                 return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
             }
 
@@ -398,6 +402,28 @@
                     if (m === 12 || m === 1 || m === 2) return "winter_mild";
                     return "temperate_transition";
                 }
+                if (zone === "tropical") {
+                    return "summer_heat";
+                }
+                if (zone === "arctic") {
+                    if (hemi === "north") {
+                        if (m >= 6 && m <= 8) return "winter_mild";
+                        return "winter_cold";
+                    }
+                }
+                if (zone === "mediterranean") {
+                    if (hemi === "north") {
+                        if (m >= 6 && m <= 8) return "summer_heat";
+                        if (m === 12 || m === 1 || m === 2) return "winter_mild";
+                        return "temperate_transition";
+                    }
+                    if (hemi === "south") {
+                        if (m >= 6 && m <= 8) return "winter_mild";
+                        if (m === 12 || m === 1 || m === 2) return "summer_heat";
+                        return "temperate_transition";
+                    }
+                }
+                // Continental Fallback
                 if (hemi === "south") {
                     if (m >= 6 && m <= 8) return "winter_cold";
                     if (m === 12 || m === 1 || m === 2) return "summer_heat";
@@ -406,8 +432,9 @@
                 if (hemi === "north") {
                     if (m >= 6 && m <= 8) return "summer_heat";
                     if (m === 12 || m === 1 || m === 2) return "winter_cold";
+                    return "temperate_transition"; // Solves the Continental Spring/Autumn gap!
                 }
-                return zone; // Fallback
+                return "temperate_transition"; 
             }
 
             function getWardrobeMatrix(matrixType, termDuration) {
@@ -565,7 +592,7 @@
                                 risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
                             }
                         
-                        // HANDLE STANDARD CITY ROUTING
+                        // HANDLE STANDARD PREDEFINED CITY ROUTING
                         } else {
                             let match = resolveBestMatch(rawInput);
                             if (match.isTypo || match.data.type === "country") {
@@ -579,8 +606,16 @@
                             countryName = match.data.country;
                             
                             let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
-                            if (countryDataForRisks && countryDataForRisks.risks && !countryDataForRisks.isMacro) {
-                                risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            
+                            if (countryDataForRisks) {
+                                // NEW LOGIC: Pulls region risks seamlessly for major predefined cities
+                                if (countryDataForRisks.isMacro && match.data.region && countryDataForRisks.regions[match.data.region]) {
+                                    risksHTML = countryDataForRisks.regions[match.data.region].risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                                } else if (!countryDataForRisks.isMacro && countryDataForRisks.risks) {
+                                    risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                                } else {
+                                    risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                                }
                             } else {
                                 risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
                             }
