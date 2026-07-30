@@ -71,9 +71,9 @@
         <label for="budgetProfile">Daily Sustenance Profile (Excludes Accommodation):</label>
         <select id="budgetProfile">
             <option value="">Select Operational Profile</option>
-            <option value="frugal">Frugal (Grocery-heavy, street food, public transit)</option>
-            <option value="standard">Standard (Balanced dining, cafes, occasional taxi)</option>
-            <option value="premium">Executive (Frequent sit-down dining, premium transit)</option>
+            <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
+            <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
+            <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
         </select>
 
         <button id="calculateBtn">Generate Sustenance Matrix</button>
@@ -87,19 +87,19 @@
         (function() {
             // --- PILLAR 2: HYBRID SUSTENANCE DATABASE ---
             const SustenanceData = {
-                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { frugal: 40, standard: 85, premium: 150, currency: "USD" } },
-                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP (Considered highly rude)", dinner: "18:00 - 21:00", cost: { frugal: 3000, standard: 6500, premium: 15000, currency: "JPY" } },
-                "United Kingdom": { water: "✅ Safe", tip: "10-12.5% (Check if 'service charge' is included)", dinner: "18:30 - 20:30", cost: { frugal: 25, standard: 60, premium: 120, currency: "GBP" } },
-                "Spain": { water: "✅ Safe", tip: "5-10% (Optional, round up bill)", dinner: "21:00 - 23:00+", cost: { frugal: 20, standard: 45, premium: 90, currency: "EUR" } },
-                "Italy": { water: "✅ Safe", tip: "Look for 'Coperto' (cover charge). Otherwise round up.", dinner: "20:00 - 22:30", cost: { frugal: 25, standard: 55, premium: 110, currency: "EUR" } },
-                "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris'). Round up 1-2€.", dinner: "19:30 - 22:00", cost: { frugal: 25, standard: 60, premium: 130, currency: "EUR" } },
-                "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { frugal: 400, standard: 900, premium: 2000, currency: "MXN" } },
-                "Canada": { water: "✅ Safe", tip: "15-20%", dinner: "18:00 - 20:00", cost: { frugal: 45, standard: 90, premium: 160, currency: "CAD" } },
-                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { frugal: 50, standard: 100, premium: 180, currency: "AUD" } },
-                "South Korea": { water: "✅ Safe (Locals often prefer filtered/bottled)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { frugal: 30000, standard: 60000, premium: 120000, currency: "KRW" } },
-                "China": { water: "❌ DO NOT DRINK (Boil or Bottled only)", tip: "❌ No tipping", dinner: "18:00 - 20:00", cost: { frugal: 100, standard: 250, premium: 600, currency: "CNY" } },
-                "India": { water: "❌ DO NOT DRINK (Sealed Bottled only)", tip: "5-10% (if service charge not included)", dinner: "20:00 - 22:30", cost: { frugal: 800, standard: 2000, premium: 5000, currency: "INR" } },
-                "Brazil": { water: "⚠️ Caution (Filtered/Bottled recommended)", tip: "10% (Usually included in bill as 'Taxa de Serviço')", dinner: "20:00 - 22:00", cost: { frugal: 80, standard: 180, premium: 400, currency: "BRL" } }
+                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
+                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP (Considered highly rude)", dinner: "18:00 - 21:00", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" } },
+                "United Kingdom": { water: "✅ Safe", tip: "10-12.5% (Check if 'service charge' is included)", dinner: "18:30 - 20:30", cost: { economical: 25, moderate: 60, elevated: 120, currency: "GBP" } },
+                "Spain": { water: "✅ Safe", tip: "5-10% (Optional, round up bill)", dinner: "21:00 - 23:00+", cost: { economical: 20, moderate: 45, elevated: 90, currency: "EUR" } },
+                "Italy": { water: "✅ Safe", tip: "Look for 'Coperto' (cover charge). Otherwise round up.", dinner: "20:00 - 22:30", cost: { economical: 25, moderate: 55, elevated: 110, currency: "EUR" } },
+                "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris'). Round up 1-2€.", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
+                "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
+                "Canada": { water: "✅ Safe", tip: "15-20%", dinner: "18:00 - 20:00", cost: { economical: 45, moderate: 90, elevated: 160, currency: "CAD" } },
+                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
+                "South Korea": { water: "✅ Safe (Locals often prefer filtered/bottled)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
+                "China": { water: "❌ DO NOT DRINK (Boil or Bottled only)", tip: "❌ No tipping", dinner: "18:00 - 20:00", cost: { economical: 100, moderate: 250, elevated: 600, currency: "CNY" } },
+                "India": { water: "❌ DO NOT DRINK (Sealed Bottled only)", tip: "5-10% (if service charge not included)", dinner: "20:00 - 22:30", cost: { economical: 800, moderate: 2000, elevated: 5000, currency: "INR" } },
+                "Brazil": { water: "⚠️ Caution (Filtered/Bottled recommended)", tip: "10% (Usually included in bill as 'Taxa de Serviço')", dinner: "20:00 - 22:00", cost: { economical: 80, moderate: 180, elevated: 400, currency: "BRL" } }
             };
 
             function getSustenance(countryName) {
@@ -107,7 +107,7 @@
                     water: "⚠️ Verify locally (Bottled recommended)", 
                     tip: "10% standard baseline (Verify local norms)", 
                     dinner: "19:00 - 21:00", 
-                    cost: { frugal: "Varies", standard: "Varies", premium: "Varies", currency: "Local Currency" } 
+                    cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } 
                 };
             }
 
@@ -123,14 +123,13 @@
                 "new york": { country: "United States", type: "city" }, "los angeles": { country: "United States", type: "city" },
                 "chicago": { country: "United States", type: "city" }, "houston": { country: "United States", type: "city" },
                 "tulsa": { country: "United States", type: "city" } 
-                // Note: Truncated map for structural proof-of-concept. The fallback handles the rest exactly as before.
             };
 
             const globalCountryDictionary = {
                 "japan": { isMacro: false }, "south korea": { isMacro: false }, "united kingdom": { isMacro: false },
                 "france": { isMacro: false }, "italy": { isMacro: false }, "spain": { isMacro: false },
                 "mexico": { isMacro: false }, "india": { isMacro: false }, "brazil": { isMacro: false },
-                "united states": { isMacro: true, regions: {"Default": {}} }, // Region not needed for national cost averages
+                "united states": { isMacro: true, regions: {"Default": {}} }, 
                 "canada": { isMacro: true, regions: {"Default": {}} },
                 "australia": { isMacro: true, regions: {"Default": {}} },
                 "china": { isMacro: true, regions: {"Default": {}} }
