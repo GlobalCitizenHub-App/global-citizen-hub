@@ -44,6 +44,7 @@
             padding: 15px 20px; margin-top: 20px; border-radius: 4px;
         }
         #detectedZone { font-size: 14px; margin-bottom: 15px; min-height: 20px; }
+        .icon-text { margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -87,14 +88,13 @@
         <button id="calculateBtn">Generate Precision Matrix</button>
 
         <div id="results" class="hidden">
-            <h3>Matrix Output</h3>
             <div id="outputContent"></div>
         </div>
     </div>
 
     <script>
         (function() {
-            // --- GLOBAL STANDARDS (Turn 31) ---
+            // --- GLOBAL STANDARDS ---
             const GlobalStandards = {
                 electrical: {
                     "South Korea": { volts: "220V", hz: "60Hz", plugs: ["Type C", "Type F"] },
@@ -121,9 +121,8 @@
                 }
             };
 
-            // --- CONVERTER LOGIC (Turn 31) ---
+            // --- CONVERTER LOGIC ---
             const globalLocationMap = {
-                // === CITIES IN DATABASE ===
                 "cairo": { country: "Egypt", zone: "mediterranean", hemi: "north", type: "city" },
                 "cape town": { country: "South Africa", zone: "mediterranean", hemi: "south", type: "city" },
                 "ho": { country: "Ghana", zone: "tropical", hemi: "north", type: "city" },
@@ -297,10 +296,10 @@
 
             function getWardrobeMatrix(matrixType, termDuration) {
                 const wardrobeDb = {
-                    "summer_heat": "👕 Linen/cotton t-shirts, light trousers/shorts, moisture-wicking socks, open sandals. 👓 Sun hat/glasses. 🧥 Very light jacket for heavily heated interiors.",
-                    "winter_cold": "👕 Thermal base layers, fleece mid-layers, heavy wool/down insulating layers. 🧥 Windproof/waterproof insulated outer shell, insulated gripping boots. 🕶️ Winter cap/gloves/scarf.",
-                    "winter_mild": "👕 Long-sleeved shirts, sweaters. 🧥 Medium-weight jacket, comfortable walking boots/shoes. 👓 Light scarf.",
-                    "temperate_transition": "👕 Versatile layering (cardigans, light sweaters, convertible trousers). 🧥 Light jacket, transitional boots/shoes."
+                    "summer_heat": "<div class='icon-text'>👕 Linen/cotton t-shirts, light trousers/shorts, moisture-wicking layers.</div><div class='icon-text'>🥿 Open sandals, breathable walking shoes.</div><div class='icon-text'>👓 UV sun hat, sunglasses.</div><div class='icon-text'>🧥 Very light jacket/cardigan for heavily air-conditioned interiors.</div>",
+                    "winter_cold": "<div class='icon-text'>👕 Heavy thermal base layers, fleece mid-layers, heavy wool/down insulating layers.</div><div class='icon-text'>🧥 Windproof/waterproof insulated outer shell.</div><div class='icon-text'>🥾 Insulated gripping winter boots.</div><div class='icon-text'>🧤 Winter cap, insulated gloves, thick scarf.</div>",
+                    "winter_mild": "<div class='icon-text'>👕 Long-sleeved shirts, medium sweaters, versatile base layers.</div><div class='icon-text'>🧥 Medium-weight transitional jacket.</div><div class='icon-text'>🥾 Comfortable enclosed walking boots/shoes.</div><div class='icon-text'>🧣 Light wind-breaking scarf.</div>",
+                    "temperate_transition": "<div class='icon-text'>👕 Versatile layering system (cardigans, light sweaters, convertible trousers).</div><div class='icon-text'>🧥 Light wind/rain jacket.</div><div class='icon-text'>👟 Transitional enclosed walking shoes.</div><div class='icon-text'>☂️ Compact umbrella.</div>"
                 };
                 return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
             }
@@ -379,16 +378,27 @@
                         let wardrobeAdvice = getWardrobeMatrix(matrixType, termDuration);
                         const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
                         
-                        // Extract risks
-                        const risks = (match.data.risks || ["No significant historical risks documented"]).join(', ');
+                        // Extract country risks or set default
+                        let risksHTML = "";
+                        let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
+                        if (countryDataForRisks && countryDataForRisks.risks) {
+                            risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                        } else {
+                            risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                        }
 
                         let recommendation = `
-                            <p><strong>${formalCity} in ${countryName} (${monthNames[travelMonth]})</strong></p>
-                            <ul>
-                                <li><strong>Environmental & Seismic Risks:</strong> ${risks}</li>
-                                <li><strong>Strategic Packing Matrix (${termDuration}):</strong> ${wardrobeAdvice}</li>
-                                <li><strong>Electrical Standard:</strong> ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</li>
-                            </ul>`;
+                            <p style="font-size: 1.1em; border-bottom: 1px solid #ccc; padding-bottom: 10px;"><strong>${formalCity} in ${countryName} (${monthNames[travelMonth]})</strong></p>
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Historical & Environmental Risks:</strong></p>
+                            ${risksHTML}
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Strategic Packing Matrix (${termDuration}):</strong></p>
+                            ${wardrobeAdvice}
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Electrical Standard:</strong></p>
+                            <div class='icon-text'>🔌 ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</div>
+                        `;
 
                         outputContent.innerHTML = recommendation;
                         resultsBox.classList.remove('hidden');
