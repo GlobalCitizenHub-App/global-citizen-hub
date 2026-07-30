@@ -3,80 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Travel Intelligence - Pillar 2 Blueprint</title>
+    <title>Holistic Travel Intelligence - Master Dashboard</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            max-width: 850px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: #f4f6f7;
             color: #333;
             line-height: 1.6;
         }
         h1, h2, h3 { color: #2c3e50; margin-top: 0; }
         .card {
             background: #ffffff;
-            padding: 25px;
+            padding: 30px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             margin-bottom: 20px;
         }
         .article-header {
-            border-bottom: 2px solid #27ae60;
+            border-bottom: 3px solid #34495e;
             padding-bottom: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
         .article-header p { margin-bottom: 12px; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; }
+        .input-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .full-width { grid-column: span 2; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: #2c3e50; }
         input, select {
-            width: 100%; padding: 10px; margin-bottom: 15px;
+            width: 100%; padding: 10px; 
             border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+            font-size: 14px;
         }
         button {
-            background-color: #27ae60; color: white; border: none;
-            padding: 12px 20px; border-radius: 4px; cursor: pointer;
+            background-color: #34495e; color: white; border: none;
+            padding: 14px 20px; border-radius: 4px; cursor: pointer;
             font-size: 16px; font-weight: bold; width: 100%;
+            transition: background-color 0.2s;
         }
-        button:hover { background-color: #1e8449; }
+        button:hover { background-color: #2c3e50; }
         .hidden { display: none; }
         #results {
-            background: #e9f7ef; border-left: 5px solid #27ae60;
-            padding: 15px 20px; margin-top: 20px; border-radius: 4px;
+            background: #ffffff; border: 1px solid #e5e8e8; border-top: 5px solid #34495e;
+            padding: 25px; margin-top: 25px; border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        #detectedZone { font-size: 14px; margin-bottom: 15px; min-height: 20px; }
-        .icon-text { margin-bottom: 8px; }
-        .matrix-section { margin-top: 15px; border-top: 1px solid #d5dbdb; padding-top: 10px; }
+        #detectedZone { font-size: 14px; margin-bottom: 15px; min-height: 20px; padding: 10px; background: #eaeded; border-radius: 4px;}
+        .icon-text { margin-bottom: 8px; font-size: 0.95em;}
+        
+        .dashboard-section {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #eaeded;
+        }
+        .dashboard-section h4 {
+            color: #2980b9;
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .cost-highlight {
+            font-size: 1.2em;
+            color: #27ae60;
+            font-weight: bold;
+        }
+        .calibration-tag {
+            background-color: #eaeded; padding: 4px 10px; 
+            border-radius: 4px; font-size: 0.75em; 
+            color: #5d6d7e; font-weight: bold;
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
 
     <div class="card">
         <div class="article-header">
-            <h3 style="color: #27ae60;">Pillar 2: The Daily Sustenance Matrix</h3>
-            
-            <p><strong>The Baseline Problem</strong><br>
-            Navigating a new culinary environment involves significant operational friction. Standard cost-of-living calculators ignore local dining protocols, and standard travel blogs rarely synthesize unwritten tipping rules with critical infrastructure realities like water safety.</p>
-            
-            <p><strong>The Holistic Framework</strong><br>
-            The Daily Sustenance Matrix generates a hybrid intelligence brief. It calibrates an accurate daily economic baseline while instantly outputting the cultural etiquette and health parameters required to operate safely and effectively in your destination.</p>
-            
-            <p><em>Input your destination and consumption profile below to generate your sustenance brief.</em></p>
+            <h3>Holistic Travel Intelligence: Master Dashboard</h3>
+            <p><strong>The Operational Baseline</strong><br>
+            Navigating global relocation or extended travel requires synthesizing fragmented data. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
+            <p><em>Input your operational parameters below to generate your complete intelligence brief.</em></p>
         </div>
 
-        <label for="cityInput">Destination (City, e.g., Tokyo, Rome, New York, Toronto):</label>
-        <input type="text" id="cityInput" placeholder="Enter destination...">
-        <div id="detectedZone"></div>
+        <div class="input-grid">
+            <div class="full-width">
+                <label for="cityInput">Destination (City, e.g., Tokyo, Rome, New York, Toronto):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <div id="detectedZone" class="hidden"></div>
+            </div>
 
-        <label for="budgetProfile">Daily Sustenance Profile (Excludes Accommodation):</label>
-        <select id="budgetProfile">
-            <option value="">Select Operational Profile</option>
-            <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
-            <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
-            <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
-        </select>
+            <div>
+                <label for="travelMonth">Travel Month:</label>
+                <select id="travelMonth">
+                    <option value="">Select Month</option>
+                    <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                    <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                    <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                    <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+                </select>
+            </div>
 
-        <button id="calculateBtn">Generate Sustenance Matrix</button>
+            <div>
+                <label for="termDuration">Engagement Duration:</label>
+                <select id="termDuration">
+                    <option value="">Select Term</option>
+                    <option value="Short-Term Visit (1-2 Weeks)">Short-Term Visit (1–2 Weeks)</option>
+                    <option value="Medium-Term Stay (1-3 Months)">Medium-Term Stay (1–3 Months)</option>
+                    <option value="Long-Term / Semester (4-6 Months)">Long-Term / Semester (4–6 Months)</option>
+                    <option value="Annual / Multi-Year">Annual / Multi-Year Relocation</option>
+                </select>
+            </div>
+
+            <div class="full-width">
+                <label for="budgetProfile">Sustenance Profile (Excludes Accommodation):</label>
+                <select id="budgetProfile">
+                    <option value="">Select Operational Profile</option>
+                    <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
+                    <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
+                    <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
+                </select>
+            </div>
+        </div>
+
+        <button id="calculateBtn">Generate Master Intelligence Brief</button>
 
         <div id="results" class="hidden">
             <div id="outputContent"></div>
@@ -85,194 +147,13 @@
 
     <script>
         (function() {
-            // --- PILLAR 2: HYBRID SUSTENANCE DATABASE ---
-            const SustenanceData = {
-                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
-                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP (Considered highly rude)", dinner: "18:00 - 21:00", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" } },
-                "United Kingdom": { water: "✅ Safe", tip: "10-12.5% (Check if 'service charge' is included)", dinner: "18:30 - 20:30", cost: { economical: 25, moderate: 60, elevated: 120, currency: "GBP" } },
-                "Spain": { water: "✅ Safe", tip: "5-10% (Optional, round up bill)", dinner: "21:00 - 23:00+", cost: { economical: 20, moderate: 45, elevated: 90, currency: "EUR" } },
-                "Italy": { water: "✅ Safe", tip: "Look for 'Coperto' (cover charge). Otherwise round up.", dinner: "20:00 - 22:30", cost: { economical: 25, moderate: 55, elevated: 110, currency: "EUR" } },
-                "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris'). Round up 1-2€.", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
-                "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
-                "Canada": { water: "✅ Safe", tip: "15-20%", dinner: "18:00 - 20:00", cost: { economical: 45, moderate: 90, elevated: 160, currency: "CAD" } },
-                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
-                "South Korea": { water: "✅ Safe (Locals often prefer filtered/bottled)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
-                "China": { water: "❌ DO NOT DRINK (Boil or Bottled only)", tip: "❌ No tipping", dinner: "18:00 - 20:00", cost: { economical: 100, moderate: 250, elevated: 600, currency: "CNY" } },
-                "India": { water: "❌ DO NOT DRINK (Sealed Bottled only)", tip: "5-10% (if service charge not included)", dinner: "20:00 - 22:30", cost: { economical: 800, moderate: 2000, elevated: 5000, currency: "INR" } },
-                "Brazil": { water: "⚠️ Caution (Filtered/Bottled recommended)", tip: "10% (Usually included in bill as 'Taxa de Serviço')", dinner: "20:00 - 22:00", cost: { economical: 80, moderate: 180, elevated: 400, currency: "BRL" } }
-            };
-
-            function getSustenance(countryName) {
-                return SustenanceData[countryName] || { 
-                    water: "⚠️ Verify locally (Bottled recommended)", 
-                    tip: "10% standard baseline (Verify local norms)", 
-                    dinner: "19:00 - 21:00", 
-                    cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } 
-                };
-            }
-
-            // --- LOCATION RESOLUTION ENGINE (Zero-Regression Copy from Pillar 1) ---
-            const globalLocationMap = {
-                "tokyo": { country: "Japan", type: "city" }, "seoul": { country: "South Korea", type: "city" },
-                "london": { country: "United Kingdom", type: "city" }, "paris": { country: "France", type: "city" },
-                "rome": { country: "Italy", type: "city" }, "madrid": { country: "Spain", type: "city" },
-                "barcelona": { country: "Spain", type: "city" }, "mexico city": { country: "Mexico", type: "city" },
-                "toronto": { country: "Canada", type: "city" }, "sydney": { country: "Australia", type: "city" },
-                "beijing": { country: "China", type: "city" }, "new delhi": { country: "India", type: "city" },
-                "sao paulo": { country: "Brazil", type: "city" },
-                "new york": { country: "United States", type: "city" }, "los angeles": { country: "United States", type: "city" },
-                "chicago": { country: "United States", type: "city" }, "houston": { country: "United States", type: "city" },
-                "tulsa": { country: "United States", type: "city" } 
-            };
-
-            const globalCountryDictionary = {
-                "japan": { isMacro: false }, "south korea": { isMacro: false }, "united kingdom": { isMacro: false },
-                "france": { isMacro: false }, "italy": { isMacro: false }, "spain": { isMacro: false },
-                "mexico": { isMacro: false }, "india": { isMacro: false }, "brazil": { isMacro: false },
-                "united states": { isMacro: true, regions: {"Default": {}} }, 
-                "canada": { isMacro: true, regions: {"Default": {}} },
-                "australia": { isMacro: true, regions: {"Default": {}} },
-                "china": { isMacro: true, regions: {"Default": {}} }
-            };
-
-            let verifiedLocationKey = null;
-
-            function resolveBestMatch(input) {
-                let cleanInput = input.trim().toLowerCase();
-                
-                if (verifiedLocationKey && verifiedLocationKey === cleanInput) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
-                if (globalLocationMap[cleanInput]) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
-                
-                let countryCheck = cleanInput;
-                if (countryCheck === "us" || countryCheck === "usa") countryCheck = "united states";
-                if (countryCheck === "uk") countryCheck = "united kingdom";
-                if (countryCheck === "korea") countryCheck = "south korea";
-
-                if (globalCountryDictionary[countryCheck]) {
-                    let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal }, isTypo: false };
-                }
-                return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
-            }
-
-            document.addEventListener("DOMContentLoaded", () => {
-                const cityInput = document.getElementById('cityInput');
-                const calculateBtn = document.getElementById('calculateBtn');
-                
-                if (cityInput) {
-                    cityInput.addEventListener('input', function() {
-                        const rawInput = this.value.trim();
-                        const detectedZoneDiv = document.getElementById('detectedZone');
-                        verifiedLocationKey = null; 
-                        
-                        if (rawInput.length > 0) {
-                            let match = resolveBestMatch(rawInput);
-                            
-                            // SMART FALLBACK
-                            if (match.isTypo) {
-                                let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                detectedZoneDiv.innerHTML = `
-                                    <span style="color: #e67e22;">To calibrate the sustenance matrix for <strong>${formalInput}</strong>, please confirm its host country:</span>
-                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
-                                        <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1; border: 1px solid #ccc; border-radius: 4px;">
-                                        <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; width: auto;">Confirm</button>
-                                    </div>
-                                `;
-                                setTimeout(() => {
-                                    const fallbackBtn = document.getElementById('confirmFallbackBtn');
-                                    if (fallbackBtn) {
-                                        fallbackBtn.onclick = function() {
-                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
-                                            if (fbCountry) {
-                                                let fbMatch = resolveBestMatch(fbCountry);
-                                                if (fbMatch.data.type === "country") {
-                                                    verifiedLocationKey = "FALLBACK";
-                                                    window.currentSyntheticData = { city: formalInput, country: fbMatch.data.country };
-                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalInput} in ${fbMatch.data.country}</strong>. Ready to generate!</span>`;
-                                                } else {
-                                                    alert("Please enter a recognized country name (e.g., United States, Japan).");
-                                                }
-                                            }
-                                        };
-                                    }
-                                }, 100);
-                            } else if (match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${match.data.country}? Please type a specific city name.</span>`;
-                            } else {
-                                let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                let countryName = match.data.country;
-                                detectedZoneDiv.innerHTML = `
-                                    <span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${countryName}</strong>. 
-                                    <button type="button" id="confirmLocationBtn" class="hidden">Confirm</button>
-                                    </span>`;
-                                verifiedLocationKey = match.key;
-                            }
-                        } else {
-                            detectedZoneDiv.textContent = "";
-                        }
-                    });
-                }
-
-                if (calculateBtn) {
-                    calculateBtn.addEventListener('click', function() {
-                        const rawInput = document.getElementById('cityInput').value.trim();
-                        const budgetProfile = document.getElementById('budgetProfile').value;
-                        const resultsBox = document.getElementById('results');
-                        const outputContent = document.getElementById('outputContent');
-
-                        if (!rawInput || !budgetProfile) {
-                            alert('Please enter a destination and select an operational profile.');
-                            return;
-                        }
-
-                        let formalCity, countryName;
-
-                        if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
-                            formalCity = window.currentSyntheticData.city;
-                            countryName = window.currentSyntheticData.country;
-                        } else {
-                            let match = resolveBestMatch(rawInput);
-                            if (match.isTypo || match.data.type === "country") {
-                                alert('Please enter a specific city or utilize the country fallback.');
-                                return;
-                            }
-                            formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                            countryName = match.data.country;
-                        }
-
-                        // RETRIEVE MATRIX DATA
-                        let matrix = getSustenance(countryName);
-                        let profileCost = matrix.cost[budgetProfile];
-                        
-                        let profileTitle = budgetProfile.charAt(0).toUpperCase() + budgetProfile.slice(1);
-
-                        let recommendation = `
-                            <p style="font-size: 1.1em; border-bottom: 1px solid #a3e4d7; padding-bottom: 10px; color: #1e8449;"><strong>Sustenance Brief: ${formalCity}, ${countryName}</strong></p>
-                            
-                            <div class="matrix-section">
-                                <p style="color: #2c3e50; margin-top:0;"><strong>Infrastructure & Safety:</strong></p>
-                                <div class='icon-text'>🚰 <strong>Tap Water:</strong> ${matrix.water}</div>
-                            </div>
-
-                            <div class="matrix-section">
-                                <p style="color: #2c3e50; margin-top:0;"><strong>Cultural Etiquette:</strong></p>
-                                <div class='icon-text'>💵 <strong>Tipping Protocol:</strong> ${matrix.tip}</div>
-                                <div class='icon-text'>🍽️ <strong>Typical Dinner Hours:</strong> ${matrix.dinner}</div>
-                            </div>
-                            
-                            <div class="matrix-section">
-                                <p style="color: #2c3e50; margin-top:0;"><strong>Economic Calibrator (${profileTitle}):</strong></p>
-                                <div class='icon-text'>🛒 <strong>Est. Daily Average:</strong> ${profileCost} ${matrix.cost.currency}</div>
-                                <p style="font-size: 0.85em; color: #7f8c8d; margin-top: 4px;"><em>*Excludes accommodation. Subject to local inflation and exact dietary choices.</em></p>
-                            </div>
-                        `;
-
-                        outputContent.innerHTML = recommendation;
-                        resultsBox.classList.remove('hidden');
-                    });
-                }
-            });
-        })();
-    </script>
-</body>
-</html>
+            // --- COMBINED DATABASE ---
+            const GlobalStandards = {
+                electrical: {
+                    "South Korea": { volts: "220V", hz: "60Hz", plugs: ["Type C", "Type F"] },
+                    "Japan": { volts: "100V", hz: "50Hz/60Hz", plugs: ["Type A", "Type B"] },
+                    "United States": { volts: "120V", hz: "60Hz", plugs: ["Type A", "Type B"] },
+                    "United Kingdom": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
+                    "Mexico": { volts: "127V", hz: "60Hz", plugs: ["Type A", "Type B"] },
+                    "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] },
+                    "Austria": { volts: "230V", hz: "50Hz", plugs
