@@ -349,9 +349,11 @@
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
                             
+                            // AUTO-ROUTING COUNTRY TO CAPITAL WITH ACCURATE MESSAGE
                             if (match.data.type === "country") {
-                                let capitalName = match.data.capitalName || match.data.country;
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Country Auto-Routed: <strong>${match.data.country}</strong> calibrated via capital hub (${capitalName}). Ready to generate!</span>`;
+                                let countryName = match.data.country;
+                                let capitalName = match.data.capitalName || "major hub";
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;"><strong>${countryName}</strong> is a country. Auto-routed via primary hub (${capitalName}). Ready to generate!</span>`;
                                 return;
                             }
 
@@ -368,31 +370,4 @@
                                     const fallbackBtn = document.getElementById('confirmFallbackBtn');
                                     if (fallbackBtn) {
                                         fallbackBtn.onclick = function() {
-                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
-                                            if (fbCountry) {
-                                                let fbMatch = resolveBestMatch(fbCountry);
-                                                if (fbMatch.data.type === "country") {
-                                                    let formalCountryName = fbMatch.data.country;
-                                                    let countryData = globalCountryDictionary[formalCountryName.toLowerCase()];
-                                                    
-                                                    if (countryData && countryData.isMacro) {
-                                                        let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
-                                                        detectedZoneDiv.innerHTML = `
-                                                            <span style="color: #2980b9;">Select the U.S. region where <strong>${formalInput}</strong> is located:</span>
-                                                            <div style="margin-top: 8px; display: flex; gap: 8px;">
-                                                                <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
-                                                                    ${regionOptions}
-                                                                </select>
-                                                                <button type="button" id="confirmRegionBtn" style="padding: 6px 15px; width: auto; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
-                                                            </div>
-                                                        `;
-                                                        setTimeout(() => {
-                                                            document.getElementById('confirmRegionBtn').onclick = function() {
-                                                                let selectedRegion = document.getElementById('macroRegionSelect').value;
-                                                                if (selectedRegion) {
-                                                                    verifiedLocationKey = "MACRO_FALLBACK";
-                                                                    window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: selectedRegion };
-                                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} (${selectedRegion})</strong>. Ready to generate!</span>`;
-                                                                }
-                                                            };
-                                                        }, 100);
+                                            const fbCountry =
