@@ -110,7 +110,7 @@
         <div class="input-grid">
             <div class="full-width">
                 <label for="cityInput">Destination (City, e.g., New York, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <input type="text" id="cityInput" placeholder="Enter destination city...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -164,7 +164,7 @@
                     "United Kingdom": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
                     "Mexico": { volts: "127V", hz: "60Hz", plugs: ["Type A", "Type B"] },
                     "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] },
-                    "Austria": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F"] },
+                    "Italy": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F", "Type L"] },
                     "France": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type E"] },
                     "Australia": { volts: "230V", hz: "50Hz", plugs: ["Type I"] },
                     "China": { volts: "220V", hz: "50Hz", plugs: ["Type A", "Type C", "Type I"] },
@@ -177,6 +177,7 @@
                 "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
                 "South Korea": { water: "✅ Safe (Locals prefer filtered)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
                 "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris').", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
+                "Italy": { water: "✅ Safe", tip: "Look for 'Coperto' (cover charge). Otherwise round up.", dinner: "20:00 - 22:30", cost: { economical: 25, moderate: 55, elevated: 110, currency: "EUR" } },
                 "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
                 "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
                 "United Arab Emirates": { water: "✅ Safe (Desalinated municipal)", tip: "10-15% (Optional service charge)", dinner: "20:00 - 23:00", cost: { economical: 60, moderate: 140, elevated: 280, currency: "AED" } }
@@ -188,6 +189,8 @@
                 "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
                 "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city", costMult: 1.4 },
                 "paris": { country: "France", zone: "continental", hemi: "north", type: "city", costMult: 1.3 },
+                "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
+                "milan": { country: "Italy", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
                 "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
                 "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", costMult: 1.2 },
                 "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city", costMult: 1.3 },
@@ -201,6 +204,7 @@
             const globalCountryDictionary = {
                 "south korea": { isMacro: false, risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
                 "france": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "italy": { isMacro: false, risks: [{text: "⚠️ High Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
                 "mexico": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
                 "australia": { isMacro: false, risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
                 "united arab emirates": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
@@ -387,7 +391,8 @@
                                     }
                                 }, 100);
                             } else if (match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${match.data.country}? Please type a specific city name.</span>`;
+                                // FIXED: If user types a country directly, instruct them to enter a city instead of throwing an error loop
+                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., Rome, Seoul).</span>`;
                             } else {
                                 let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
@@ -411,6 +416,12 @@
 
                         if (!rawInput || !travelMonth || !termDuration || !budgetProfile) {
                             alert('Please complete all 4 parameter fields to generate the brief.');
+                            return;
+                        }
+
+                        let matchCheck = resolveBestMatch(rawInput);
+                        if (matchCheck.data.type === "country") {
+                            alert('Please enter a specific city name rather than a country.');
                             return;
                         }
 
