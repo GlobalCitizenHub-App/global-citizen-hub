@@ -210,4 +210,406 @@
                 "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city" },
 
                 // === AMERICAS ===
-                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city
+                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+                "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+                "montreal": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+                "calgary": { country: "Canada", zone: "continental", hemi: "north", type: "city" },
+                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
+                "bogota": { country: "Colombia", zone: "tropical", hemi: "south", type: "city" },
+                "buenos aires": { country: "Argentina", zone: "continental", hemi: "south", type: "city" },
+                "lima": { country: "Peru", zone: "mediterranean", hemi: "south", type: "city" },
+                "santiago": { country: "Chile", zone: "mediterranean", hemi: "south", type: "city" },
+                "sao paulo": { country: "Brazil", zone: "continental", hemi: "south", type: "city" },
+                "rio de janeiro": { country: "Brazil", zone: "tropical", hemi: "south", type: "city" },
+                
+                // === UNITED STATES MAJOR CITIES ===
+                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "philadelphia": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "dallas": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "san jose": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "austin": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "fort worth": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "columbus": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "indianapolis": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "denver": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "washington": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "boston": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "el paso": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "nashville": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "detroit": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "portland": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "memphis": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "louisville": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "baltimore": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "milwaukee": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "albuquerque": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "tucson": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "fresno": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "sacramento": { country: "United States", zone: "mediterranean", hemi: "north", type: "city" },
+                "kansas city": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "mesa": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "omaha": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "colorado springs": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "miami": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+                "orlando": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+                "tampa": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "minneapolis": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "cleveland": { country: "United States", zone: "continental", hemi: "north", type: "city" },
+                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", type: "city" },
+                "honolulu": { country: "United States", zone: "tropical", hemi: "north", type: "city" },
+                "anchorage": { country: "United States", zone: "arctic", hemi: "north", type: "city" }
+            };
+
+            const globalCountryDictionary = {
+                "afghanistan": { capital: "Kabul", risks: ["⚠️ Historical Seismic Hazards"] },
+                "albania": { capital: "Tirana", risks: ["⚠️ Seismic Hazards"] },
+                "algeria": { capital: "Algiers", risks: ["⚠️ Seismic Hazards"] },
+                "argentina": { capital: "Buenos Aires", risks: ["⚠️ Storm risk in coastal areas"] },
+                "austria": { capital: "Vienna", risks: ["⚠️ Storms in Alpine areas"] },
+                "brazil": { capital: "Rio de Janeiro", risks: ["⚠️ Sudden thunderstorms", "⚠️ Coastal flooding risks"] },
+                "chile": { capital: "Santiago", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ Coastal storm risks"] },
+                "colombia": { capital: "Bogota", risks: ["⚠️ Flash flooding in wet seasons", "⚠️ Seismic hazards"] },
+                "egypt": { capital: "Cairo", risks: ["⚠️ Dust/Sandstorms"] },
+                "france": { capital: "Paris", risks: ["⚠️ Storms"] },
+                "germany": { capital: "Berlin", risks: ["⚠️ Storms"] },
+                "greece": { capital: "Athens", risks: ["⚠️ High Seismic Hazards", "⚠️ Coastal storm risks"] },
+                "india": { capital: "New Delhi", risks: ["⚠️ Cyclone risk (coast)", "⚠️ Seismic hazards"] },
+                "indonesia": { capital: "Jakarta", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ High Volcanic risk", "⚠️ Cyclone risks"] },
+                "italy": { capital: "Rome", risks: ["⚠️ High Seismic Hazards", "⚠️ Volcanic risks", "⚠️ Storms"] },
+                "japan": { capital: "Tokyo", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ High Volcanic risk", "⚠️ High Typhoon risk (Late Summer/Autumn)"] },
+                "kenya": { capital: "Nairobi", risks: ["⚠️ Flash flooding in wet seasons (March-May, Nov-Dec)"] },
+                "malaysia": { capital: "Kuala Lumpur", risks: ["⚠️ Tropical cyclone risks"] },
+                "mexico": { capital: "Mexico City", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ Volcanic risks", "⚠️ Hurricane risk (coast)"] },
+                "netherlands": { capital: "Amsterdam", risks: ["⚠️ Severe storms"] },
+                "new zealand": { capital: "Auckland", risks: ["⚠️ High Seismic Hazards", "⚠️ Volcanic risks", "⚠️ Severe storms"] },
+                "nigeria": { capital: "Lagos", risks: ["⚠️ Coastal flooding risks"] },
+                "peru": { capital: "Lima", risks: ["⚠️ High Seismic Hazards", "⚠️ Volcanic risks", "⚠️ Coastal storms"] },
+                "philippines": { capital: "Manila", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ High Volcanic risk", "⚠️ Extreme Typhoon risk ( coast)"] },
+                "south africa": { capital: "Cape Town", risks: ["⚠️ Sudden storms"] },
+                "south korea": { capital: "Seoul", risks: ["⚠️ High Typhoon risk"] },
+                "spain": { capital: "Madrid", risks: ["⚠️ High Seismic Hazards", "⚠️ Coastal storm risks"] },
+                "thailand": { capital: "Bangkok", risks: ["⚠️ Tropical cyclone risks"] },
+                "turkey": { capital: "Istanbul", risks: ["⚠️ Extreme Seismic Hazards", "⚠️ Coastal storm risks"] },
+                "ukraine": { capital: "Kyiv", risks: ["⚠️ Storms"] },
+                "united arab emirates": { capital: "Dubai", risks: ["⚠️ Sudden Sand/Duststorms"] },
+                "united kingdom": { capital: "London", risks: ["⚠️ Coastal storm risks"] },
+                "vietnam": { capital: "Ho Chi Minh City", risks: ["⚠️ Extreme Typhoon risk ( coast)"] },
+                
+                // === MACRO-REGIONAL COUNTRIES ===
+                "united states": { 
+                    isMacro: true, capital: "Washington", 
+                    regions: {
+                        "West (Pacific/Mountain)": { risks: ["⚠️ Seismic Hazards (West Coast)", "⚠️ Wildfire Risk"], zone: "mediterranean", hemi: "north" },
+                        "Midwest": { risks: ["⚠️ Severe Tornado Risk (Spring/Summer)", "⚠️ Extreme Winter Blizzards"], zone: "continental", hemi: "north" },
+                        "South": { risks: ["⚠️ Hurricane Risk (Gulf/Coast)", "⚠️ High Heat/Humidity"], zone: "subtropical", hemi: "north" },
+                        "Northeast": { risks: ["⚠️ Severe Nor'easters (Winter)", "⚠️ Coastal Storms"], zone: "continental", hemi: "north" }
+                    }
+                },
+                "canada": { 
+                    isMacro: true, capital: "Ottawa", 
+                    regions: {
+                        "West Coast (BC)": { risks: ["⚠️ Seismic Hazards", "⚠️ Coastal Storms"], zone: "mediterranean", hemi: "north" },
+                        "Central/Prairies": { risks: ["⚠️ Extreme Winter Cold", "⚠️ Severe Blizzards"], zone: "continental", hemi: "north" },
+                        "East (ON/QC/Maritimes)": { risks: ["⚠️ Severe Winter Storms", "⚠️ Coastal Cyclones"], zone: "continental", hemi: "north" }
+                    }
+                },
+                "australia": { 
+                    isMacro: true, capital: "Canberra", 
+                    regions: {
+                        "Northern (Tropical)": { risks: ["⚠️ Cyclones (Summer)", "⚠️ Extreme Heat"], zone: "tropical", hemi: "south" },
+                        "Southern/Coastal": { risks: ["⚠️ Bushfires (Summer)", "⚠️ Coastal Storms"], zone: "mediterranean", hemi: "south" },
+                        "Outback (Interior)": { risks: ["⚠️ Extreme Heat", "⚠️ Drought"], zone: "subtropical", hemi: "south" }
+                    }
+                },
+                "china": { 
+                    isMacro: true, capital: "Beijing", 
+                    regions: {
+                        "North/Northeast": { risks: ["⚠️ Extreme Winter Cold", "⚠️ Dust Storms"], zone: "continental", hemi: "north" },
+                        "South/Southeast": { risks: ["⚠️ Typhoon Risk", "⚠️ Heavy Monsoon Flooding"], zone: "subtropical", hemi: "north" },
+                        "West (Inland)": { risks: ["⚠️ Seismic Hazards", "⚠️ Extreme Temperature Shifts"], zone: "continental", hemi: "north" }
+                    }
+                },
+                "russia": { 
+                    isMacro: true, capital: "Moscow", 
+                    regions: {
+                        "European Russia": { risks: ["⚠️ Severe Winter Storms"], zone: "continental", hemi: "north" },
+                        "Siberia/Far East": { risks: ["⚠️ Extreme Arctic Cold", "⚠️ Seismic Hazards (East)"], zone: "arctic", hemi: "north" }
+                    }
+                }
+            };
+
+            let verifiedLocationKey = null;
+
+            function resolveBestMatch(input) {
+                let cleanInput = input.trim().toLowerCase();
+                
+                if (verifiedLocationKey && verifiedLocationKey === cleanInput) {
+                    return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+                }
+                if (globalLocationMap[cleanInput]) {
+                    return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+                }
+                
+                // Dynamic Alias Handling
+                let countryCheck = cleanInput;
+                if (countryCheck === "us" || countryCheck === "usa") countryCheck = "united states";
+                if (countryCheck === "uk") countryCheck = "united kingdom";
+                if (countryCheck === "korea") countryCheck = "south korea";
+
+                if (globalCountryDictionary[countryCheck]) {
+                    let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    return {
+                        key: cleanInput,
+                        data: { 
+                            type: "country", 
+                            country: countryFormal, 
+                            capital: globalCountryDictionary[countryCheck].capital,
+                            isMacro: globalCountryDictionary[countryCheck].isMacro || false
+                        },
+                        isTypo: false
+                    };
+                }
+                
+                // Unknown -> triggers Smart Fallback
+                return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
+            }
+
+            function determineSeasonalMatrix(locData, month) {
+                const m = parseInt(month);
+                let zone = locData.zone || "continental";
+                let hemi = locData.hemi || "north";
+
+                if (zone === "subtropical") {
+                    if (m >= 6 && m <= 8) return "summer_heat";
+                    if (m === 12 || m === 1 || m === 2) return "winter_mild";
+                    return "temperate_transition";
+                }
+                if (hemi === "south") {
+                    if (m >= 6 && m <= 8) return "winter_cold";
+                    if (m === 12 || m === 1 || m === 2) return "summer_heat";
+                    return "temperate_transition";
+                }
+                if (hemi === "north") {
+                    if (m >= 6 && m <= 8) return "summer_heat";
+                    if (m === 12 || m === 1 || m === 2) return "winter_cold";
+                }
+                return zone; // Fallback
+            }
+
+            function getWardrobeMatrix(matrixType, termDuration) {
+                const wardrobeDb = {
+                    "summer_heat": "<div class='icon-text'>👕 Linen/cotton t-shirts, light trousers/shorts, moisture-wicking layers.</div><div class='icon-text'>🥿 Open sandals, breathable walking shoes.</div><div class='icon-text'>👓 UV sun hat, sunglasses.</div><div class='icon-text'>🧥 Very light jacket/cardigan for heavily air-conditioned interiors.</div>",
+                    "winter_cold": "<div class='icon-text'>👕 Heavy thermal base layers, fleece mid-layers, heavy wool/down insulating layers.</div><div class='icon-text'>🧥 Windproof/waterproof insulated outer shell.</div><div class='icon-text'>🥾 Insulated gripping winter boots.</div><div class='icon-text'>🧤 Winter cap, insulated gloves, thick scarf.</div>",
+                    "winter_mild": "<div class='icon-text'>👕 Long-sleeved shirts, medium sweaters, versatile base layers.</div><div class='icon-text'>🧥 Medium-weight transitional jacket.</div><div class='icon-text'>🥾 Comfortable enclosed walking boots/shoes.</div><div class='icon-text'>🧣 Light wind-breaking scarf.</div>",
+                    "temperate_transition": "<div class='icon-text'>👕 Versatile layering system (cardigans, light sweaters, convertible trousers).</div><div class='icon-text'>🧥 Light wind/rain jacket.</div><div class='icon-text'>👟 Transitional enclosed walking shoes.</div><div class='icon-text'>☂️ Compact umbrella.</div>"
+                };
+                return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const cityInput = document.getElementById('cityInput');
+                const calculateBtn = document.getElementById('calculateBtn');
+                
+                if (cityInput) {
+                    cityInput.addEventListener('input', function() {
+                        const rawInput = this.value.trim();
+                        const detectedZoneDiv = document.getElementById('detectedZone');
+                        verifiedLocationKey = null; 
+                        
+                        if (rawInput.length > 0) {
+                            let match = resolveBestMatch(rawInput);
+                            
+                            // 1. SMART FALLBACK TRIGGER
+                            if (match.isTypo) {
+                                let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                detectedZoneDiv.innerHTML = `
+                                    <span style="color: #e67e22;">To calibrate the regional matrix for <strong>${formalInput}</strong>, please confirm its host country:</span>
+                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                        <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1; border: 1px solid #ccc; border-radius: 4px;">
+                                        <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; width: auto;">Confirm</button>
+                                    </div>
+                                `;
+                                
+                                setTimeout(() => {
+                                    const fallbackBtn = document.getElementById('confirmFallbackBtn');
+                                    if (fallbackBtn) {
+                                        fallbackBtn.onclick = function() {
+                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
+                                            if (fbCountry) {
+                                                let fbMatch = resolveBestMatch(fbCountry);
+                                                if (fbMatch.data.type === "country") {
+                                                    let formalCountryName = fbMatch.data.country;
+                                                    let countryData = globalCountryDictionary[formalCountryName.toLowerCase()];
+                                                    
+                                                    // MACRO REGION ROUTING
+                                                    if (countryData && countryData.isMacro) {
+                                                        let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
+                                                        detectedZoneDiv.innerHTML = `
+                                                            <span style="color: #2980b9;"><strong>${formalInput}</strong> is in ${formalCountryName}. To finalize the matrix, select its macro-region:</span>
+                                                            <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                                                <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1; border: 1px solid #ccc; border-radius: 4px;">
+                                                                    <option value="">Select Region...</option>
+                                                                    ${regionOptions}
+                                                                </select>
+                                                                <button type="button" id="confirmRegionBtn" style="padding: 6px 15px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold; width: auto;">Confirm</button>
+                                                            </div>
+                                                        `;
+                                                        setTimeout(() => {
+                                                            document.getElementById('confirmRegionBtn').onclick = function() {
+                                                                let selectedRegion = document.getElementById('macroRegionSelect').value;
+                                                                if (selectedRegion) {
+                                                                    verifiedLocationKey = "MACRO_FALLBACK";
+                                                                    window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: selectedRegion };
+                                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalInput} (${selectedRegion})</strong>. Ready to generate!</span>`;
+                                                                }
+                                                            };
+                                                        }, 100);
+
+                                                    // STANDARD FALLBACK
+                                                    } else {
+                                                        verifiedLocationKey = "FALLBACK";
+                                                        window.currentSyntheticData = { city: formalInput, country: formalCountryName, capital: fbMatch.data.capital };
+                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
+                                                    }
+                                                } else {
+                                                    alert("Please enter a recognized country name (e.g., United States, Japan, Brazil).");
+                                                }
+                                            }
+                                        };
+                                    }
+                                }, 100);
+
+                            // 2. COUNTRY ROUTING
+                            } else if (match.data.type === "country") {
+                                let countryFormal = match.data.country;
+                                let capitalExample = match.data.capital;
+                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${countryFormal}? Please type a specific city name (e.g., ${capitalExample}).</span>`;
+                            
+                            // 3. PERFECT CITY MATCH
+                            } else {
+                                let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                let countryName = match.data.country;
+                                detectedZoneDiv.innerHTML = `
+                                    <span style="color: #2980b9;">Did you mean <strong>${formalCity} in ${countryName}</strong>? 
+                                    <button type="button" id="confirmLocationBtn" style="margin-left: 6px; padding: 3px 10px; background: #27ae60; color: white; border: none; border-radius: 3px; cursor: pointer; font-weight: bold;">Confirm</button>
+                                    </span>`;
+                                setTimeout(() => {
+                                    const confirmBtn = document.getElementById('confirmLocationBtn');
+                                    if (confirmBtn) {
+                                        confirmBtn.onclick = function() {
+                                            document.getElementById('cityInput').value = formalCity;
+                                            verifiedLocationKey = match.key;
+                                            detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Confirmed: <strong>${formalCity} in ${countryName}</strong>. Ready to generate!</span>`;
+                                        };
+                                    }
+                                }, 100);
+                            }
+                        } else {
+                            detectedZoneDiv.textContent = "";
+                        }
+                    });
+                }
+
+                if (calculateBtn) {
+                    calculateBtn.addEventListener('click', function() {
+                        const rawInput = document.getElementById('cityInput').value.trim();
+                        const termDuration = document.getElementById('termDuration').value;
+                        const travelMonth = document.getElementById('travelMonth').value;
+                        const resultsBox = document.getElementById('results');
+                        const outputContent = document.getElementById('outputContent');
+
+                        if (!rawInput || !termDuration || !travelMonth) {
+                            alert('Please enter a destination, select a travel month, and select a term duration.');
+                            return;
+                        }
+
+                        let formalCity, countryName, matrixType, risksHTML;
+
+                        // HANDLE MACRO FALLBACK ROUTING
+                        if (verifiedLocationKey === "MACRO_FALLBACK" && window.currentSyntheticData) {
+                            formalCity = window.currentSyntheticData.city;
+                            countryName = window.currentSyntheticData.country;
+                            let regionName = window.currentSyntheticData.region;
+                            
+                            let countryData = globalCountryDictionary[countryName.toLowerCase()];
+                            let regionData = countryData.regions[regionName];
+                            
+                            matrixType = determineSeasonalMatrix({zone: regionData.zone, hemi: regionData.hemi}, travelMonth);
+                            risksHTML = regionData.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+
+                        // HANDLE STANDARD FALLBACK ROUTING
+                        } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
+                            formalCity = window.currentSyntheticData.city;
+                            countryName = window.currentSyntheticData.country;
+                            let capitalData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
+                            matrixType = determineSeasonalMatrix(capitalData || {zone: "continental", hemi: "north"}, travelMonth);
+                            
+                            let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
+                            if (countryDataForRisks && countryDataForRisks.risks) {
+                                risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            } else {
+                                risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            }
+                        
+                        // HANDLE STANDARD CITY ROUTING
+                        } else {
+                            let match = resolveBestMatch(rawInput);
+                            if (match.isTypo || match.data.type === "country") {
+                                alert('Please confirm a specific city or utilize the country fallback before generating.');
+                                return;
+                            }
+                            if (!verifiedLocationKey) verifiedLocationKey = match.key;
+
+                            matrixType = determineSeasonalMatrix(match.data, travelMonth);
+                            formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            countryName = match.data.country;
+                            
+                            let countryDataForRisks = globalCountryDictionary[countryName.toLowerCase()];
+                            if (countryDataForRisks && countryDataForRisks.risks && !countryDataForRisks.isMacro) {
+                                risksHTML = countryDataForRisks.risks.map(r => `<div class='icon-text'>${r}</div>`).join('');
+                            } else {
+                                risksHTML = "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            }
+                        }
+
+                        // GENERATE MATRIX OUTPUT
+                        let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
+                        let wardrobeAdvice = getWardrobeMatrix(matrixType, termDuration);
+                        const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+                        let recommendation = `
+                            <p style="font-size: 1.1em; border-bottom: 1px solid #ccc; padding-bottom: 10px;"><strong>${formalCity} in ${countryName} (${monthNames[travelMonth]})</strong></p>
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Historical & Environmental Risks:</strong></p>
+                            ${risksHTML}
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Strategic Packing Matrix (${termDuration}):</strong></p>
+                            ${wardrobeAdvice}
+                            
+                            <p style="margin-top: 15px; color: #2c3e50;"><strong>Electrical Standard:</strong></p>
+                            <div class='icon-text'>🔌 ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</div>
+                        `;
+
+                        outputContent.innerHTML = recommendation;
+                        resultsBox.classList.remove('hidden');
+                    });
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
