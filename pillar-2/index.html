@@ -190,7 +190,6 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline (Verify local norms)", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
-            // --- LOCATION MAP WITH TEMPORAL RISK TAGS ---
             const globalLocationMap = {
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
                 "kyoto": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
@@ -232,6 +231,10 @@
                 "united states": { 
                     isMacro: true, capital: "Washington", 
                     regions: {
+                        "Not Sure / General National Average": {
+                            risks: [{text: "✅ General continental baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}],
+                            zone: "continental", hemi: "north"
+                        },
                         "West (Pacific/Mountain)": { 
                             risks: [
                                 {text: "⚠️ Seismic Hazards (West Coast)", months: [1,2,3,4,5,6,7,8,9,10,11,12]},
@@ -265,6 +268,7 @@
                 "canada": { 
                     isMacro: true, capital: "Ottawa", 
                     regions: {
+                        "Not Sure / General National Average": { risks: [{text: "✅ General baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "continental", hemi: "north" },
                         "West Coast (BC)": { risks: [{text: "⚠️ Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Coastal Storms", months: [10,11,12,1]}], zone: "mediterranean", hemi: "north" },
                         "Central/Prairies": { risks: [{text: "⚠️ Extreme Winter Cold & Blizzards", months: [11,12,1,2,3]}], zone: "continental", hemi: "north" },
                         "East (ON/QC/Maritimes)": { risks: [{text: "⚠️ Severe Winter Storms", months: [12,1,2,3]}, {text: "⚠️ Coastal Cyclones", months: [10,11,12]}], zone: "continental", hemi: "north" }
@@ -273,6 +277,7 @@
                 "australia": { 
                     isMacro: true, capital: "Canberra", 
                     regions: {
+                        "Not Sure / General National Average": { risks: [{text: "✅ General baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "subtropical", hemi: "south" },
                         "Northern (Tropical)": { risks: [{text: "⚠️ Tropical Cyclones", months: [11,12,1,2,3,4]}, {text: "⚠️ Extreme Heat", months: [12,1,2]}], zone: "tropical", hemi: "south" },
                         "Southern/Coastal": { risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}, {text: "⚠️ Coastal Storms", months: [6,7,8]}], zone: "mediterranean", hemi: "south" },
                         "Outback (Interior)": { risks: [{text: "⚠️ Extreme Heat", months: [12,1,2,3]}], zone: "subtropical", hemi: "south" }
@@ -281,6 +286,7 @@
                 "china": { 
                     isMacro: true, capital: "Beijing", 
                     regions: {
+                        "Not Sure / General National Average": { risks: [{text: "✅ General baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "continental", hemi: "north" },
                         "North/Northeast": { risks: [{text: "⚠️ Extreme Winter Cold", months: [11,12,1,2]}, {text: "⚠️ Spring Dust Storms", months: [3,4]}], zone: "continental", hemi: "north" },
                         "South/Southeast": { risks: [{text: "⚠️ Typhoon Risk", months: [7,8,9]}, {text: "⚠️ Monsoon Flooding", months: [6,7,8]}], zone: "subtropical", hemi: "north" },
                         "West (Inland)": { risks: [{text: "⚠️ Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "continental", hemi: "north" }
@@ -353,7 +359,6 @@
                 return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
             }
 
-            // Helper to filter risks temporally
             function filterRisksByMonth(riskArray, selectedMonth) {
                 const m = parseInt(selectedMonth);
                 let activeRisks = riskArray.filter(r => r.months.includes(m));
@@ -400,10 +405,10 @@
                                                     if (countryData && countryData.isMacro) {
                                                         let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
                                                         detectedZoneDiv.innerHTML = `
-                                                            <span style="color: #2980b9;">Select the U.S. region where this <strong>${formalInput}</strong> is located:</span>
+                                                            <span style="color: #2980b9;">Select the U.S. region where <strong>${formalInput}</strong> is located:</span>
                                                             <div style="margin-top: 8px; display: flex; gap: 8px;">
                                                                 <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
-                                                                    <option value="">Select Region...</option>${regionOptions}
+                                                                    ${regionOptions}
                                                                 </select>
                                                                 <button type="button" id="confirmRegionBtn" style="padding: 6px 15px; width: auto; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
                                                             </div>
@@ -466,14 +471,14 @@
                             let regionData = globalCountryDictionary[countryName.toLowerCase()].regions[window.currentSyntheticData.region];
                             matrixType = determineSeasonalMatrix({zone: regionData.zone, hemi: regionData.hemi}, travelMonth);
                             risksHTML = filterRisksByMonth(regionData.risks, travelMonth);
-                            costMultiplier = 0.85; 
+                            costMultiplier = window.currentSyntheticData.region === "Not Sure / General National Average" ? 1.0 : 0.85; 
                         } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
                             formalCity = window.currentSyntheticData.city;
                             countryName = window.currentSyntheticData.country;
                             let capData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
                             matrixType = determineSeasonalMatrix(capData || {zone: "continental", hemi: "north"}, travelMonth);
                             let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No extreme historical environmental hazards documented.</div>";
+                            risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No active seasonal hazards documented.</div>";
                             costMultiplier = 0.85; 
                         } else {
                             let match = resolveBestMatch(rawInput);
@@ -506,7 +511,7 @@
 
                         let recommendation = `
                             <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 15px;">
-                                <h2 style="color: #2c3e50; margin: 0;">Master Intelligence Brief: ${formalCity}, ${countryName}</h2>
+                                <h2 style="color: #2c3e50; margin: 0;">${formalCity}, ${countryName}</h2>
                                 <span class="calibration-tag">⏱️ Data Calibrated: Q3 2026</span>
                             </div>
                             <p style="color: #7f8c8d; font-style: italic; margin-top: 0;">Calibrated for ${monthNames[travelMonth]} | ${termDuration}</p>
