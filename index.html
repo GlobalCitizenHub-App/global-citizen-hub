@@ -109,7 +109,7 @@
         <div class="input-grid">
             <div class="full-width">
                 <label for="cityInput">Destination (City, e.g., Seoul, Rome, New York):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Seoul)...">
+                <input type="text" id="cityInput" placeholder="Enter destination (City, e.g., Seoul)...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -199,7 +199,17 @@
                 "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.45 },
                 "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 },
                 "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.3 },
-                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 }
+                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 },
+
+                "italy": { country: "Italy", zone: "mediterranean", hemi: "north", type: "capital", capitalName: "Rome", costMult: 1.1 },
+                "japan": { country: "Japan", zone: "continental", hemi: "north", type: "capital", capitalName: "Tokyo", costMult: 1.2 },
+                "france": { country: "France", zone: "continental", hemi: "north", type: "capital", capitalName: "Paris", costMult: 1.3 },
+                "south korea": { country: "South Korea", zone: "continental", hemi: "north", type: "capital", capitalName: "Seoul", costMult: 1.1 },
+                "korea": { country: "South Korea", zone: "continental", hemi: "north", type: "capital", capitalName: "Seoul", costMult: 1.1 },
+                "mexico": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "capital", capitalName: "Mexico City", costMult: 1.1 },
+                "australia": { country: "Australia", zone: "mediterranean", hemi: "south", type: "capital", capitalName: "Sydney", costMult: 1.2 },
+                "united arab emirates": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "capital", capitalName: "Dubai", costMult: 1.3 },
+                "uae": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "capital", capitalName: "Dubai", costMult: 1.3 }
             };
 
             const globalCountryDictionary = {
@@ -339,9 +349,9 @@
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
                             
-                            // STRICT COUNTRY GUARD: If input is a country, show error and block fallback box
                             if (match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., Seoul).</span>`;
+                                let capitalName = match.data.capitalName || match.data.country;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Country Auto-Routed: <strong>${match.data.country}</strong> calibrated via capital hub (${capitalName}). Ready to generate!</span>`;
                                 return;
                             }
 
@@ -386,152 +396,3 @@
                                                                 }
                                                             };
                                                         }, 100);
-                                                    } else {
-                                                        verifiedLocationKey = "FALLBACK";
-                                                        window.currentSyntheticData = { city: formalInput, country: formalCountryName, capital: fbMatch.data.capital };
-                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
-                                                    }
-                                                } else {
-                                                    alert("Please enter a recognized country name.");
-                                                }
-                                            }
-                                        };
-                                    }
-                                }, 100);
-                            } else {
-                                let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
-                                verifiedLocationKey = match.key;
-                            }
-                        } else {
-                            detectedZoneDiv.classList.add('hidden');
-                            detectedZoneDiv.textContent = "";
-                        }
-                    });
-                }
-
-                if (calculateBtn) {
-                    calculateBtn.addEventListener('click', function() {
-                        const rawInput = document.getElementById('cityInput').value.trim();
-                        const travelMonth = document.getElementById('travelMonth').value;
-                        const termDuration = document.getElementById('termDuration').value;
-                        const budgetProfile = document.getElementById('budgetProfile').value;
-                        const resultsBox = document.getElementById('results');
-                        const outputContent = document.getElementById('outputContent');
-
-                        if (!rawInput || !travelMonth || !termDuration || !budgetProfile) {
-                            alert('Please complete all 4 parameter fields to generate the brief.');
-                            return;
-                        }
-
-                        let matchCheck = resolveBestMatch(rawInput);
-                        if (matchCheck.data.type === "country") {
-                            alert('Please enter a specific city name rather than a country.');
-                            return;
-                        }
-
-                        let formalCity, countryName, matrixType, risksHTML, costMultiplier = 1.0;
-                        let isNationalBaselineNotice = false;
-
-                        if (verifiedLocationKey === "MACRO_FALLBACK" && window.currentSyntheticData) {
-                            formalCity = window.currentSyntheticData.city;
-                            countryName = window.currentSyntheticData.country;
-                            let regionData = globalCountryDictionary[countryName.toLowerCase()].regions[window.currentSyntheticData.region];
-                            matrixType = determineSeasonalMatrix({zone: regionData.zone, hemi: regionData.hemi}, travelMonth);
-                            risksHTML = filterRisksByMonth(regionData.risks, travelMonth);
-                            
-                            if (window.currentSyntheticData.region === "Not Sure / General National Average") {
-                                costMultiplier = 1.0;
-                                isNationalBaselineNotice = true;
-                            } else {
-                                costMultiplier = 0.85; 
-                            }
-                        } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
-                            formalCity = window.currentSyntheticData.city;
-                            countryName = window.currentSyntheticData.country;
-                            let capData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
-                            matrixType = determineSeasonalMatrix(capData || {zone: "continental", hemi: "north"}, travelMonth);
-                            let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No active seasonal hazards documented.</div>";
-                            costMultiplier = 0.85; 
-                        } else {
-                            let match = resolveBestMatch(rawInput);
-                            if (match.isTypo || match.data.type === "country") { alert('Please confirm a specific city.'); return; }
-                            formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                            countryName = match.data.country;
-                            matrixType = determineSeasonalMatrix(match.data, travelMonth);
-                            
-                            if (match.data.costMult) costMultiplier = match.data.costMult;
-
-                            let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            if (cData) {
-                                if (cData.isMacro && match.data.region && cData.regions[match.data.region]) {
-                                    risksHTML = filterRisksByMonth(cData.regions[match.data.region].risks, travelMonth);
-                                } else if (!cData.isMacro && cData.risks) {
-                                    risksHTML = filterRisksByMonth(cData.risks, travelMonth);
-                                } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
-                            } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
-                        }
-
-                        let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
-                        let wardrobeAdvice = getWardrobeMatrix(matrixType);
-                        let sustMatrix = getSustenance(countryName);
-                        
-                        let baseCost = sustMatrix.cost[budgetProfile];
-                        let finalCost = typeof baseCost === "number" ? Math.round(baseCost * costMultiplier) : baseCost;
-                        
-                        let profileTitle = budgetProfile.charAt(0).toUpperCase() + budgetProfile.slice(1);
-                        const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                        let noticeBanner = isNationalBaselineNotice ? `<div class="warning-badge">⚠️ Displaying Country National Baseline (Regional index not applied)</div>` : '';
-
-                        let recommendation = `
-                            <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 15px;">
-                                <h2 style="color: #2c3e50; margin: 0;">${formalCity}, ${countryName}</h2>
-                                <span class="calibration-tag">⏱️ Data Calibrated: Q3 2026</span>
-                            </div>
-                            <p style="color: #7f8c8d; font-style: italic; margin-top: 0;">Calibrated for ${monthNames[travelMonth]} | ${termDuration}</p>
-                            
-                            <div class="sub-grid">
-                                <div>
-                                    <div class="dashboard-section">
-                                        <h4>🌍 Environmental Baseline (Active for ${monthNames[travelMonth]})</h4>
-                                        ${risksHTML}
-                                        <p style="margin-top: 15px; margin-bottom: 5px;"><strong>Seasonal Wardrobe:</strong></p>
-                                        <div class='icon-text'>${wardrobeAdvice}</div>
-                                    </div>
-                                    
-                                    <div class="dashboard-section">
-                                        <h4>🔌 Technical Infrastructure</h4>
-                                        <div class='icon-text'>⚡ ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</div>
-                                        <div class='icon-text'>🚰 <strong>Tap Water:</strong> ${sustMatrix.water}</div>
-                                    </div>
-                                </div>
-                                
-                                <div>
-                                    <div class="dashboard-section">
-                                        <h4>🍽️ Sustenance & Etiquette</h4>
-                                        <div class='icon-text'>💵 <strong>Tipping Protocol:</strong> ${sustMatrix.tip}</div>
-                                        <div class='icon-text'>🕰️ <strong>Standard Dinner Hours:</strong> ${sustMatrix.dinner}</div>
-                                    </div>
-
-                                    <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
-                                        <h4>📉 Economic Calibrator</h4>
-                                        <p style="margin:0;"><strong>Profile: ${profileTitle}</strong></p>
-                                        <div class='cost-highlight' style="margin-top: 8px;">Est. ${finalCost} ${sustMatrix.cost.currency} / day</div>
-                                        ${noticeBanner}
-                                        <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px; line-height: 1.3;">*Excludes accommodation and international transit. Multiplier applied for local indexing.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-
-                        outputContent.innerHTML = recommendation;
-                        resultsBox.classList.remove('hidden');
-                    });
-                }
-            });
-        })();
-    </script>
-</body>
-</html>
