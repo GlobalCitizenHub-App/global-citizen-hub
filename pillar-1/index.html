@@ -73,12 +73,11 @@
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const city = urlParams.get('city') || "Global Destination";
-            const country = urlParams.get('country'] || "";
+            const country = urlParams.get('country') || "";
             const month = parseInt(urlParams.get('month')) || 6;
             
             document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
             
-            // Generate dynamic climate and wear advice based on month
             let season = (month >= 3 && month <= 5) ? "Spring" : (month >= 6 && month <= 8) ? "Summer" : (month >= 9 && month <= 11) ? "Autumn" : "Winter";
             
             document.getElementById('climateDesc').innerText = `For your stay in ${city} during ${season}, expect variable weather conditions requiring adaptive layering. Check local historical baselines for sudden precipitation changes.`;
