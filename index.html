@@ -93,6 +93,11 @@
             border-radius: 4px; font-size: 0.8em; font-weight: bold; display: inline-block; margin-top: 6px;
             border: 1px solid #f9e79f;
         }
+        .gentle-notice {
+            background-color: #fcf3cf; color: #7d6608; padding: 10px; 
+            border-radius: 4px; font-size: 0.9em; margin-bottom: 15px; border-left: 4px solid #f39c12;
+            display: none;
+        }
         .deep-dive-bar {
             margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded;
             display: flex; gap: 15px;
@@ -116,6 +121,10 @@
             <p><strong>The Operational Baseline</strong><br>
             Navigating global relocation or extended travel requires synthesizing fragmented data. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
         </header>
+
+        <div id="validationNotice" class="gentle-notice">
+            ⚠️ Please click the green <strong>"Confirm"</strong> button near your destination selection above before generating your brief.
+        </div>
 
         <section class="input-grid">
             <div class="full-width">
@@ -163,7 +172,7 @@
             <div id="outputContent"></div>
             
             <div class="deep-dive-bar">
-                <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 View Full Climate & Wardrobe Brief (Pillar 1)</a>
+                <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 View Full Climate Brief (Pillar 1)</a>
                 <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 View Full Cost & Etiquette Brief (Pillar 2)</a>
             </div>
         </div>
@@ -336,11 +345,13 @@
             document.addEventListener("DOMContentLoaded", () => {
                 const cityInput = document.getElementById('cityInput');
                 const calculateBtn = document.getElementById('calculateBtn');
+                const validationNotice = document.getElementById('validationNotice');
                 
                 if (cityInput) {
                     cityInput.addEventListener('input', function() {
                         const rawInput = this.value.trim();
                         const detectedZoneDiv = document.getElementById('detectedZone');
+                        validationNotice.style.display = 'none';
                         verifiedLocationKey = null; 
                         
                         if (rawInput.length > 0) {
@@ -357,7 +368,7 @@
                             if (match.isTypo) {
                                 let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `
-                                    <span style="color: #e67e22;">To calibrate the matrix for <strong>${formalInput}</strong>, please confirm its host country:</span>
+                                    <span style="color: #e67e22;">To calibrate the matrix for <strong>${formalInput}</strong>, please confirm its host country / region:</span>
                                     <div style="margin-top: 8px; display: flex; gap: 8px;">
                                         <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
                                         <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; width: auto; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
@@ -377,7 +388,7 @@
                                                     if (countryData && countryData.isMacro) {
                                                         let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
                                                         detectedZoneDiv.innerHTML = `
-                                                            <span style="color: #2980b9;">Select the U.S. region where <strong>${formalInput}</strong> is located:</span>
+                                                            <span style="color: #2980b9;">Select the U.S. region where <strong>${formalInput}</strong> is located, then click <strong>Confirm</strong>:</span>
                                                             <div style="margin-top: 8px; display: flex; gap: 8px;">
                                                                 <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
                                                                     ${regionOptions}
@@ -391,6 +402,7 @@
                                                                 if (selectedRegion) {
                                                                     verifiedLocationKey = "MACRO_FALLBACK";
                                                                     window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: selectedRegion };
+                                                                    validationNotice.style.display = 'none';
                                                                     detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} (${selectedRegion})</strong>. Ready to generate!</span>`;
                                                                 }
                                                             };
@@ -398,6 +410,7 @@
                                                     } else {
                                                         verifiedLocationKey = "FALLBACK";
                                                         window.currentSyntheticData = { city: formalInput, country: formalCountryName, capital: fbMatch.data.capital };
+                                                        validationNotice.style.display = 'none';
                                                         detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
                                                     }
                                                 } else {
@@ -439,6 +452,15 @@
                             return;
                         }
 
+                        // Check if an ambiguous city requires confirmation click
+                        if (matchCheck.isTypo && verifiedLocationKey === null) {
+                            validationNotice.style.display = 'block';
+                            validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                            return;
+                        }
+
+                        validationNotice.style.display = 'none';
+
                         let formalCity, countryName, matrixType, risksHTML, costMultiplier = 1.0;
                         let isNationalBaselineNotice = false;
 
@@ -465,7 +487,11 @@
                             costMultiplier = 0.85; 
                         } else {
                             let match = resolveBestMatch(rawInput);
-                            if (match.isTypo) { alert('Please verify your destination.'); return; }
+                            if (match.isTypo) { 
+                                validationNotice.style.display = 'block';
+                                validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                                return; 
+                            }
                             formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                             countryName = match.data.country;
                             matrixType = determineSeasonalMatrix(match.data, travelMonth);
@@ -549,7 +575,6 @@
                         outputContent.innerHTML = recommendation;
                         resultsBox.classList.remove('hidden');
 
-                        // Pass parameters forward to sub-pillar pages
                         const encodedCity = encodeURIComponent(formalCity);
                         document.getElementById('linkP1').href = `pillar-1/index.html?city=${encodedCity}&month=${travelMonth}&term=${encodeURIComponent(termDuration)}`;
                         document.getElementById('linkP2').href = `pillar-2/index.html?city=${encodedCity}&profile=${budgetProfile}`;
