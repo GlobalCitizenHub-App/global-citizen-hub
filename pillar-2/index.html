@@ -21,6 +21,7 @@
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #e8f8f5; color: var(--primary); }
@@ -45,32 +46,25 @@
             <p style="margin: 0; font-size: 0.95em; color: #555;">Initial capital outlay, living expenses, and engagement-scaled logistics for global citizens.</p>
         </header>
 
-        <div class="info-box">
-            <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
-            <p id="outlayText">Calculating capital outlay scaled to your engagement duration...</p>
-        </div>
-
-        <div class="info-box">
-            <h4>🍽️ Sustenance & Daily Operating Profile</h4>
-            <p id="profileDesc">Evaluating daily food, cafe, and transit expenses based on your selected operational profile...</p>
-            <table>
-                <thead>
-                    <tr><th>Expense Category</th><th>Estimated Scale</th><th>Operational Focus</th></tr>
-                </thead>
-                <tbody id="expenseTableBody">
-                    </tbody>
-            </table>
+        <div id="contentContainer">
+            <div class="warning-box">
+                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and parameters before viewing calibrated cost intelligence.
+            </div>
         </div>
 
         <footer class="affiliate-disclosure">
             <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
+            Global Citizen Hub is an informational travel guide.
         </footer>
     </main>
 
     <script>
         (function() {
-            const cityMultipliers = { "rome": 1.3, "milan": 1.3, "paris": 1.3, "london": 1.4, "new york": 1.45, "oslo": 1.4, "stockholm": 1.3, "berlin": 1.2, "tokyo": 1.2 };
+            const cityMultipliers = {
+                "rome": 1.3, "milan": 1.3, "paris": 1.3, "london": 1.4, "new york": 1.45,
+                "oslo": 1.4, "stockholm": 1.3, "berlin": 1.2, "tokyo": 1.2, "aurora": 1.05
+            };
+
             const currencyMap = {
                 "Italy": { code: "EUR", symbol: "€", rate: 0.92 },
                 "Norway": { code: "NOK", symbol: "kr", rate: 10.8 },
@@ -81,78 +75,95 @@
                 "Japan": { code: "JPY", symbol: "¥", rate: 155.0 }
             };
 
-            // Retrieve parameters from URL with localStorage persistence fallback
+            // Retrieve session parameters from URL or localStorage fallback
             const urlParams = new URLSearchParams(window.location.search);
-            let city = urlParams.get('city') || localStorage.getItem('gch_city') || "Global Destination";
-            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "";
+            let city = urlParams.get('city') || localStorage.getItem('gch_city');
+            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "United States";
             let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
             let profile = urlParams.get('profile') || localStorage.getItem('gch_profile') || "moderate";
 
-            // Ensure URL is synchronized with active session storage
-            if (city !== "Global Destination" && !urlParams.has('city')) {
+            // Maintain URL sync for seamless continuity across tabs
+            if (city && !urlParams.has('city')) {
                 const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}&profile=${encodeURIComponent(profile)}`;
                 window.history.replaceState({}, '', window.location.pathname + recoveryQs);
             }
 
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''} | Engagement: ${term}`;
-            
-            let baseOutlay = 480;
-            let outlayRationale = `Scaled for a ${term}. Covers local transit passes, emergency cash buffers, and temporary connectivity.`;
-            
-            if (term.includes("Annual")) {
-                baseOutlay = 4500;
-                outlayRationale = `Scaled for an Annual / Multi-Year Relocation. Incorporates container shipping logistics, housing security deposits, visa fees, and initial utility hookups.`;
-            } else if (term.includes("Long-Term")) {
-                baseOutlay = 2200;
-                outlayRationale = `Scaled for a Long-Term Stay / Semester (4-6 Months). Incorporates temporary lodging deposits, semester transit passes, and settling reserves.`;
-            } else if (term.includes("Medium-Term")) {
-                baseOutlay = 950;
-                outlayRationale = `Scaled for a Medium-Term Stay (1-3 Months). Covers monthly transit passes, temporary accommodation retainers, and initial provisioning.`;
+            if (city) {
+                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Engagement: ${term}`;
+                
+                let baseOutlay = 480;
+                let outlayRationale = `Scaled for a ${term}. Covers local transit passes, emergency cash buffers, and temporary connectivity.`;
+                
+                if (term.includes("Annual")) {
+                    baseOutlay = 4500;
+                    outlayRationale = `Scaled for an Annual / Multi-Year Relocation. Incorporates container shipping logistics, housing security deposits, visa fees, and initial utility hookups.`;
+                } else if (term.includes("Long-Term")) {
+                    baseOutlay = 2200;
+                    outlayRationale = `Scaled for a Long-Term Stay / Semester (4-6 Months). Incorporates temporary lodging deposits, semester transit passes, and settling reserves.`;
+                } else if (term.includes("Medium-Term")) {
+                    baseOutlay = 950;
+                    outlayRationale = `Scaled for a Medium-Term Stay (1-3 Months). Covers monthly transit passes, temporary accommodation retainers, and initial provisioning.`;
+                }
+
+                const multiplier = cityMultipliers[city.toLowerCase()] || 1.1;
+                const finalOutlayUSD = Math.round(baseOutlay * multiplier);
+
+                const curInfo = currencyMap[country] || { code: "USD", symbol: "$", rate: 1.0 };
+                const localOutlay = Math.round(finalOutlayUSD * curInfo.rate);
+                const displayCost = curInfo.code === "USD" 
+                    ? `~$${finalOutlayUSD} USD` 
+                    : `~${curInfo.symbol}${localOutlay.toLocaleString()} ${curInfo.code} (~$${finalOutlayUSD} USD)`;
+
+                let profileTitle = "Moderate (Balanced dining, cafes, occasional taxi)";
+                let expenseRows = "";
+                
+                if (profile === "economical") {
+                    profileTitle = "Economical (Grocery-heavy, street food, public transit)";
+                    expenseRows = `
+                        <tr><td><strong>Food & Groceries</strong></td><td>Low ($)</td><td>Primary reliance on local markets, neighborhood bakeries, and local eateries.</td></tr>
+                        <tr><td><strong>Local Transit</strong></td><td>Minimal ($)</td><td>Monthly or weekly municipal transit passes.</td></tr>
+                        <tr><td><strong>Casual Outings</strong></td><td>Controlled ($)</td><td>Occasional local coffee or affordable neighborhood spots.</td></tr>
+                    `;
+                } else if (profile === "elevated") {
+                    profileTitle = "Elevated (Frequent sit-down dining, premium transit)";
+                    expenseRows = `
+                        <tr><td><strong>Food & Dining</strong></td><td>High ($$$)</td><td>Frequent reservation dining, premium cafes, and gourmet dining.</td></tr>
+                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($$)</td><td>Combination of metro transit, express rail, and occasional rideshares.</td></tr>
+                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Elevated ($$$)</td><td>Museum memberships, guided cultural tours, and curated experiences.</td></tr>
+                    `;
+                } else {
+                    expenseRows = `
+                        <tr><td><strong>Food & Dining</strong></td><td>Moderate ($$)</td><td>Mix of home provisioning with regular visits to local spots and cafes.</td></tr>
+                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($)</td><td>Standard municipal transit network supplemented by walking or light transit.</td></tr>
+                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Moderate ($)</td><td>Standard museum entry, local recreation, and community events.</td></tr>
+                    `;
+                }
+
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="info-box">
+                        <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
+                        <p>
+                            <strong>Est. Initial Capital Outlay: ${displayCost}</strong><br>
+                            <em>Rationale:</em> ${outlayRationale} (Calibrated with local economic multiplier for ${city}, ${country}).
+                        </p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>🍽️ Sustenance & Daily Operating Profile</h4>
+                        <p>Active Sustenance Profile: <strong>${profileTitle}</strong></p>
+                        <table>
+                            <thead>
+                                <tr><th>Expense Category</th><th>Estimated Scale</th><th>Operational Focus</th></tr>
+                            </thead>
+                            <tbody>
+                                ${expenseRows}
+                            </tbody>
+                        </table>
+                    </div>
+                `;
             }
 
-            const multiplier = cityMultipliers[city.toLowerCase()] || 1.1;
-            const finalOutlayUSD = Math.round(baseOutlay * multiplier);
-
-            const curInfo = currencyMap[country] || { code: "USD", symbol: "$", rate: 1.0 };
-            const localOutlay = Math.round(finalOutlayUSD * curInfo.rate);
-            const displayCost = curInfo.code === "USD" 
-                ? `~$${finalOutlayUSD} USD` 
-                : `~${curInfo.symbol}${localOutlay.toLocaleString()} ${curInfo.code} (~$${finalOutlayUSD} USD)`;
-
-            document.getElementById('outlayText').innerHTML = `
-                <strong>Est. Initial Capital Outlay: ${displayCost}</strong><br>
-                <em>Rationale:</em> ${outlayRationale}
-            `;
-
-            let profileTitle = "Moderate (Balanced dining, cafes, occasional taxi)";
-            let expenseRows = "";
-            
-            if (profile === "economical") {
-                profileTitle = "Economical (Grocery-heavy, street food, public transit)";
-                expenseRows = `
-                    <tr><td><strong>Food & Groceries</strong></td><td>Low ($)</td><td>Primary reliance on local wet markets, supermarkets, and street food.</td></tr>
-                    <tr><td><strong>Local Transit</strong></td><td>Minimal ($)</td><td>Monthly or weekly public transit smart card passes.</td></tr>
-                    <tr><td><strong>Casual Outings</strong></td><td>Controlled ($)</td><td>Occasional local coffee or affordable neighborhood eateries.</td></tr>
-                `;
-            } else if (profile === "elevated") {
-                profileTitle = "Elevated (Frequent sit-down dining, premium transit)";
-                expenseRows = `
-                    <tr><td><strong>Food & Dining</strong></td><td>High ($$$)</td><td>Frequent reservation dining, premium cafes, and international cuisine.</td></tr>
-                    <tr><td><strong>Local Transit</strong></td><td>Moderate ($$)</td><td>Combination of express rail, private rideshare apps, and taxis.</td></tr>
-                    <tr><td><strong>Lifestyle & Culture</strong></td><td>Elevated ($$$)</td><td>Expatriate club memberships, premium co-working spaces, and tours.</td></tr>
-                `;
-            } else {
-                expenseRows = `
-                    <tr><td><strong>Food & Dining</strong></td><td>Moderate ($$)</td><td>Mix of home cooking with regular visits to casual cafes and restaurants.</td></tr>
-                    <tr><td><strong>Local Transit</strong></td><td>Moderate ($)</td><td>Standard public transit network supplemented by occasional rideshares.</td></tr>
-                    <tr><td><strong>Lifestyle & Culture</strong></td><td>Moderate ($)</td><td>Standard museum entry, local recreation, and social meetups.</td></tr>
-                `;
-            }
-
-            document.getElementById('profileDesc').innerHTML = `Active Sustenance Profile: <strong>${profileTitle}</strong>`;
-            document.getElementById('expenseTableBody').innerHTML = expenseRows;
-
-            const activeQs = window.location.search || `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}&profile=${encodeURIComponent(profile)}`;
+            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&term=${encodeURIComponent(term || '')}&profile=${encodeURIComponent(profile || '')}`;
             document.getElementById('binderNav').innerHTML = `
                 <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
                 <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
