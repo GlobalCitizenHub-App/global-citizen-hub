@@ -100,7 +100,6 @@
 
     <script>
         (function() {
-            // Expanded Comprehensive City Database
             const globalLocationMap = {
                 // US Cities
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
@@ -127,15 +126,15 @@
                 "tokyo": { country: "Japan" }, "toronto": { country: "Canada" }
             };
 
-            // Expanded Country Dictionary for Live Feedback Validation
             const countryDictionary = {
                 "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
                 "egypt": { example: "Cairo" }, "united arab emirates": { example: "Dubai" }, "uae": { example: "Dubai" },
                 "turkey": { example: "Istanbul" }, "united kingdom": { example: "London" }, "uk": { example: "London" },
                 "mexico": { example: "Mexico City" }, "france": { example: "Paris" }, "germany": { example: "Berlin" },
                 "italy": { example: "Rome" }, "spain": { example: "Madrid" }, "switzerland": { example: "Zurich" },
-                "brazil": { example: "São Paulo" }, "south korea": { example: "Seoul" }, "singapore": { example: "Singapore" },
-                "australia": { example: "Sydney" }, "japan": { example: "Tokyo" }, "canada": { example: "Toronto" }
+                "brazil": { example: "São Paulo" }, "south korea": { example: "Seoul" }, "korea": { example: "Seoul" },
+                "singapore": { example: "Singapore" }, "australia": { example: "Sydney" }, "japan": { example: "Tokyo" },
+                "canada": { example: "Toronto" }
             };
 
             const cityInput = document.getElementById('cityInput');
@@ -153,21 +152,18 @@
 
                 detectedZone.classList.remove('hidden');
 
-                // Live Country Feedback Check
                 if (countryDictionary[val]) {
-                    let formalCountry = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    let formalCountry = val === "korea" ? "Korea" : val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let exCity = countryDictionary[val].example;
-                    detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., <em>${exCity}</em>).</span>`;
+                    detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., ${exCity}).</span>`;
                     return;
                 }
 
-                // Check City Database
                 if (globalLocationMap[val]) {
                     verifiedCountry = globalLocationMap[val].country;
                     let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
                 } else {
-                    // Interactive fallback for unlisted cities
                     detectedZone.innerHTML = `
                         <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
                         <div style="margin-top: 6px; display: flex; gap: 6px;">
