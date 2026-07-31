@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contact Global Citizen Hub. Get in touch with our team for questions, feedback, or support regarding our relocation and travel toolkit.">
+    <title>Contact Us | Global Citizen Hub</title>
+    <style>
+        :root { --primary: #2980b9; --success: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        h1, h2, h3 { color: var(--dark); margin-top: 0; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 6px solid var(--primary); }
+        .article-header { border-bottom: 2px solid var(--light); padding-bottom: 15px; margin-bottom: 25px; }
+        .section-block { margin-bottom: 22px; font-size: 0.95em; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: var(--dark); }
+        input, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fff; }
+        input:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px rgba(41, 128, 185, 0.2); }
+        button { background-color: var(--success); color: white; border: none; padding: 14px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background-color 0.2s; }
+        button:hover { background-color: #1e8449; }
+        .deep-dive-bar { margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--light); display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 120px; color: white; transition: opacity 0.2s; }
+        .btn-pillar:hover { opacity: 0.85; }
+        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; } .btn-p3 { background: #8e44ad; }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <header class="article-header">
+            <h1>Contact Us</h1>
+            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> We would love to hear from our global community of lifelong learners, students, professionals, families, and retirees.</p>
+        </header>
+
+        <div class="section-block">
+            <p>Have feedback, suggestions for new destination matrices, or general inquiries about Global Citizen Hub? Send us a message below or reach out directly at <strong>support@globalcitizenhub.example</strong>.</p>
+        </div>
+
+        <form onsubmit="event.preventDefault(); alert('Thank you! Your message has been received.');" class="section-block">
+            <div class="form-group">
+                <label for="visitorName">Your Name:</label>
+                <input type="text" id="visitorName" placeholder="Enter your name..." required>
+            </div>
+            <div class="form-group">
+                <label for="visitorEmail">Your Email Address:</label>
+                <input type="email" id="visitorEmail" placeholder="Enter your email..." required>
+            </div>
+            <div class="form-group">
+                <label for="visitorMessage">Message:</label>
+                <textarea id="visitorMessage" rows="5" placeholder="How can we help you?" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <div class="deep-dive-bar">
+            <a href="../index.html" class="btn-pillar btn-master">⌂ Dashboard</a>
+            <a href="../about/index.html" class="btn-pillar btn-p1">About</a>
+            <a href="../privacy/index.html" class="btn-pillar btn-p2">Privacy</a>
+            <a href="../terms/index.html" class="btn-pillar btn-p3">Terms</a>
+        </div>
+
+        <footer class="affiliate-disclosure">
+            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
+        </footer>
+    </main>
+</body>
+</html>
