@@ -3,87 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pillar 4: Transit intelligence, public transportation networks, rideshare availability, and mobility solutions for international travelers.">
     <title>Pillar 4 | Transit & Mobility</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #fcfcfc; color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #d35400; }
-        h1, h2, h4 { color: #d35400; margin-top: 0; }
-        .icon-text { margin-bottom: 8px; font-size: 0.95em; }
-        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
-        .dashboard-section h4 { color: #d35400; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
-        .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
-        .btn-pillar:hover { opacity: 0.85; }
-        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        :root { --primary: #d35400; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        
+        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
+        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
+        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
+        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
+        
+        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
+        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+
+        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
+        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+        th { background: #fef5e7; color: var(--primary); }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
-        <header style="border-bottom: 2px solid #d35400; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 4: Transit & Mobility Matrix</h1>
+        <nav class="binder-nav" id="binderNav">
+            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
+            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
+            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
+            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
+            <a href="../pillar-4/index.html" class="binder-tab tab-p4 active">4. Transit</a>
+            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
+            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
+        </nav>
+
+        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
+            <h1>Pillar 4: Transit & Mobility Intelligence</h1>
+            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Comprehensive public transit guides, smart-card integration, rideshare ecosystems, and regional accessibility.</p>
         </header>
-        <div id="outputContent">Loading intelligence...</div>
-        
-        <div class="deep-dive-bar">
-            <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
+
+        <div class="info-box">
+            <h4>🚇 Local Transit Network Strategy</h4>
+            <p id="transitDesc">Analyzing primary rail, bus, and micromobility infrastructure for your destination...</p>
         </div>
+
+        <div class="info-box">
+            <h4>🗺️ Mobility Infrastructure Matrix</h4>
+            <table>
+                <thead>
+                    <tr><th>Transit Layer</th><th>Primary Recommended Mode</th><th>Operational Strategy</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Mass Rapid Transit</strong></td><td>Subway / Light Rail Network</td><td>Acquire a rechargeable municipal transit card (or enable digital wallet transit passes) immediately upon arrival.</td></tr>
+                    <tr><td><strong>First / Last Mile</strong></td><td>Shared Bikes / E-Scooters / Walking</td><td>Utilize localized micromobility apps or secure walking routes for short neighborhood trips.</td></tr>
+                    <tr><td><strong>On-Demand Transit</strong></td><td>Licensed Taxis & Rideshare Apps</td><td>Verify local dominant ride-hailing applications (e.g., Uber, Bolt, Grab, Didi) prior to airport exit.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <footer class="affiliate-disclosure">
+            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
+            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
+        </footer>
     </main>
+
     <script>
         (function() {
-            const TransitData = {
-                "United States": { transit: "Variable (Strong in major metros like NYC/SF; car required elsewhere)", ridehail: "Uber, Lyft", walking: "Low to Moderate (City-dependent)", license: "Domestic license valid; IDP not required for US citizens." },
-                "Japan": { transit: "World-class rail and subway network (Suica/Pasmo IC cards)", ridehail: "GO app, Uber (limited/taxis)", walking: "Exceptionally high walkability", license: "International Driving Permit (IDP) + Home License required." },
-                "South Korea": { transit: "World-class subway and bus system (T-money card)", ridehail: "Kakao T", walking: "Extremely high walkability", license: "International Driving Permit (IDP) required." },
-                "China": { transit: "Extensive metro networks and high-speed rail", ridehail: "Didi (integrated in Alipay/WeChat)", walking: "High walkability in urban centers", license: "Foreign licenses require a temporary Chinese driving permit." },
-                "Taiwan": { transit: "Efficient MRT, THSR, and EasyCard system", ridehail: "LINE TAXI / Uber", walking: "Moderate to High", license: "International Driving Permit (IDP) required." },
-                "United Kingdom": { transit: "Exceptional underground/train network (Contactless card/Oyster)", ridehail: "Uber, Bolt", walking: "Very high walkability", license: "Valid foreign license for up to 12 months." },
-                "France": { transit: "Extensive Metro and RER network (Navigo/Contactless)", ridehail: "Uber, Bolt", walking: "Extremely high walkability in cities", license: "IDP recommended alongside EU/foreign license." },
-                "Germany": { transit: "Integrated U-Bahn, S-Bahn, and regional rail (Deutschlandticket)", ridehail: "Uber, Freenow", walking: "Very high walkability", license: "IDP required if license is non-EU/EEA." },
-                "Australia": { transit: "Reliable trams, trains, and buses (Opal/Myki contactless cards)", ridehail: "Uber, Didi, Ola", walking: "Moderate to High", license: "Valid English-language license or IDP/certified translation." },
-                "Singapore": { transit: "World-class MRT and bus network (EZ-Link / Contactless bank card)", ridehail: "Grab, TADA, Gojek", walking: "Extremely high walkability", license: "IDP required for driving after 12 months." }
-            };
-
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Selected City";
-            const country = urlParams.get('country') || "United States";
+            const city = urlParams.get('city') || "Global Destination";
+            const country = urlParams.get('country') || "";
+            const profile = urlParams.get('profile') || "moderate";
             
-            const matrix = TransitData[country] || { 
-                transit: "Local transit networks available; check contactless payment options", 
-                ridehail: "Global or local ride-sharing apps", 
-                walking: "Variable urban walkability", 
-                license: "Check local international driving permit requirements" 
-            };
-
-            document.getElementById('outputContent').innerHTML = `
-                <h2>${city}, ${country}</h2>
-                <div class="dashboard-section">
-                    <h4>🚇 Public Transportation Network</h4>
-                    <div class='icon-text'>🚆 <strong>System Overview:</strong> ${matrix.transit}</div>
-                </div>
-                <div class="dashboard-section">
-                    <h4>🚗 Ride-Hailing & Micro-Mobility</h4>
-                    <div class='icon-text'>📱 <strong>Dominant Apps:</strong> ${matrix.ridehail}</div>
-                    <div class='icon-text'>🚶 <strong>Urban Walkability:</strong> ${matrix.walking}</div>
-                </div>
-                <div class="dashboard-section">
-                    <h4>📄 Regulatory & Driving Standards</h4>
-                    <div class='icon-text'>🆔 <strong>License / IDP Rules:</strong> ${matrix.license}</div>
-                </div>
+            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''} | Profile: ${profile.charAt(0).toUpperCase() + profile.slice(1)}`;
+            
+            document.getElementById('transitDesc').innerHTML = `
+                For your stay in <strong>${city}${country ? ', ' + country : ''}</strong>, navigating via the primary municipal transit grid combined with your selected operational profile ensures efficient, cost-effective daily mobility.
             `;
-            
+
+            // Propagate query parameters to binder navigation
             const qs = window.location.search;
-            document.getElementById('linkMaster').href = `../index.html${qs}`;
-            document.getElementById('linkP1').href = `../pillar-1/index.html${qs}`;
-            document.getElementById('linkP2').href = `../pillar-2/index.html${qs}`;
-            document.getElementById('linkP3').href = `../pillar-3/index.html${qs}`;
-            document.getElementById('linkP5').href = `../pillar-5/index.html${qs}`;
-            document.getElementById('linkP6').href = `../pillar-6/index.html${qs}`;
+            if (qs) {
+                document.getElementById('binderNav').innerHTML = `
+                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
+                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
+                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
+                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4 active">4. Transit</a>
+                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
+                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+                `;
+            }
         })();
     </script>
 </body>
