@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Universal conversion, height, clothing/shoe sizing, living space, and e-commerce calculators for international travelers and global movers.">
+    <meta name="description" content="Pillar 6: Universal conversion, height, clothing/shoe sizing, living space, and e-commerce calculators for international travelers and global movers.">
     <title>Pillar 6 | Shopping, Sizing & Conversions</title>
     <style>
-        :root {
-            --primary: #16a085;
-            --dark: #2c3e50;
-            --light: #f4f6f7;
-            --border: #d5dbdb;
-        }
+        :root { --primary: #16a085; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        
+        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
+        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
+        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
+        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
+        
+        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
+        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+
         .conv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; align-items: center; }
         .conv-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 15px; align-items: center; }
         input, select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; text-align: center; background: #fff; box-sizing: border-box; }
@@ -25,24 +30,27 @@
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 8px 12px; text-align: center; }
         th { background: #e8f8f5; color: var(--primary); }
-
-        .deep-dive-bar { margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--light); display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
-        .btn-pillar:hover { opacity: 0.85; }
-        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
         .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
+        <nav class="binder-nav" id="binderNav">
+            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
+            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
+            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
+            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
+            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
+            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
+            <a href="../pillar-6/index.html" class="binder-tab tab-p6 active">6. Shop & Convert</a>
+        </nav>
+
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>Pillar 6: Shopping, Sizing & Conversions</h1>
+            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
             <p style="margin: 0; font-size: 0.95em; color: #555;">Instant calculators for international e-commerce gear, height, sizing, and living spaces.</p>
         </header>
         
-        <div id="statusHeader" style="margin-bottom: 20px; font-weight: bold; color: var(--primary); font-size: 1.1em;"></div>
-
         <div class="calc-box">
             <h4>📏 Height Converter (Apparel & Licensing)</h4>
             <div class="conv-grid-3">
@@ -124,87 +132,5 @@
             </table>
         </div>
 
-        <div class="deep-dive-bar">
-            <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Relocation</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
-        </div>
-
         <footer class="affiliate-disclosure">
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
-        </footer>
-    </main>
-
-    <script>
-        function calcHeight() {
-            let ft = parseFloat(document.getElementById("ftInput").value) || 0;
-            let inches = parseFloat(document.getElementById("inHeightInput").value) || 0;
-            if (ft === 0 && inches === 0) { document.getElementById("cmHeightInput").value = ""; return; }
-            let totalInches = (ft * 12) + inches;
-            let cm = totalInches * 2.54;
-            document.getElementById("cmHeightInput").value = cm.toFixed(1);
-        }
-        function calcHeightRev() {
-            let cm = parseFloat(document.getElementById("cmHeightInput").value);
-            if (isNaN(cm)) { document.getElementById("ftInput").value = ""; document.getElementById("inHeightInput").value = ""; return; }
-            let totalInches = cm / 2.54;
-            let ft = Math.floor(totalInches / 12);
-            let inches = Math.round(totalInches % 12);
-            document.getElementById("ftInput").value = ft;
-            document.getElementById("inHeightInput").value = inches;
-        }
-        function calcTemp(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'f') ? (val - 32) * 5/9 : (val * 9/5) + 32;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcLen() {
-            let val = parseFloat(document.getElementById("inInput").value);
-            if (isNaN(val)) { document.getElementById("cmInput").value = ""; return; }
-            document.getElementById("cmInput").value = (val * 2.54).toFixed(1);
-        }
-        function calcLenRev() {
-            let val = parseFloat(document.getElementById("cmInput").value);
-            if (isNaN(val)) { document.getElementById("inInput").value = ""; return; }
-            document.getElementById("inInput").value = (val / 2.54).toFixed(1);
-        }
-        function calcArea(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'sqft') ? val * 0.092903 : val / 0.092903;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcVol(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'oz') ? val * 29.5735 : val / 29.5735;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcWt(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'lbs') ? val * 0.453592 : val / 0.453592;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-
-        (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Global Traveler";
-            const country = urlParams.get('country') || "";
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
-            
-            const qs = window.location.search;
-            document.getElementById('linkMaster').href = `../index.html${qs}`;
-            document.getElementById('linkP1').href = `../pillar-1/index.html${qs}`;
-            document.getElementById('linkP2').href = `../pillar-2/index.html${qs}`;
-            document.getElementById('linkP3').href = `../pillar-3/index.html${qs}`;
-            document.getElementById('linkP4').href = `../pillar-4/index.html${qs}`;
-            document.getElementById('linkP5').href = `../pillar-5/index.html${qs}`;
-        })();
-    </script>
-</body>
-</html>
+            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index
