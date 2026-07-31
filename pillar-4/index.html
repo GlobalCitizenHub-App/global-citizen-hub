@@ -29,7 +29,7 @@
             margin-bottom: 25px;
         }
         label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: #2c3e50; }
-        input {
+        input, select {
             width: 100%; padding: 10px; margin-bottom: 15px;
             border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
             font-size: 14px;
@@ -46,6 +46,10 @@
             background: #fdf2e9; border: 1px solid #f5b041; border-top: 5px solid #d35400;
             padding: 25px; margin-top: 25px; border-radius: 6px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        #detectedZone { 
+            font-size: 14px; margin-top: -8px; margin-bottom: 15px; padding: 10px; 
+            background: #fdf2e9; border-left: 4px solid #d35400; border-radius: 4px;
         }
         .icon-text { margin-bottom: 8px; font-size: 0.95em; }
         .matrix-section { margin-top: 15px; border-top: 1px solid #e5e8e8; padding-top: 10px; }
@@ -75,9 +79,9 @@
             ⚠️ Please click the green <strong>"Confirm"</strong> button near your destination selection above before generating your brief.
         </div>
 
-        <label for="cityInput">Destination (City or Country):</label>
-        <input type="text" id="cityInput" placeholder="Enter destination (e.g., Tokyo, Seoul, London, Chicago)...">
-        <div id="detectedZone" class="hidden" style="font-size: 14px; margin-top: -8px; margin-bottom: 15px; padding: 10px; background: #fdf2e9; border-left: 4px solid #d35400; border-radius: 4px;"></div>
+        <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+        <input type="text" id="cityInput" placeholder="Enter destination...">
+        <div id="detectedZone" class="hidden"></div>
 
         <button id="calculateBtn">Generate Mobility Matrix</button>
 
@@ -116,7 +120,9 @@
                 "Mexico": { ride: "Uber, DiDi", transit: "Metro (CDMX), mostly buses/collectivos", pay: "Integrated Mobility Card (CDMX) / Cash", walk: "Moderate" },
                 "Brazil": { ride: "Uber, 99", transit: "Metro in major cities, extensive bus lines", pay: "Bilhete Único / Cash", walk: "Moderate (Safety dependent)" },
                 "Australia": { ride: "Uber, Didi, Ola", transit: "Good regional trains/trams in cities", pay: "Opal (Sydney) / Myki (Melbourne) / Contactless", walk: "High in CBDs" },
-                "Canada": { ride: "Uber, Lyft", transit: "Good in Toronto/Vancouver, Car-dependent elsewhere", pay: "Presto (Toronto) / Compass (Vancouver) / Contactless", walk: "Moderate to High" }
+                "Canada": { ride: "Uber, Lyft", transit: "Good in Toronto/Vancouver, Car-dependent elsewhere", pay: "Presto (Toronto) / Compass (Vancouver) / Contactless", walk: "Moderate to High" },
+                "Russia": { ride: "Yandex Go", transit: "Extensive Metro (Moscow/St. Petersburg)", pay: "Troika Card / Cash", walk: "High in centers" },
+                "Argentina": { ride: "Cabify, Uber", transit: "Subte (Buenos Aires) & Buses", pay: "SUBE Card", walk: "High" }
             };
 
             function getMobility(countryName) {
@@ -126,7 +132,7 @@
                 };
             }
 
-            // Centralized Smart Dictionary (Identical to Master)
+            // Syncing the Massive Global Map from the Master Dashboard
             const globalLocationMap = {
                 "tokyo": { country: "Japan" }, "osaka": { country: "Japan" }, "kyoto": { country: "Japan" },
                 "seoul": { country: "South Korea" }, "incheon": { country: "South Korea" }, "busan": { country: "South Korea" },
@@ -203,7 +209,7 @@
 
                 if (globalCountryDictionary[countryCheck]) {
                     let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital }, isTypo: false };
+                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "Seoul" }, isTypo: false };
                 }
                 
                 return { key: cleanInput, data: { type: "unknown" }, isTypo: true };
@@ -214,6 +220,7 @@
                 const calculateBtn = document.getElementById('calculateBtn');
                 const validationNotice = document.getElementById('validationNotice');
                 
+                // Pre-populate if accessed from Master Dashboard URL parameters
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.has('city')) {
                     const passedCity = urlParams.get('city');
@@ -241,6 +248,7 @@
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
                             
+                            // 1. Country Trap
                             if (match.data && match.data.type === "country") {
                                 let countryName = match.data.country;
                                 let singleCapital = match.data.capital || "Seoul";
@@ -248,6 +256,7 @@
                                 return;
                             }
 
+                            // 2. Unlisted City Fallback Trap
                             if (match.isTypo) {
                                 let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `
@@ -265,6 +274,7 @@
                                             const fbCountry = document.getElementById('fallbackCountry').value.trim();
                                             if (fbCountry) {
                                                 let formalCountryName = fbCountry.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                
                                                 let countryCheck = fbCountry.toLowerCase();
                                                 if (countryCheck === "us" || countryCheck === "usa") formalCountryName = "United States";
                                                 if (countryCheck === "uk") formalCountryName = "United Kingdom";
@@ -305,6 +315,7 @@
                                     }
                                 }, 50);
                             } else {
+                                // 3. Direct Match
                                 let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
                                 verifiedLocationKey = match.key;
