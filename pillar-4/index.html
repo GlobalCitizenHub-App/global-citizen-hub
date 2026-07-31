@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 4: Transit intelligence, public transportation networks, rideshare availability, and mobility solutions for international travelers.">
-    <title>Pillar 4 | Transit & Mobility</title>
+    <meta name="description" content="Pillar 4: Transit intelligence, public transportation passes, ride-sharing networks, and mobility logistics for international travelers.">
+    <title>Pillar 4 | Transit & Mobility Intelligence</title>
     <style>
         :root { --primary: #d35400; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         h1, h2, h4 { color: var(--primary); margin-top: 0; }
         
-        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
         .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
         .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
@@ -21,6 +21,8 @@
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
+        .timeline-badge { display: inline-block; background: #fef5e7; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #fef5e7; color: var(--primary); }
@@ -40,28 +42,15 @@
         </nav>
 
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 4: Transit & Mobility Intelligence</h1>
+            <h1>🚇 Pillar 4: Transit & Mobility Intelligence</h1>
             <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Comprehensive public transit guides, smart-card integration, rideshare ecosystems, and regional accessibility.</p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Public transportation networks, municipal passes, rideshare availability, and regional mobility logistics.</p>
         </header>
 
-        <div class="info-box">
-            <h4>🚇 Local Transit Network Strategy</h4>
-            <p id="transitDesc">Analyzing primary rail, bus, and micromobility infrastructure for your destination...</p>
-        </div>
-
-        <div class="info-box">
-            <h4>🗺️ Mobility Infrastructure Matrix</h4>
-            <table>
-                <thead>
-                    <tr><th>Transit Layer</th><th>Primary Recommended Mode</th><th>Operational Strategy</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Mass Rapid Transit</strong></td><td>Subway / Light Rail Network</td><td>Acquire a rechargeable municipal transit card (or enable digital wallet transit passes) immediately upon arrival.</td></tr>
-                    <tr><td><strong>First / Last Mile</strong></td><td>Shared Bikes / E-Scooters / Walking</td><td>Utilize localized micromobility apps or secure walking routes for short neighborhood trips.</td></tr>
-                    <tr><td><strong>On-Demand Transit</strong></td><td>Licensed Taxis & Rideshare Apps</td><td>Verify local dominant ride-hailing applications (e.g., Uber, Bolt, Grab, Didi) prior to airport exit.</td></tr>
-                </tbody>
-            </table>
+        <div id="contentContainer">
+            <div class="warning-box">
+                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city before viewing transit intelligence.
+            </div>
         </div>
 
         <footer class="affiliate-disclosure">
@@ -73,29 +62,47 @@
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Global Destination";
-            const country = urlParams.get('country') || "";
-            const profile = urlParams.get('profile') || "moderate";
-            
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''} | Profile: ${profile.charAt(0).toUpperCase() + profile.slice(1)}`;
-            
-            document.getElementById('transitDesc').innerHTML = `
-                For your stay in <strong>${city}${country ? ', ' + country : ''}</strong>, navigating via the primary municipal transit grid combined with your selected operational profile ensures efficient, cost-effective daily mobility.
-            `;
+            let city = urlParams.get('city') || localStorage.getItem('gch_city');
+            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "Global Destination";
+            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
 
-            // Propagate query parameters to binder navigation
-            const qs = window.location.search;
-            if (qs) {
-                document.getElementById('binderNav').innerHTML = `
-                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
-                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
-                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
-                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4 active">4. Transit</a>
-                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            if (city && !urlParams.has('city')) {
+                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}`;
+                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            }
+
+            if (city) {
+                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Engagement: ${term}`;
+
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="info-box">
+                        <span class="timeline-badge">📅 Transit Benchmark: Q3 2026</span>
+                        <h4>🚆 Public Transit & Mobility Network (${city}, ${country})</h4>
+                        <p>Navigating <strong>${city}</strong> efficiently during your <strong>${term}</strong> stay involves leveraging integrated municipal transit, contactless ticketing, and local rideshare apps.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Transit Mode</th><th>Recommended Solution</th><th>Operational Guidance</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>🚆 Municipal Rail & Metro</strong></td><td>Smart Transit Card / Contactless Pay</td><td>Tap-and-go entry or weekly/monthly digital transit passes for best rates.</td></tr>
+                                <tr><td><strong>🚌 Bus & Regional Transit</strong></td><td>Local Transit App / Pass</td><td>Supplement rail routes with municipal bus networks for neighborhood access.</td></tr>
+                                <tr><td><strong>🚖 Taxis & Rideshares</strong></td><td>Approved Local Ride Apps</td><td>Utilize licensed taxi stands or regional rideshare applications for late-night transit.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 `;
             }
+
+            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&term=${encodeURIComponent(term || '')}`;
+            document.getElementById('binderNav').innerHTML = `
+                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
+                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
+                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3">3. Connectivity</a>
+                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4 active">4. Transit</a>
+                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
+                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            `;
         })();
     </script>
 </body>
