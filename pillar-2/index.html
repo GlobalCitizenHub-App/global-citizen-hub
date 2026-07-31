@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Pillar 2: Cost and relocation intelligence, initial capital outlay estimators, and living expense profiles for international travelers.">
-    <title>Pillar 2 | Cost & Relocation</title>
+    <title>Pillar 2 | Cost & Relocation Intelligence</title>
     <style>
         :root { --primary: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
@@ -41,9 +41,9 @@
         </nav>
 
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 2: Cost & Relocation Intelligence</h1>
+            <h1>💰 Pillar 2: Cost & Relocation Intelligence</h1>
             <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Initial capital outlay, living expenses, and engagement-scaled logistics for global citizens.</p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Initial capital outlay, living expenses, currency conversions, and engagement-scaled logistics for global citizens.</p>
         </header>
 
         <div id="contentContainer">
@@ -75,14 +75,12 @@
                 "Japan": { code: "JPY", symbol: "¥", rate: 155.0 }
             };
 
-            // Retrieve session parameters from URL or localStorage fallback
             const urlParams = new URLSearchParams(window.location.search);
             let city = urlParams.get('city') || localStorage.getItem('gch_city');
             let country = urlParams.get('country') || localStorage.getItem('gch_country') || "United States";
             let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
             let profile = urlParams.get('profile') || localStorage.getItem('gch_profile') || "moderate";
 
-            // Maintain URL sync for seamless continuity across tabs
             if (city && !urlParams.has('city')) {
                 const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}&profile=${encodeURIComponent(profile)}`;
                 window.history.replaceState({}, '', window.location.pathname + recoveryQs);
@@ -120,22 +118,22 @@
                 if (profile === "economical") {
                     profileTitle = "Economical (Grocery-heavy, street food, public transit)";
                     expenseRows = `
-                        <tr><td><strong>Food & Groceries</strong></td><td>Low ($)</td><td>Primary reliance on local markets, neighborhood bakeries, and local eateries.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Minimal ($)</td><td>Monthly or weekly municipal transit passes.</td></tr>
-                        <tr><td><strong>Casual Outings</strong></td><td>Controlled ($)</td><td>Occasional local coffee or affordable neighborhood spots.</td></tr>
+                        <tr><td><strong>🛒 Food & Groceries</strong></td><td>Low ($)</td><td>Primary reliance on local markets, neighborhood bakeries, and local eateries.</td></tr>
+                        <tr><td><strong>🚇 Local Transit</strong></td><td>Minimal ($)</td><td>Monthly or weekly municipal transit passes.</td></tr>
+                        <tr><td><strong>☕ Casual Outings</strong></td><td>Controlled ($)</td><td>Occasional local espresso or affordable neighborhood spots.</td></tr>
                     `;
                 } else if (profile === "elevated") {
                     profileTitle = "Elevated (Frequent sit-down dining, premium transit)";
                     expenseRows = `
-                        <tr><td><strong>Food & Dining</strong></td><td>High ($$$)</td><td>Frequent reservation dining, premium cafes, and gourmet dining.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($$)</td><td>Combination of metro transit, express rail, and occasional rideshares.</td></tr>
-                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Elevated ($$$)</td><td>Museum memberships, guided cultural tours, and curated experiences.</td></tr>
+                        <tr><td><strong>🍽️ Food & Dining</strong></td><td>High ($$$)</td><td>Frequent reservation dining, premium cafes, and gourmet dining.</td></tr>
+                        <tr><td><strong>🚖 Local Transit</strong></td><td>Moderate ($$)</td><td>Combination of metro transit, express rail, and occasional rideshares.</td></tr>
+                        <tr><td><strong>🎭 Lifestyle & Culture</strong></td><td>Elevated ($$$)</td><td>Museum memberships, guided cultural tours, and curated experiences.</td></tr>
                     `;
                 } else {
                     expenseRows = `
-                        <tr><td><strong>Food & Dining</strong></td><td>Moderate ($$)</td><td>Mix of home provisioning with regular visits to local spots and cafes.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($)</td><td>Standard municipal transit network supplemented by walking or light transit.</td></tr>
-                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Moderate ($)</td><td>Standard museum entry, local recreation, and community events.</td></tr>
+                        <tr><td><strong>🍲 Food & Dining</strong></td><td>Moderate ($$)</td><td>Mix of home provisioning with regular visits to local spots and cafes.</td></tr>
+                        <tr><td><strong>🚌 Local Transit</strong></td><td>Moderate ($)</td><td>Standard municipal transit network supplemented by walking or light transit.</td></tr>
+                        <tr><td><strong>🎨 Lifestyle & Culture</strong></td><td>Moderate ($)</td><td>Standard museum entry, local recreation, and community events.</td></tr>
                     `;
                 }
 
