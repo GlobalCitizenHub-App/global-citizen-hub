@@ -12,7 +12,7 @@
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 6px solid var(--primary); }
         .article-header { border-bottom: 2px solid var(--light); padding-bottom: 15px; margin-bottom: 25px; }
         
-        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
         .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
         .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
@@ -100,7 +100,9 @@
 
     <script>
         (function() {
+            // Expanded Comprehensive City Database
             const globalLocationMap = {
+                // US Cities
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
                 "chicago": { country: "United States" }, "houston": { country: "United States" },
                 "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
@@ -110,19 +112,30 @@
                 "tampa": { country: "United States" }, "boston": { country: "United States" },
                 "seattle": { country: "United States" }, "san francisco": { country: "United States" },
                 "washington": { country: "United States" }, "washington dc": { country: "United States" },
+                "richmond": { country: "United States" }, "hampton": { country: "United States" },
+                "ann arbor": { country: "United States" }, "milwaukee": { country: "United States" },
+                "miami": { country: "United States" }, "atlanta": { country: "United States" },
+
+                // International Cities
                 "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
-                "london": { country: "United Kingdom" }, "mexico city": { country: "Mexico" },
-                "paris": { country: "France" }, "são paulo": { country: "Brazil" },
-                "seoul": { country: "South Korea" }, "singapore": { country: "Singapore" },
-                "sydney": { country: "Australia" }, "tokyo": { country: "Japan" }
+                "istanbul": { country: "Turkey" }, "london": { country: "United Kingdom" },
+                "mexico city": { country: "Mexico" }, "paris": { country: "France" },
+                "berlin": { country: "Germany" }, "rome": { country: "Italy" },
+                "madrid": { country: "Spain" }, "zurich": { country: "Switzerland" },
+                "são paulo": { country: "Brazil" }, "seoul": { country: "South Korea" },
+                "singapore": { country: "Singapore" }, "sydney": { country: "Australia" },
+                "tokyo": { country: "Japan" }, "toronto": { country: "Canada" }
             };
 
+            // Expanded Country Dictionary for Live Feedback Validation
             const countryDictionary = {
                 "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
                 "egypt": { example: "Cairo" }, "united arab emirates": { example: "Dubai" }, "uae": { example: "Dubai" },
-                "united kingdom": { example: "London" }, "uk": { example: "London" }, "mexico": { example: "Mexico City" },
-                "france": { example: "Paris" }, "brazil": { example: "São Paulo" }, "south korea": { example: "Seoul" },
-                "singapore": { example: "Singapore" }, "australia": { example: "Sydney" }, "japan": { example: "Tokyo" }
+                "turkey": { example: "Istanbul" }, "united kingdom": { example: "London" }, "uk": { example: "London" },
+                "mexico": { example: "Mexico City" }, "france": { example: "Paris" }, "germany": { example: "Berlin" },
+                "italy": { example: "Rome" }, "spain": { example: "Madrid" }, "switzerland": { example: "Zurich" },
+                "brazil": { example: "São Paulo" }, "south korea": { example: "Seoul" }, "singapore": { example: "Singapore" },
+                "australia": { example: "Sydney" }, "japan": { example: "Tokyo" }, "canada": { example: "Toronto" }
             };
 
             const cityInput = document.getElementById('cityInput');
@@ -140,6 +153,7 @@
 
                 detectedZone.classList.remove('hidden');
 
+                // Live Country Feedback Check
                 if (countryDictionary[val]) {
                     let formalCountry = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let exCity = countryDictionary[val].example;
@@ -147,11 +161,13 @@
                     return;
                 }
 
+                // Check City Database
                 if (globalLocationMap[val]) {
                     verifiedCountry = globalLocationMap[val].country;
                     let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
                 } else {
+                    // Interactive fallback for unlisted cities
                     detectedZone.innerHTML = `
                         <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
                         <div style="margin-top: 6px; display: flex; gap: 6px;">
