@@ -22,6 +22,7 @@
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
         .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
+        .timeline-badge { display: inline-block; background: #e8f8f5; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #e8f8f5; color: var(--primary); }
@@ -139,10 +140,11 @@
 
                 document.getElementById('contentContainer').innerHTML = `
                     <div class="info-box">
+                        <span class="timeline-badge">📅 Valuation Benchmark: Q3 2026</span>
                         <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
                         <p>
                             <strong>Est. Initial Capital Outlay: ${displayCost}</strong><br>
-                            <em>Rationale:</em> ${outlayRationale} (Calibrated with local economic multiplier for ${city}, ${country}).
+                            <em>Rationale:</em> ${outlayRationale} (Calibrated with local economic multiplier for ${city}, ${country} as of Q3 2026).
                         </p>
                     </div>
 
