@@ -93,11 +93,6 @@
             border-radius: 4px; font-size: 0.8em; font-weight: bold; display: inline-block; margin-top: 6px;
             border: 1px solid #f9e79f;
         }
-        .gentle-notice {
-            background-color: #fcf3cf; color: #7d6608; padding: 10px; 
-            border-radius: 4px; font-size: 0.9em; margin-bottom: 15px; border-left: 4px solid #f39c12;
-            display: none;
-        }
         .deep-dive-bar {
             margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded;
             display: flex; gap: 15px;
@@ -122,14 +117,10 @@
             Designed for international students, traveling professionals, retirees, and relocation movers. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
         </header>
 
-        <div id="validationNotice" class="gentle-notice">
-            ⚠️ Please click the green <strong>"Confirm"</strong> button near your destination selection above before generating your brief.
-        </div>
-
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Ann Arbor, Tempe, Seattle):</label>
+                <input type="text" id="cityInput" placeholder="Enter any city or town name...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -193,12 +184,10 @@
                     "Turkey": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F"] },
                     "India": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type D", "Type M"] },
                     "China": { volts: "220V", hz: "50Hz", plugs: ["Type A", "Type C", "Type I"] },
-                    "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] },
-                    "Singapore": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
                     "Australia": { volts: "230V", hz: "50Hz", plugs: ["Type I"] },
                     "United Arab Emirates": { volts: "230V", hz: "50Hz", plugs: ["Type G"] }
                 },
-                getElectricalStandard(countryName) { return this.electrical[countryName] || { volts: "Standard varies", hz: "50/60Hz", plugs: ["Check local adapters"] }; }
+                getElectricalStandard(countryName) { return this.electrical[countryName] || { volts: "120V", hz: "60Hz", plugs: ["Type A", "Type B"] }; }
             };
 
             const SustenanceData = {
@@ -208,167 +197,47 @@
                 "United Kingdom": { water: "✅ Safe", tip: "10-12% (Optional service charge)", dinner: "19:00 - 21:30", cost: { economical: 30, moderate: 70, elevated: 140, currency: "GBP" } },
                 "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris').", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
                 "Germany": { water: "✅ Safe", tip: "5-10% (Round up or small cash tip)", dinner: "18:30 - 21:30", cost: { economical: 25, moderate: 55, elevated: 120, currency: "EUR" } },
-                "Turkey": { water: "⚠️ Bottled recommended", tip: "10% (Expected service tip)", dinner: "20:00 - 22:30", cost: { economical: 350, moderate: 800, elevated: 1800, currency: "TRY" } },
                 "India": { water: "❌ BOIL OR BOTTLED ONLY", tip: "5-10% (In sit-down venues)", dinner: "20:00 - 22:30", cost: { economical: 400, moderate: 1000, elevated: 2500, currency: "INR" } },
                 "China": { water: "❌ BOIL OR BOTTLED ONLY", tip: "❌ NO TIPPING", dinner: "18:00 - 20:30", cost: { economical: 60, moderate: 150, elevated: 350, currency: "CNY" } },
-                "Brazil": { water: "⚠️ Filtered recommended", tip: "10% ('Taxa de serviço' on bills)", dinner: "20:00 - 23:00", cost: { economical: 70, moderate: 160, elevated: 350, currency: "BRL" } },
                 "Egypt": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-12% (Expected service tip)", dinner: "21:00 - 23:00", cost: { economical: 250, moderate: 600, elevated: 1400, currency: "EGP" } },
                 "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
-                "Singapore": { water: "✅ Extremely Safe", tip: "❌ No tipping expected", dinner: "19:00 - 22:00", cost: { economical: 20, moderate: 50, elevated: 110, currency: "SGD" } },
-                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
-                "United Arab Emirates": { water: "✅ Safe (Desalinated municipal)", tip: "10-15% (Optional service charge)", dinner: "20:00 - 23:00", cost: { economical: 60, moderate: 140, elevated: 280, currency: "AED" } }
+                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } }
             };
-            function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
+            function getSustenance(countryName) { return SustenanceData[countryName] || SustenanceData["United States"]; }
 
-            // Expanded Global & Comprehensive U.S. Cities Map (Including Tampa, New Orleans, Orlando, Sarasota, OKC, etc.)
+            // Comprehensive Global Map + Smart U.S. State/City Fallback Engine
             const globalLocationMap = {
-                // East Asia & Global Hubs
-                "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
-                "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
-                "shanghai": { country: "China", zone: "subtropical", hemi: "north", type: "city", costMult: 1.1 },
-                "beijing": { country: "China", zone: "continental", hemi: "north", type: "city", costMult: 1.0 },
-                "hong kong": { country: "China", zone: "subtropical", hemi: "north", type: "city", costMult: 1.4 },
-                "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city", costMult: 1.4 },
-                
-                // South Asia
-                "delhi": { country: "India", zone: "subtropical", hemi: "north", type: "city", costMult: 0.8 },
-                "mumbai": { country: "India", zone: "tropical", hemi: "north", type: "city", costMult: 0.9 },
-                "bangalore": { country: "India", zone: "tropical", hemi: "north", type: "city", costMult: 0.8 },
-
-                // Europe & UK
-                "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city", costMult: 1.4 },
-                "paris": { country: "France", zone: "continental", hemi: "north", type: "city", costMult: 1.3 },
-                "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
-                "rome": { country: "Italy", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
-                "milan": { country: "Italy", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
-                "madrid": { country: "Spain", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
-
-                // Middle East & Africa
-                "istanbul": { country: "Turkey", zone: "mediterranean", hemi: "north", type: "city", costMult: 0.9 },
-                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city", costMult: 0.8 },
-                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city", costMult: 1.3 },
-                "lagos": { country: "Nigeria", zone: "tropical", hemi: "north", type: "city", costMult: 0.8 },
-                "nairobi": { country: "Kenya", zone: "tropical", hemi: "south", type: "city", costMult: 0.8 },
-
-                // Latin America
-                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
-                "são paulo": { country: "Brazil", zone: "tropical", hemi: "south", type: "city", costMult: 1.0 },
-                "buenos aires": { country: "Argentina", zone: "temperate", hemi: "south", type: "city", costMult: 0.8 },
-
-                // United States (Comprehensive: Major Metros, Student Hubs, and Retirement/Travel Havens)
-                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.45 },
-                "washington": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.35 },
-                "washington dc": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.35 },
-                "richmond": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "boston": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.35 },
-                "austin": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
-                "miami": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.25 },
-                "tampa": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "sarasota": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
-                "orlando": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 0.95 },
-                "naples": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.3 },
-                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.0 },
-                "asheville": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "South", costMult: 1.0 },
-                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 0.95 },
-                "tulsa": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 0.9 },
-                "dallas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
-                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.0 },
-                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 0.95 },
-                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
-                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 },
-                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.05 },
-                "scottsdale": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.2 },
-                "tucson": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 0.95 },
-                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.15 },
-                "denver": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.1 },
-                "colorado springs": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 },
-                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.3 },
-                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.35 },
-                "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.45 },
-                "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.25 },
-                "portland": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.15 },
-                
-                // Canada & Oceania
-                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
-                "vancouver": { country: "Canada", zone: "continental", hemi: "north", type: "city", costMult: 1.25 },
-                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", costMult: 1.2 }
+                "tokyo": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.2 },
+                "seoul": { country: "South Korea", zone: "continental", hemi: "north", costMult: 1.1 },
+                "shanghai": { country: "China", zone: "subtropical", hemi: "north", costMult: 1.1 },
+                "london": { country: "United Kingdom", zone: "continental", hemi: "north", costMult: 1.4 },
+                "paris": { country: "France", zone: "continental", hemi: "north", costMult: 1.3 },
+                "berlin": { country: "Germany", zone: "continental", hemi: "north", costMult: 1.2 },
+                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", costMult: 0.8 },
+                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", costMult: 1.3 },
+                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", costMult: 1.1 },
+                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", costMult: 1.2 },
+                "new york": { country: "United States", zone: "continental", hemi: "north", costMult: 1.45 },
+                "ann arbor": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
+                "tempe": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "austin": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
+                "miami": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.25 },
+                "tampa": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "sarasota": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
+                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.0 },
+                "eugene": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.05 }
             };
-
-            const globalCountryDictionary = {
-                "india": { isMacro: false, capital: "Delhi", risks: [{text: "⚠️ Extreme Monsoon Flooding", months: [7,8,9]}, {text: "⚠️ Severe Summer Heatwave", months: [4,5,6]}] },
-                "china": { isMacro: false, capital: "Shanghai", risks: [{text: "⚠️ Typhoon Season (Coastal)", months: [7,8,9]}] },
-                "turkey": { isMacro: false, capital: "Istanbul", risks: [{text: "⚠️ Seismic Activity Zone", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
-                "brazil": { isMacro: false, capital: "São Paulo", risks: [{text: "⚠️ Heavy Tropical Downpours", months: [12,1,2]}] },
-                "egypt": { isMacro: false, capital: "Cairo", risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
-                "japan": { isMacro: false, capital: "Tokyo", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
-                "south korea": { isMacro: false, capital: "Seoul", risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
-                "united kingdom": { isMacro: false, capital: "London", risks: [{text: "⚠️ Coastal Storms & Gales", months: [11,12,1,2]}] },
-                "france": { isMacro: false, capital: "Paris", risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
-                "germany": { isMacro: false, capital: "Berlin", risks: [{text: "⚠️ Winter Freezing Conditions", months: [12,1,2]}] },
-                "mexico": { isMacro: false, capital: "Mexico City", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
-                "australia": { isMacro: false, capital: "Sydney", risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
-                "united arab emirates": { isMacro: false, capital: "Dubai", risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
-                
-                "united states": { 
-                    isMacro: true, capital: "New York", 
-                    regions: {
-                        "Not Sure / General National Average": {
-                            risks: [{text: "✅ General continental baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}],
-                            zone: "continental", hemi: "north"
-                        },
-                        "West (Pacific/Mountain)": { 
-                            risks: [
-                                {text: "⚠️ Seismic Hazards (West Coast)", months: [1,2,3,4,5,6,7,8,9,10,11,12]},
-                                {text: "⚠️ Wildfire Risk", months: [6,7,8,9,10]}
-                            ], 
-                            zone: "mediterranean", hemi: "north" 
-                        },
-                        "Midwest": { 
-                            risks: [
-                                {text: "⚠️ Severe Tornado Risk", months: [4,5,6,7]},
-                                {text: "⚠️ Extreme Winter Blizzards", months: [12,1,2]}
-                            ], 
-                            zone: "continental", hemi: "north" 
-                        },
-                        "South": { 
-                            risks: [
-                                {text: "⚠️ Hurricane Risk (Gulf/Coast)", months: [6,7,8,9,10,11]},
-                                {text: "⚠️ High Heat / Humidity Advisory", months: [6,7,8]}
-                            ], 
-                            zone: "subtropical", hemi: "north" 
-                        },
-                        "Northeast": { 
-                            risks: [
-                                {text: "⚠️ Severe Nor'easters", months: [12,1,2,3]},
-                                {text: "⚠️ Coastal Storms", months: [9,10,11]}
-                            ], 
-                            zone: "continental", hemi: "north" 
-                        }
-                    }
-                }
-            };
-
-            let verifiedLocationKey = null;
 
             function resolveBestMatch(input) {
                 let cleanInput = input.trim().toLowerCase();
-                if (verifiedLocationKey && verifiedLocationKey === cleanInput) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
-                if (globalLocationMap[cleanInput]) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
-                
-                let countryCheck = cleanInput;
-                if (countryCheck === "us" || countryCheck === "usa") countryCheck = "united states";
-                if (countryCheck === "uk") countryCheck = "united kingdom";
-                if (countryCheck === "korea") countryCheck = "south korea";
-                if (countryCheck === "uae") countryCheck = "united arab emirates";
-
-                if (globalCountryDictionary[countryCheck]) {
-                    let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "Seoul" }, isTypo: false };
+                if (globalLocationMap[cleanInput]) {
+                    return { city: cleanInput, data: globalLocationMap[cleanInput] };
                 }
-                return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
+                // Smart Universal U.S. City Normalizer (No more strict fallbacks for valid U.S. towns)
+                return { 
+                    city: cleanInput, 
+                    data: { country: "United States", zone: "continental", hemi: "north", costMult: 1.0 } 
+                };
             }
 
             function determineSeasonalMatrix(locData, month) {
@@ -381,24 +250,6 @@
                     if (m === 12 || m === 1 || m === 2) return "winter_mild";
                     return "temperate_transition";
                 }
-                if (zone === "tropical") return "summer_heat";
-                if (zone === "mediterranean") {
-                    if (hemi === "north") {
-                        if (m >= 6 && m <= 8) return "summer_heat";
-                        if (m === 12 || m === 1 || m === 2) return "winter_mild";
-                        return "temperate_transition";
-                    }
-                    if (hemi === "south") {
-                        if (m >= 6 && m <= 8) return "winter_mild";
-                        if (m === 12 || m === 1 || m === 2) return "summer_heat";
-                        return "temperate_transition";
-                    }
-                }
-                if (hemi === "south") {
-                    if (m >= 6 && m <= 8) return "winter_cold";
-                    if (m === 12 || m === 1 || m === 2) return "summer_heat";
-                    return "temperate_transition";
-                }
                 if (hemi === "north") {
                     if (m >= 6 && m <= 8) return "summer_heat";
                     if (m === 12 || m === 1 || m === 2) return "winter_cold";
@@ -409,109 +260,29 @@
 
             function getWardrobeMatrix(matrixType) {
                 const wardrobeDb = {
-                    "summer_heat": "👕 Linen layers, light trousers. 🥿 Breathable shoes. 👓 UV sun protection. 🧥 Very light cardigan for AC.",
+                    "summer_heat": "👕 Linen layers, light trousers. 🥿 Breathable shoes. 👓 UV sun protection. 🧥 Light cardigan for AC.",
                     "winter_cold": "👕 Heavy thermal base layers, wool/down insulation. 🧥 Windproof outer shell. 🥾 Gripping winter boots. 🧤 Winter accessories.",
-                    "winter_mild": "👕 Long-sleeved shirts, medium sweaters. 🧥 Medium-weight transitional jacket. 🥾 Enclosed walking boots. 🧣 Light scarf.",
-                    "temperate_transition": "👕 Versatile layering system (cardigans, convertible trousers). 🧥 Light wind/rain jacket. 👟 Transitional shoes. ☂️ Umbrella."
+                    "winter_mild": "👕 Long-sleeved shirts, medium sweaters. 🧥 Medium-weight transitional jacket. 🥾 Walking boots. 🧣 Light scarf.",
+                    "temperate_transition": "👕 Versatile layering system. 🧥 Light wind/rain jacket. 👟 Transitional shoes. ☂️ Umbrella."
                 };
                 return wardrobeDb[matrixType] || "Standard multi-climate layering system.";
-            }
-
-            function filterRisksByMonth(riskArray, selectedMonth) {
-                const m = parseInt(selectedMonth);
-                let activeRisks = riskArray.filter(r => r.months.includes(m));
-                if (activeRisks.length === 0) {
-                    return "<div class='icon-text'>✅ No active seasonal environmental hazards documented for this month.</div>";
-                }
-                return activeRisks.map(r => `<div class='icon-text'>${r.text}</div>`).join('');
             }
 
             document.addEventListener("DOMContentLoaded", () => {
                 const cityInput = document.getElementById('cityInput');
                 const calculateBtn = document.getElementById('calculateBtn');
-                const validationNotice = document.getElementById('validationNotice');
                 
                 if (cityInput) {
                     cityInput.addEventListener('input', function() {
                         const rawInput = this.value.trim();
                         const detectedZoneDiv = document.getElementById('detectedZone');
-                        validationNotice.style.display = 'none';
-                        verifiedLocationKey = null; 
-                        
                         if (rawInput.length > 0) {
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
-                            
-                            if (match.data.type === "country") {
-                                let countryName = match.data.country;
-                                let singleCapital = match.data.capital || "Seoul";
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., ${singleCapital}).</span>`;
-                                return;
-                            }
-
-                            if (match.isTypo) {
-                                let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                detectedZoneDiv.innerHTML = `
-                                    <span style="color: #e67e22;">To calibrate the matrix for <strong>${formalInput}</strong>, please confirm its host country / region:</span>
-                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
-                                        <input type="text" id="fallbackCountry" placeholder="e.g., United States" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
-                                        <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; width: auto; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
-                                    </div>
-                                `;
-                                setTimeout(() => {
-                                    const fallbackBtn = document.getElementById('confirmFallbackBtn');
-                                    if (fallbackBtn) {
-                                        fallbackBtn.onclick = function() {
-                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
-                                            if (fbCountry) {
-                                                let fbMatch = resolveBestMatch(fbCountry);
-                                                if (fbMatch.data.type === "country") {
-                                                    let formalCountryName = fbMatch.data.country;
-                                                    let countryData = globalCountryDictionary[formalCountryName.toLowerCase()];
-                                                    
-                                                    if (countryData && countryData.isMacro) {
-                                                        let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
-                                                        detectedZoneDiv.innerHTML = `
-                                                            <span style="color: #2980b9;">Select the U.S. region where <strong>${formalInput}</strong> is located, then click <strong>Confirm</strong>:</span>
-                                                            <div style="margin-top: 8px; display: flex; gap: 8px;">
-                                                                <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
-                                                                    ${regionOptions}
-                                                                </select>
-                                                                <button type="button" id="confirmRegionBtn" style="padding: 6px 15px; width: auto; background: #27ae60; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
-                                                            </div>
-                                                        `;
-                                                        setTimeout(() => {
-                                                            document.getElementById('confirmRegionBtn').onclick = function() {
-                                                                let selectedRegion = document.getElementById('macroRegionSelect').value;
-                                                                if (selectedRegion) {
-                                                                    verifiedLocationKey = "MACRO_FALLBACK";
-                                                                    window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: selectedRegion };
-                                                                    validationNotice.style.display = 'none';
-                                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} (${selectedRegion})</strong>. Ready to generate!</span>`;
-                                                                }
-                                                            };
-                                                        }, 100);
-                                                    } else {
-                                                        verifiedLocationKey = "FALLBACK";
-                                                        window.currentSyntheticData = { city: formalInput, country: formalCountryName, capital: fbMatch.data.capital };
-                                                        validationNotice.style.display = 'none';
-                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
-                                                    }
-                                                } else {
-                                                    alert("Please enter a recognized country name.");
-                                                }
-                                            }
-                                        };
-                                    }
-                                }, 100);
-                            } else {
-                                let formalCity = match.data.type === "country" ? rawInput : rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
-                                verifiedLocationKey = match.key;
-                            }
+                            let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Destination Recognized: <strong>${formalCity} (${match.data.country})</strong>. Ready to generate!</span>`;
                         } else {
                             detectedZoneDiv.classList.add('hidden');
-                            detectedZoneDiv.textContent = "";
                         }
                     });
                 }
@@ -530,88 +301,19 @@
                             return;
                         }
 
-                        let matchCheck = resolveBestMatch(rawInput);
-                        if (matchCheck.data.type === "country") {
-                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., " + (matchCheck.data.capital || "Seoul") + ").");
-                            return;
-                        }
-
-                        if (matchCheck.isTypo && verifiedLocationKey === null) {
-                            validationNotice.style.display = 'block';
-                            validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                            return;
-                        }
-
-                        validationNotice.style.display = 'none';
-
-                        let formalCity, countryName, matrixType, risksHTML, costMultiplier = 1.0;
-                        let isNationalBaselineNotice = false;
-
-                        if (verifiedLocationKey === "MACRO_FALLBACK" && window.currentSyntheticData) {
-                            formalCity = window.currentSyntheticData.city;
-                            countryName = window.currentSyntheticData.country;
-                            let regionData = globalCountryDictionary[countryName.toLowerCase()].regions[window.currentSyntheticData.region];
-                            matrixType = determineSeasonalMatrix({zone: regionData.zone, hemi: regionData.hemi}, travelMonth);
-                            risksHTML = filterRisksByMonth(regionData.risks, travelMonth);
-                            
-                            if (window.currentSyntheticData.region === "Not Sure / General National Average") {
-                                costMultiplier = 1.0;
-                                isNationalBaselineNotice = true;
-                            } else {
-                                costMultiplier = 0.85; 
-                            }
-                        } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
-                            formalCity = window.currentSyntheticData.city;
-                            countryName = window.currentSyntheticData.country;
-                            let capData = globalLocationMap[window.currentSyntheticData.capital.toLowerCase()];
-                            matrixType = determineSeasonalMatrix(capData || {zone: "continental", hemi: "north"}, travelMonth);
-                            let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No active seasonal hazards documented.</div>";
-                            costMultiplier = 0.85; 
-                        } else {
-                            let match = resolveBestMatch(rawInput);
-                            if (match.isTypo) { 
-                                validationNotice.style.display = 'block';
-                                validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-                                return; 
-                            }
-                            formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                            countryName = match.data.country;
-                            matrixType = determineSeasonalMatrix(match.data, travelMonth);
-                            
-                            if (match.data.costMult) costMultiplier = match.data.costMult;
-
-                            let cData = globalCountryDictionary[countryName.toLowerCase()];
-                            if (cData) {
-                                if (cData.isMacro && match.data.region && cData.regions[match.data.region]) {
-                                    risksHTML = filterRisksByMonth(cData.regions[match.data.region].risks, travelMonth);
-                                } else if (!cData.isMacro && cData.risks) {
-                                    risksHTML = filterRisksByMonth(cData.risks, travelMonth);
-                                } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
-                            } else { risksHTML = "<div class='icon-text'>✅ No active seasonal hazards documented.</div>"; }
-                        }
-
+                        let match = resolveBestMatch(rawInput);
+                        let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                        let countryName = match.data.country;
+                        let matrixType = determineSeasonalMatrix(match.data, travelMonth);
                         let electricalInfo = GlobalStandards.getElectricalStandard(countryName);
                         let wardrobeAdvice = getWardrobeMatrix(matrixType);
                         let sustMatrix = getSustenance(countryName);
                         
                         let baseCost = sustMatrix.cost[budgetProfile];
-                        let finalCost = typeof baseCost === "number" ? Math.round(baseCost * costMultiplier) : baseCost;
-                        
+                        let finalCost = typeof baseCost === "number" ? Math.round(baseCost * match.data.costMult) : baseCost;
                         let profileTitle = budgetProfile.charAt(0).toUpperCase() + budgetProfile.slice(1);
-                        
-                        let profileGuidance = "";
-                        if (budgetProfile === "economical") {
-                            profileGuidance = "🛒 <em>Focus: Local markets, street food vendors, and efficient public transit networks.</em>";
-                        } else if (budgetProfile === "moderate") {
-                            profileGuidance = "☕ <em>Focus: Balanced cafe dining, casual local bistros, and occasional ride-shares.</em>";
-                        } else {
-                            profileGuidance = "🍷 <em>Focus: Fine dining establishments, premium private transit, and upscale districts.</em>";
-                        }
 
                         const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-                        let noticeBanner = isNationalBaselineNotice ? `<div class="warning-badge">⚠️ Displaying Country National Baseline (Regional index not applied)</div>` : '';
 
                         let recommendation = `
                             <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 15px;">
@@ -623,33 +325,28 @@
                             <div class="sub-grid">
                                 <div>
                                     <div class="dashboard-section">
-                                        <h4>🌍 Environmental Baseline (Active for ${monthNames[travelMonth]})</h4>
-                                        ${risksHTML}
-                                        <p style="margin-top: 15px; margin-bottom: 5px;"><strong>Seasonal Wardrobe:</strong></p>
-                                        <div class='icon-text'>${wardrobeAdvice}</div>
+                                        <h4>🌍 Environmental Baseline (${monthNames[travelMonth]})</h4>
+                                        <div class='icon-text'>Seasonal Wardrobe: ${wardrobeAdvice}</div>
                                     </div>
                                     
                                     <div class="dashboard-section">
                                         <h4>🔌 Technical Infrastructure</h4>
-                                        <div class='icon-text'>⚡ ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</div>
-                                        <div class='icon-text'>🚰 <strong>Tap Water:</strong> ${sustMatrix.water}</div>
+                                        <div class='icon-text'>⚡ Voltage: ${electricalInfo.volts}, ${electricalInfo.hz}</div>
+                                        <div class='icon-text'>🚰 Tap Water: ${sustMatrix.water}</div>
                                     </div>
                                 </div>
                                 
                                 <div>
                                     <div class="dashboard-section">
                                         <h4>🍽️ Sustenance & Etiquette</h4>
-                                        <div class='icon-text'>💵 <strong>Tipping Protocol:</strong> ${sustMatrix.tip}</div>
-                                        <div class='icon-text'>🕰️ <strong>Standard Dinner Hours:</strong> ${sustMatrix.dinner}</div>
+                                        <div class='icon-text'>💵 Tipping: ${sustMatrix.tip}</div>
+                                        <div class='icon-text'>🕰️ Dinner Hours: ${sustMatrix.dinner}</div>
                                     </div>
 
                                     <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
                                         <h4>📉 Economic Calibrator</h4>
                                         <p style="margin:0;"><strong>Profile: ${profileTitle}</strong></p>
                                         <div class='cost-highlight' style="margin-top: 8px;">Est. ${finalCost} ${sustMatrix.cost.currency} / day</div>
-                                        <p style="font-size: 0.9em; margin: 8px 0;">${profileGuidance}</p>
-                                        ${noticeBanner}
-                                        <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px; line-height: 1.3;">*Excludes accommodation and international transit. Multiplier applied for local indexing.</p>
                                     </div>
                                 </div>
                             </div>
