@@ -3,103 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 2 | Sustenance & Relocation Cost Estimation</title>
+    <title>Pillar 2 | Cost & Relocation</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #f9f9f9; color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #27ae60; }
-        h1, h2, h4 { color: #27ae60; margin-top: 0; }
-        .icon-text { margin-bottom: 8px; font-size: 0.95em; }
-        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
-        .dashboard-section h4 { color: #27ae60; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
-        .cost-highlight { font-size: 1.3em; color: #27ae60; font-weight: bold; margin-top: 8px; }
-        .relocation-box { background: #e8f8f5; border: 1px solid #a3e4d7; padding: 20px; border-radius: 6px; margin-top: 20px; }
-        .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
-        .btn-pillar:hover { opacity: 0.85; }
-        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        :root { --primary: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        
+        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
+        .binder-tab { flex: 1; min-width: 100px; padding: 10px 8px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.8em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); }
+        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
+        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+
+        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
-        <header style="border-bottom: 2px solid #27ae60; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 2: Cost-of-Living & Relocation Estimator</h1>
+        <nav class="binder-nav" id="binderNav"></nav>
+
+        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
+            <h1>Pillar 2: Cost & Relocation Intelligence</h1>
+            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Initial capital outlay, living expenses, and engagement scaling.</p>
         </header>
-        <div id="outputContent">Loading intelligence...</div>
-        
-        <div class="deep-dive-bar">
-            <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
+
+        <div class="info-box">
+            <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
+            <p id="outlayText">Calculating capital outlay scaled to your engagement duration...</p>
         </div>
+
+        <footer class="affiliate-disclosure">
+            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
+        </footer>
     </main>
+
     <script>
         (function() {
-            const SustenanceData = {
-                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" }, moveBase: 1200 },
-                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" }, moveBase: 180000 },
-                "South Korea": { water: "✅ Safe (Locals prefer filtered)", tip: "❌ No tipping", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" }, moveBase: 1500000 },
-                "Taiwan": { water: "❌ BOIL OR BOTTLED ONLY", tip: "❌ NO TIPPING", cost: { economical: 600, moderate: 1500, elevated: 3000, currency: "TWD" }, moveBase: 35000 },
-                "China": { water: "❌ BOIL OR BOTTLED ONLY", tip: "❌ NO TIPPING", cost: { economical: 60, moderate: 150, elevated: 350, currency: "CNY" }, moveBase: 8000 },
-                "United Kingdom": { water: "✅ Safe", tip: "10-12% (Optional service charge)", cost: { economical: 30, moderate: 70, elevated: 140, currency: "GBP" }, moveBase: 900 },
-                "France": { water: "✅ Safe", tip: "Included by law ('Service compris')", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" }, moveBase: 1000 },
-                "Germany": { water: "✅ Safe", tip: "5-10% (Round up or cash tip)", cost: { economical: 25, moderate: 55, elevated: 120, currency: "EUR" }, moveBase: 1000 },
-                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" }, moveBase: 2000 },
-                "Canada": { water: "✅ Safe", tip: "15-20% standard norm", cost: { economical: 55, moderate: 110, elevated: 200, currency: "CAD" }, moveBase: 1500 }
-            };
-
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Selected City";
-            const country = urlParams.get('country') || "United States";
-            const profile = urlParams.get('profile') || "moderate";
-            const term = urlParams.get('term') || "Medium-Term Stay (1-3 Months)";
-
-            let matrix = SustenanceData[country] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" }, moveBase: 1000 };
-            let baseCost = matrix.cost[profile] || matrix.cost["moderate"];
+            const city = urlParams.get('city') || "Global Destination";
+            const term = urlParams.get('term') || "Short-Term Visit (1-2 Weeks)";
             
-            // Relocation moving & setup estimate scaling based on term duration
-            let relocationMultiplier = 1.0;
-            if (term.includes("Short-Term")) relocationMultiplier = 0.4;
-            else if (term.includes("Long-Term") || term.includes("Semester")) relocationMultiplier = 1.5;
-            else if (term.includes("Annual")) relocationMultiplier = 2.2;
+            document.getElementById('statusHeader').innerText = `Active Session: ${city} (${term})`;
+            
+            let outlay = 480;
+            if (term.includes("Annual")) outlay = 4500;
+            else if (term.includes("Long-Term")) outlay = 2200;
+            else if (term.includes("Medium-Term")) outlay = 950;
 
-            let estimatedRelocationOutlay = Math.round(matrix.moveBase * relocationMultiplier);
-
-            document.getElementById('outputContent').innerHTML = `
-                <h2>${city}, ${country}</h2>
-                <p><em>Sustenance Profile: ${profile.toUpperCase()} | Engagement: ${term}</em></p>
-                
-                <div class="dashboard-section">
-                    <h4>🍽️ Dining & Sustenance Standards</h4>
-                    <div class='icon-text'>🚰 <strong>Tap Water Safety:</strong> ${matrix.water}</div>
-                    <div class='icon-text'>💵 <strong>Tipping Protocol:</strong> ${matrix.tip}</div>
-                </div>
-
-                <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
-                    <h4>📉 Daily Sustenance Calibrator</h4>
-                    <div class='cost-highlight'>Est. ${baseCost} ${matrix.cost.currency} / day</div>
-                    <p style="font-size: 0.85em; color: #7f8c8d; margin-top: 5px;">*Covers local meals, daily cafes, and regional transport. Excludes accommodation.</p>
-                </div>
-
-                <div class="relocation-box">
-                    <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
-                    <div class='cost-highlight' style="color: #16a085;">Est. Initial Capital Outlay: ${estimatedRelocationOutlay.toLocaleString()} ${matrix.cost.currency}</div>
-                    <p style="font-size: 0.9em; margin: 8px 0 0 0; color: #2c3e50;">
-                        Includes estimated one-time transit/shipping logistics, initial lodging deposits, and startup settling buffer scaled for a <strong>${term}</strong> engagement in ${country}.
-                    </p>
-                </div>
+            document.getElementById('outlayText').innerHTML = `
+                <strong>Est. Initial Capital Outlay: ~$${outlay} USD</strong><br>
+                <em>Rationale:</em> Scaled for a <strong>${term}</strong> engagement. For short stays, this covers local transit passes, emergency cash buffers, and temporary connectivity. For annual relocations, this incorporates container shipping logistics, housing deposits, and initial utility setups.
             `;
-            
+
             const qs = window.location.search;
-            document.getElementById('linkMaster').href = `../index.html${qs}`;
-            document.getElementById('linkP1').href = `../pillar-1/index.html${qs}`;
-            document.getElementById('linkP3').href = `../pillar-3/index.html${qs}`;
-            document.getElementById('linkP4').href = `../pillar-4/index.html${qs}`;
-            document.getElementById('linkP5').href = `../pillar-5/index.html${qs}`;
-            document.getElementById('linkP6').href = `../pillar-6/index.html${qs}`;
+            document.getElementById('binderNav').innerHTML = `
+                <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
+                <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
+                <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
+                <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
+                <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
+                <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            `;
         })();
     </script>
 </body>
