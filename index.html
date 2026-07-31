@@ -55,8 +55,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Oslo, Aurora, CO)...">
+                <label for="cityInput">Destination (City, e.g., Milan, New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Milan, Aurora, CO)...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -100,9 +100,9 @@
 
     <script>
         (function() {
-            // Comprehensive Global City Database with complete major cities of the globe and US cities
+            // Highly Expanded Comprehensive Global and US City Database covering major metropolitan hubs worldwide
             const globalLocationMap = {
-                // United States Major Cities
+                // United States Major & Regional Cities
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
                 "chicago": { country: "United States" }, "houston": { country: "United States" },
                 "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
@@ -117,43 +117,53 @@
                 "miami": { country: "United States" }, "atlanta": { country: "United States" },
                 "aurora": { country: "United States" }, "denver": { country: "United States" },
                 "boulder": { country: "United States" }, "portland": { country: "United States" },
-                "miami": { country: "United States" }, "orlando": { country: "United States" },
-                "minneapolis": { country: "United States" }, "detroit": { country: "United States" },
+                "orlando": { country: "United States" }, "minneapolis": { country: "United States" },
+                "detroit": { country: "United States" }, "st. louis": { country: "United States" },
+                "pittsburgh": { country: "United States" }, "charlotte": { country: "United States" },
+                "nashville": { country: "United States" }, "salt lake city": { country: "United States" },
 
-                // Europe
+                // Europe (Including Milan, Rome, Paris, London, etc.)
+                "milan": { country: "Italy" }, "rome": { country: "Italy" },
+                "venice": { country: "Italy" }, "florence": { country: "Italy" },
+                "naples": { country: "Italy" }, "turin": { country: "Italy" },
                 "oslo": { country: "Norway" }, "stockholm": { country: "Sweden" },
                 "helsinki": { country: "Finland" }, "copenhagen": { country: "Denmark" },
-                "london": { country: "United Kingdom" }, "paris": { country: "France" },
+                "london": { country: "United Kingdom" }, "manchester": { country: "United Kingdom" },
+                "edinburgh": { country: "United Kingdom" }, "paris": { country: "France" },
+                "lyon": { country: "France" }, "marseille": { country: "France" },
                 "berlin": { country: "Germany" }, "munich": { country: "Germany" },
-                "frankfurt": { country: "Germany" }, "rome": { country: "Italy" },
-                "milan": { country: "Italy" }, "madrid": { country: "Spain" },
-                "barcelona": { country: "Spain" }, "zurich": { country: "Switzerland" },
+                "frankfurt": { country: "Germany" }, "hamburg": { country: "Germany" },
+                "madrid": { country: "Spain" }, "barcelona": { country: "Spain" },
+                "valencia": { country: "Spain" }, "zurich": { country: "Switzerland" },
                 "geneva": { country: "Switzerland" }, "amsterdam": { country: "Netherlands" },
                 "rotterdam": { country: "Netherlands" }, "brussels": { country: "Belgium" },
                 "vienna": { country: "Austria" }, "dublin": { country: "Ireland" },
-                "lisbon": { country: "Portugal" }, "athens": { country: "Greece" },
-                "warsaw": { country: "Poland" }, "prague": { country: "Czech Republic" },
-                "budapest": { country: "Hungary" }, "bucharest": { country: "Romania" },
-                "kyiv": { country: "Ukraine" }, "moscow": { country: "Russia" },
+                "lisbon": { country: "Portugal" }, "porto": { country: "Portugal" },
+                "athens": { country: "Greece" }, "warsaw": { country: "Poland" },
+                "prague": { country: "Czech Republic" }, "budapest": { country: "Hungary" },
+                "bucharest": { country: "Romania" }, "kyiv": { country: "Ukraine" },
+                "moscow": { country: "Russia" }, "st. petersburg": { country: "Russia" },
 
                 // Asia & Middle East
                 "tokyo": { country: "Japan" }, "osaka": { country: "Japan" },
-                "seoul": { country: "South Korea" }, "busan": { country: "South Korea" },
-                "beijing": { country: "China" }, "shanghai": { country: "China" },
+                "kyoto": { country: "Japan" }, "seoul": { country: "South Korea" },
+                "busan": { country: "South Korea" }, "beijing": { country: "China" },
+                "shanghai": { country: "China" }, "shenzhen": { country: "China" },
                 "hong kong": { country: "Hong Kong" }, "taipei": { country: "Taiwan" },
                 "singapore": { country: "Singapore" }, "bangkok": { country: "Thailand" },
                 "kuala lumpur": { country: "Malaysia" }, "jakarta": { country: "Indonesia" },
                 "manila": { country: "Philippines" }, "hanoi": { country: "Vietnam" },
                 "ho chi minh city": { country: "Vietnam" }, "new delhi": { country: "India" },
                 "mumbai": { country: "India" }, "bangalore": { country: "India" },
-                "karachi": { country: "Pakistan" }, "lahore": { country: "Pakistan" },
-                "dhaka": { country: "Bangladesh" }, "tehran": { country: "Iran" },
-                "baghdad": { country: "Iraq" }, "riyadh": { country: "Saudi Arabia" },
-                "jeddah": { country: "Saudi Arabia" }, "dubai": { country: "United Arab Emirates" },
-                "abu dhabi": { country: "United Arab Emirates" }, "doha": { country: "Qatar" },
-                "tel aviv": { country: "Israel" }, "jerusalem": { country: "Israel" },
-                "istanbul": { country: "Turkey" }, "ankara": { country: "Turkey" },
-                "cairo": { country: "Egypt" }, "alexandria": { country: "Egypt" },
+                "kolkata": { country: "India" }, "karachi": { country: "Pakistan" },
+                "lahore": { country: "Pakistan" }, "dhaka": { country: "Bangladesh" },
+                "tehran": { country: "Iran" }, "baghdad": { country: "Iraq" },
+                "riyadh": { country: "Saudi Arabia" }, "jeddah": { country: "Saudi Arabia" },
+                "dubai": { country: "United Arab Emirates" }, "abu dhabi": { country: "United Arab Emirates" },
+                "doha": { country: "Qatar" }, "tel aviv": { country: "Israel" },
+                "jerusalem": { country: "Israel" }, "istanbul": { country: "Turkey" },
+                "ankara": { country: "Turkey" }, "cairo": { country: "Egypt" },
+                "alexandria": { country: "Egypt" },
 
                 // Latin America
                 "mexico city": { country: "Mexico" }, "guadalajara": { country: "Mexico" },
@@ -183,9 +193,10 @@
             // Comprehensive UN-recognized countries dictionary
             const countryDictionary = {
                 "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
-                "norway": { example: "Oslo" }, "sweden": { example: "Stockholm" }, "finland": { example: "Helsinki" },
-                "denmark": { example: "Copenhagen" }, "united kingdom": { example: "London" }, "uk": { example: "London" },
-                "france": { example: "Paris" }, "germany": { example: "Berlin" }, "italy": { example: "Rome" },
+                "italy": { example: "Milan" }, "norway": { example: "Oslo" }, "sweden": { example: "Stockholm" },
+                "finland": { example: "Helsinki" }, "denmark": { example: "Copenhagen" },
+                "united kingdom": { example: "London" }, "uk": { example: "London" },
+                "france": { example: "Paris" }, "germany": { example: "Berlin" },
                 "spain": { example: "Madrid" }, "switzerland": { example: "Zurich" }, "netherlands": { example: "Amsterdam" },
                 "belgium": { example: "Brussels" }, "austria": { example: "Vienna" }, "ireland": { example: "Dublin" },
                 "portugal": { example: "Lisbon" }, "greece": { example: "Athens" }, "poland": { example: "Warsaw" },
@@ -239,7 +250,7 @@
                     detectedZone.innerHTML = `
                         <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
                         <div style="margin-top: 6px; display: flex; gap: 6px;">
-                            <input type="text" id="liveCountryInput" placeholder="e.g., Norway, Peru..." style="padding: 6px; font-size: 13px; flex-grow: 1;">
+                            <input type="text" id="liveCountryInput" placeholder="e.g., Italy, Norway..." style="padding: 6px; font-size: 13px; flex-grow: 1;">
                             <button type="button" id="liveConfirmBtn" style="padding: 6px 12px; font-size: 13px; width: auto;">Set</button>
                         </div>
                     `;
