@@ -3,73 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 1 | Climate & Wardrobe</title>
+    <meta name="description" content="Pillar 1: Climate intelligence, seasonal temperature profiles, and essential wardrobe/footwear recommendations for international travelers.">
+    <title>Pillar 1 | Climate & Wear</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #f4f6f7; color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 5px solid #2980b9; }
-        h1, h2, h4 { color: #2980b9; margin-top: 0; }
-        .icon-text { margin-bottom: 8px; font-size: 0.95em;}
-        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
-        .dashboard-section h4 { color: #2980b9; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
-        .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
+        :root {
+            --primary: #2980b9;
+            --dark: #2c3e50;
+            --light: #f4f6f7;
+            --border: #d5dbdb;
+        }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
+        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+        th { background: #eaf2f8; color: var(--primary); }
+
+        .deep-dive-bar { margin-top: 25px; padding-top: 20px; border-top: 2px solid var(--light); display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
         .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
         .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
-        <header style="border-bottom: 2px solid #2980b9; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 1: Climate & Wardrobe Intelligence</h1>
+        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
+            <h1>Pillar 1: Climate & Wear Intelligence</h1>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Tailored seasonal weather analysis and essential wardrobe/footwear packing recommendations.</p>
         </header>
-        <div id="outputContent">Loading intelligence...</div>
         
+        <div id="statusHeader" style="margin-bottom: 20px; font-weight: bold; color: var(--primary); font-size: 1.1em;"></div>
+
+        <div class="info-box">
+            <h4>🌤️ Seasonal Weather & Thermal Profile</h4>
+            <p id="climateDesc">Analyzing destination climate parameters and seasonal temperature shifts...</p>
+        </div>
+
+        <div class="info-box">
+            <h4>🥾 Recommended Footwear & Wardrobe Gear</h4>
+            <p>Based on your destination climate zone and travel period, pack according to the functional requirements below:</p>
+            <table>
+                <thead>
+                    <tr><th>Category</th><th>Essential Item</th><th>Functional Purpose</th></tr>
+                </thead>
+                <tbody id="wardrobeTableBody">
+                    </tbody>
+            </table>
+        </div>
+
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
+            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost</a>
             <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit</a>
             <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
             <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
         </div>
+
+        <footer class="affiliate-disclosure">
+            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
+        </footer>
     </main>
+
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Selected City";
-            const country = urlParams.get('country') || "Global Destination";
-            const month = urlParams.get('month') || "1";
-            const term = urlParams.get('term') || "Standard Stay";
+            const city = urlParams.get('city') || "Global Destination";
+            const country = urlParams.get('country'] || "";
+            const month = parseInt(urlParams.get('month')) || 6;
             
-            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
             
-            let wardrobe = "👕 Versatile layering system. 🧥 Light wind/rain jacket. 👟 Transitional shoes. ☂️ Umbrella.";
-            let seasonDesc = "Temperate transition climate conditions.";
-            if (month >= 6 && month <= 8) {
-                wardrobe = "👕 Breathable linen layers, light trousers. 🥿 Breathable footwear. 👓 UV sun protection. 🧥 Very light layer for AC.";
-                seasonDesc = "Warm/Summer season window.";
-            } else if (month == 12 || month <= 2) {
-                wardrobe = "👕 Heavy thermal base layers, wool/down insulation. 🧥 Windproof outer shell. 🥾 Gripping winter boots. 🧤 Winter accessories.";
-                seasonDesc = "Cold/Winter season window.";
-            }
+            // Generate dynamic climate and wear advice based on month
+            let season = (month >= 3 && month <= 5) ? "Spring" : (month >= 6 && month <= 8) ? "Summer" : (month >= 9 && month <= 11) ? "Autumn" : "Winter";
+            
+            document.getElementById('climateDesc').innerText = `For your stay in ${city} during ${season}, expect variable weather conditions requiring adaptive layering. Check local historical baselines for sudden precipitation changes.`;
 
-            document.getElementById('outputContent').innerHTML = `
-                <h2>${city}, ${country}</h2>
-                <p><em>Calibrated for ${monthNames[month]} | ${term}</em></p>
-                
-                <div class="dashboard-section">
-                    <h4>🌍 Environmental Baseline</h4>
-                    <div class='icon-text'><strong>Seasonal Profile:</strong> ${seasonDesc}</div>
-                    <div class='icon-text' style="margin-top: 10px;"><strong>Recommended Wardrobe:</strong> ${wardrobe}</div>
-                </div>
-                
-                <div class="dashboard-section">
-                    <h4>🔌 Technical Infrastructure Standard</h4>
-                    <div class='icon-text'>⚡ Standard regional voltage, frequency, and plug adapters apply for ${country}.</div>
-                </div>
-            `;
-            
+            let gearRows = "";
+            if (season === "Winter") {
+                gearRows = `
+                    <tr><td><strong>Footwear</strong></td><td>Insulated Waterproof Boots</td><td>Thermal protection against snow, slush, and sub-zero temperatures.</td></tr>
+                    <tr><td><strong>Outerwear</strong></td><td>Heavy Down Parka / Windproof Shell</td><td>Blocks windchill and traps core body heat.</td></tr>
+                    <tr><td><strong>Base Layers</strong></td><td>Merino Wool Thermals (Top & Bottom)</td><td>Moisture-wicking base layer to regulate body temperature.</td></tr>
+                `;
+            } else if (season === "Summer") {
+                gearRows = `
+                    <tr><td><strong>Footwear</strong></td><td>Breathable Walking Sneakers / Sandals</td><td>Comfortable support for extended walking in high heat.</td></tr>
+                    <tr><td><strong>Outerwear</strong></td><td>Lightweight Linen / UV-Protective Shirt</td><td>Shields against intense solar radiation while maintaining airflow.</td></tr>
+                    <tr><td><strong>Accessories</strong></td><td>Polarized Sunglasses & Wide-Brim Hat</td><td>Protects eyes and skin from peak UV exposure.</td></tr>
+                `;
+            } else {
+                gearRows = `
+                    <tr><td><strong>Footwear</strong></td><td>All-Weather Comfortable Walking Shoes</td><td>Versatile support for mixed terrain and variable rain.</td></tr>
+                    <tr><td><strong>Outerwear</strong></td><td>Water-Resistant Trench Coat or Jacket</td><td>Light insulation with wind and rain resistance.</td></tr>
+                    <tr><td><strong>Layers</strong></td><td>Versatile Cardigans / Pullovers</td><td>Easy layering for shifting daytime and evening temperatures.</td></tr>
+                `;
+            }
+            document.getElementById('wardrobeTableBody').innerHTML = gearRows;
+
             const qs = window.location.search;
             document.getElementById('linkMaster').href = `../index.html${qs}`;
             document.getElementById('linkP2').href = `../pillar-2/index.html${qs}`;
