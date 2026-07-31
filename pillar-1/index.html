@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 1 | Climate</title>
+    <title>Pillar 1 | Climate & Wardrobe</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #f4f6f7; color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); margin-bottom: 20px; border-top: 5px solid #2980b9; }
         h1, h2, h4 { color: #2980b9; margin-top: 0; }
         .icon-text { margin-bottom: 8px; font-size: 0.95em;}
-        /* Omni-Directional Deep-Dive Bar */
+        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
+        .dashboard-section h4 { color: #2980b9; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
         .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
         .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
@@ -20,39 +21,53 @@
 <body>
     <main class="card">
         <header style="border-bottom: 2px solid #2980b9; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 1: Climate & Wardrobe</h1>
+            <h1>Pillar 1: Climate & Wardrobe Intelligence</h1>
         </header>
         <div id="outputContent">Loading intelligence...</div>
         
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance (P2)</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Comms (P3)</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">🤝 Culture (P5)</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">🧮 Convert (P6)</a>
+            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
+            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
+            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
         </div>
     </main>
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Unknown City";
-            const country = urlParams.get('country') || "Unknown Country";
+            const city = urlParams.get('city') || "Selected City";
+            const country = urlParams.get('country') || "Global Destination";
             const month = urlParams.get('month') || "1";
+            const term = urlParams.get('term') || "Standard Stay";
             
             const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
             
-            // Simple generic calculation for demo
-            let wardrobe = "👕 Versatile layering system. 🧥 Light jacket. ☂️ Umbrella.";
-            if (month >= 6 && month <= 8) wardrobe = "👕 Breathable layers, sun protection.";
-            if (month == 12 || month <= 2) wardrobe = "🧥 Heavy winter gear, boots, thermals.";
-            
+            let wardrobe = "👕 Versatile layering system. 🧥 Light wind/rain jacket. 👟 Transitional shoes. ☂️ Umbrella.";
+            let seasonDesc = "Temperate transition climate conditions.";
+            if (month >= 6 && month <= 8) {
+                wardrobe = "👕 Breathable linen layers, light trousers. 🥿 Breathable footwear. 👓 UV sun protection. 🧥 Very light layer for AC.";
+                seasonDesc = "Warm/Summer season window.";
+            } else if (month == 12 || month <= 2) {
+                wardrobe = "👕 Heavy thermal base layers, wool/down insulation. 🧥 Windproof outer shell. 🥾 Gripping winter boots. 🧤 Winter accessories.";
+                seasonDesc = "Cold/Winter season window.";
+            }
+
             document.getElementById('outputContent').innerHTML = `
                 <h2>${city}, ${country}</h2>
-                <p><em>Calibrated for ${monthNames[month]}</em></p>
-                <h4 style="margin-top:20px;">🌍 Environmental Baseline</h4>
-                <div class='icon-text'><strong>Wardrobe Matrix:</strong> ${wardrobe}</div>
-                <div class='icon-text'><strong>Infrastructure:</strong> Plugs/Voltage local standards apply.</div>
+                <p><em>Calibrated for ${monthNames[month]} | ${term}</em></p>
+                
+                <div class="dashboard-section">
+                    <h4>🌍 Environmental Baseline</h4>
+                    <div class='icon-text'><strong>Seasonal Profile:</strong> ${seasonDesc}</div>
+                    <div class='icon-text' style="margin-top: 10px;"><strong>Recommended Wardrobe:</strong> ${wardrobe}</div>
+                </div>
+                
+                <div class="dashboard-section">
+                    <h4>🔌 Technical Infrastructure Standard</h4>
+                    <div class='icon-text'>⚡ Standard regional voltage, frequency, and plug adapters apply for ${country}.</div>
+                </div>
             `;
             
             const qs = window.location.search;
