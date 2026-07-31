@@ -119,7 +119,7 @@
         <header class="article-header">
             <h1>Global Citizen Intelligence: Master Dashboard</h1>
             <p><strong>The Operational Baseline</strong><br>
-            Designed for international students, remote professionals, and global relocation movers. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
+            Designed for international students, traveling professionals, retirees, and relocation movers. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
         </header>
 
         <div id="validationNotice" class="gentle-notice">
@@ -220,7 +220,7 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
-            // Comprehensive Global Map including Washington DC vs. State disambiguation, Austin, Boston, etc.
+            // Expanded Global & Comprehensive U.S. Cities Map (Including Tampa, New Orleans, Orlando, Sarasota, OKC, etc.)
             const globalLocationMap = {
                 // East Asia & Global Hubs
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
@@ -255,19 +255,41 @@
                 "são paulo": { country: "Brazil", zone: "tropical", hemi: "south", type: "city", costMult: 1.0 },
                 "buenos aires": { country: "Argentina", zone: "temperate", hemi: "south", type: "city", costMult: 0.8 },
 
-                // United States (Key Government, Tech, & Student Hubs)
+                // United States (Comprehensive: Major Metros, Student Hubs, and Retirement/Travel Havens)
                 "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.45 },
                 "washington": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.35 },
                 "washington dc": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.35 },
                 "richmond": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
                 "boston": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.35 },
                 "austin": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
+                "miami": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.25 },
+                "tampa": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "sarasota": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
+                "orlando": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 0.95 },
+                "naples": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.3 },
+                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.0 },
+                "asheville": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "South", costMult: 1.0 },
+                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 0.95 },
+                "tulsa": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 0.9 },
+                "dallas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.1 },
+                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.0 },
+                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 0.95 },
+                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 },
+                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.05 },
+                "scottsdale": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.2 },
+                "tucson": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 0.95 },
+                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.15 },
+                "denver": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.1 },
+                "colorado springs": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 },
                 "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.3 },
+                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.35 },
                 "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.45 },
                 "seattle": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.25 },
-                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 },
-                "houston": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.0 },
-                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", type: "city", region: "South", costMult: 1.05 },
+                "portland": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.15 },
                 
                 // Canada & Oceania
                 "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
@@ -483,7 +505,7 @@
                                     }
                                 }, 100);
                             } else {
-                                let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                let formalCity = match.data.type === "country" ? rawInput : rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
                                 verifiedLocationKey = match.key;
                             }
@@ -553,7 +575,7 @@
                                 validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                                 return; 
                             }
-                            formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                            formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                             countryName = match.data.country;
                             matrixType = determineSeasonalMatrix(match.data, travelMonth);
                             
