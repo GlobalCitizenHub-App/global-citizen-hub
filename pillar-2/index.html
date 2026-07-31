@@ -3,49 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 2 | Sustenance</title>
+    <title>Pillar 2 | Sustenance & Economics</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #f9f9f9; color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #27ae60; }
         h1, h2, h4 { color: #27ae60; margin-top: 0; }
         .icon-text { margin-bottom: 8px; font-size: 0.95em; }
-        /* Omni-Directional Deep-Dive Bar */
+        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
+        .dashboard-section h4 { color: #27ae60; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
+        .cost-highlight { font-size: 1.3em; color: #27ae60; font-weight: bold; margin-top: 8px; }
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
-        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p3 { background: #8e44ad; }
-        .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
+        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
     </style>
 </head>
 <body>
     <main class="card">
         <header style="border-bottom: 2px solid #27ae60; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 2: Sustenance & Budget</h1>
+            <h1>Pillar 2: Cost-of-Living & Sustenance Matrix</h1>
         </header>
         <div id="outputContent">Loading intelligence...</div>
         
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate (P1)</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Comms (P3)</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">🤝 Culture (P5)</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">🧮 Convert (P6)</a>
+            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
+            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
+            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
         </div>
     </main>
     <script>
         (function() {
+            const SustenanceData = {
+                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
+                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" } },
+                "South Korea": { water: "✅ Safe (Locals prefer filtered)", tip: "❌ No tipping", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
+                "Taiwan": { water: "❌ BOIL OR BOTTLED ONLY", tip: "❌ NO TIPPING", cost: { economical: 600, moderate: 1500, elevated: 3000, currency: "TWD" } },
+                "China": { water: "❌ BOIL OR BOTTLED ONLY", tip: "❌ NO TIPPING", cost: { economical: 60, moderate: 150, elevated: 350, currency: "CNY" } },
+                "United Kingdom": { water: "✅ Safe", tip: "10-12% (Optional service charge)", cost: { economical: 30, moderate: 70, elevated: 140, currency: "GBP" } },
+                "France": { water: "✅ Safe", tip: "Included by law ('Service compris')", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
+                "Germany": { water: "✅ Safe", tip: "5-10% (Round up or cash tip)", cost: { economical: 25, moderate: 55, elevated: 120, currency: "EUR" } },
+                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
+                "Canada": { water: "✅ Safe", tip: "15-20% standard norm", cost: { economical: 55, moderate: 110, elevated: 200, currency: "CAD" } }
+            };
+
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Unknown City";
-            const country = urlParams.get('country') || "Unknown Country";
+            const city = urlParams.get('city') || "Selected City";
+            const country = urlParams.get('country') || "United States";
             const profile = urlParams.get('profile') || "moderate";
-            
+
+            let matrix = SustenanceData[country] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } };
+            let baseCost = matrix.cost[profile] || matrix.cost["moderate"];
+
             document.getElementById('outputContent').innerHTML = `
                 <h2>${city}, ${country}</h2>
-                <p><em>Profile: ${profile.toUpperCase()}</em></p>
-                <h4 style="margin-top:20px;">🍽️ Sustenance Baseline</h4>
-                <div class='icon-text'>🚰 <strong>Tap Water:</strong> Check local advisories.</div>
-                <div class='icon-text'>💵 <strong>Tipping:</strong> Varies strictly by region.</div>
+                <p><em>Sustenance Profile: ${profile.toUpperCase()} (Excludes Accommodation)</em></p>
+                
+                <div class="dashboard-section">
+                    <h4>🍽️ Dining & Etiquette Standards</h4>
+                    <div class='icon-text'>🚰 <strong>Tap Water Safety:</strong> ${matrix.water}</div>
+                    <div class='icon-text'>💵 <strong>Tipping Protocol:</strong> ${matrix.tip}</div>
+                </div>
+
+                <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
+                    <h4>📉 Economic Calibrator</h4>
+                    <div class='cost-highlight'>Est. ${baseCost} ${matrix.cost.currency} / day</div>
+                    <p style="font-size: 0.85em; color: #7f8c8d; margin-top: 5px;">*Covers local meals, daily cafes, and regional transport. Local indexing applied.</p>
+                </div>
             `;
             
             const qs = window.location.search;
