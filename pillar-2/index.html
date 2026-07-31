@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 2: Cost and relocation intelligence, initial capital outlay estimators, and living expense profiles for international travelers.">
-    <title>Pillar 2 | Cost & Relocation</title>
+    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation Toolkit.">
+    <title>Global Citizen Hub | Smart Traveling and Relocation Toolkit</title>
     <style>
-        :root { --primary: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        :root { --primary: #2980b9; --success: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
-        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        h1, h2, h3 { color: var(--dark); margin-top: 0; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 6px solid var(--primary); }
+        .article-header { border-bottom: 2px solid var(--light); padding-bottom: 15px; margin-bottom: 25px; }
         
         /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
@@ -20,171 +21,118 @@
         .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
-        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
-        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
-        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
-        th { background: #e8f8f5; color: var(--primary); }
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
+        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .full-width { grid-column: span 2; }
+        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: var(--dark); }
+        input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fff; }
+        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px rgba(41, 128, 185, 0.2); }
+        button { background-color: var(--success); color: white; border: none; padding: 16px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background-color 0.2s; }
+        button:hover { background-color: #1e8449; }
+        .hidden { display: none; }
+        #detectedZone { font-size: 14px; margin-top: 8px; margin-bottom: 15px; padding: 12px; background: #eaf2f8; border-left: 4px solid var(--primary); border-radius: 4px; }
+        .gentle-notice { background-color: #fcf3cf; color: #7d6608; padding: 12px; border-radius: 6px; font-size: 0.9em; margin-bottom: 20px; border-left: 4px solid #f39c12; display: none; }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
         <nav class="binder-nav" id="binderNav">
-            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
-            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
-            <a href="../pillar-2/index.html" class="binder-tab tab-p2 active">2. Cost</a>
-            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
-            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
-            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
-            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
+            <a href="index.html" class="binder-tab tab-master active">⌂ Dashboard</a>
+            <a href="pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
+            <a href="pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
+            <a href="pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
+            <a href="pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
+            <a href="pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
+            <a href="pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
         </nav>
 
-        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 2: Cost & Relocation Intelligence</h1>
-            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;">Active Session: Global Destination</p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Initial capital outlay, living expenses, and engagement-scaled logistics for global citizens.</p>
+        <header class="article-header">
+            <h1>Global Citizen Hub: Master Dashboard</h1>
+            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices.</p>
         </header>
 
-        <div id="contentContainer">
-            <div class="warning-box">
-                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and parameters before viewing calibrated cost intelligence.
+        <section class="input-grid">
+            <div class="full-width">
+                <label for="cityInput">Destination (City, e.g., Rome, Milan, New York, Oslo):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination city...">
+                <div id="detectedZone" class="hidden"></div>
             </div>
-        </div>
+            <div>
+                <label for="travelMonth">Travel Month:</label>
+                <select id="travelMonth">
+                    <option value="">Select Month</option>
+                    <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                    <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                    <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                    <option value="10">October</option><option value="11">November</option><option value="12">December</option>
+                </select>
+            </div>
+            <div>
+                <label for="termDuration">Engagement Duration:</label>
+                <select id="termDuration">
+                    <option value="">Select Term</option>
+                    <option value="Short-Term Visit (1-2 Weeks)">Short-Term Visit (1–2 Weeks)</option>
+                    <option value="Medium-Term Stay (1-3 Months)">Medium-Term Stay (1–3 Months)</option>
+                    <option value="Long-Term / Semester (4-6 Months)">Long-Term / Semester (4–6 Months)</option>
+                    <option value="Annual / Multi-Year">Annual / Multi-Year Relocation</option>
+                </select>
+            </div>
+            <div class="full-width">
+                <label for="budgetProfile">Sustenance Profile (Excludes Accommodation):</label>
+                <select id="budgetProfile">
+                    <option value="">Select Operational Profile</option>
+                    <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
+                    <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
+                    <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
+                </select>
+            </div>
+        </section>
 
-        <footer class="affiliate-disclosure">
-            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
-        </footer>
+        <button id="calculateBtn">Save Parameters & Hydrate Intelligence Hubs</button>
     </main>
 
     <script>
         (function() {
-            // City cost multipliers relative to baseline
-            const cityMultipliers = {
-                "rome": 1.3, "milan": 1.3, "paris": 1.3, "london": 1.4, "new york": 1.45,
-                "tokyo": 1.2, "seoul": 1.1, "mexico city": 1.1, "cairo": 0.8, "dubai": 1.3,
-                "sydney": 1.2, "toronto": 1.2, "oslo": 1.4, "stockholm": 1.3, "berlin": 1.2
+            const globalLocationMap = {
+                "rome": { country: "Italy" }, "milan": { country: "Italy" }, "oslo": { country: "Norway" },
+                "new york": { country: "United States" }, "paris": { country: "France" }, "london": { country: "United Kingdom" }
             };
 
-            // Country currency dictionary (Symbol, Code, Exchange rate relative to USD)
-            const currencyMap = {
-                "Italy": { code: "EUR", symbol: "€", rate: 0.92 },
-                "France": { code: "EUR", symbol: "€", rate: 0.92 },
-                "Germany": { code: "EUR", symbol: "€", rate: 0.92 },
-                "Spain": { code: "EUR", symbol: "€", rate: 0.92 },
-                "Norway": { code: "NOK", symbol: "kr", rate: 10.8 },
-                "Sweden": { code: "SEK", symbol: "kr", rate: 10.5 },
-                "United Kingdom": { code: "GBP", symbol: "£", rate: 0.78 },
-                "Japan": { code: "JPY", symbol: "¥", rate: 155.0 },
-                "South Korea": { code: "KRW", symbol: "₩", rate: 1380.0 },
-                "Canada": { code: "CAD", symbol: "CA$", rate: 1.36 },
-                "Australia": { code: "AUD", symbol: "AU$", rate: 1.52 },
-                "Mexico": { code: "MXN", symbol: "MX$", rate: 18.5 },
-                "Brazil": { code: "BRL", symbol: "R$", rate: 5.4 },
-                "Egypt": { code: "EGP", symbol: "E£", rate: 48.0 },
-                "United Arab Emirates": { code: "AED", symbol: "AED ", rate: 3.67 },
-                "Switzerland": { code: "CHF", symbol: "CHF ", rate: 0.90 }
-            };
+            const cityInput = document.getElementById('cityInput');
+            const travelMonth = document.getElementById('travelMonth');
+            const termDuration = document.getElementById('termDuration');
+            const budgetProfile = document.getElementById('budgetProfile');
 
-            const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city');
-            
-            if (city) {
-                const country = urlParams.get('country') || "United States";
-                const term = urlParams.get('term') || "Short-Term Visit (1-2 Weeks)";
-                const profile = urlParams.get('profile') || "moderate";
-                
-                document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''} | Engagement: ${term}`;
-                
-                let baseOutlay = 480;
-                let outlayRationale = `Scaled for a ${term}. Covers local transit passes, emergency cash buffers, and temporary connectivity.`;
-                
-                if (term.includes("Annual")) {
-                    baseOutlay = 4500;
-                    outlayRationale = `Scaled for an Annual / Multi-Year Relocation. Incorporates container shipping logistics, housing security deposits, visa fees, and initial utility hookups.`;
-                } else if (term.includes("Long-Term")) {
-                    baseOutlay = 2200;
-                    outlayRationale = `Scaled for a Long-Term Stay / Semester (4-6 Months). Incorporates temporary lodging deposits, semester transit passes, and settling reserves.`;
-                } else if (term.includes("Medium-Term")) {
-                    baseOutlay = 950;
-                    outlayRationale = `Scaled for a Medium-Term Stay (1-3 Months). Covers monthly transit passes, temporary accommodation retainers, and initial provisioning.`;
-                }
-
-                // Apply city economic multiplier
-                const lowerCity = city.toLowerCase();
-                const multiplier = cityMultipliers[lowerCity] || 1.1;
-                const finalOutlayUSD = Math.round(baseOutlay * multiplier);
-
-                // Determine currency formatting
-                const curInfo = currencyMap[country] || { code: "USD", symbol: "$", rate: 1.0 };
-                const localOutlay = Math.round(finalOutlayUSD * curInfo.rate);
-                const displayCost = curInfo.code === "USD" 
-                    ? `~$${finalOutlayUSD} USD` 
-                    : `~${curInfo.symbol}${localOutlay.toLocaleString()} ${curInfo.code} (~$${finalOutlayUSD} USD)`;
-
-                let profileTitle = "Moderate (Balanced dining, cafes, occasional taxi)";
-                let expenseRows = "";
-                
-                if (profile === "economical") {
-                    profileTitle = "Economical (Grocery-heavy, street food, public transit)";
-                    expenseRows = `
-                        <tr><td><strong>Food & Groceries</strong></td><td>Low ($)</td><td>Primary reliance on local markets, neighborhood bakeries, and local eateries.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Minimal ($)</td><td>Monthly or weekly municipal transit passes.</td></tr>
-                        <tr><td><strong>Casual Outings</strong></td><td>Controlled ($)</td><td>Occasional local espresso or affordable neighborhood spots.</td></tr>
-                    `;
-                } else if (profile === "elevated") {
-                    profileTitle = "Elevated (Frequent sit-down dining, premium transit)";
-                    expenseRows = `
-                        <tr><td><strong>Food & Dining</strong></td><td>High ($$$)</td><td>Frequent reservation dining, premium cafes, and gourmet dining.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($$)</td><td>Combination of metro transit, express rail, and occasional rideshares.</td></tr>
-                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Elevated ($$$)</td><td>Museum memberships, guided cultural tours, and curated experiences.</td></tr>
-                    `;
-                } else {
-                    expenseRows = `
-                        <tr><td><strong>Food & Dining</strong></td><td>Moderate ($$)</td><td>Mix of home provisioning with regular visits to local trattorias and cafes.</td></tr>
-                        <tr><td><strong>Local Transit</strong></td><td>Moderate ($)</td><td>Standard municipal transit network supplemented by walking or light transit.</td></tr>
-                        <tr><td><strong>Lifestyle & Culture</strong></td><td>Moderate ($)</td><td>Standard museum entry, local recreation, and community events.</td></tr>
-                    `;
-                }
-
-                document.getElementById('contentContainer').innerHTML = `
-                    <div class="info-box">
-                        <h4>📦 Initial Relocation & Setup Cost Estimator</h4>
-                        <p>
-                            <strong>Est. Initial Capital Outlay: ${displayCost}</strong><br>
-                            <em>Rationale:</em> ${outlayRationale} (Calibrated with local economic multiplier for ${city}${country ? ', ' + country : ''}).
-                        </p>
-                    </div>
-
-                    <div class="info-box">
-                        <h4>🍽️ Sustenance & Daily Operating Profile</h4>
-                        <p>Active Sustenance Profile: <strong>${profileTitle}</strong></p>
-                        <table>
-                            <thead>
-                                <tr><th>Expense Category</th><th>Estimated Scale</th><th>Operational Focus</th></tr>
-                            </thead>
-                            <tbody>
-                                ${expenseRows}
-                            </tbody>
-                        </table>
-                    </div>
-                `;
+            // Load saved parameters from localStorage if available
+            if (!window.location.search && localStorage.getItem('gch_city')) {
+                cityInput.value = localStorage.getItem('gch_city');
+                travelMonth.value = localStorage.getItem('gch_month') || "";
+                termDuration.value = localStorage.getItem('gch_term') || "";
+                budgetProfile.value = localStorage.getItem('gch_profile') || "";
             }
 
-            // Dynamically propagate query parameters to all binder tabs
-            const qs = window.location.search;
-            if (qs) {
-                document.getElementById('binderNav').innerHTML = `
-                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
-                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2 active">2. Cost</a>
-                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
-                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
-                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
-                `;
-            }
+            document.getElementById('calculateBtn').addEventListener('click', function() {
+                const rawInput = cityInput.value.trim();
+                const cleanCityKey = rawInput.split(',')[0].trim().toLowerCase();
+                const monthVal = travelMonth.value;
+                const termVal = termDuration.value;
+                const profileVal = budgetProfile.value;
+
+                if (!rawInput || !monthVal || !termVal || !profileVal) { alert('Please complete all 4 parameter fields.'); return; }
+                
+                const formalCity = cleanCityKey.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                let country = globalLocationMap[cleanCityKey] ? globalLocationMap[cleanCityKey].country : "International";
+
+                // Save to localStorage for persistent memory
+                localStorage.setItem('gch_city', formalCity);
+                localStorage.setItem('gch_country', country);
+                localStorage.setItem('gch_month', monthVal);
+                localStorage.setItem('gch_term', termVal);
+                localStorage.setItem('gch_profile', profileVal);
+
+                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(country)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${profileVal}`;
+                window.location.href = `pillar-1/index.html${newQs}`;
+            });
         })();
     </script>
 </body>
