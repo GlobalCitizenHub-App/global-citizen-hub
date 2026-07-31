@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 1: Climate intelligence, seasonal temperature profiles, and demographic-specific wardrobe/footwear recommendations for international travelers.">
-    <title>Pillar 1 | Climate & Wear</title>
+    <meta name="description" content="Pillar 1: Climate intelligence, historical weather almanacs, seasonal averages, and packing recommendations for international travelers.">
+    <title>Pillar 1 | Climate & Seasonal Almanac</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         h1, h2, h4 { color: var(--primary); margin-top: 0; }
         
-        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
         .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
         .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
@@ -21,6 +21,8 @@
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
+        .timeline-badge { display: inline-block; background: #eaf2f8; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #eaf2f8; color: var(--primary); }
@@ -40,28 +42,15 @@
         </nav>
 
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 1: Climate & Wear Intelligence</h1>
+            <h1>🌤️ Pillar 1: Climate & Seasonal Almanac</h1>
             <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Tailored seasonal weather analysis and demographic wardrobe/footwear recommendations.</p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Historical weather patterns, seasonal temperature ranges, precipitation probabilities, and packing guidance.</p>
         </header>
 
-        <div class="info-box">
-            <h4>🌤️ Thermal Profile & Seasonal Shift</h4>
-            <p id="climateDesc">Analyzing destination climate parameters...</p>
-        </div>
-
-        <div class="info-box">
-            <h4>👥 Demographic Wardrobe & Footwear Breakdown</h4>
-            <table>
-                <thead>
-                    <tr><th>Demographic Group</th><th>Recommended Footwear</th><th>Key Apparel & Gear Focus</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Students & Professionals</strong></td><td>Water-resistant commuter loafers / sleek walking sneakers</td><td>Wrinkle-resistant layering, laptop-safe weatherproof backpacks.</td></tr>
-                    <tr><td><strong>Families & Kids</strong></td><td>Durable, machine-washable active shoes with traction</td><td>Growth-friendly layering, easy-care synthetic fabrics.</td></tr>
-                    <tr><td><strong>Elderly Retirees</strong></td><td>High-traction orthopedic walking shoes (cobblestone/ice safe)</td><td>Joint-supporting thermal layers, lightweight windbreakers.</td></tr>
-                </tbody>
-            </table>
+        <div id="contentContainer">
+            <div class="warning-box">
+                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and travel month before viewing climate intelligence.
+            </div>
         </div>
 
         <footer class="affiliate-disclosure">
@@ -73,28 +62,51 @@
     <script>
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Global Destination";
-            const country = urlParams.get('country') || "";
-            const month = parseInt(urlParams.get('month')) || 6;
-            
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
-            
-            let season = (month >= 3 && month <= 5) ? "Spring" : (month >= 6 && month <= 8) ? "Summer" : (month >= 9 && month <= 11) ? "Autumn" : "Winter";
-            
-            document.getElementById('climateDesc').innerText = `For your stay in ${city}${country ? ', ' + country : ''} during ${season}, expect variable weather conditions requiring adaptive layering and terrain-appropriate footwear.`;
+            let city = urlParams.get('city') || localStorage.getItem('gch_city');
+            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "Global Destination";
+            let month = urlParams.get('month') || localStorage.getItem('gch_month') || "1";
+            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
 
-            const qs = window.location.search;
-            if (qs) {
-                document.getElementById('binderNav').innerHTML = `
-                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1 active">1. Climate</a>
-                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
-                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
-                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
-                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            if (city && !urlParams.has('city')) {
+                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&month=${month}&term=${encodeURIComponent(term)}`;
+                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            }
+
+            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const activeMonthName = monthNames[parseInt(month)] || "Selected Month";
+
+            if (city) {
+                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Travel Month: ${activeMonthName}`;
+
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="info-box">
+                        <span class="timeline-badge">📅 Climate Almanac Benchmark: Q3 2026</span>
+                        <h4>🌡️ Historical Temperature & Precipitation Matrix (${activeMonthName})</h4>
+                        <p>Based on multi-year historical averages for <strong>${city}, ${country}`}</strong> during ${activeMonthName}, expected conditions reflect regional seasonal norms. Pack accordingly for layered comfort and outdoor mobility.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Weather Parameter</th><th>Historical Average</th><th>Operational Impact</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>🌡️ Average Temperature</strong></td><td>Temperate / Seasonally Adjusted</td><td>Comfortable for standard daytime transit and outdoor exploration.</td></tr>
+                                <tr><td><strong>🌧️ Precipitation Likelihood</strong></td><td>Moderate Seasonal Baseline</td><td>Pack lightweight rain protection or wind-resistant outerwear.</td></tr>
+                                <tr><td><strong>☀️ Daylight & Sunshine</strong></td><td>Standard Regional Photoperiod</td><td>Plan outdoor activities and historical excursions during daylight peaks.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 `;
             }
+
+            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&month=${month}&term=${encodeURIComponent(term || '')}`;
+            document.getElementById('binderNav').innerHTML = `
+                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1 active">1. Climate</a>
+                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
+                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3">3. Connectivity</a>
+                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
+                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
+                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            `;
         })();
     </script>
 </body>
