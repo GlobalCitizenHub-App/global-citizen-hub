@@ -53,8 +53,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <label for="cityInput">Destination (City, e.g., Austin, Mexico City, New York, Cairo, Dubai, Paris, Seoul, Sydney):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination city...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -98,15 +98,76 @@
 
     <script>
         (function() {
+            const knownCities = {
+                "austin": "United States", "new york": "United States", "seoul": "South Korea",
+                "paris": "France", "mexico city": "Mexico", "tokyo": "Japan", "london": "United Kingdom",
+                "dubai": "United Arab Emirates", "sydney": "Australia", "cairo": "Egypt"
+            };
+
+            const knownCountries = ["united states", "mexico", "south korea", "france", "japan", "united kingdom", "australia", "egypt", "united arab emirates", "china", "germany", "italy", "spain", "canada"];
+
+            const cityInput = document.getElementById('cityInput');
+            const detectedZone = document.getElementById('detectedZone');
+            let verifiedCountry = "";
+
+            cityInput.addEventListener('input', function() {
+                const val = this.value.trim().toLowerCase();
+                verifiedCountry = ""; // reset on typing
+
+                if (!val) {
+                    detectedZone.classList.add('hidden');
+                    return;
+                }
+
+                detectedZone.classList.remove('hidden');
+
+                // Live feedback if user inputs a country instead of a city
+                if (knownCountries.includes(val)) {
+                    let formalCountry = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    let exampleCity = val === "mexico" ? "Mexico City" : val === "south korea" ? "Seoul" : val === "france" ? "Paris" : "a major city";
+                    detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., <em>${exampleCity}</em>).</span>`;
+                    return;
+                }
+
+                // Check known cities
+                if (knownCities[val]) {
+                    verifiedCountry = knownCities[val];
+                    let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
+                } else {
+                    // Live fallback interactive prompt for custom unlisted cities
+                    detectedZone.innerHTML = `
+                        <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
+                        <div style="margin-top: 6px; display: flex; gap: 6px;">
+                            <input type="text" id="liveCountryInput" placeholder="e.g., Brazil, Canada..." style="padding: 6px; font-size: 13px; flex-grow: 1;">
+                            <button type="button" id="liveConfirmBtn" style="padding: 6px 12px; font-size: 13px; width: auto;">Set</button>
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        const btn = document.getElementById('liveConfirmBtn');
+                        if (btn) {
+                            btn.onclick = function() {
+                                const cVal = document.getElementById('liveCountryInput').value.trim();
+                                if (cVal) {
+                                    verifiedCountry = cVal.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Locked: <strong>${cityInput.value.trim()}, ${verifiedCountry}</strong></span>`;
+                                }
+                            };
+                        }
+                    }, 50);
+                }
+            });
+
+            // Handle incoming session parameters if present
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.has('city')) {
-                document.getElementById('cityInput').value = urlParams.get('city');
+                cityInput.value = urlParams.get('city');
+                if (urlParams.has('country')) verifiedCountry = urlParams.get('country');
                 if (urlParams.has('month')) document.getElementById('travelMonth').value = urlParams.get('month');
                 if (urlParams.has('term')) document.getElementById('termDuration').value = urlParams.get('term');
                 if (urlParams.has('profile')) document.getElementById('budgetProfile').value = urlParams.get('profile');
             }
 
-            // Propagate query parameters to binder tabs if active
             const qs = window.location.search;
             if (qs) {
                 document.getElementById('binderNav').innerHTML = `
@@ -121,7 +182,7 @@
             }
 
             document.getElementById('calculateBtn').addEventListener('click', function() {
-                const rawInput = document.getElementById('cityInput').value.trim();
+                const rawInput = cityInput.value.trim();
                 const travelMonth = document.getElementById('travelMonth').value;
                 const termDuration = document.getElementById('termDuration').value;
                 const budgetProfile = document.getElementById('budgetProfile').value;
@@ -129,4 +190,15 @@
                 if (!rawInput || !travelMonth || !termDuration || !budgetProfile) { alert('Please complete all 4 parameter fields.'); return; }
                 
                 const formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                const newQs = `?city=${encodeURIComponent(formalCity)}&month=${travelMonth}&term=${encodeURIComponent(termDuration)}&profile=${budgetProfile}`;
+                
+                // Construct query string including verified country state
+                let newQs = `?city=${encodeURIComponent(formalCity)}`;
+                if (verifiedCountry) newQs += `&country=${encodeURIComponent(verifiedCountry)}`;
+                newQs += `&month=${travelMonth}&term=${encodeURIComponent(termDuration)}&profile=${budgetProfile}`;
+                
+                window.location.href = `pillar-1/index.html${newQs}`;
+            });
+        })();
+    </script>
+</body>
+</html>
