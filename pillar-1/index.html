@@ -22,7 +22,6 @@
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
         .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
-        .timeline-badge { display: inline-block; background: #eaf2f8; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #eaf2f8; color: var(--primary); }
@@ -80,9 +79,8 @@
 
                 document.getElementById('contentContainer').innerHTML = `
                     <div class="info-box">
-                        <span class="timeline-badge">📅 Climate Almanac Benchmark: Q3 2026</span>
                         <h4>🌡️ Historical Temperature & Precipitation Matrix (${activeMonthName})</h4>
-                        <p>Based on multi-year historical averages for <strong>${city}, ${country}`}</strong> during ${activeMonthName}, expected conditions reflect regional seasonal norms. Pack accordingly for layered comfort and outdoor mobility.</p>
+                        <p>Based on multi-year historical averages for <strong>${city}, ${country}</strong> during ${activeMonthName}, expected conditions reflect regional seasonal norms. Pack accordingly for layered comfort and outdoor mobility.</p>
                         <table>
                             <thead>
                                 <tr><th>Weather Parameter</th><th>Historical Average</th><th>Operational Impact</th></tr>
