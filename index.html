@@ -199,6 +199,7 @@
                 "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
                 "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP", dinner: "18:00 - 21:00", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" } },
                 "South Korea": { water: "✅ Safe (Locals prefer filtered)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
+                "United Kingdom": { water: "✅ Safe", tip: "10-12% (Optional service charge)", dinner: "19:00 - 21:30", cost: { economical: 30, moderate: 70, elevated: 140, currency: "GBP" } },
                 "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris').", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
                 "Egypt": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-12% (Expected service tip)", dinner: "21:00 - 23:00", cost: { economical: 250, moderate: 600, elevated: 1400, currency: "EGP" } },
                 "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
@@ -207,22 +208,30 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
+            // Expanded Global City Map covering major global hubs instantly
             const globalLocationMap = {
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
                 "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
+                "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city", costMult: 1.4 },
                 "paris": { country: "France", zone: "continental", hemi: "north", type: "city", costMult: 1.3 },
                 "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city", costMult: 0.8 },
                 "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city", costMult: 1.3 },
                 "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
                 "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", costMult: 1.2 },
                 "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.45 },
-                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 }
+                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 },
+                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.3 },
+                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest", costMult: 1.1 },
+                "toronto": { country: "Canada", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
+                "berlin": { country: "Germany", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
+                "singapore": { country: "Singapore", zone: "tropical", hemi: "north", type: "city", costMult: 1.4 }
             };
 
             const globalCountryDictionary = {
                 "egypt": { isMacro: false, capital: "Cairo", risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
                 "japan": { isMacro: false, capital: "Tokyo", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
                 "south korea": { isMacro: false, capital: "Seoul", risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
+                "united kingdom": { isMacro: false, capital: "London", risks: [{text: "⚠️ Coastal Storms & Gales", months: [11,12,1,2]}] },
                 "france": { isMacro: false, capital: "Paris", risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
                 "mexico": { isMacro: false, capital: "Mexico City", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
                 "australia": { isMacro: false, capital: "Sydney", risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
@@ -452,7 +461,6 @@
                             return;
                         }
 
-                        // Check if an ambiguous city requires confirmation click
                         if (matchCheck.isTypo && verifiedLocationKey === null) {
                             validationNotice.style.display = 'block';
                             validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
