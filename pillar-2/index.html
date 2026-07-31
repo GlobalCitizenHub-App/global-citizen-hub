@@ -136,15 +136,15 @@
             };
 
             const globalCountryDictionary = {
-                "egypt": { isMacro: false },
-                "japan": { isMacro: false },
-                "south korea": { isMacro: false },
-                "france": { isMacro: false },
-                "mexico": { isMacro: false },
-                "australia": { isMacro: false },
-                "united arab emirates": { isMacro: false },
+                "egypt": { isMacro: false, capital: "Cairo" },
+                "japan": { isMacro: false, capital: "Tokyo" },
+                "south korea": { isMacro: false, capital: "Seoul" },
+                "france": { isMacro: false, capital: "Paris" },
+                "mexico": { isMacro: false, capital: "Mexico City" },
+                "australia": { isMacro: false, capital: "Sydney" },
+                "united arab emirates": { isMacro: false, capital: "Dubai" },
                 "united states": { 
-                    isMacro: true, 
+                    isMacro: true, capital: "New York",
                     regions: {
                         "Not Sure / General National Average": {},
                         "West (Pacific/Mountain)": {},
@@ -170,7 +170,7 @@
 
                 if (globalCountryDictionary[countryCheck]) {
                     let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro }, isTypo: false };
+                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "Seoul" }, isTypo: false };
                 }
                 return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
             }
@@ -190,7 +190,8 @@
                             let match = resolveBestMatch(rawInput);
                             
                             if (match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., Cairo, Seoul).</span>`;
+                                let singleCapital = match.data.capital || "Seoul";
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a specific city name (e.g., ${singleCapital}).</span>`;
                                 return;
                             }
 
@@ -273,7 +274,7 @@
 
                         let matchCheck = resolveBestMatch(rawInput);
                         if (matchCheck.data.type === "country") {
-                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., Cairo, Seoul).");
+                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., " + (matchCheck.data.capital || "Seoul") + ").");
                             return;
                         }
 
