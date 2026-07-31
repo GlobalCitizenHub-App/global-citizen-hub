@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation Toolkit. Calibrate climate, relocation costs, living expenses, connectivity, transit, and culture instantly for students, professionals, and retirees.">
+    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation Toolkit. Calibrate climate, relocation costs, living expenses, connectivity, transit, and culture instantly for lifelong learners, students, professionals, and retirees.">
     <meta name="keywords" content="smart traveling, relocation toolkit, expatriate hub, international student travel, cost of living calculator, moving cost estimator">
     <title>Global Citizen Hub | Smart Traveling and Relocation Toolkit</title>
     <style>
@@ -55,8 +55,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., a capital or major city name like Seoul, Tokyo, Paris):</label>
-                <input type="text" id="cityInput" placeholder="Enter a capital or major city...">
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -129,8 +129,8 @@
             };
 
             const globalCountryDictionary = {
-                "united states": { isMacro: true, regions: { "Not Sure / General National Average": {zone:"continental", hemi:"north"}, "West (Pacific/Mountain)": {zone:"mediterranean", hemi:"north"}, "Midwest": {zone:"continental", hemi:"north"}, "South": {zone:"subtropical", hemi:"north"}, "Northeast": {zone:"continental", hemi:"north"} } },
-                "india": { isMacro: false, capital: "Delhi" }, "china": { isMacro: false, capital: "Shanghai" }, "turkey": { isMacro: false, capital: "Istanbul" }, "brazil": { isMacro: false, capital: "São Paulo" }, "egypt": { isMacro: false, capital: "Cairo" }, "japan": { isMacro: false, capital: "Tokyo" }, "south korea": { isMacro: false, capital: "Seoul" }, "united kingdom": { isMacro: false, capital: "London" }, "france": { isMacro: false, capital: "Paris" }, "germany": { isMacro: false, capital: "Berlin" }, "mexico": { isMacro: false, capital: "Mexico City" }, "australia": { isMacro: false, capital: "Sydney" }, "united arab emirates": { isMacro: false, capital: "Dubai" }, "taiwan": { isMacro: false, capital: "Taipei" }, "italy": { isMacro: false, capital: "Rome" }, "spain": { isMacro: false, capital: "Madrid" }, "switzerland": { isMacro: false, capital: "Zurich" }, "canada": { isMacro: false, capital: "Toronto" }, "thailand": { isMacro: false, capital: "Bangkok" }, "philippines": { isMacro: false, capital: "Manila" }, "vietnam": { isMacro: false, capital: "Hanoi" }, "malaysia": { isMacro: false, capital: "Kuala Lumpur" }, "indonesia": { isMacro: false, capital: "Jakarta" }, "singapore": { isMacro: false, capital: "Singapore" }, "russia": { isMacro: false, capital: "Moscow" }, "peru": { isMacro: false, capital: "Lima" }, "south africa": { isMacro: false, capital: "Cape Town" }, "argentina": { isMacro: false, capital: "Buenos Aires" }, "saudi arabia": { isMacro: false, capital: "Riyadh" }, "nigeria": { isMacro: false, capital: "Lagos" }, "iran": { isMacro: false, capital: "Tehran" }, "pakistan": { isMacro: false, capital: "Islamabad" }, "ukraine": { isMacro: false, capital: "Kyiv" }, "poland": { isMacro: false, capital: "Warsaw" }, "norway": { isMacro: false, capital: "Oslo" }, "greece": { isMacro: false, capital: "Athens" }, "sweden": { isMacro: false, capital: "Stockholm" }, "portugal": { isMacro: false, capital: "Lisbon" }, "belgium": { isMacro: false, capital: "Brussels" }, "denmark": { isMacro: false, capital: "Copenhagen" }, "new zealand": { isMacro: false, capital: "Wellington" }, "austria": { isMacro: false, capital: "Vienna" }, "finland": { isMacro: false, capital: "Helsinki" }, "chile": { isMacro: false, capital: "Santiago" }, "colombia": { isMacro: false, capital: "Bogota" }, "venezuela": { isMacro: false, capital: "Caracas" }, "kenya": { isMacro: false, capital: "Nairobi" }, "ethiopia": { isMacro: false, capital: "Addis Ababa" }, "morocco": { isMacro: false, capital: "Rabat" }, "cuba": { isMacro: false, capital: "Havana" }, "israel": { isMacro: false, capital: "Jerusalem" }, "iraq": { isMacro: false, capital: "Baghdad" }, "netherlands": { isMacro: false, capital: "Amsterdam" }, "ireland": { isMacro: false, capital: "Dublin" }
+                "united states": { isMacro: true, capital: "New York", regions: { "Not Sure / General National Average": {zone:"continental", hemi:"north"}, "West (Pacific/Mountain)": {zone:"mediterranean", hemi:"north"}, "Midwest": {zone:"continental", hemi:"north"}, "South": {zone:"subtropical", hemi:"north"}, "Northeast": {zone:"continental", hemi:"north"} } },
+                "india": { isMacro: false, capital: "Delhi" }, "china": { isMacro: false, capital: "Shanghai" }, "turkey": { isMacro: false, capital: "Istanbul" }, "brazil": { isMacro: false, capital: "São Paulo" }, "egypt": { isMacro: false, capital: "Cairo" }, "japan": { isMacro: false, capital: "Tokyo" }, "south korea": { isMacro: false, capital: "Seoul" }, "korea": { isMacro: false, capital: "Seoul" }, "united kingdom": { isMacro: false, capital: "London" }, "france": { isMacro: false, capital: "Paris" }, "germany": { isMacro: false, capital: "Berlin" }, "mexico": { isMacro: false, capital: "Mexico City" }, "australia": { isMacro: false, capital: "Sydney" }, "united arab emirates": { isMacro: false, capital: "Dubai" }, "taiwan": { isMacro: false, capital: "Taipei" }, "italy": { isMacro: false, capital: "Rome" }, "spain": { isMacro: false, capital: "Madrid" }, "switzerland": { isMacro: false, capital: "Zurich" }, "canada": { isMacro: false, capital: "Toronto" }, "thailand": { isMacro: false, capital: "Bangkok" }, "philippines": { isMacro: false, capital: "Manila" }, "vietnam": { isMacro: false, capital: "Hanoi" }, "malaysia": { isMacro: false, capital: "Kuala Lumpur" }, "indonesia": { isMacro: false, capital: "Jakarta" }, "singapore": { isMacro: false, capital: "Singapore" }, "russia": { isMacro: false, capital: "Moscow" }, "peru": { isMacro: false, capital: "Lima" }, "south africa": { isMacro: false, capital: "Cape Town" }, "argentina": { isMacro: false, capital: "Buenos Aires" }, "saudi arabia": { isMacro: false, capital: "Riyadh" }, "nigeria": { isMacro: false, capital: "Lagos" }, "iran": { isMacro: false, capital: "Tehran" }, "pakistan": { isMacro: false, capital: "Islamabad" }, "ukraine": { isMacro: false, capital: "Kyiv" }, "poland": { isMacro: false, capital: "Warsaw" }, "norway": { isMacro: false, capital: "Oslo" }, "greece": { isMacro: false, capital: "Athens" }, "sweden": { isMacro: false, capital: "Stockholm" }, "portugal": { isMacro: false, capital: "Lisbon" }, "belgium": { isMacro: false, capital: "Brussels" }, "denmark": { isMacro: false, capital: "Copenhagen" }, "new zealand": { isMacro: false, capital: "Wellington" }, "austria": { isMacro: false, capital: "Vienna" }, "finland": { isMacro: false, capital: "Helsinki" }, "chile": { isMacro: false, capital: "Santiago" }, "colombia": { isMacro: false, capital: "Bogota" }, "venezuela": { isMacro: false, capital: "Caracas" }, "kenya": { isMacro: false, capital: "Nairobi" }, "ethiopia": { isMacro: false, capital: "Addis Ababa" }, "morocco": { isMacro: false, capital: "Rabat" }, "cuba": { isMacro: false, capital: "Havana" }, "israel": { isMacro: false, capital: "Jerusalem" }, "iraq": { isMacro: false, capital: "Baghdad" }, "netherlands": { isMacro: false, capital: "Amsterdam" }, "ireland": { isMacro: false, capital: "Dublin" }
             };
             window.globalLocationMap = globalLocationMap;
             window.globalCountryDictionary = globalCountryDictionary;
@@ -190,7 +190,9 @@
                             let match = resolveBestMatch(rawInput);
                             
                             if (match.data && match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a capital or major city name.</span>`;
+                                let cName = match.data.country;
+                                let cCapital = match.data.capital || "Tokyo";
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${cName}</strong> is a country. Please enter a specific city name (e.g., ${cCapital}).</span>`;
                                 return;
                             }
 
@@ -255,7 +257,7 @@
 
                     if (!rawInput || !travelMonth || !termDuration || !budgetProfile) { alert('Please complete all 4 parameter fields before unlocking pillars.'); return; }
                     let matchCheck = resolveBestMatch(rawInput);
-                    if (matchCheck.data && matchCheck.data.type === "country") { alert("Please enter a capital or major city name, not a country."); return; }
+                    if (matchCheck.data && matchCheck.data.type === "country") { alert("Please enter a specific city name, not a country."); return; }
                     if (matchCheck.isTypo && verifiedLocationKey !== "FALLBACK" && verifiedLocationKey !== "MACRO_FALLBACK") {
                         validationNotice.style.display = 'block'; return;
                     }
