@@ -138,15 +138,8 @@
             const budgetProfile = document.getElementById('budgetProfile');
             let verifiedCountry = "";
 
-            // Populate from URL or localStorage fallback
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('city')) {
-                cityInput.value = urlParams.get('city');
-                if (urlParams.has('month')) travelMonth.value = urlParams.get('month');
-                if (urlParams.has('term')) termDuration.value = urlParams.get('term');
-                if (urlParams.has('profile')) budgetProfile.value = urlParams.get('profile');
-                if (urlParams.has('country')) verifiedCountry = urlParams.get('country');
-            } else if (localStorage.getItem('gch_city')) {
+            // Restore from localStorage on load
+            if (localStorage.getItem('gch_city')) {
                 cityInput.value = localStorage.getItem('gch_city');
                 travelMonth.value = localStorage.getItem('gch_month') || "";
                 termDuration.value = localStorage.getItem('gch_term') || "";
@@ -154,19 +147,46 @@
                 verifiedCountry = localStorage.getItem('gch_country') || "";
             }
 
-            // Keep binder navigation query string active on root if params exist
-            const qs = window.location.search;
-            if (qs) {
-                document.getElementById('binderNav').innerHTML = `
-                    <a href="index.html${qs}" class="binder-tab tab-master active">⌂ Dashboard</a>
-                    <a href="pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
-                    <a href="pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
-                    <a href="pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
-                    <a href="pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
-                    <a href="pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                    <a href="pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
-                `;
+            function updateNavQuery() {
+                const c = cityInput.value.trim();
+                const m = travelMonth.value;
+                const t = termDuration.value;
+                const p = budgetProfile.value;
+                const co = verifiedCountry || localStorage.getItem('gch_country') || "International";
+                
+                if (c) {
+                    const qs = `?city=${encodeURIComponent(c)}&country=${encodeURIComponent(co)}&month=${m}&term=${encodeURIComponent(t)}&profile=${encodeURIComponent(p)}`;
+                    document.getElementById('binderNav').innerHTML = `
+                        <a href="index.html${qs}" class="binder-tab tab-master active">⌂ Dashboard</a>
+                        <a href="pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
+                        <a href="pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
+                        <a href="pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
+                        <a href="pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
+                        <a href="pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
+                        <a href="pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+                    `;
+                }
             }
+
+            // Auto-save and update nav links instantly on any change
+            [cityInput, travelMonth, termDuration, budgetProfile].forEach(el => {
+                el.addEventListener('input', () => {
+                    localStorage.setItem('gch_city', cityInput.value.trim());
+                    localStorage.setItem('gch_month', travelMonth.value);
+                    localStorage.setItem('gch_term', termDuration.value);
+                    localStorage.setItem('gch_profile', budgetProfile.value);
+                    if(verifiedCountry) localStorage.setItem('gch_country', verifiedCountry);
+                    updateNavQuery();
+                });
+                el.addEventListener('change', () => {
+                    localStorage.setItem('gch_city', cityInput.value.trim());
+                    localStorage.setItem('gch_month', travelMonth.value);
+                    localStorage.setItem('gch_term', termDuration.value);
+                    localStorage.setItem('gch_profile', budgetProfile.value);
+                    if(verifiedCountry) localStorage.setItem('gch_country', verifiedCountry);
+                    updateNavQuery();
+                });
+            });
 
             cityInput.addEventListener('input', function() {
                 const rawVal = this.value.trim().toLowerCase();
@@ -191,6 +211,7 @@
                     verifiedCountry = globalLocationMap[val].country;
                     let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
+                    localStorage.setItem('gch_country', verifiedCountry);
                 } else {
                     detectedZone.innerHTML = `
                         <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
@@ -208,11 +229,13 @@
                                     verifiedCountry = cVal.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                     detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Locked: <strong>${cityInput.value.trim()}, ${verifiedCountry}</strong></span>`;
                                     localStorage.setItem('gch_country', verifiedCountry);
+                                    updateNavQuery();
                                 }
                             };
                         }
                     }, 50);
                 }
+                updateNavQuery();
             });
 
             document.getElementById('calculateBtn').addEventListener('click', function() {
@@ -236,9 +259,11 @@
                 localStorage.setItem('gch_term', termVal);
                 localStorage.setItem('gch_profile', profileVal);
 
-                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(verifiedCountry)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${encodeURIComponent(profileVal)}`;
+                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(verifiedCountry)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${profileVal}`;
                 window.location.href = `pillar-1/index.html${newQs}`;
             });
+
+            updateNavQuery();
         })();
     </script>
 </body>
