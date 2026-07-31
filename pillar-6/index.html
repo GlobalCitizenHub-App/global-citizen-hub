@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 6 | Conversions</title>
+    <title>Pillar 6 | Shopping & Conversions</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #e8f8f5; color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #16a085; }
         h1, h2, h4 { color: #16a085; margin-top: 0; }
-        .conv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; align-items: center; }
-        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; text-align: center; }
+        .conv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; align-items: center; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 15px; text-align: center; }
         label { font-weight: bold; font-size: 0.85em; color: #7f8c8d; text-align: center; display: block; margin-bottom: 5px; }
         .eq { text-align: center; font-weight: bold; font-size: 1.5em; color: #bdc3c7; }
+        .calc-box { background: #f4f6f7; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid #d5dbdb; }
         
-        /* Omni-Directional Deep-Dive Bar */
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
         .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
         .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; }
@@ -24,69 +24,93 @@
 <body>
     <main class="card">
         <header style="border-bottom: 2px solid #16a085; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 6: Universal Conversion Engine</h1>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant two-way calculators for survival math.</p>
+            <h1>Pillar 6: Universal Conversion & E-Commerce Helper</h1>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant calculators for cross-border shopping (Amazon, grocery packaging, and sizing).</p>
         </header>
         
-        <div id="statusHeader" style="margin-bottom: 20px; font-weight: bold; color: #16a085;"></div>
+        <div id="statusHeader" style="margin-bottom: 20px; font-weight: bold; color: #16a085; font-size: 1.1em;"></div>
 
-        <div style="background: #f4f6f7; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
+        <div class="calc-box">
             <h4>🌡️ Temperature</h4>
             <div class="conv-grid">
-                <div><label>Fahrenheit (°F)</label><input type="number" id="fInput" placeholder="e.g. 72" oninput="calc('f','c')"></div>
+                <div><label>Fahrenheit (°F)</label><input type="number" id="fInput" placeholder="e.g. 72" oninput="calcTemp('f','c')"></div>
                 <div class="eq">↔</div>
-                <div><label>Celsius (°C)</label><input type="number" id="cInput" placeholder="e.g. 22" oninput="calc('c','f')"></div>
+                <div><label>Celsius (°C)</label><input type="number" id="cInput" placeholder="e.g. 22" oninput="calcTemp('c','f')"></div>
             </div>
         </div>
 
-        <div style="background: #f4f6f7; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-            <h4>📏 Distance / Speed</h4>
+        <div class="calc-box">
+            <h4>📦 Dimensions & Distance (Amazon / Furniture)</h4>
             <div class="conv-grid">
-                <div><label>Miles (mi)</label><input type="number" id="miInput" placeholder="e.g. 10" oninput="calc('mi','km')"></div>
+                <div><label>Inches (in)</label><input type="number" id="inInput" placeholder="e.g. 10 inches" oninput="calcLen()"></div>
                 <div class="eq">↔</div>
-                <div><label>Kilometers (km)</label><input type="number" id="kmInput" placeholder="e.g. 16" oninput="calc('km','mi')"></div>
+                <div><label>Centimeters (cm)</label><input type="number" id="cmInput" placeholder="e.g. 25.4 cm" oninput="calcLenRev()"></div>
             </div>
         </div>
 
-        <div style="background: #f4f6f7; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-            <h4>⚖️ Weight</h4>
+        <div class="calc-box">
+            <h4>🧴 Liquid Volume (Fluid Ounces vs. Milliliters)</h4>
             <div class="conv-grid">
-                <div><label>Pounds (lbs)</label><input type="number" id="lbsInput" placeholder="e.g. 150" oninput="calc('lbs','kg')"></div>
+                <div><label>Fluid Ounces (fl oz)</label><input type="number" id="ozInput" placeholder="e.g. 16 fl oz" oninput="calcVol('oz','ml')"></div>
                 <div class="eq">↔</div>
-                <div><label>Kilograms (kg)</label><input type="number" id="kgInput" placeholder="e.g. 68" oninput="calc('kg','lbs')"></div>
+                <div><label>Milliliters (ml)</label><input type="number" id="mlInput" placeholder="e.g. 473 ml" oninput="calcVol('ml','oz')"></div>
+            </div>
+        </div>
+
+        <div class="calc-box">
+            <h4>⚖️ Weight (Shipping / Groceries)</h4>
+            <div class="conv-grid">
+                <div><label>Pounds (lbs)</label><input type="number" id="lbsInput" placeholder="e.g. 10" oninput="calcWt('lbs','kg')"></div>
+                <div class="eq">↔</div>
+                <div><label>Kilograms (kg)</label><input type="number" id="kgInput" placeholder="e.g. 4.5" oninput="calcWt('kg','lbs')"></div>
             </div>
         </div>
 
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate (P1)</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance (P2)</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Comms (P3)</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">🤝 Culture (P5)</a>
+            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
+            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
+            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
         </div>
     </main>
 
     <script>
-        // Two-way calculation logic
-        function calc(from, to) {
+        function calcTemp(from, to) {
             let val = parseFloat(document.getElementById(from + "Input").value);
             if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res;
-            if (from==='f' && to==='c') res = (val - 32) * 5/9;
-            if (from==='c' && to==='f') res = (val * 9/5) + 32;
-            if (from==='mi' && to==='km') res = val * 1.60934;
-            if (from==='km' && to==='mi') res = val / 1.60934;
-            if (from==='lbs' && to==='kg') res = val * 0.453592;
-            if (from==='kg' && to==='lbs') res = val / 0.453592;
+            let res = (from === 'f') ? (val - 32) * 5/9 : (val * 9/5) + 32;
+            document.getElementById(to + "Input").value = res.toFixed(1);
+        }
+        function calcLen() {
+            let val = parseFloat(document.getElementById("inInput").value);
+            if (isNaN(val)) { document.getElementById("cmInput").value = ""; return; }
+            document.getElementById("cmInput").value = (val * 2.54).toFixed(1);
+        }
+        function calcLenRev() {
+            let val = parseFloat(document.getElementById("cmInput").value);
+            if (isNaN(val)) { document.getElementById("inInput").value = ""; return; }
+            document.getElementById("inInput").value = (val / 2.54).toFixed(1);
+        }
+        function calcVol(from, to) {
+            let val = parseFloat(document.getElementById(from + "Input").value);
+            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
+            let res = (from === 'oz') ? val * 29.5735 : val / 29.5735;
+            document.getElementById(to + "Input").value = res.toFixed(1);
+        }
+        function calcWt(from, to) {
+            let val = parseFloat(document.getElementById(from + "Input").value);
+            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
+            let res = (from === 'lbs') ? val * 0.453592 : val / 0.453592;
             document.getElementById(to + "Input").value = res.toFixed(1);
         }
 
         (function() {
-            // URL Binding
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Traveler";
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}`;
+            const city = urlParams.get('city') || "Global Traveler";
+            const country = urlParams.get('country') || "";
+            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
             
             const qs = window.location.search;
             document.getElementById('linkMaster').href = `../index.html${qs}`;
