@@ -113,6 +113,8 @@
         .btn-p2:hover { background: #1e8449; }
         .btn-p3 { background: #8e44ad; color: white; }
         .btn-p3:hover { background: #732d91; }
+        .btn-p4 { background: #d35400; color: white; }
+        .btn-p4:hover { background: #ba4a00; }
     </style>
 </head>
 <body>
@@ -174,9 +176,10 @@
             <div id="outputContent"></div>
             
             <div class="deep-dive-bar">
-                <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate Matrix (P1)</a>
-                <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance Matrix (P2)</a>
-                <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Connectivity Matrix (P3)</a>
+                <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate (P1)</a>
+                <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance (P2)</a>
+                <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Connectivity (P3)</a>
+                <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
             </div>
         </div>
     </main>
@@ -224,8 +227,6 @@
                 "United Kingdom": { water: "✅ Safe", tip: "10-12% (Optional service charge)", dinner: "19:00 - 21:30", cost: { economical: 30, moderate: 70, elevated: 140, currency: "GBP" } },
                 "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris').", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
                 "Germany": { water: "✅ Safe", tip: "5-10% (Round up or small cash tip)", dinner: "18:30 - 21:30", cost: { economical: 25, moderate: 55, elevated: 120, currency: "EUR" } },
-                "Italy": { water: "✅ Safe", tip: "10% (If 'Coperto' is not included)", dinner: "20:00 - 22:30", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
-                "Switzerland": { water: "✅ Extremely Safe", tip: "Included by law", dinner: "19:00 - 21:30", cost: { economical: 40, moderate: 90, elevated: 200, currency: "CHF" } },
                 "Turkey": { water: "⚠️ Bottled recommended", tip: "10% (Expected service tip)", dinner: "20:00 - 22:30", cost: { economical: 350, moderate: 800, elevated: 1800, currency: "TRY" } },
                 "Egypt": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-12% (Expected service tip)", dinner: "21:00 - 23:00", cost: { economical: 250, moderate: 600, elevated: 1400, currency: "EGP" } },
                 "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
@@ -234,7 +235,6 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
-            // Pre-mapped cities for instant green-light matching
             const globalLocationMap = {
                 // East Asia & SE Asia
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.2 },
@@ -294,6 +294,7 @@
                 "new orleans": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.0 },
                 "asheville": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.0 },
                 "charlotte": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
                 "oklahoma city": { country: "United States", zone: "continental", hemi: "north", costMult: 0.95 },
                 "tulsa": { country: "United States", zone: "continental", hemi: "north", costMult: 0.9 },
                 "dallas": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
@@ -305,12 +306,16 @@
                 "phoenix": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
                 "scottsdale": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.2 },
                 "tempe": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "tucson": { country: "United States", zone: "subtropical", hemi: "north", costMult: 0.95 },
                 "las vegas": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.15 },
                 "denver": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
+                "colorado springs": { country: "United States", zone: "continental", hemi: "north", costMult: 1.0 },
                 "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.3 },
                 "san diego": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.35 },
                 "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.45 },
                 "seattle": { country: "United States", zone: "continental", hemi: "north", costMult: 1.25 },
+                "portland": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.15 },
+                "eugene": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.05 },
                 
                 // Oceania & Canada
                 "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", costMult: 1.2 },
@@ -318,7 +323,6 @@
                 "vancouver": { country: "Canada", zone: "continental", hemi: "north", costMult: 1.25 }
             };
 
-            // Comprehensive list of countries to prevent them from being treated as cities
             const globalCountryDictionary = {
                 "united states": { isMacro: true, capital: "New York", regions: {
                     "Not Sure / General National Average": { risks: [{text: "✅ General continental baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}], zone: "continental", hemi: "north" },
@@ -695,6 +699,7 @@
                         document.getElementById('linkP1').href = `pillar-1/index.html?city=${encodedCity}&month=${travelMonth}&term=${encodeURIComponent(termDuration)}`;
                         document.getElementById('linkP2').href = `pillar-2/index.html?city=${encodedCity}&profile=${budgetProfile}`;
                         document.getElementById('linkP3').href = `pillar-3/index.html?city=${encodedCity}&country=${encodedCountry}`;
+                        document.getElementById('linkP4').href = `pillar-4/index.html?city=${encodedCity}&country=${encodedCountry}`;
                     });
                 }
             });
