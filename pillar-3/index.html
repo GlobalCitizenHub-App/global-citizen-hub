@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 3: Connectivity intelligence, mobile eSIM options, broadband setup, and regional digital infrastructure for global travelers.">
-    <title>Pillar 3 | Connectivity</title>
+    <meta name="description" content="Pillar 3: Connectivity intelligence, mobile eSIM options, electrical voltage standards, and regional digital infrastructure.">
+    <title>Pillar 3 | Connectivity & Power Infrastructure</title>
     <style>
         :root { --primary: #8e44ad; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         h1, h2, h4 { color: var(--primary); margin-top: 0; }
         
-        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
+        /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
         .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
         .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
@@ -21,6 +21,8 @@
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
         .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
+        .timeline-badge { display: inline-block; background: #f4ecf7; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
         th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
         th { background: #f4ecf7; color: var(--primary); }
@@ -40,28 +42,15 @@
         </nav>
 
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 3: Connectivity & Digital Infrastructure</h1>
+            <h1>📶 Pillar 3: Connectivity & Power Infrastructure</h1>
             <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant mobile data strategy, eSIM deployment, broadband options, and local network readiness.</p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant mobile data strategy, eSIM deployment, electrical voltage/plug standards, and digital network readiness.</p>
         </header>
 
-        <div class="info-box">
-            <h4>📶 Mobile Data & eSIM Strategy</h4>
-            <p id="mobileDesc">Evaluating cellular carriers and instant regional data options...</p>
-        </div>
-
-        <div class="info-box">
-            <h4>🌐 Network Infrastructure Matrix</h4>
-            <table>
-                <thead>
-                    <tr><th>Service Layer</th><th>Recommended Solution</th><th>Operational Notes</th></tr>
-                </thead>
-                <tbody id="networkTableBody">
-                    <tr><td><strong>Immediate Arrival Data</strong></td><td>Global eSIM (e.g., Airalo / Holafly)</td><td>Pre-installed digital data package active upon landing for airport navigation and rideshares.</td></tr>
-                    <tr><td><strong>Long-Term Local Carrier</strong></td><td>Major Domestic Provider</td><td>Physical SIM or local postpaid plan for residency, banking SMS, and voice calls.</td></tr>
-                    <tr><td><strong>Home Broadband</strong></td><td>Fiber-Optic / High-Speed Cable</td><td>Essential for remote work, streaming, and reliable home connectivity.</td></tr>
-                </tbody>
-            </table>
+        <div id="contentContainer">
+            <div class="warning-box">
+                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and parameters before viewing calibrated connectivity intelligence.
+            </div>
         </div>
 
         <footer class="affiliate-disclosure">
@@ -72,30 +61,70 @@
 
     <script>
         (function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Global Destination";
-            const country = urlParams.get('country') || "";
-            const term = urlParams.get('term') || "Short-Term Visit (1-2 Weeks)";
-            
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''} | Engagement: ${term}`;
-            
-            document.getElementById('mobileDesc').innerHTML = `
-                For your <strong>${term}</strong> stay in ${city}${country ? ', ' + country : ''}, deploying an international eSIM prior to departure ensures seamless connectivity right at the tarmac, bypassing airport kiosk queues.
-            `;
+            const voltageMap = {
+                "Italy": { voltage: "230V", frequency: "50Hz", plugs: "Type C, F & L (Schuko compatible)" },
+                "Norway": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Standard European)" },
+                "Sweden": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Standard European)" },
+                "United Kingdom": { voltage: "230V", frequency: "50Hz", plugs: "Type G (3-pin rectangular)" },
+                "France": { voltage: "230V", frequency: "50Hz", plugs: "Type C & E (Standard European)" },
+                "Germany": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Schuko)" },
+                "Japan": { voltage: "100V", frequency: "50/60Hz", plugs: "Type A & B (North American style)" },
+                "United States": { voltage: "120V", frequency: "60Hz", plugs: "Type A & B (2/3 prong)" }
+            };
 
-            // Propagate query parameters to binder navigation
-            const qs = window.location.search;
-            if (qs) {
-                document.getElementById('binderNav').innerHTML = `
-                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
-                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
-                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3 active">3. Connectivity</a>
-                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
-                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            const urlParams = new URLSearchParams(window.location.search);
+            let city = urlParams.get('city') || localStorage.getItem('gch_city');
+            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "United States";
+            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
+
+            if (city && !urlParams.has('city')) {
+                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}`;
+                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            }
+
+            if (city) {
+                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Engagement: ${term}`;
+                
+                const powerInfo = voltageMap[country] || { voltage: "230V", frequency: "50Hz", plugs: "Standard Regional Plug" };
+
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="info-box">
+                        <span class="timeline-badge">📅 Infrastructure Benchmark: Q3 2026</span>
+                        <h4>📶 Mobile Data & eSIM Strategy</h4>
+                        <p>For your <strong>${term}</strong> stay in <strong>${city}, ${country}</strong>, deploying an international eSIM prior to departure ensures seamless connectivity right at the tarmac, bypassing airport kiosk queues.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>⚡ Electrical Voltage & Plug Standards</h4>
+                        <p>Destination Grid Specification for <strong>${country}</strong>: <strong>${powerInfo.voltage}</strong> (${powerInfo.frequency}), utilizing <strong>${powerInfo.plugs}</strong>. Verify that your electronics support dual voltage input (100–240V) before plugging in directly.</p>
+                    </div>
+
+                    <div class="info-box">
+                        <h4>🌐 Network Infrastructure Matrix</h4>
+                        <table>
+                            <thead>
+                                <tr><th>Service Layer</th><th>Recommended Solution</th><th>Operational Notes</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>📶 Immediate Arrival Data</strong></td><td>Global eSIM (e.g., Airalo / Holafly)</td><td>Pre-installed digital data package active upon landing for airport navigation and rideshares.</td></tr>
+                                <tr><td><strong>🔌 Power & Voltage Adapter</strong></td><td>Regional Plug Adapter / Converter</td><td>Ensure your devices support dual voltage (100–240V) or acquire a grounded Type C/F adapter.</td></tr>
+                                <tr><td><strong>🌐 Home Broadband</strong></td><td>Fiber-Optic / High-Speed Cable</td><td>Essential for remote work, streaming, and reliable home connectivity.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
                 `;
             }
+
+            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&term=${encodeURIComponent(term || '')}`;
+            document.getElementById('binderNav').innerHTML = `
+                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
+                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
+                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3 active">3. Connectivity</a>
+                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
+                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
+                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            `;
         })();
     </script>
 </body>
