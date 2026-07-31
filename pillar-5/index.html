@@ -3,63 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 5 | Culture</title>
+    <title>Pillar 5 | Culture & Etiquette</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #fef9e7; color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #c0392b; }
         h1, h2, h4 { color: #c0392b; margin-top: 0; }
         .icon-text { margin-bottom: 8px; font-size: 0.95em; }
-        .matrix-section { margin-top: 15px; border-top: 1px solid #fadbd8; padding-top: 10px; }
-        /* Omni-Directional Deep-Dive Bar */
+        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #fadbd8; }
+        .dashboard-section h4 { color: #c0392b; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
         .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p6 { background: #16a085; }
+        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
     </style>
 </head>
 <body>
     <main class="card">
         <header style="border-bottom: 2px solid #c0392b; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 5: Cultural Etiquette & Interaction</h1>
+            <h1>Pillar 5: Cultural Etiquette & Community Interaction</h1>
         </header>
         <div id="outputContent">Loading intelligence...</div>
         
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate (P1)</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance (P2)</a>
-            <a id="linkP3" href="#" class="btn-pillar btn-p3">📱 Comms (P3)</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">🧮 Convert (P6)</a>
+            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
+            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
+            <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
         </div>
     </main>
     <script>
         (function() {
             const CultureData = {
                 "Japan": { greet: "Bow (angle indicates respect). Avoid physical contact.", work: "Highly hierarchical. Exchange business cards (Meishi) with two hands.", comm: "Silence on public transit is mandatory. No eating while walking.", taboos: "Never stick chopsticks upright in rice. No loud blowing of nose." },
-                "South Korea": { greet: "Bow. Handshakes follow but use two hands for elders.", work: "Strict age/status hierarchy (Jeondaemal language). Heavy after-work drinking culture (Hoesik).", comm: "Fast-paced (Pali-pali). Respect for elders is paramount.", taboos: "Never write a name in red ink. Don't pour your own drink." },
-                "United States": { greet: "Firm handshake, direct eye contact.", work: "Egalitarian, informal, direct communication. Time is money.", comm: "High individualism. Small talk with strangers is common.", taboos: "Skipping the tip at restaurants. Invading personal space." },
-                "United Arab Emirates": { greet: "Right hand shake (same gender). Place hand on heart for opposite gender.", work: "Relationship-first business culture. Modest dress required.", comm: "Public displays of affection are illegal. Strict modesty laws.", taboos: "Never show the soles of your feet. Do not eat/drink in public during Ramadan." },
-                "France": { greet: "Light handshake or 'la bise' (cheek kisses) with acquaintances.", work: "Formal. Use 'vous' until invited to use 'tu'.", comm: "Meals are long and social. Politeness ('Bonjour') upon entering stores is mandatory.", taboos: "Discussing money/salary openly. Rushing a meal." },
-                "India": { greet: "'Namaste' with hands pressed together, or a light handshake.", work: "Hierarchical. Deadlines can be flexible.", comm: "Diverse norms. Modest dress is generally recommended.", taboos: "Using the left hand for eating or passing items. Disrespecting religious symbols." },
-                "China": { greet: "Nod or light handshake.", work: "Guanxi (relationships/networks) and Mianzi (face/reputation) are critical.", comm: "Indirect communication. Declining compliments is a sign of modesty.", taboos: "Leaving chopsticks pointing at someone. Giving a clock as a gift." }
+                "South Korea": { greet: "Bow. Handshakes follow but use two hands for elders.", work: "Strict age/status hierarchy. Heavy after-work community/dining culture (Hoesik).", comm: "Fast-paced (Pali-pali). Respect for elders is paramount.", taboos: "Never write a name in red ink. Don't pour your own drink." },
+                "United States": { greet: "Firm handshake, direct eye contact.", work: "Egalitarian, informal, direct communication. Time is valued.", comm: "High individualism. Small talk with community members is common.", taboos: "Skipping the tip at restaurants. Invading personal space." },
+                "United Kingdom": { greet: "Firm handshake with polite greeting.", work: "Polite, understated, professional boundaries.", comm: "Queueing discipline is sacred. Frequent apologies ('Sorry').", taboos: "Pushing in front of a queue. Bragging about wealth." },
+                "France": { greet: "Light handshake or cheek kisses with acquaintances.", work: "Formal. Use 'vous' until invited to use 'tu'.", comm: "Meals are social. Saying 'Bonjour' upon entering shops is mandatory.", taboos: "Discussing money/salary openly. Rushing a dining experience." },
+                "China": { greet: "Nod or light handshake.", work: "Guanxi (networks) and Mianzi (reputation/face) are critical.", comm: "Indirect communication. Modesty is highly valued.", taboos: "Leaving chopsticks pointing at someone. Giving a clock as a gift." }
             };
 
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Unknown City";
+            const city = urlParams.get('city') || "Selected City";
             const country = urlParams.get('country') || "United States";
             
-            let cData = CultureData[country] || { greet: "Handshake is generally safe.", work: "Observe local hierarchy.", comm: "Be polite and observe locals.", taboos: "Avoid sensitive political topics." };
+            const cData = CultureData[country] || { greet: "Standard polite handshake is safe.", work: "Observe local professional hierarchy.", comm: "Be polite and observe community norms.", taboos: "Avoid sensitive political topics." };
 
             document.getElementById('outputContent').innerHTML = `
                 <h2>${city}, ${country}</h2>
-                <h4 style="margin-top:20px;">🤝 Cultural Matrix</h4>
-                <div class="matrix-section">
-                    <div class='icon-text'>👋 <strong>Greetings:</strong> ${cData.greet}</div>
-                    <div class='icon-text'>💼 <strong>Study & Work:</strong> ${cData.work}</div>
-                    <div class='icon-text'>🏘️ <strong>Community & Living:</strong> ${cData.comm}</div>
-                    <div class='icon-text' style="color:#c0392b;">🚫 <strong>Critical Taboos:</strong> ${cData.taboos}</div>
+                <div class="dashboard-section">
+                    <h4>🤝 Interpersonal Greetings</h4>
+                    <div class='icon-text'>${cData.greet}</div>
+                </div>
+                <div class="dashboard-section">
+                    <h4>💼 Study & Workplace Norms</h4>
+                    <div class='icon-text'>${cData.work}</div>
+                </div>
+                <div class="dashboard-section">
+                    <h4>🏘️ Community & Public Living</h4>
+                    <div class='icon-text'>${cData.comm}</div>
+                </div>
+                <div class="dashboard-section" style="border-top: 1px solid #fadbd8;">
+                    <h4 style="color: #c0392b;">🚫 Critical Taboos to Avoid</h4>
+                    <div class='icon-text' style="color: #922b21; font-weight: bold;">${cData.taboos}</div>
                 </div>
             `;
             
