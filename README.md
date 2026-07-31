@@ -1,6 +1,6 @@
 # Global Citizen Hub: The Smart Traveling and Relocation Toolkit
 
-A unified, multi-pillar intelligence framework designed for lifelong learners, including students, professionals, retirees, and families, in the US and more regions of the globe. The Global Citizen Hub allows users to input their destination and travel parameters once and instantly access synchronized intelligence across six core pillars without ever losing their session data.
+A unified, multi-pillar intelligence framework designed for lifelong learners, including students, professionals, families, and retirees, in the US and more regions of the globe. The Global Citizen Hub allows users to input their destination and travel parameters once and instantly access synchronized intelligence across six core pillars without ever losing their session data.
 
 ---
 
