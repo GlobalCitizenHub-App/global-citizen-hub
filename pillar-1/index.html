@@ -28,7 +28,6 @@
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
-        .article-header p { margin-bottom: 12px; }
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -95,12 +94,11 @@
             <h3>Pillar 1: Location Resolution & Layering Engine</h3>
             <p><strong>The Baseline Problem</strong><br>
             Generic packing lists and basic weather apps often fail because they treat global travel as a one-size-fits-all equation. Smart traveling and relocation require aligning your specific travel window with regional environmental risks, practical wardrobe needs, and local infrastructure standards.</p>
-            <p><em>Input your destination and travel window below to calibrate your regional environmental brief.</em></p>
         </div>
 
         <div class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
                 <input type="text" id="cityInput" placeholder="Enter destination...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
@@ -144,11 +142,9 @@
                     "United States": { volts: "120V", hz: "60Hz", plugs: ["Type A", "Type B"] },
                     "United Kingdom": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
                     "Mexico": { volts: "127V", hz: "60Hz", plugs: ["Type A", "Type B"] },
-                    "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] },
-                    "Austria": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F"] },
+                    "Egypt": { volts: "220V", hz: "50Hz", plugs: ["Type C", "Type F"] },
                     "France": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type E"] },
                     "Australia": { volts: "230V", hz: "50Hz", plugs: ["Type I"] },
-                    "China": { volts: "220V", hz: "50Hz", plugs: ["Type A", "Type C", "Type I"] },
                     "United Arab Emirates": { volts: "230V", hz: "50Hz", plugs: ["Type G"] }
                 },
                 getElectricalStandard(countryName) { return this.electrical[countryName] || { volts: "Standard varies", hz: "50/60Hz", plugs: ["Check local adapters"] }; }
@@ -157,18 +153,18 @@
             const globalLocationMap = {
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
                 "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
-                "london": { country: "United Kingdom", zone: "continental", hemi: "north", type: "city" },
                 "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
+                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city" },
+                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city" },
                 "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
                 "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
-                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city" },
                 "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
-                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
-                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" },
-                "chicago": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Midwest" }
+                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" }
             };
 
             const globalCountryDictionary = {
+                "egypt": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
+                "japan": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
                 "south korea": { isMacro: false, risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
                 "france": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
                 "mexico": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
@@ -303,6 +299,12 @@
                             detectedZoneDiv.classList.remove('hidden');
                             let match = resolveBestMatch(rawInput);
                             
+                            if (match.data.type === "country") {
+                                let countryName = match.data.country;
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., Cairo, Seoul).</span>`;
+                                return;
+                            }
+
                             if (match.isTypo) {
                                 let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `
@@ -356,8 +358,6 @@
                                         };
                                     }
                                 }, 100);
-                            } else if (match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #e67e22;">Did you mean ${match.data.country}? Please type a specific city name.</span>`;
                             } else {
                                 let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
@@ -383,6 +383,12 @@
                             return;
                         }
 
+                        let matchCheck = resolveBestMatch(rawInput);
+                        if (matchCheck.data.type === "country") {
+                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., Cairo, Seoul).");
+                            return;
+                        }
+
                         let formalCity, countryName, matrixType, risksHTML;
 
                         if (verifiedLocationKey === "MACRO_FALLBACK" && window.currentSyntheticData) {
@@ -400,7 +406,7 @@
                             risksHTML = (cData && cData.risks) ? filterRisksByMonth(cData.risks, travelMonth) : "<div class='icon-text'>✅ No active seasonal hazards documented.</div>";
                         } else {
                             let match = resolveBestMatch(rawInput);
-                            if (match.isTypo || match.data.type === "country") { alert('Please confirm a specific city.'); return; }
+                            if (match.isTypo) { alert('Please verify your destination.'); return; }
                             formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                             countryName = match.data.country;
                             matrixType = determineSeasonalMatrix(match.data, travelMonth);
