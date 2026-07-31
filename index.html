@@ -115,7 +115,7 @@
         <section class="input-grid">
             <div class="full-width">
                 <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <input type="text" id="cityInput" placeholder="Enter any city or town name...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -200,46 +200,89 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || SustenanceData["United States"]; }
 
-            // Expanded Map including Ann Arbor, Jacksonville, New Orleans, Tempe, Tampa, etc.
+            // Fully Expanded Database (Global + Comprehensive US Metros, Student Hubs, and Retirement Cities)
             const globalLocationMap = {
+                // East Asia & Global
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.2 },
                 "seoul": { country: "South Korea", zone: "continental", hemi: "north", costMult: 1.1 },
                 "shanghai": { country: "China", zone: "subtropical", hemi: "north", costMult: 1.1 },
+                "beijing": { country: "China", zone: "continental", hemi: "north", costMult: 1.0 },
+                "hong kong": { country: "China", zone: "subtropical", hemi: "north", costMult: 1.4 },
+                "singapore": { country: "Singapore", zone: "tropical", hemi: "north", costMult: 1.4 },
+                
+                // South Asia
+                "delhi": { country: "India", zone: "subtropical", hemi: "north", costMult: 0.8 },
+                "mumbai": { country: "India", zone: "tropical", hemi: "north", costMult: 0.9 },
+                "bangalore": { country: "India", zone: "tropical", hemi: "north", costMult: 0.8 },
+
+                // Europe
                 "london": { country: "United Kingdom", zone: "continental", hemi: "north", costMult: 1.4 },
                 "paris": { country: "France", zone: "continental", hemi: "north", costMult: 1.3 },
                 "berlin": { country: "Germany", zone: "continental", hemi: "north", costMult: 1.2 },
+                "rome": { country: "Italy", zone: "mediterranean", hemi: "north", costMult: 1.1 },
+                "milan": { country: "Italy", zone: "continental", hemi: "north", costMult: 1.2 },
+                "madrid": { country: "Spain", zone: "mediterranean", hemi: "north", costMult: 1.1 },
+
+                // Middle East & Africa
+                "istanbul": { country: "Turkey", zone: "mediterranean", hemi: "north", costMult: 0.9 },
                 "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", costMult: 0.8 },
                 "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", costMult: 1.3 },
+
+                // Latin America
                 "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", costMult: 1.1 },
-                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", costMult: 1.2 },
-                
+                "são paulo": { country: "Brazil", zone: "tropical", hemi: "south", costMult: 1.0 },
+
+                // United States (Comprehensive)
                 "new york": { country: "United States", zone: "continental", hemi: "north", costMult: 1.45 },
-                "washington dc": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.35 },
                 "washington": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.35 },
-                "ann arbor": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
-                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", costMult: 0.95 },
-                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.0 },
-                "tempe": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
-                "tampa": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "washington dc": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.35 },
+                "richmond": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "boston": { country: "United States", zone: "continental", hemi: "north", costMult: 1.35 },
                 "austin": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
                 "miami": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.25 },
+                "tampa": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
                 "sarasota": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
-                "eugene": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.05 },
+                "orlando": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "jacksonville": { country: "United States", zone: "subtropical", hemi: "north", costMult: 0.95 },
+                "naples": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.3 },
+                "new orleans": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.0 },
+                "asheville": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.0 },
+                "charlotte": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "raleigh": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "oklahoma city": { country: "United States", zone: "continental", hemi: "north", costMult: 0.95 },
+                "tulsa": { country: "United States", zone: "continental", hemi: "north", costMult: 0.9 },
+                "dallas": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.1 },
+                "houston": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.0 },
+                "san antonio": { country: "United States", zone: "subtropical", hemi: "north", costMult: 0.95 },
+                "atlanta": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
                 "chicago": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
+                "ann arbor": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
+                "phoenix": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "scottsdale": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.2 },
+                "tempe": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.05 },
+                "tucson": { country: "United States", zone: "subtropical", hemi: "north", costMult: 0.95 },
+                "las vegas": { country: "United States", zone: "subtropical", hemi: "north", costMult: 1.15 },
+                "denver": { country: "United States", zone: "continental", hemi: "north", costMult: 1.1 },
+                "colorado springs": { country: "United States", zone: "continental", hemi: "north", costMult: 1.0 },
                 "los angeles": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.3 },
-                "seattle": { country: "United States", zone: "continental", hemi: "north", costMult: 1.25 }
+                "san diego": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.35 },
+                "san francisco": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.45 },
+                "seattle": { country: "United States", zone: "continental", hemi: "north", costMult: 1.25 },
+                "portland": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.15 },
+                "eugene": { country: "United States", zone: "mediterranean", hemi: "north", costMult: 1.05 },
+                
+                // Oceania & Canada
+                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", costMult: 1.2 },
+                "toronto": { country: "Canada", zone: "continental", hemi: "north", costMult: 1.2 },
+                "vancouver": { country: "Canada", zone: "continental", hemi: "north", costMult: 1.25 }
             };
 
             function resolveBestMatch(input) {
                 let cleanInput = input.trim().toLowerCase();
-                
-                // If it explicitly exists in our map, return it.
                 if (globalLocationMap[cleanInput]) {
                     return { city: cleanInput, data: globalLocationMap[cleanInput] };
                 }
-                
-                // Universal U.S. Fallback for ALL other unlisted cities (e.g. Bessemer, Kalamazoo)
-                // This ensures the "Generate" button always works without popups.
+                // Smart Universal U.S. Fallback for unlisted cities so it NEVER blocks the user
                 return { 
                     city: cleanInput, 
                     data: { country: "United States", zone: "continental", hemi: "north", costMult: 1.0 } 
@@ -285,15 +328,14 @@
                         const detectedZoneDiv = document.getElementById('detectedZone');
                         
                         if (rawInput.length > 0) {
-                            // Only show live green feedback if the typing is an EXACT match to the database.
-                            // This stops "Jac" or "Ann" from showing a false positive early.
+                            // Instant green feedback only triggers for cities mapped above.
                             if (globalLocationMap[cleanInput]) {
                                 let match = globalLocationMap[cleanInput];
                                 let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                                 detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Destination Recognized: <strong>${formalCity} (${match.country})</strong>. Ready to generate!</span>`;
                                 detectedZoneDiv.classList.remove('hidden');
                             } else {
-                                // Keep the feedback box hidden while typing an incomplete or unlisted city.
+                                // Silent while typing unknown cities (avoids false-positive feedback)
                                 detectedZoneDiv.classList.add('hidden');
                             }
                         } else {
