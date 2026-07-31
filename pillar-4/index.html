@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Mobility & Transit Matrix | Pillar 4</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fdfefe;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2, h3 { color: #2c3e50; margin-top: 0; }
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-top: 5px solid #d35400;
+        }
+        .article-header {
+            border-bottom: 2px solid #d35400;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: #2c3e50; }
+        input {
+            width: 100%; padding: 10px; margin-bottom: 15px;
+            border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #d35400; color: white; border: none;
+            padding: 14px 20px; border-radius: 4px; cursor: pointer;
+            font-size: 16px; font-weight: bold; width: 100%;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #ba4a00; }
+        .hidden { display: none; }
+        #results {
+            background: #fdf2e9; border: 1px solid #f5b041; border-top: 5px solid #d35400;
+            padding: 25px; margin-top: 25px; border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .icon-text { margin-bottom: 8px; font-size: 0.95em; }
+        .matrix-section { margin-top: 15px; border-top: 1px solid #e5e8e8; padding-top: 10px; }
+        .nav-link {
+            font-size: 0.9em; margin-bottom: 15px; display: inline-block;
+            color: #d35400; text-decoration: none; font-weight: bold;
+        }
+        .nav-link:hover { text-decoration: underline; }
+        .gentle-notice {
+            background-color: #fcf3cf; color: #7d6608; padding: 10px; 
+            border-radius: 4px; font-size: 0.9em; margin-bottom: 15px; border-left: 4px solid #f39c12;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+        <a href="../index.html" class="nav-link">← Back to Master Dashboard</a>
+
+        <header class="article-header">
+            <h1 style="font-size: 1.5em; color: #d35400; margin: 0 0 10px 0;">Pillar 4: Mobility & Navigation Matrix</h1>
+            <p style="margin: 0; font-size: 0.95em;">Arrive with confidence. This pillar maps the dominant ride-hailing apps, local public transit payment systems, and general walkability of your destination.</p>
+        </header>
+
+        <div id="validationNotice" class="gentle-notice">
+            ⚠️ Please click the green <strong>"Confirm"</strong> button near your destination selection above before generating your brief.
+        </div>
+
+        <label for="cityInput">Destination (City or Country):</label>
+        <input type="text" id="cityInput" placeholder="Enter destination (e.g., Tokyo, Seoul, London, Chicago)...">
+        <div id="detectedZone" class="hidden" style="font-size: 14px; margin-top: -8px; margin-bottom: 15px; padding: 10px; background: #fdf2e9; border-left: 4px solid #d35400; border-radius: 4px;"></div>
+
+        <button id="calculateBtn">Generate Mobility Matrix</button>
+
+        <div id="results" class="hidden">
+            <div id="outputContent"></div>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #f5b041; display: flex; justify-content: space-between;">
+                <a id="linkToP3" href="#" style="color: #8e44ad; font-weight: bold; text-decoration: none; font-size: 0.85em;">← P3: Connectivity Matrix</a>
+                <a id="linkToMaster" href="../index.html" style="color: #2980b9; font-weight: bold; text-decoration: none; font-size: 0.85em;">Return to Dashboard ⌂</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            // PILLAR 4 SPECIFIC DATABASE: Mobility & Transit
+            const MobilityData = {
+                "United States": { ride: "Uber, Lyft", transit: "Highly variable (Car-dependent outside Northeast/Chicago)", pay: "Apple Pay/Google Pay or Local App", walk: "Low to Moderate" },
+                "Japan": { ride: "GO, DiDi, Uber (Taxis only)", transit: "World-class rail & subway network", pay: "Suica / Pasmo (Physical or Mobile IC)", walk: "Extremely High" },
+                "South Korea": { ride: "Kakao T (Essential), UT", transit: "World-class rail & subway network", pay: "T-Money Card (Physical card required for tourists)", walk: "Extremely High" },
+                "China": { ride: "DiDi (Via WeChat/Alipay)", transit: "Extensive High-Speed Rail & Metro", pay: "Alipay / WeChat Pay (QR Codes)", walk: "High" },
+                "Taiwan": { ride: "Uber, LINE Taxi", transit: "Excellent MRT & High-Speed Rail", pay: "EasyCard (Physical or Mobile)", walk: "High" },
+                "Thailand": { ride: "Grab, Bolt, inDrive", transit: "BTS Skytrain / MRT (Bangkok)", pay: "Cash / Rabbit Card", walk: "Low to Moderate (Heat/Infrastructure)" },
+                "Vietnam": { ride: "Grab, Be, Gojek (Essential for motorbikes)", transit: "Limited (Buses/Taxis dominant)", pay: "Cash heavily preferred / GrabPay", walk: "Low (Heavy motorbike traffic)" },
+                "Philippines": { ride: "Grab, Angkas (Motorbikes)", transit: "Jeepneys, LRT/MRT (Manila)", pay: "Beep Card / Cash", walk: "Low" },
+                "Indonesia": { ride: "Gojek, Grab (Essential)", transit: "Improving MRT in Jakarta, mostly cars/bikes", pay: "GoPay / OVO / Cash", walk: "Low" },
+                "Malaysia": { ride: "Grab, inDrive", transit: "Good LRT/Monorail in Kuala Lumpur", pay: "Touch 'n Go card", walk: "Moderate" },
+                "Singapore": { ride: "Grab, TADA, Gojek", transit: "World-class MRT & Bus system", pay: "Contactless Credit Card / EZ-Link", walk: "Extremely High" },
+                "India": { ride: "Uber, Ola, Rapido (Auto-rickshaws)", transit: "Improving Metros, Auto-rickshaws dominant", pay: "UPI / Cash", walk: "Low (Traffic/Infrastructure)" },
+                "United Kingdom": { ride: "Uber, FreeNow, Bolt", transit: "Excellent Tube (London) & National Rail", pay: "Contactless Credit Card (Tap-to-pay)", walk: "High" },
+                "France": { ride: "Uber, FreeNow, Bolt", transit: "Excellent Metro & TGV High-Speed", pay: "Navigo Pass / Paper Tickets", walk: "High" },
+                "Germany": { ride: "Uber, FreeNow", transit: "Excellent U-Bahn/S-Bahn & ICE trains", pay: "BVG/Local Apps / Cash/Card", walk: "High" },
+                "Italy": { ride: "FreeNow, Uber (Black only)", transit: "Good regional trains, urban transit varies", pay: "Contactless / Paper Tickets", walk: "High (Cobblestones common)" },
+                "Spain": { ride: "Cabify, Uber, FreeNow", transit: "Excellent Metro & AVE trains", pay: "Local Metro Cards / Contactless", walk: "High" },
+                "United Arab Emirates": { ride: "Careem, Uber", transit: "Excellent Metro in Dubai, Car-heavy elsewhere", pay: "Nol Card (Dubai)", walk: "Low (Extreme heat/Highway design)" },
+                "Turkey": { ride: "BiTaksi, Uber", transit: "Good Metro/Ferries (Istanbul)", pay: "Istanbulkart", walk: "Moderate to High" },
+                "Mexico": { ride: "Uber, DiDi", transit: "Metro (CDMX), mostly buses/collectivos", pay: "Integrated Mobility Card (CDMX) / Cash", walk: "Moderate" },
+                "Brazil": { ride: "Uber, 99", transit: "Metro in major cities, extensive bus lines", pay: "Bilhete Único / Cash", walk: "Moderate (Safety dependent)" },
+                "Australia": { ride: "Uber, Didi, Ola", transit: "Good regional trains/trams in cities", pay: "Opal (Sydney) / Myki (Melbourne) / Contactless", walk: "High in CBDs" },
+                "Canada": { ride: "Uber, Lyft", transit: "Good in Toronto/Vancouver, Car-dependent elsewhere", pay: "Presto (Toronto) / Compass (Vancouver) / Contactless", walk: "Moderate to High" }
+            };
+
+            function getMobility(countryName) {
+                return MobilityData[countryName] || { 
+                    ride: "Uber or local regional app", transit: "Check local municipal transit authority", 
+                    pay: "Cash or Contactless Credit Card", walk: "Variable" 
+                };
+            }
+
+            // Centralized Smart Dictionary (Identical to Master)
+            const globalLocationMap = {
+                "tokyo": { country: "Japan" }, "osaka": { country: "Japan" }, "kyoto": { country: "Japan" },
+                "seoul": { country: "South Korea" }, "incheon": { country: "South Korea" }, "busan": { country: "South Korea" },
+                "taipei": { country: "Taiwan" }, "shanghai": { country: "China" }, "beijing": { country: "China" },
+                "hong kong": { country: "China" }, "singapore": { country: "Singapore" }, "bangkok": { country: "Thailand" },
+                "manila": { country: "Philippines" }, "ho chi minh city": { country: "Vietnam" }, "hanoi": { country: "Vietnam" },
+                "kuala lumpur": { country: "Malaysia" }, "jakarta": { country: "Indonesia" }, "delhi": { country: "India" },
+                "mumbai": { country: "India" }, "bangalore": { country: "India" }, "london": { country: "United Kingdom" },
+                "paris": { country: "France" }, "berlin": { country: "Germany" }, "rome": { country: "Italy" },
+                "milan": { country: "Italy" }, "madrid": { country: "Spain" }, "zurich": { country: "Switzerland" },
+                "istanbul": { country: "Turkey" }, "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
+                "mexico city": { country: "Mexico" }, "são paulo": { country: "Brazil" }, "new york": { country: "United States" },
+                "washington": { country: "United States" }, "washington dc": { country: "United States" }, "richmond": { country: "United States" }, 
+                "boston": { country: "United States" }, "austin": { country: "United States" }, "miami": { country: "United States" },
+                "tampa": { country: "United States" }, "sarasota": { country: "United States" }, "orlando": { country: "United States" }, 
+                "jacksonville": { country: "United States" }, "naples": { country: "United States" }, "new orleans": { country: "United States" },
+                "asheville": { country: "United States" }, "charlotte": { country: "United States" }, "raleigh": { country: "United States" }, 
+                "oklahoma city": { country: "United States" }, "tulsa": { country: "United States" }, "dallas": { country: "United States" },
+                "houston": { country: "United States" }, "san antonio": { country: "United States" }, "atlanta": { country: "United States" }, 
+                "chicago": { country: "United States" }, "ann arbor": { country: "United States" }, "phoenix": { country: "United States" },
+                "scottsdale": { country: "United States" }, "tempe": { country: "United States" }, "tucson": { country: "United States" }, 
+                "las vegas": { country: "United States" }, "denver": { country: "United States" }, "colorado springs": { country: "United States" }, 
+                "los angeles": { country: "United States" }, "san diego": { country: "United States" }, "san francisco": { country: "United States" }, 
+                "seattle": { country: "United States" }, "portland": { country: "United States" }, "eugene": { country: "United States" },
+                "sydney": { country: "Australia" }, "toronto": { country: "Canada" }, "vancouver": { country: "Canada" }
+            };
+
+            const globalCountryDictionary = {
+                "united states": { isMacro: true, regions: { "Not Sure / General National Average": {}, "West (Pacific/Mountain)": {}, "Midwest": {}, "South": {}, "Northeast": {} } },
+                "india": { isMacro: false, capital: "Delhi" }, "china": { isMacro: false, capital: "Shanghai" }, 
+                "turkey": { isMacro: false, capital: "Istanbul" }, "brazil": { isMacro: false, capital: "São Paulo" }, 
+                "egypt": { isMacro: false, capital: "Cairo" }, "japan": { isMacro: false, capital: "Tokyo" }, 
+                "south korea": { isMacro: false, capital: "Seoul" }, "united kingdom": { isMacro: false, capital: "London" }, 
+                "france": { isMacro: false, capital: "Paris" }, "germany": { isMacro: false, capital: "Berlin" }, 
+                "mexico": { isMacro: false, capital: "Mexico City" }, "australia": { isMacro: false, capital: "Sydney" }, 
+                "united arab emirates": { isMacro: false, capital: "Dubai" }, "taiwan": { isMacro: false, capital: "Taipei" }, 
+                "italy": { isMacro: false, capital: "Rome" }, "spain": { isMacro: false, capital: "Madrid" }, 
+                "switzerland": { isMacro: false, capital: "Zurich" }, "canada": { isMacro: false, capital: "Toronto" }, 
+                "thailand": { isMacro: false, capital: "Bangkok" }, "philippines": { isMacro: false, capital: "Manila" }, 
+                "vietnam": { isMacro: false, capital: "Hanoi" }, "malaysia": { isMacro: false, capital: "Kuala Lumpur" }, 
+                "indonesia": { isMacro: false, capital: "Jakarta" }, "singapore": { isMacro: false, capital: "Singapore" }, 
+                "russia": { isMacro: false, capital: "Moscow" }, "peru": { isMacro: false, capital: "Lima" }, 
+                "south africa": { isMacro: false, capital: "Cape Town" }, "argentina": { isMacro: false, capital: "Buenos Aires" }, 
+                "saudi arabia": { isMacro: false, capital: "Riyadh" }, "nigeria": { isMacro: false, capital: "Lagos" }, 
+                "iran": { isMacro: false, capital: "Tehran" }, "pakistan": { isMacro: false, capital: "Islamabad" }, 
+                "ukraine": { isMacro: false, capital: "Kyiv" }, "poland": { isMacro: false, capital: "Warsaw" }, 
+                "norway": { isMacro: false, capital: "Oslo" }, "greece": { isMacro: false, capital: "Athens" }, 
+                "sweden": { isMacro: false, capital: "Stockholm" }, "portugal": { isMacro: false, capital: "Lisbon" }, 
+                "belgium": { isMacro: false, capital: "Brussels" }, "denmark": { isMacro: false, capital: "Copenhagen" }, 
+                "new zealand": { isMacro: false, capital: "Wellington" }, "austria": { isMacro: false, capital: "Vienna" }, 
+                "finland": { isMacro: false, capital: "Helsinki" }, "chile": { isMacro: false, capital: "Santiago" }, 
+                "colombia": { isMacro: false, capital: "Bogota" }, "venezuela": { isMacro: false, capital: "Caracas" }, 
+                "kenya": { isMacro: false, capital: "Nairobi" }, "ethiopia": { isMacro: false, capital: "Addis Ababa" }, 
+                "morocco": { isMacro: false, capital: "Rabat" }, "cuba": { isMacro: false, capital: "Havana" }, 
+                "israel": { isMacro: false, capital: "Jerusalem" }, "iraq": { isMacro: false, capital: "Baghdad" }, 
+                "netherlands": { isMacro: false, capital: "Amsterdam" }, "ireland": { isMacro: false, capital: "Dublin" }
+            };
+
+            let verifiedLocationKey = null;
+
+            function resolveBestMatch(input) {
+                let cleanInput = input.trim().toLowerCase();
+                
+                if (verifiedLocationKey && verifiedLocationKey === cleanInput) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+                if (globalLocationMap[cleanInput]) return { key: cleanInput, data: globalLocationMap[cleanInput], isTypo: false };
+                
+                let countryCheck = cleanInput;
+                if (countryCheck === "us" || countryCheck === "usa") countryCheck = "united states";
+                if (countryCheck === "uk") countryCheck = "united kingdom";
+                if (countryCheck === "korea" || countryCheck === "south korea") countryCheck = "south korea";
+                if (countryCheck === "uae") countryCheck = "united arab emirates";
+                if (countryCheck === "swiss") countryCheck = "switzerland";
+                if (countryCheck === "holland") countryCheck = "netherlands";
+
+                if (globalCountryDictionary[countryCheck]) {
+                    let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital }, isTypo: false };
+                }
+                
+                return { key: cleanInput, data: { type: "unknown" }, isTypo: true };
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const cityInput = document.getElementById('cityInput');
+                const calculateBtn = document.getElementById('calculateBtn');
+                const validationNotice = document.getElementById('validationNotice');
+                
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('city')) {
+                    const passedCity = urlParams.get('city');
+                    cityInput.value = passedCity;
+                    
+                    let match = resolveBestMatch(passedCity);
+                    if (!match.isTypo && match.data.type !== "country") {
+                        verifiedLocationKey = match.key;
+                    } else if (urlParams.has('country')) {
+                        verifiedLocationKey = "FALLBACK";
+                        window.currentSyntheticData = { city: passedCity, country: urlParams.get('country') };
+                    }
+                }
+
+                if (cityInput) {
+                    cityInput.addEventListener('input', function() {
+                        const rawInput = this.value.trim();
+                        const cleanInput = rawInput.toLowerCase();
+                        const detectedZoneDiv = document.getElementById('detectedZone');
+                        validationNotice.style.display = 'none';
+                        verifiedLocationKey = null; 
+                        window.currentSyntheticData = null;
+                        
+                        if (rawInput.length > 0) {
+                            detectedZoneDiv.classList.remove('hidden');
+                            let match = resolveBestMatch(rawInput);
+                            
+                            if (match.data && match.data.type === "country") {
+                                let countryName = match.data.country;
+                                let singleCapital = match.data.capital || "Seoul";
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., ${singleCapital}).</span>`;
+                                return;
+                            }
+
+                            if (match.isTypo) {
+                                let formalInput = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                detectedZoneDiv.innerHTML = `
+                                    <span style="color: #d35400;">To calibrate the matrix for <strong>${formalInput}</strong>, please confirm its host country / region:</span>
+                                    <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                        <input type="text" id="fallbackCountry" placeholder="e.g., United States or China" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
+                                        <button type="button" id="confirmFallbackBtn" style="padding: 6px 15px; width: auto; background: #d35400; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
+                                    </div>
+                                `;
+                                
+                                setTimeout(() => {
+                                    const fallbackBtn = document.getElementById('confirmFallbackBtn');
+                                    if (fallbackBtn) {
+                                        fallbackBtn.onclick = function() {
+                                            const fbCountry = document.getElementById('fallbackCountry').value.trim();
+                                            if (fbCountry) {
+                                                let formalCountryName = fbCountry.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                                let countryCheck = fbCountry.toLowerCase();
+                                                if (countryCheck === "us" || countryCheck === "usa") formalCountryName = "United States";
+                                                if (countryCheck === "uk") formalCountryName = "United Kingdom";
+                                                if (countryCheck === "uae") formalCountryName = "United Arab Emirates";
+                                                
+                                                let countryData = globalCountryDictionary[formalCountryName.toLowerCase()];
+                                                
+                                                if (countryData && countryData.isMacro) {
+                                                    let regionOptions = Object.keys(countryData.regions).map(r => `<option value="${r}">${r}</option>`).join('');
+                                                    detectedZoneDiv.innerHTML = `
+                                                        <span style="color: #d35400;">Select the U.S. region where <strong>${formalInput}</strong> is located, then click <strong>Confirm</strong>:</span>
+                                                        <div style="margin-top: 8px; display: flex; gap: 8px;">
+                                                            <select id="macroRegionSelect" style="padding: 6px; margin-bottom: 0; flex-grow: 1;">
+                                                                ${regionOptions}
+                                                            </select>
+                                                            <button type="button" id="confirmRegionBtn" style="padding: 6px 15px; width: auto; background: #d35400; color: white; border: none; border-radius: 4px; cursor: pointer;">Confirm</button>
+                                                        </div>
+                                                    `;
+                                                    setTimeout(() => {
+                                                        document.getElementById('confirmRegionBtn').onclick = function() {
+                                                            let selectedRegion = document.getElementById('macroRegionSelect').value;
+                                                            if (selectedRegion) {
+                                                                verifiedLocationKey = "MACRO_FALLBACK";
+                                                                window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: selectedRegion };
+                                                                validationNotice.style.display = 'none';
+                                                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} (${selectedRegion})</strong>. Ready to generate!</span>`;
+                                                            }
+                                                        };
+                                                    }, 50);
+                                                } else {
+                                                    verifiedLocationKey = "FALLBACK";
+                                                    window.currentSyntheticData = { city: formalInput, country: formalCountryName };
+                                                    validationNotice.style.display = 'none';
+                                                    detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
+                                                }
+                                            }
+                                        };
+                                    }
+                                }, 50);
+                            } else {
+                                let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
+                                verifiedLocationKey = match.key;
+                            }
+                        } else {
+                            detectedZoneDiv.classList.add('hidden');
+                            detectedZoneDiv.textContent = "";
+                        }
+                    });
+                }
+
+                function performCalculation() {
+                    const rawInput = document.getElementById('cityInput').value.trim();
+                    const resultsBox = document.getElementById('results');
+                    const outputContent = document.getElementById('outputContent');
+
+                    if (!rawInput) {
+                        alert('Please enter a destination to generate the brief.');
+                        return;
+                    }
+
+                    let matchCheck = resolveBestMatch(rawInput);
+                    
+                    if (matchCheck.data && matchCheck.data.type === "country") {
+                        alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., " + (matchCheck.data.capital || "Seoul") + ").");
+                        return;
+                    }
+
+                    if (matchCheck.isTypo && verifiedLocationKey !== "FALLBACK" && verifiedLocationKey !== "MACRO_FALLBACK") {
+                        validationNotice.style.display = 'block';
+                        validationNotice.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        return;
+                    }
+
+                    validationNotice.style.display = 'none';
+
+                    let formalCity, countryName;
+
+                    if (verifiedLocationKey === "MACRO_FALLBACK" && window.currentSyntheticData) {
+                        formalCity = window.currentSyntheticData.city;
+                        countryName = window.currentSyntheticData.country;
+                    } else if (verifiedLocationKey === "FALLBACK" && window.currentSyntheticData) {
+                        formalCity = window.currentSyntheticData.city;
+                        countryName = window.currentSyntheticData.country;
+                    } else {
+                        formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                        countryName = matchCheck.data.country;
+                    }
+
+                    let matrix = getMobility(countryName);
+
+                    let recommendation = `
+                        <strong style="font-size: 1.1em; color: #d35400;">Mobility & Navigation: ${formalCity}, ${countryName}</strong>
+                        
+                        <div class="matrix-section">
+                            <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>🚕 Ride-Hailing & Taxis:</strong></p>
+                            <div class='icon-text'>📱 <strong>Dominant App:</strong> <span style="color: #d35400; font-weight: bold;">${matrix.ride}</span></div>
+                        </div>
+
+                        <div class="matrix-section">
+                            <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>🚇 Public Transportation:</strong></p>
+                            <div class='icon-text'>🚆 <strong>System Quality:</strong> ${matrix.transit}</div>
+                            <div class='icon-text'>💳 <strong>Payment Method:</strong> ${matrix.pay}</div>
+                        </div>
+                        
+                        <div class="matrix-section">
+                            <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>🚶 Micro-Mobility:</strong></p>
+                            <div class='icon-text'>👟 <strong>General Walkability:</strong> ${matrix.walk}</div>
+                        </div>
+                    `;
+
+                    outputContent.innerHTML = recommendation;
+                    resultsBox.classList.remove('hidden');
+
+                    const encodedCity = encodeURIComponent(formalCity);
+                    document.getElementById('linkToP3').href = `../pillar-3/index.html?city=${encodedCity}`;
+                }
+
+                if (calculateBtn) {
+                    calculateBtn.addEventListener('click', performCalculation);
+                }
+
+                if (urlParams.has('city') && verifiedLocationKey) {
+                    performCalculation();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>
