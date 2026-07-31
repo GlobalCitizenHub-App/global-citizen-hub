@@ -19,27 +19,26 @@
         #detectedZone { font-size: 14px; margin-top: 8px; margin-bottom: 15px; padding: 10px; background: #eaf2f8; border-left: 4px solid #2980b9; border-radius: 4px; }
         .gentle-notice { background-color: #fcf3cf; color: #7d6608; padding: 10px; border-radius: 4px; font-size: 0.9em; margin-bottom: 15px; border-left: 4px solid #f39c12; display: none; }
         
-        /* Universal Omni-Directional Deep-Dive Bar */
-        #results { background: #ffffff; border: 1px solid #d5dbdb; border-top: 5px solid #34495e; padding: 25px; margin-top: 25px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        #results { background: #ffffff; border: 1px solid #d5dbdb; border-top: 5px solid #27ae60; padding: 25px; margin-top: 25px; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
-        .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; } .btn-p3 { background: #8e44ad; }
+        .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
     </style>
 </head>
 <body>
     <main class="card">
         <header class="article-header">
             <h1>Global Citizen Hub: Master Dashboard</h1>
-            <p><strong>The Universal Brain.</strong> Set your parameters once here, and instantly access all 6 Intelligence Pillars.</p>
+            <p><strong>The Universal Brain.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices.</p>
         </header>
 
         <div id="validationNotice" class="gentle-notice">⚠️ Please click the green <strong>"Confirm"</strong> button near your destination selection.</div>
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Seoul, Sydney):</label>
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
                 <input type="text" id="cityInput" placeholder="Enter destination...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
@@ -47,7 +46,10 @@
                 <label for="travelMonth">Travel Month:</label>
                 <select id="travelMonth">
                     <option value="">Select Month</option>
-                    <option value="1">January</option><option value="2">February</option><option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option><option value="7">July</option><option value="8">August</option><option value="9">September</option><option value="10">October</option><option value="11">November</option><option value="12">December</option>
+                    <option value="1">January</option><option value="2">February</option><option value="3">March</option>
+                    <option value="4">April</option><option value="5">May</option><option value="6">June</option>
+                    <option value="7">July</option><option value="8">August</option><option value="9">September</option>
+                    <option value="10">October</option><option value="11">November</option><option value="12">December</option>
                 </select>
             </div>
             <div>
@@ -71,24 +73,23 @@
             </div>
         </section>
 
-        <button id="calculateBtn">Lock Parameters & Unlock Pillars</button>
+        <button id="calculateBtn">Save & View Intelligence Pillars</button>
 
         <div id="results" class="hidden">
-            <h3 style="text-align: center; color: #34495e; margin-top: 0;">✅ Trajectory Locked. Select a Pillar to Enter:</h3>
+            <h3 style="text-align: center; color: #27ae60; margin-top: 0;">✨ Your Destination Hub Is Ready! Select a Pillar Below:</h3>
             <div class="deep-dive-bar">
-                <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate/Wear</a>
-                <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost/Eat</a>
+                <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
+                <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Sustenance</a>
                 <a id="linkP3" href="#" class="btn-pillar btn-p3">3. Connectivity</a>
-                <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit/Move</a>
-                <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture/Experience</a>
-                <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Learn/Conversions</a>
+                <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Mobility</a>
+                <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture & Etiquette</a>
+                <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shopping & Conversions</a>
             </div>
         </div>
     </main>
 
     <script>
         (function() {
-            // [CORE DICTIONARIES - DO NOT TRUNCATE]
             const globalLocationMap = {
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.2 }, "osaka": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.1 }, "kyoto": { country: "Japan", zone: "continental", hemi: "north", costMult: 1.15 },
                 "seoul": { country: "South Korea", zone: "continental", hemi: "north", costMult: 1.1 }, "incheon": { country: "South Korea", zone: "continental", hemi: "north", costMult: 1.0 }, "busan": { country: "South Korea", zone: "continental", hemi: "north", costMult: 1.0 },
@@ -138,7 +139,6 @@
                 const calculateBtn = document.getElementById('calculateBtn');
                 const validationNotice = document.getElementById('validationNotice');
                 
-                // Pre-populate if back-navigating
                 const urlParams = new URLSearchParams(window.location.search);
                 if (urlParams.has('city')) {
                     cityInput.value = urlParams.get('city');
@@ -202,7 +202,7 @@
                                                     document.getElementById('confirmRegionBtn').onclick = function() {
                                                         verifiedLocationKey = "MACRO_FALLBACK";
                                                         window.currentSyntheticData = { city: formalInput, country: formalCountryName, region: document.getElementById('macroRegionSelect').value };
-                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Locked: <strong>${formalInput}</strong></span>`;
+                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ Locked: <strong>${formalInput} (${document.getElementById('macroRegionSelect').value})</strong></span>`;
                                                     };
                                                 }, 50);
                                             } else {
@@ -248,7 +248,6 @@
                         countryName = matchCheck.data.country;
                     }
 
-                    // Update Omni-Directional Links
                     const urlParamsOut = new URLSearchParams();
                     urlParamsOut.set('city', formalCity);
                     urlParamsOut.set('country', countryName);
