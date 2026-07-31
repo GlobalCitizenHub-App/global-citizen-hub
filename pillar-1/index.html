@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Pillar 1: Climate intelligence, seasonal temperature profiles, and demographic-specific wardrobe/footwear recommendations for international travelers.">
     <title>Pillar 1 | Climate & Wear</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
@@ -10,8 +11,12 @@
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         h1, h2, h4 { color: var(--primary); margin-top: 0; }
         
+        /* Persistent Paper Binder Navigation Tabs (All 7 Buttons) */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
-        .binder-tab { flex: 1; min-width: 100px; padding: 10px 8px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.8em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); }
+        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
+        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
+        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
+        
         .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
@@ -25,7 +30,14 @@
 <body>
     <main class="card">
         <nav class="binder-nav" id="binderNav">
-            </nav>
+            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
+            <a href="../pillar-1/index.html" class="binder-tab tab-p1 active">1. Climate</a>
+            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
+            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
+            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
+            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
+            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
+        </nav>
 
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>Pillar 1: Climate & Wear Intelligence</h1>
@@ -39,7 +51,7 @@
         </div>
 
         <div class="info-box">
-            <h4>👥 Demographic Wardloor & Footwear Breakdown</h4>
+            <h4>👥 Demographic Wardrobe & Footwear Breakdown</h4>
             <table>
                 <thead>
                     <tr><th>Demographic Group</th><th>Recommended Footwear</th><th>Key Apparel & Gear Focus</th></tr>
@@ -53,6 +65,7 @@
         </div>
 
         <footer class="affiliate-disclosure">
+            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
             Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
         </footer>
     </main>
@@ -61,22 +74,27 @@
         (function() {
             const urlParams = new URLSearchParams(window.location.search);
             const city = urlParams.get('city') || "Global Destination";
+            const country = urlParams.get('country') || "";
             const month = parseInt(urlParams.get('month')) || 6;
             
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}`;
+            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
+            
             let season = (month >= 3 && month <= 5) ? "Spring" : (month >= 6 && month <= 8) ? "Summer" : (month >= 9 && month <= 11) ? "Autumn" : "Winter";
-            document.getElementById('climateDesc').innerText = `For ${city} during ${season}, prepare for local thermal shifts requiring adaptive footwear and layer management.`;
+            
+            document.getElementById('climateDesc').innerText = `For your stay in ${city}${country ? ', ' + country : ''} during ${season}, expect variable weather conditions requiring adaptive layering and terrain-appropriate footwear.`;
 
             const qs = window.location.search;
-            document.getElementById('binderNav').innerHTML = `
-                <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1">1. Climate</a>
-                <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
-                <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
-                <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
-                <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
-                <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
-            `;
+            if (qs) {
+                document.getElementById('binderNav').innerHTML = `
+                    <a href="../index.html${qs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                    <a href="../pillar-1/index.html${qs}" class="binder-tab tab-p1 active">1. Climate</a>
+                    <a href="../pillar-2/index.html${qs}" class="binder-tab tab-p2">2. Cost</a>
+                    <a href="../pillar-3/index.html${qs}" class="binder-tab tab-p3">3. Connectivity</a>
+                    <a href="../pillar-4/index.html${qs}" class="binder-tab tab-p4">4. Transit</a>
+                    <a href="../pillar-5/index.html${qs}" class="binder-tab tab-p5">5. Culture</a>
+                    <a href="../pillar-6/index.html${qs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+                `;
+            }
         })();
     </script>
 </body>
