@@ -101,7 +101,7 @@
     <script>
         (function() {
             const globalLocationMap = {
-                // US Cities
+                // US Cities (including Aurora)
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
                 "chicago": { country: "United States" }, "houston": { country: "United States" },
                 "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
@@ -114,6 +114,7 @@
                 "richmond": { country: "United States" }, "hampton": { country: "United States" },
                 "ann arbor": { country: "United States" }, "milwaukee": { country: "United States" },
                 "miami": { country: "United States" }, "atlanta": { country: "United States" },
+                "aurora": { country: "United States" },
 
                 // International Cities
                 "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
@@ -142,7 +143,9 @@
             let verifiedCountry = "";
 
             cityInput.addEventListener('input', function() {
-                const val = this.value.trim().toLowerCase();
+                const rawVal = this.value.trim().toLowerCase();
+                // Clean up comma input formats (e.g., "Aurora, (co, usa)" or "Aurora, CO" -> "aurora")
+                const val = rawVal.split(',')[0].trim();
                 verifiedCountry = "";
 
                 if (!val) {
@@ -210,15 +213,16 @@
 
             document.getElementById('calculateBtn').addEventListener('click', function() {
                 const rawInput = cityInput.value.trim();
+                const cleanCityKey = rawInput.split(',')[0].trim().toLowerCase();
                 const travelMonth = document.getElementById('travelMonth').value;
                 const termDuration = document.getElementById('termDuration').value;
                 const budgetProfile = document.getElementById('budgetProfile').value;
 
                 if (!rawInput || !travelMonth || !termDuration || !budgetProfile) { alert('Please complete all 4 parameter fields.'); return; }
                 
-                const formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                if (!verifiedCountry && globalLocationMap[rawInput.toLowerCase()]) {
-                    verifiedCountry = globalLocationMap[rawInput.toLowerCase()].country;
+                const formalCity = cleanCityKey.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                if (!verifiedCountry && globalLocationMap[cleanCityKey]) {
+                    verifiedCountry = globalLocationMap[cleanCityKey].country;
                 }
 
                 let newQs = `?city=${encodeURIComponent(formalCity)}`;
