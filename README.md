@@ -1,37 +1,20 @@
-# Global Citizen Hub: The Smart Traveling and Relocation Toolkit
+# Global Citizen Hub
 
+**The Smart Traveling and Relocation Toolkit**
+
+## Overview
 A unified, multi-pillar intelligence framework designed for lifelong learners, including students, professionals, families, and retirees, in the US and more regions of the globe. The Global Citizen Hub allows users to input their destination and travel parameters once and instantly access synchronized intelligence across six core pillars without ever losing their session data.
 
 ---
 
-## 🏛️ System Architecture
-
-The project is structured with a central **Master Dashboard** that feeds state data seamlessly across modular pillars via URL parameters—ensuring zero data loss and eliminating the need to re-enter information. Trust and compliance pages are integrated to support Google AdSense and Amazon Affiliate standards.
+## System Architecture & Data Flow
+Global Citizen Hub is engineered as a zero-backend, client-side static web application. It eliminates external databases or server sessions by using a **synchronized state machine driven entirely by URL query parameters**.
 
 ```text
-global-citizen-hub/
-│
-├── index.html                  # Master Dashboard (Central Input Brain)
-├── README.md                   # Project Documentation
-│
-├── about/                      # About & Mission Page
-│   └── index.html              
-├── contact/                    # Contact Support Page
-│   └── index.html              
-├── privacy/                    # Privacy Policy & Cookie Disclosures
-│   └── index.html              
-├── terms/                      # Terms of Service & Affiliate Disclosures
-│   └── index.html              
-│
-├── pillar-1/                   # Pillar 1: Climate & Wardrobe Intelligence
-│   └── index.html
-├── pillar-2/                   # Pillar 2: Cost-of-Living & Relocation Estimator
-│   └── index.html
-├── pillar-3/                   # Pillar 3: Connectivity & Communications Matrix
-│   └── index.html
-├── pillar-4/                   # Pillar 4: Mobility & Navigation Matrix
-│   └── index.html
-├── pillar-5/                   # Pillar 5: Cultural Etiquette & Community Interaction
-│   └── index.html
-└── pillar-6/                   # Pillar 6: Universal Conversion & E-Commerce Helper
-    └── index.html
+[Master Dashboard (index.html)]
+        │ (User inputs destination city, travel month, duration, and budget profile)
+        ▼
+[https://www.kimchang.com/en/insights/detail.kc?sch_section=4&idx=31716](https://www.kimchang.com/en/insights/detail.kc?sch_section=4&idx=31716)
+        │ (User clicks pillar links)
+        ▼
+[Individual Pillar Hydration & Local Calculators]
