@@ -12,15 +12,29 @@ The project is structured with a central **Master Dashboard** that feeds state d
 global-citizen-hub/
 │
 ├── index.html                  # Master Dashboard (Central Input Brain)
-├── pillar-1/
-│   └── index.html              # Pillar 1: Climate & Wardrobe Intelligence
-├── pillar-2/
-│   └── index.html              # Pillar 2: Cost-of-Living & Relocation Estimator
-├── pillar-3/
-│   └── index.html              # Pillar 3: Connectivity & Communications Matrix
-├── pillar-4/
-│   └── index.html              # Pillar 4: Mobility & Navigation Matrix
-├── pillar-5/
-│   └── index.html              # Pillar 5: Cultural Etiquette & Community Interaction
-└── pillar-6/
-    └── index.html              # Pillar 6: Universal Conversion & E-Commerce Helper
+├── README.md                   # Project Documentation & Branding Identity
+│
+├── about/                      # <-- NEW: About Page Folder
+│   └── index.html              
+│
+├── contact/                    # <-- NEW: Contact Page Folder
+│   └── index.html              
+│
+├── privacy/                    # <-- NEW: Privacy Policy Folder
+│   └── index.html              
+│
+├── terms/                      # <-- NEW: Terms & Affiliate Disclosure Folder
+│   └── index.html              
+│
+├── pillar-1/                   # Climate & Wardrobe
+│   └── index.html
+├── pillar-2/                   # Cost & Relocation Estimator
+│   └── index.html
+├── pillar-3/                   # Connectivity & Comms
+│   └── index.html
+├── pillar-4/                   # Transit & Mobility
+│   └── index.html
+├── pillar-5/                   # Culture & Etiquette
+│   └── index.html
+└── pillar-6/                   # Shopping & Conversions (Amazon Helper)
+    └── index.html
