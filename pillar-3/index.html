@@ -3,47 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 3 | Connectivity</title>
+    <title>Pillar 3 | Connectivity & Comms</title>
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 850px; margin: 40px auto; padding: 20px; background-color: #fcfcfc; color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 30px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); border-top: 5px solid #8e44ad; }
         h1, h2, h4 { color: #8e44ad; margin-top: 0; }
         .icon-text { margin-bottom: 8px; font-size: 0.95em; }
-        /* Omni-Directional Deep-Dive Bar */
+        .dashboard-section { margin-top: 20px; padding-top: 15px; border-top: 1px solid #eaeded; }
+        .dashboard-section h4 { color: #8e44ad; margin-top: 0; margin-bottom: 15px; font-size: 1.1em; text-transform: uppercase; letter-spacing: 0.5px; }
         .deep-dive-bar { margin-top: 25px; padding-top: 15px; border-top: 2px solid #eaeded; display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 140px; color: white; transition: opacity 0.2s; }
+        .btn-pillar { flex: 1; padding: 10px; text-align: center; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.85em; display: inline-block; min-width: 130px; color: white; transition: opacity 0.2s; }
         .btn-pillar:hover { opacity: 0.85; }
         .btn-master { background: #34495e; } .btn-p1 { background: #2980b9; } .btn-p2 { background: #27ae60; }
-        .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
+        .btn-p3 { background: #8e44ad; } .btn-p4 { background: #d35400; } .btn-p5 { background: #c0392b; } .btn-p6 { background: #16a085; }
     </style>
 </head>
 <body>
     <main class="card">
         <header style="border-bottom: 2px solid #8e44ad; padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>Pillar 3: Connectivity & Comms</h1>
+            <h1>Pillar 3: Connectivity & Communications Matrix</h1>
         </header>
         <div id="outputContent">Loading intelligence...</div>
         
         <div class="deep-dive-bar">
             <a id="linkMaster" href="#" class="btn-pillar btn-master">⌂ Dashboard</a>
-            <a id="linkP1" href="#" class="btn-pillar btn-p1">🔍 Climate (P1)</a>
-            <a id="linkP2" href="#" class="btn-pillar btn-p2">💰 Sustenance (P2)</a>
-            <a id="linkP4" href="#" class="btn-pillar btn-p4">🚕 Mobility (P4)</a>
-            <a id="linkP5" href="#" class="btn-pillar btn-p5">🤝 Culture (P5)</a>
-            <a id="linkP6" href="#" class="btn-pillar btn-p6">🧮 Convert (P6)</a>
+            <a id="linkP1" href="#" class="btn-pillar btn-p1">1. Climate & Wear</a>
+            <a id="linkP2" href="#" class="btn-pillar btn-p2">2. Cost & Eat</a>
+            <a id="linkP4" href="#" class="btn-pillar btn-p4">4. Transit & Move</a>
+            <a id="linkP5" href="#" class="btn-pillar btn-p5">5. Culture</a>
+            <a id="linkP6" href="#" class="btn-pillar btn-p6">6. Shop & Convert</a>
         </div>
     </main>
     <script>
         (function() {
+            const ConnectivityData = {
+                "United States": { emergency: "911", telecom: "T-Mobile, Verizon, AT&T", app: "iMessage / Standard SMS", internet: "High Speed (Widespread 5G)", vpn: "Not required" },
+                "Japan": { emergency: "110 (Police), 119 (Fire/Ambulance)", telecom: "NTT Docomo, SoftBank, au", app: "LINE", internet: "Ultra-High Speed (Fiber/5G)", vpn: "Not required" },
+                "South Korea": { emergency: "112 (Police), 119 (Ambulance/Fire)", telecom: "SK Telecom, KT, LG U+", app: "KakaoTalk", internet: "World's Fastest (Widespread 5G)", vpn: "Not required" },
+                "China": { emergency: "110 (Police), 120 (Ambulance)", telecom: "China Mobile, China Unicom", app: "WeChat (Must set up before arrival)", internet: "Great Firewall active", vpn: "CRITICAL: Install reliable VPN before entering." },
+                "Taiwan": { emergency: "110 (Police), 119 (Ambulance/Fire)", telecom: "Chunghwa Telecom, Taiwan Mobile", app: "LINE", internet: "High Speed", vpn: "Not required" },
+                "United Kingdom": { emergency: "999 or 112", telecom: "EE, O2, Vodafone", app: "WhatsApp", internet: "High Speed", vpn: "Not required" },
+                "France": { emergency: "112 (General Europe), 15 (SAMU)", telecom: "Orange, SFR, Free", app: "WhatsApp", internet: "High Speed", vpn: "Not required" },
+                "Germany": { emergency: "112 (Ambulance/Fire), 110 (Police)", telecom: "Telekom, Vodafone, O2", app: "WhatsApp", internet: "Moderate/High Speed", vpn: "Not required" },
+                "Australia": { emergency: "000", telecom: "Telstra, Optus", app: "WhatsApp / iMessage", internet: "High Speed", vpn: "Not required" },
+                "Singapore": { emergency: "999 (Police), 995 (Ambulance/Fire)", telecom: "Singtel, StarHub", app: "WhatsApp", internet: "Ultra-High Speed", vpn: "Not required" }
+            };
+
             const urlParams = new URLSearchParams(window.location.search);
-            const city = urlParams.get('city') || "Unknown City";
-            const country = urlParams.get('country') || "Unknown Country";
+            const city = urlParams.get('city') || "Selected City";
+            const country = urlParams.get('country') || "United States";
             
+            const matrix = ConnectivityData[country] || { 
+                emergency: "112 or local equivalent", telecom: "Check local airport providers", 
+                app: "WhatsApp (Global standard)", internet: "Variable based on region", vpn: "Recommended on public Wi-Fi networks" 
+            };
+
             document.getElementById('outputContent').innerHTML = `
                 <h2>${city}, ${country}</h2>
-                <h4 style="margin-top:20px;">📱 Digital Logistics</h4>
-                <div class='icon-text'>🚨 <strong>Emergency:</strong> Local dispatch protocols apply.</div>
-                <div class='icon-text'>💬 <strong>Dominant App:</strong> WhatsApp/LINE/WeChat varies.</div>
+                <div class="dashboard-section">
+                    <h4>🚨 Emergency Protocols</h4>
+                    <div class='icon-text'>📞 <strong>Primary Dispatch:</strong> <span style="color: #c0392b; font-weight: bold;">${matrix.emergency}</span></div>
+                </div>
+                <div class="dashboard-section">
+                    <h4>📱 Local Digital Ecosystem</h4>
+                    <div class='icon-text'>💬 <strong>Dominant Social App:</strong> ${matrix.app}</div>
+                    <div class='icon-text'>📡 <strong>Major Telecom Providers:</strong> ${matrix.telecom}</div>
+                </div>
+                <div class="dashboard-section">
+                    <h4>💻 Workspace & Connectivity</h4>
+                    <div class='icon-text'>🌐 <strong>Internet Baseline:</strong> ${matrix.internet}</div>
+                    <div class='icon-text'>🛡️ <strong>VPN Advisory:</strong> ${matrix.vpn}</div>
+                </div>
             `;
             
             const qs = window.location.search;
