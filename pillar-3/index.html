@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Connectivity & Communications Matrix | Pillar 3</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #fcfcfc;
+            color: #333;
+            line-height: 1.6;
+        }
+        h1, h2, h3 { color: #2c3e50; margin-top: 0; }
+        .card {
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            border-top: 5px solid #8e44ad;
+        }
+        .article-header {
+            border-bottom: 2px solid #8e44ad;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+        }
+        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: #2c3e50; }
+        input, select {
+            width: 100%; padding: 10px; margin-bottom: 15px;
+            border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;
+            font-size: 14px;
+        }
+        button {
+            background-color: #8e44ad; color: white; border: none;
+            padding: 14px 20px; border-radius: 4px; cursor: pointer;
+            font-size: 16px; font-weight: bold; width: 100%;
+            transition: background-color 0.2s;
+        }
+        button:hover { background-color: #732d91; }
+        .hidden { display: none; }
+        #results {
+            background: #f5eef8; border: 1px solid #d7bde2; border-top: 5px solid #8e44ad;
+            padding: 25px; margin-top: 25px; border-radius: 6px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .icon-text { margin-bottom: 8px; font-size: 0.95em; }
+        .matrix-section { margin-top: 15px; border-top: 1px solid #d5dbdb; padding-top: 10px; }
+        .nav-link {
+            font-size: 0.9em; margin-bottom: 15px; display: inline-block;
+            color: #8e44ad; text-decoration: none; font-weight: bold;
+        }
+        .nav-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+    <main class="card">
+        <a href="../index.html" class="nav-link">← Back to Master Dashboard</a>
+
+        <header class="article-header">
+            <h1 style="font-size: 1.5em; color: #8e44ad; margin: 0 0 10px 0;">Pillar 3: Connectivity & Communications Matrix</h1>
+            <p style="margin: 0; font-size: 0.95em;">Digital logistics are critical. This pillar maps the primary communication networks, emergency protocols, and broadband expectations for your destination.</p>
+        </header>
+
+        <label for="cityInput">Destination (City):</label>
+        <input type="text" id="cityInput" placeholder="Enter destination...">
+
+        <button id="calculateBtn">Generate Connectivity Matrix</button>
+
+        <div id="results" class="hidden">
+            <div id="outputContent"></div>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #d7bde2; display: flex; justify-content: space-between;">
+                <a id="linkToP1" href="#" style="color: #2980b9; font-weight: bold; text-decoration: none; font-size: 0.85em;">← P1: Climate Matrix</a>
+                <a id="linkToP2" href="#" style="color: #27ae60; font-weight: bold; text-decoration: none; font-size: 0.85em;">P2: Sustenance Matrix →</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        (function() {
+            // PILLAR 3 SPECIFIC DATABASE: Connectivity & Comms
+            const ConnectivityData = {
+                "United States": { emergency: "911", telecom: "T-Mobile, Verizon, AT&T", app: "iMessage / Standard SMS", internet: "High Speed (Widespread 5G)", vpn: "Not required" },
+                "Japan": { emergency: "110 (Police), 119 (Fire/Ambulance)", telecom: "NTT Docomo, SoftBank, au", app: "LINE", internet: "Ultra-High Speed (Fiber/5G)", vpn: "Not required" },
+                "South Korea": { emergency: "112 (Police), 119 (Ambulance/Fire)", telecom: "SK Telecom, KT, LG U+", app: "KakaoTalk", internet: "World's Fastest (Widespread 5G)", vpn: "Not required" },
+                "China": { emergency: "110 (Police), 120 (Ambulance)", telecom: "China Mobile, China Unicom", app: "WeChat (Must set up before arrival)", internet: "Great Firewall active", vpn: "CRITICAL: Install reliable VPN before entering." },
+                "Taiwan": { emergency: "110 (Police), 119 (Ambulance/Fire)", telecom: "Chunghwa Telecom, Taiwan Mobile", app: "LINE", internet: "High Speed", vpn: "Not required" },
+                "United Kingdom": { emergency: "999 or 112", telecom: "EE, O2, Vodafone", app: "WhatsApp", internet: "High Speed", vpn: "Not required" },
+                "France": { emergency: "112 (General Europe), 15 (SAMU)", telecom: "Orange, SFR, Free", app: "WhatsApp", internet: "High Speed", vpn: "Not required" },
+                "Germany": { emergency: "112 (Ambulance/Fire), 110 (Police)", telecom: "Telekom, Vodafone, O2", app: "WhatsApp", internet: "Moderate/High Speed", vpn: "Not required" },
+                "Mexico": { emergency: "911", telecom: "Telcel, AT&T Mexico", app: "WhatsApp", internet: "Variable (Good in major cities)", vpn: "Recommended for public Wi-Fi security" },
+                "Brazil": { emergency: "190 (Police), 192 (Ambulance)", telecom: "Vivo, Claro, TIM", app: "WhatsApp", internet: "Variable (Good in major cities)", vpn: "Recommended for public Wi-Fi security" },
+                "India": { emergency: "112 (National Emergency Number)", telecom: "Jio, Airtel, Vi", app: "WhatsApp", internet: "Variable (Good 4G/5G in tier-1 cities)", vpn: "Recommended for security" },
+                "United Arab Emirates": { emergency: "999 (Police), 998 (Ambulance)", telecom: "Etisalat, du", app: "WhatsApp (Note: Voice/Video calls are blocked)", internet: "Ultra-High Speed", vpn: "Needed to unblock VoIP calls (Skype/WhatsApp Voice)" },
+                "Australia": { emergency: "000", telecom: "Telstra, Optus, Optus", app: "WhatsApp / iMessage", internet: "High Speed (NBN in cities)", vpn: "Not required" },
+                "Singapore": { emergency: "999 (Police), 995 (Ambulance/Fire)", telecom: "Singtel, StarHub", app: "WhatsApp", internet: "Ultra-High Speed", vpn: "Not required" }
+            };
+
+            function getConnectivity(countryName) {
+                return ConnectivityData[countryName] || { 
+                    emergency: "112 or local equivalent", telecom: "Check local providers at airport", 
+                    app: "WhatsApp (Global standard)", internet: "Variable", vpn: "Recommended on public Wi-Fi networks" 
+                };
+            }
+
+            // Universal Location Map (Shared across all pillars)
+            const globalLocationMap = {
+                "tokyo": "Japan", "osaka": "Japan", "seoul": "South Korea", "shanghai": "China", "beijing": "China", 
+                "hong kong": "China", "taipei": "Taiwan", "singapore": "Singapore", "bangkok": "Thailand",
+                "delhi": "India", "mumbai": "India", "london": "United Kingdom", "paris": "France", 
+                "berlin": "Germany", "rome": "Italy", "istanbul": "Turkey", "cairo": "Egypt", "dubai": "United Arab Emirates", 
+                "mexico city": "Mexico", "são paulo": "Brazil", "new york": "United States", "washington": "United States",
+                "washington dc": "United States", "boston": "United States", "austin": "United States", "miami": "United States",
+                "chicago": "United States", "los angeles": "United States", "san francisco": "United States", 
+                "seattle": "United States", "sydney": "Australia", "toronto": "Canada", "ann arbor": "United States"
+            };
+
+            function executeCalculation() {
+                const rawInput = document.getElementById('cityInput').value.trim().toLowerCase();
+                if (!rawInput) return;
+
+                let countryName = globalLocationMap[rawInput] || "United States";
+                let formalCity = rawInput.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                let matrix = getConnectivity(countryName);
+
+                let recommendation = `
+                    <strong style="font-size: 1.1em; color: #732d91;">Comms & Logistics: ${formalCity}, ${countryName}</strong>
+                    
+                    <div class="matrix-section">
+                        <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>🚨 Emergency Protocols:</strong></p>
+                        <div class='icon-text'>📞 <strong>Primary Dispatch:</strong> <span style="color: #c0392b; font-weight: bold;">${matrix.emergency}</span></div>
+                    </div>
+
+                    <div class="matrix-section">
+                        <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>📱 Local Digital Ecosystem:</strong></p>
+                        <div class='icon-text'>💬 <strong>Dominant Social App:</strong> ${matrix.app}</div>
+                        <div class='icon-text'>📡 <strong>Major Telecoms:</strong> ${matrix.telecom}</div>
+                    </div>
+                    
+                    <div class="matrix-section">
+                        <p style="color: #2c3e50; margin-top:0; margin-bottom: 5px;"><strong>💻 Remote Workspace Readiness:</strong></p>
+                        <div class='icon-text'>🌐 <strong>Internet Baseline:</strong> ${matrix.internet}</div>
+                        <div class='icon-text'>🛡️ <strong>VPN Advisory:</strong> ${matrix.vpn}</div>
+                    </div>
+                `;
+
+                document.getElementById('outputContent').innerHTML = recommendation;
+                document.getElementById('results').classList.remove('hidden');
+
+                // Dynamic cross-linking to keep the user in the ecosystem
+                document.getElementById('linkToP1').href = `../pillar-1/index.html?city=${encodeURIComponent(formalCity)}`;
+                document.getElementById('linkToP2').href = `../pillar-2/index.html?city=${encodeURIComponent(formalCity)}`;
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.has('city')) document.getElementById('cityInput').value = urlParams.get('city');
+
+                if (urlParams.has('city')) {
+                    executeCalculation();
+                }
+
+                document.getElementById('calculateBtn').addEventListener('click', executeCalculation);
+            });
+        })();
+    </script>
+</body>
+</html>
