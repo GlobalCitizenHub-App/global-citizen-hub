@@ -163,16 +163,16 @@
             };
 
             const globalCountryDictionary = {
-                "egypt": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
-                "japan": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
-                "south korea": { isMacro: false, risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
-                "france": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
-                "mexico": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
-                "australia": { isMacro: false, risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
-                "united arab emirates": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
+                "egypt": { isMacro: false, capital: "Cairo", risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
+                "japan": { isMacro: false, capital: "Tokyo", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
+                "south korea": { isMacro: false, capital: "Seoul", risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
+                "france": { isMacro: false, capital: "Paris", risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "mexico": { isMacro: false, capital: "Mexico City", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
+                "australia": { isMacro: false, capital: "Sydney", risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
+                "united arab emirates": { isMacro: false, capital: "Dubai", risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
                 
                 "united states": { 
-                    isMacro: true, capital: "Washington", 
+                    isMacro: true, capital: "New York", 
                     regions: {
                         "Not Sure / General National Average": {
                             risks: [{text: "✅ General continental baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}],
@@ -225,7 +225,7 @@
 
                 if (globalCountryDictionary[countryCheck]) {
                     let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "" }, isTypo: false };
+                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "Seoul" }, isTypo: false };
                 }
                 return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
             }
@@ -301,7 +301,8 @@
                             
                             if (match.data.type === "country") {
                                 let countryName = match.data.country;
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., Cairo, Seoul).</span>`;
+                                let singleCapital = match.data.capital || "Seoul";
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., ${singleCapital}).</span>`;
                                 return;
                             }
 
@@ -385,7 +386,7 @@
 
                         let matchCheck = resolveBestMatch(rawInput);
                         if (matchCheck.data.type === "country") {
-                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., Cairo, Seoul).");
+                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., " + (matchCheck.data.capital || "Seoul") + ").");
                             return;
                         }
 
