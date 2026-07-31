@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Climate & Wardrobe Intelligence - Pillar 1</title>
+    <title>Holistic Travel Intelligence - Master Dashboard</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            max-width: 850px;
+            max-width: 900px;
             margin: 40px auto;
             padding: 20px;
             background-color: #f4f6f7;
@@ -28,6 +28,7 @@
             padding-bottom: 15px;
             margin-bottom: 25px;
         }
+        .article-header p { margin-bottom: 12px; }
         .input-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -50,7 +51,7 @@
         button:hover { background-color: #1f618d; }
         .hidden { display: none; }
         #results {
-            background: #ffffff; border: 1px solid #d5dbdb; border-top: 5px solid #2980b9;
+            background: #ffffff; border: 1px solid #d5dbdb; border-top: 5px solid #27ae60;
             padding: 25px; margin-top: 25px; border-radius: 6px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
@@ -59,6 +60,7 @@
             background: #eaf2f8; border-left: 4px solid #2980b9; border-radius: 4px;
         }
         .icon-text { margin-bottom: 8px; font-size: 0.95em;}
+        
         .dashboard-section {
             margin-top: 20px;
             padding-top: 15px;
@@ -72,28 +74,44 @@
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
+        .sub-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .cost-highlight {
+            font-size: 1.2em;
+            color: #27ae60;
+            font-weight: bold;
+        }
         .calibration-tag {
             background-color: #eaeded; padding: 4px 10px; 
             border-radius: 4px; font-size: 0.75em; 
             color: #5d6d7e; font-weight: bold;
             display: inline-block;
         }
-        .nav-link {
-            font-size: 0.9em; margin-bottom: 15px; display: inline-block;
-            color: #2980b9; text-decoration: none; font-weight: bold;
+        .warning-badge {
+            background-color: #fef9e7; color: #b7950b; padding: 4px 8px; 
+            border-radius: 4px; font-size: 0.8em; font-weight: bold; display: inline-block; margin-top: 6px;
+            border: 1px solid #f9e79f;
         }
-        .nav-link:hover { text-decoration: underline; }
+        .nav-links { margin-bottom: 15px; font-size: 0.9em; }
+        .nav-links a { margin-right: 15px; color: #2980b9; text-decoration: none; font-weight: bold; }
+        .nav-links a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
 
     <div class="card">
-        <a href="../index.html" class="nav-link">← Back to Master Dashboard (Holistic Brief)</a>
-        
+        <div class="nav-links">
+            <a href="pillar-1/index.html">Pillar 1: Climate & Wardrobe</a>
+            <a href="pillar-2/index.html">Pillar 2: Sustenance & Economics</a>
+        </div>
+
         <div class="article-header">
-            <h3>Pillar 1: Location Resolution & Layering Engine</h3>
-            <p><strong>The Baseline Problem</strong><br>
-            Generic packing lists and basic weather apps often fail because they treat global travel as a one-size-fits-all equation. Smart traveling and relocation require aligning your specific travel window with regional environmental risks, practical wardrobe needs, and local infrastructure standards.</p>
+            <h3>Holistic Travel Intelligence: Master Dashboard</h3>
+            <p><strong>The Operational Baseline</strong><br>
+            Navigating global relocation or extended travel requires synthesizing fragmented data. This unified framework instantly calibrates your specific travel window against macro-regional climate hazards, critical infrastructure standards, and local sustenance economics.</p>
         </div>
 
         <div class="input-grid">
@@ -124,9 +142,19 @@
                     <option value="Annual / Multi-Year">Annual / Multi-Year Relocation</option>
                 </select>
             </div>
+
+            <div class="full-width">
+                <label for="budgetProfile">Sustenance Profile (Excludes Accommodation):</label>
+                <select id="budgetProfile">
+                    <option value="">Select Operational Profile</option>
+                    <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
+                    <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
+                    <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
+                </select>
+            </div>
         </div>
 
-        <button id="calculateBtn">Generate Precision Climate Matrix</button>
+        <button id="calculateBtn">Generate Master Intelligence Brief</button>
 
         <div id="results" class="hidden">
             <div id="outputContent"></div>
@@ -150,29 +178,41 @@
                 getElectricalStandard(countryName) { return this.electrical[countryName] || { volts: "Standard varies", hz: "50/60Hz", plugs: ["Check local adapters"] }; }
             };
 
+            const SustenanceData = {
+                "United States": { water: "✅ Safe (varies by municipality)", tip: "18-22% (Mandatory cultural norm)", dinner: "18:00 - 20:00", cost: { economical: 40, moderate: 85, elevated: 150, currency: "USD" } },
+                "Japan": { water: "✅ Extremely Safe", tip: "❌ DO NOT TIP", dinner: "18:00 - 21:00", cost: { economical: 3000, moderate: 6500, elevated: 15000, currency: "JPY" } },
+                "South Korea": { water: "✅ Safe (Locals prefer filtered)", tip: "❌ No tipping", dinner: "18:30 - 21:00", cost: { economical: 30000, moderate: 60000, elevated: 120000, currency: "KRW" } },
+                "France": { water: "✅ Safe (Ask for 'Carafe d'eau')", tip: "Included by law ('Service compris').", dinner: "19:30 - 22:00", cost: { economical: 25, moderate: 60, elevated: 130, currency: "EUR" } },
+                "Egypt": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-12% (Expected service tip)", dinner: "21:00 - 23:00", cost: { economical: 250, moderate: 600, elevated: 1400, currency: "EGP" } },
+                "Mexico": { water: "❌ DO NOT DRINK (Bottled only)", tip: "10-15%", dinner: "20:00 - 22:00", cost: { economical: 400, moderate: 900, elevated: 2000, currency: "MXN" } },
+                "Australia": { water: "✅ Safe", tip: "10% (Optional for exceptional service)", dinner: "18:30 - 20:30", cost: { economical: 50, moderate: 100, elevated: 180, currency: "AUD" } },
+                "United Arab Emirates": { water: "✅ Safe (Desalinated municipal)", tip: "10-15% (Optional service charge)", dinner: "20:00 - 23:00", cost: { economical: 60, moderate: 140, elevated: 280, currency: "AED" } }
+            };
+            function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
+
             const globalLocationMap = {
-                "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
-                "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
-                "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
-                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city" },
-                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city" },
-                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
-                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
-                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" },
-                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)" }
+                "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
+                "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city", costMult: 1.1 },
+                "paris": { country: "France", zone: "continental", hemi: "north", type: "city", costMult: 1.3 },
+                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city", costMult: 0.8 },
+                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city", costMult: 1.3 },
+                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city", costMult: 1.1 },
+                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city", costMult: 1.2 },
+                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast", costMult: 1.45 },
+                "aurora": { country: "United States", zone: "mediterranean", hemi: "north", type: "city", region: "West (Pacific/Mountain)", costMult: 1.0 }
             };
 
             const globalCountryDictionary = {
-                "egypt": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
-                "japan": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
-                "south korea": { isMacro: false, risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
-                "france": { isMacro: false, risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
-                "mexico": { isMacro: false, risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
-                "australia": { isMacro: false, risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
-                "united arab emirates": { isMacro: false, risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
+                "egypt": { isMacro: false, capital: "Cairo", risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
+                "japan": { isMacro: false, capital: "Tokyo", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
+                "south korea": { isMacro: false, capital: "Seoul", risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
+                "france": { isMacro: false, capital: "Paris", risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "mexico": { isMacro: false, capital: "Mexico City", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
+                "australia": { isMacro: false, capital: "Sydney", risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
+                "united arab emirates": { isMacro: false, capital: "Dubai", risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
                 
                 "united states": { 
-                    isMacro: true, capital: "Washington", 
+                    isMacro: true, capital: "New York", 
                     regions: {
                         "Not Sure / General National Average": {
                             risks: [{text: "✅ General continental baseline risks apply.", months: [1,2,3,4,5,6,7,8,9,10,11,12]}],
@@ -225,7 +265,7 @@
 
                 if (globalCountryDictionary[countryCheck]) {
                     let countryFormal = countryCheck.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "" }, isTypo: false };
+                    return { key: cleanInput, data: { type: "country", country: countryFormal, isMacro: globalCountryDictionary[countryCheck].isMacro, capital: globalCountryDictionary[countryCheck].capital || "Seoul" }, isTypo: false };
                 }
                 return { key: cleanInput, data: { country: "Unknown", type: "unknown" }, isTypo: true };
             }
@@ -301,7 +341,8 @@
                             
                             if (match.data.type === "country") {
                                 let countryName = match.data.country;
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., Cairo, Seoul).</span>`;
+                                let singleCapital = match.data.capital || "Seoul";
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${countryName}</strong> is a country. Please enter a specific city name (e.g., ${singleCapital}).</span>`;
                                 return;
                             }
 
@@ -385,7 +426,7 @@
 
                         let matchCheck = resolveBestMatch(rawInput);
                         if (matchCheck.data.type === "country") {
-                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., Cairo, Seoul).");
+                            alert(matchCheck.data.country + " is a country. Please enter a specific city name (e.g., " + (matchCheck.data.capital || "Seoul") + ").");
                             return;
                         }
 
