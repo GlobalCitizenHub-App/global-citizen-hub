@@ -55,8 +55,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., Milan, New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Milan, Aurora, CO)...">
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination city...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -100,7 +100,6 @@
 
     <script>
         (function() {
-            // Highly Expanded Comprehensive Global and US City Database covering major metropolitan hubs worldwide
             const globalLocationMap = {
                 // United States Major & Regional Cities
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
@@ -122,7 +121,7 @@
                 "pittsburgh": { country: "United States" }, "charlotte": { country: "United States" },
                 "nashville": { country: "United States" }, "salt lake city": { country: "United States" },
 
-                // Europe (Including Milan, Rome, Paris, London, etc.)
+                // Europe
                 "milan": { country: "Italy" }, "rome": { country: "Italy" },
                 "venice": { country: "Italy" }, "florence": { country: "Italy" },
                 "naples": { country: "Italy" }, "turin": { country: "Italy" },
@@ -190,7 +189,6 @@
                 "calgary": { country: "Canada" }, "edmonton": { country: "Canada" }
             };
 
-            // Comprehensive UN-recognized countries dictionary
             const countryDictionary = {
                 "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
                 "italy": { example: "Milan" }, "norway": { example: "Oslo" }, "sweden": { example: "Stockholm" },
