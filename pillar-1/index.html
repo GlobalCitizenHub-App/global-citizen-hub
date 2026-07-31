@@ -91,7 +91,7 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Delhi, Shanghai, Istanbul):</label>
                 <input type="text" id="cityInput" placeholder="Enter destination...">
             </div>
 
@@ -139,6 +139,12 @@
                     "Mexico": { volts: "127V", hz: "60Hz", plugs: ["Type A", "Type B"] },
                     "Egypt": { volts: "220V", hz: "50Hz", plugs: ["Type C", "Type F"] },
                     "France": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type E"] },
+                    "Germany": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F"] },
+                    "Turkey": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type F"] },
+                    "India": { volts: "230V", hz: "50Hz", plugs: ["Type C", "Type D", "Type M"] },
+                    "China": { volts: "220V", hz: "50Hz", plugs: ["Type A", "Type C", "Type I"] },
+                    "Brazil": { volts: "127V/220V", hz: "60Hz", plugs: ["Type C", "Type N"] },
+                    "Singapore": { volts: "230V", hz: "50Hz", plugs: ["Type G"] },
                     "Australia": { volts: "230V", hz: "50Hz", plugs: ["Type I"] },
                     "United Arab Emirates": { volts: "230V", hz: "50Hz", plugs: ["Type G"] }
                 },
@@ -146,35 +152,56 @@
             };
 
             const globalLocationMap = {
-                "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city" },
-                "seoul": { country: "South Korea", zone: "continental", hemi: "north", type: "city" },
-                "paris": { country: "France", zone: "continental", hemi: "north", type: "city" },
-                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north", type: "city" },
-                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north", type: "city" },
-                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north", type: "city" },
-                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south", type: "city" },
-                "new york": { country: "United States", zone: "continental", hemi: "north", type: "city", region: "Northeast" }
+                "tokyo": { country: "Japan", zone: "continental", hemi: "north" },
+                "seoul": { country: "South Korea", zone: "continental", hemi: "north" },
+                "shanghai": { country: "China", zone: "subtropical", hemi: "north" },
+                "beijing": { country: "China", zone: "continental", hemi: "north" },
+                "hong kong": { country: "China", zone: "subtropical", hemi: "north" },
+                "singapore": { country: "Singapore", zone: "tropical", hemi: "north" },
+                "delhi": { country: "India", zone: "subtropical", hemi: "north" },
+                "mumbai": { country: "India", zone: "tropical", hemi: "north" },
+                "bangalore": { country: "India", zone: "tropical", hemi: "north" },
+                "london": { country: "United Kingdom", zone: "continental", hemi: "north" },
+                "paris": { country: "France", zone: "continental", hemi: "north" },
+                "berlin": { country: "Germany", zone: "continental", hemi: "north" },
+                "rome": { country: "Italy", zone: "mediterranean", hemi: "north" },
+                "milan": { country: "Italy", zone: "continental", hemi: "north" },
+                "madrid": { country: "Spain", zone: "mediterranean", hemi: "north" },
+                "istanbul": { country: "Turkey", zone: "mediterranean", hemi: "north" },
+                "cairo": { country: "Egypt", zone: "subtropical", hemi: "north" },
+                "dubai": { country: "United Arab Emirates", zone: "subtropical", hemi: "north" },
+                "lagos": { country: "Nigeria", zone: "tropical", hemi: "north" },
+                "nairobi": { country: "Kenya", zone: "tropical", hemi: "south" },
+                "mexico city": { country: "Mexico", zone: "mediterranean", hemi: "north" },
+                "são paulo": { country: "Brazil", zone: "tropical", hemi: "south" },
+                "buenos aires": { country: "Argentina", zone: "temperate", hemi: "south" },
+                "new york": { country: "United States", zone: "continental", hemi: "north" },
+                "los angeles": { country: "United States", zone: "mediterranean", hemi: "north" },
+                "chicago": { country: "United States", zone: "continental", hemi: "north" },
+                "toronto": { country: "Canada", zone: "continental", hemi: "north" },
+                "sydney": { country: "Australia", zone: "mediterranean", hemi: "south" }
             };
 
             const globalCountryDictionary = {
-                "egypt": { isMacro: false, capital: "Cairo", risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
-                "japan": { isMacro: false, capital: "Tokyo", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ High Typhoon Risk", months: [7,8,9,10]}] },
-                "south korea": { isMacro: false, capital: "Seoul", risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
-                "france": { isMacro: false, capital: "Paris", risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
-                "mexico": { isMacro: false, capital: "Mexico City", risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}, {text: "⚠️ Hurricane Risk (Coast)", months: [6,7,8,9,10]}] },
-                "australia": { isMacro: false, capital: "Sydney", risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
-                "united arab emirates": { isMacro: false, capital: "Dubai", risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] },
-                "united states": { isMacro: true, capital: "New York", regions: { "Northeast": { risks: [{text: "⚠️ Severe Nor'easters", months: [12,1,2,3]}], zone: "continental", hemi: "north" } } }
+                "india": { risks: [{text: "⚠️ Extreme Monsoon Flooding", months: [7,8,9]}, {text: "⚠️ Severe Summer Heatwave", months: [4,5,6]}] },
+                "china": { risks: [{text: "⚠️ Typhoon Season (Coastal)", months: [7,8,9]}] },
+                "turkey": { risks: [{text: "⚠️ Seismic Activity Zone", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
+                "brazil": { risks: [{text: "⚠️ Heavy Tropical Downpours", months: [12,1,2]}] },
+                "egypt": { risks: [{text: "⚠️ Extreme Summer Heat", months: [6,7,8]}] },
+                "japan": { risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
+                "south korea": { risks: [{text: "⚠️ High Typhoon Risk", months: [7,8,9]}] },
+                "united kingdom": { risks: [{text: "⚠️ Coastal Storms & Gales", months: [11,12,1,2]}] },
+                "france": { risks: [{text: "⚠️ Severe Storms", months: [11,12,1,2]}] },
+                "germany": { risks: [{text: "⚠️ Winter Freezing Conditions", months: [12,1,2]}] },
+                "mexico": { risks: [{text: "⚠️ Extreme Seismic Hazards", months: [1,2,3,4,5,6,7,8,9,10,11,12]}] },
+                "australia": { risks: [{text: "⚠️ Bushfire Risk", months: [12,1,2]}] },
+                "united arab emirates": { risks: [{text: "⚠️ Extreme Summer Heat Advisory", months: [6,7,8,9]}] }
             };
 
-            function resolveBestMatch(input) {
-                let cleanInput = input.trim().toLowerCase();
-                if (globalLocationMap[cleanInput]) return { key: cleanInput, data: globalLocationMap[cleanInput] };
-                if (globalCountryDictionary[cleanInput]) {
-                    let cData = globalCountryDictionary[cleanInput];
-                    return { key: cleanInput, data: { country: cleanInput.charAt(0).toUpperCase() + cleanInput.slice(1), zone: "continental", hemi: "north", type: "country" } };
-                }
-                return { key: cleanInput, data: { country: "United States", zone: "continental", hemi: "north", type: "city" } };
+            function resolveMatch(input) {
+                let clean = input.trim().toLowerCase();
+                if (globalLocationMap[clean]) return { city: clean.charAt(0).toUpperCase() + clean.slice(1), data: globalLocationMap[clean] };
+                return { city: input, data: { country: "United States", zone: "continental", hemi: "north" } };
             }
 
             function determineSeasonalMatrix(locData, month) {
@@ -202,8 +229,8 @@
                 const termDuration = document.getElementById('termDuration').value;
                 if (!rawInput || !travelMonth || !termDuration) return;
 
-                let match = resolveBestMatch(rawInput);
-                let formalCity = rawInput.charAt(0).toUpperCase() + rawInput.slice(1);
+                let match = resolveMatch(rawInput);
+                let formalCity = match.city;
                 let countryName = match.data.country || "Global";
                 let matrixType = determineSeasonalMatrix(match.data, travelMonth);
                 let wardrobeAdvice = getWardrobeMatrix(matrixType);
@@ -236,10 +263,7 @@
                 if (urlParams.has('month')) document.getElementById('travelMonth').value = urlParams.get('month');
                 if (urlParams.has('term')) document.getElementById('termDuration').value = urlParams.get('term');
 
-                if (urlParams.has('city')) {
-                    executeCalculation();
-                }
-
+                if (urlParams.has('city')) executeCalculation();
                 document.getElementById('calculateBtn').addEventListener('click', executeCalculation);
             });
         })();
