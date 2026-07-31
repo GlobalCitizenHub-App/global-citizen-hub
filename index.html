@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation toolkit. Calibrate climate, relocation costs, living expenses, connectivity, transit, and culture instantly.">
+    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation Toolkit. Calibrate climate, relocation costs, living expenses, connectivity, transit, and culture instantly for students, professionals, and retirees.">
     <meta name="keywords" content="smart traveling, relocation toolkit, expatriate hub, international student travel, cost of living calculator, moving cost estimator">
     <title>Global Citizen Hub | Smart Traveling and Relocation Toolkit</title>
     <style>
@@ -46,7 +46,7 @@
     <main class="card">
         <header class="article-header">
             <h1>Global Citizen Hub: Master Dashboard</h1>
-            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices tailored for international students, remote professionals, and global movers.</p>
+            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices tailored for lifelong learners, students, professionals, and global retirees.</p>
         </header>
 
         <div class="ad-banner-placeholder">[ Google AdSense Responsive Display Ad Slot ]</div>
@@ -55,8 +55,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination...">
+                <label for="cityInput">Destination (City, e.g., a capital or major city name like Seoul, Tokyo, Paris):</label>
+                <input type="text" id="cityInput" placeholder="Enter a capital or major city...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -190,7 +190,7 @@
                             let match = resolveBestMatch(rawInput);
                             
                             if (match.data && match.data.type === "country") {
-                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a specific city.</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #c0392b;"><strong>${match.data.country}</strong> is a country. Please enter a capital or major city name.</span>`;
                                 return;
                             }
 
@@ -255,7 +255,7 @@
 
                     if (!rawInput || !travelMonth || !termDuration || !budgetProfile) { alert('Please complete all 4 parameter fields before unlocking pillars.'); return; }
                     let matchCheck = resolveBestMatch(rawInput);
-                    if (matchCheck.data && matchCheck.data.type === "country") { alert("Please enter a specific city name, not a country."); return; }
+                    if (matchCheck.data && matchCheck.data.type === "country") { alert("Please enter a capital or major city name, not a country."); return; }
                     if (matchCheck.isTypo && verifiedLocationKey !== "FALLBACK" && verifiedLocationKey !== "MACRO_FALLBACK") {
                         validationNotice.style.display = 'block'; return;
                     }
