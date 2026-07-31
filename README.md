@@ -18,3 +18,7 @@ Global Citizen Hub is engineered as a zero-backend, client-side static web appli
         │ (User clicks pillar links)
         ▼
 [Individual Pillar Hydration & Local Calculators]
+
+---
+## License & Copyright
+© 2026 Global Citizen Hub. All rights reserved. This project is proprietary and protected under international copyright law.
