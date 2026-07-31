@@ -30,7 +30,6 @@
         button:hover { background-color: #1e8449; }
         .hidden { display: none; }
         #detectedZone { font-size: 14px; margin-top: 8px; margin-bottom: 15px; padding: 12px; background: #eaf2f8; border-left: 4px solid var(--primary); border-radius: 4px; }
-        .gentle-notice { background-color: #fcf3cf; color: #7d6608; padding: 12px; border-radius: 6px; font-size: 0.9em; margin-bottom: 20px; border-left: 4px solid #f39c12; display: none; }
         .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
@@ -48,12 +47,12 @@
 
         <header class="article-header">
             <h1>Global Citizen Hub: Master Dashboard</h1>
-            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices.</p>
+            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices tailored for lifelong learners.</p>
         </header>
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., Rome, Milan, New York, Oslo):</label>
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
                 <input type="text" id="cityInput" placeholder="Enter destination city...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
@@ -88,28 +87,110 @@
             </div>
         </section>
 
-        <button id="calculateBtn">Save Parameters & Hydrate Intelligence Hubs</button>
+        <button id="calculateBtn">Save & Unlock Intelligence Hubs</button>
+
+        <footer class="affiliate-disclosure">
+            <p><a href="contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
+            Global Citizen Hub is an informational travel guide.
+        </footer>
     </main>
 
     <script>
         (function() {
             const globalLocationMap = {
-                "rome": { country: "Italy" }, "milan": { country: "Italy" }, "oslo": { country: "Norway" },
-                "new york": { country: "United States" }, "paris": { country: "France" }, "london": { country: "United Kingdom" }
+                "new york": { country: "United States" }, "los angeles": { country: "United States" },
+                "chicago": { country: "United States" }, "houston": { country: "United States" },
+                "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
+                "san antonio": { country: "United States" }, "san diego": { country: "United States" },
+                "dallas": { country: "United States" }, "austin": { country: "United States" },
+                "san jose": { country: "United States" }, "las vegas": { country: "United States" },
+                "tampa": { country: "United States" }, "boston": { country: "United States" },
+                "seattle": { country: "United States" }, "san francisco": { country: "United States" },
+                "washington": { country: "United States" }, "washington dc": { country: "United States" },
+                "richmond": { country: "United States" }, "hampton": { country: "United States" },
+                "ann arbor": { country: "United States" }, "milwaukee": { country: "United States" },
+                "miami": { country: "United States" }, "atlanta": { country: "United States" },
+                "aurora": { country: "United States" }, "denver": { country: "United States" },
+                "boulder": { country: "United States" }, "portland": { country: "United States" },
+                "orlando": { country: "United States" }, "minneapolis": { country: "United States" },
+                "detroit": { country: "United States" },
+                "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
+                "mexico city": { country: "Mexico" }, "paris": { country: "France" },
+                "seoul": { country: "South Korea" }, "sydney": { country: "Australia" },
+                "oslo": { country: "Norway" }, "milan": { country: "Italy" }, "rome": { country: "Italy" },
+                "stockholm": { country: "Sweden" }, "lima": { country: "Peru" }, "tokyo": { country: "Japan" },
+                "london": { country: "United Kingdom" }, "berlin": { country: "Germany" }, "toronto": { country: "Canada" }
+            };
+
+            const countryDictionary = {
+                "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
+                "norway": { example: "Oslo" }, "sweden": { example: "Stockholm" }, "peru": { example: "Lima" },
+                "italy": { example: "Milan" }, "egypt": { example: "Cairo" }, "united arab emirates": { example: "Dubai" },
+                "mexico": { example: "Mexico City" }, "france": { example: "Paris" }, "south korea": { example: "Seoul" },
+                "korea": { example: "Seoul" }, "australia": { example: "Sydney" }, "united kingdom": { example: "London" },
+                "germany": { example: "Berlin" }, "canada": { example: "Toronto" }, "japan": { example: "Tokyo" }
             };
 
             const cityInput = document.getElementById('cityInput');
+            const detectedZone = document.getElementById('detectedZone');
             const travelMonth = document.getElementById('travelMonth');
             const termDuration = document.getElementById('termDuration');
             const budgetProfile = document.getElementById('budgetProfile');
+            let verifiedCountry = "";
 
-            // Load saved parameters from localStorage if available
             if (!window.location.search && localStorage.getItem('gch_city')) {
                 cityInput.value = localStorage.getItem('gch_city');
                 travelMonth.value = localStorage.getItem('gch_month') || "";
                 termDuration.value = localStorage.getItem('gch_term') || "";
                 budgetProfile.value = localStorage.getItem('gch_profile') || "";
             }
+
+            cityInput.addEventListener('input', function() {
+                const rawVal = this.value.trim().toLowerCase();
+                const val = rawVal.split(',')[0].trim();
+                verifiedCountry = "";
+
+                if (!val) {
+                    detectedZone.classList.add('hidden');
+                    return;
+                }
+
+                detectedZone.classList.remove('hidden');
+
+                if (countryDictionary[val]) {
+                    let formalCountry = (val === "korea" || val === "us" || val === "uk" || val === "usa") ? val.toUpperCase() : val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    let exCity = countryDictionary[val].example;
+                    detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., ${exCity}).</span>`;
+                    return;
+                }
+
+                if (globalLocationMap[val]) {
+                    verifiedCountry = globalLocationMap[val].country;
+                    let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
+                } else {
+                    detectedZone.innerHTML = `
+                        <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
+                        <div style="margin-top: 6px; display: flex; gap: 6px;">
+                            <input type="text" id="liveCountryInput" placeholder="e.g., Italy, Norway..." style="padding: 6px; font-size: 13px; flex-grow: 1;">
+                            <button type="button" id="liveConfirmBtn" style="padding: 6px 12px; font-size: 13px; width: auto;">Set</button>
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        const btn = document.getElementById('liveConfirmBtn');
+                        if (btn) {
+                            btn.onclick = function() {
+                                const cVal = document.getElementById('liveCountryInput').value.trim();
+                                if (cVal) {
+                                    verifiedCountry = cVal.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Locked: <strong>${cityInput.value.trim()}, ${verifiedCountry}</strong></span>`;
+                                    localStorage.setItem('gch_country', verifiedCountry);
+                                }
+                            };
+                        }
+                    }, 50);
+                }
+            });
 
             document.getElementById('calculateBtn').addEventListener('click', function() {
                 const rawInput = cityInput.value.trim();
@@ -121,16 +202,18 @@
                 if (!rawInput || !monthVal || !termVal || !profileVal) { alert('Please complete all 4 parameter fields.'); return; }
                 
                 const formalCity = cleanCityKey.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                let country = globalLocationMap[cleanCityKey] ? globalLocationMap[cleanCityKey].country : "International";
+                if (!verifiedCountry && globalLocationMap[cleanCityKey]) {
+                    verifiedCountry = globalLocationMap[cleanCityKey].country;
+                }
+                if (!verifiedCountry) verifiedCountry = localStorage.getItem('gch_country') || "International";
 
-                // Save to localStorage for persistent memory
                 localStorage.setItem('gch_city', formalCity);
-                localStorage.setItem('gch_country', country);
+                localStorage.setItem('gch_country', verifiedCountry);
                 localStorage.setItem('gch_month', monthVal);
                 localStorage.setItem('gch_term', termVal);
                 localStorage.setItem('gch_profile', profileVal);
 
-                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(country)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${profileVal}`;
+                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(verifiedCountry)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${profileVal}`;
                 window.location.href = `pillar-1/index.html${newQs}`;
             });
         })();
