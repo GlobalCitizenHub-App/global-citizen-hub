@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Citizen Hub | Master Travel & Relocation Intelligence</title>
+    <title>Global Citizen Hub | Master Dashboard</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -128,8 +128,8 @@
 
         <section class="input-grid">
             <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Washington DC, Austin, London, Tokyo, Delhi):</label>
-                <input type="text" id="cityInput" placeholder="Enter global destination...">
+                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
+                <input type="text" id="cityInput" placeholder="Enter destination...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
 
@@ -220,7 +220,7 @@
             };
             function getSustenance(countryName) { return SustenanceData[countryName] || { water: "⚠️ Verify locally (Bottled recommended)", tip: "10% standard baseline", dinner: "19:00 - 21:00", cost: { economical: "Varies", moderate: "Varies", elevated: "Varies", currency: "Local Currency" } }; }
 
-            // Expanded Global Location Map with DC, Richmond, Austin, Boston, etc.
+            // Comprehensive Global Map including Washington DC vs. State disambiguation, Austin, Boston, etc.
             const globalLocationMap = {
                 // East Asia & Global Hubs
                 "tokyo": { country: "Japan", zone: "continental", hemi: "north", type: "city", costMult: 1.2 },
@@ -473,7 +473,7 @@
                                                         verifiedLocationKey = "FALLBACK";
                                                         window.currentSyntheticData = { city: formalInput, country: formalCountryName, capital: fbMatch.data.capital };
                                                         validationNotice.style.display = 'none';
-                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in ${formalCountryName}</strong>. Ready to generate!</span>`;
+                                                        detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Locked: <strong>${formalInput} in${formalCountryName}</strong>. Ready to generate!</span>`;
                                                     }
                                                 } else {
                                                     alert("Please enter a recognized country name.");
@@ -484,7 +484,7 @@
                                 }, 100);
                             } else {
                                 let formalCity = match.key.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in ${match.data.country}</strong>. Ready to generate!</span>`;
+                                detectedZoneDiv.innerHTML = `<span style="color: #27ae60;">✓ System Matched: <strong>${formalCity} in${match.data.country}</strong>. Ready to generate!</span>`;
                                 verifiedLocationKey = match.key;
                             }
                         } else {
@@ -593,23 +593,22 @@
 
                         let recommendation = `
                             <div style="display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid #ccc; padding-bottom: 10px; margin-bottom: 15px;">
-                                <h2 style="color: #2c3e50; margin: 0;">${formalCity}, ${countryName}</h2>
+                                <h2 style="color: #2c3e50; margin: 0;">${formalCity},${countryName}</h2>
                                 <span class="calibration-tag">⏱️ Data Calibrated: Q3 2026</span>
                             </div>
-                            <p style="color: #7f8c8d; font-style: italic; margin-top: 0;">Calibrated for ${monthNames[travelMonth]} | ${termDuration}</p>
+                            <p style="color: #7f8c8d; font-style: italic; margin-top: 0;">Calibrated for ${monthNames[travelMonth]} \vert{}${termDuration}</p>
                             
                             <div class="sub-grid">
                                 <div>
                                     <div class="dashboard-section">
-                                        <h4>🌍 Environmental Baseline (Active for ${monthNames[travelMonth]})</h4>
-                                        ${risksHTML}
+                                        <h4>🌍 Environmental Baseline (Active for ${monthNames[travelMonth]})</h4>${risksHTML}
                                         <p style="margin-top: 15px; margin-bottom: 5px;"><strong>Seasonal Wardrobe:</strong></p>
                                         <div class='icon-text'>${wardrobeAdvice}</div>
                                     </div>
                                     
                                     <div class="dashboard-section">
                                         <h4>🔌 Technical Infrastructure</h4>
-                                        <div class='icon-text'>⚡ ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs: ${electricalInfo.plugs.join(', ')})</div>
+                                        <div class='icon-text'>⚡ ${electricalInfo.volts}, ${electricalInfo.hz} (Plugs:${electricalInfo.plugs.join(', ')})</div>
                                         <div class='icon-text'>🚰 <strong>Tap Water:</strong> ${sustMatrix.water}</div>
                                     </div>
                                 </div>
@@ -624,25 +623,6 @@
                                     <div class="dashboard-section" style="background: #f9fbfb; padding: 15px; border-radius: 6px; border: 1px solid #d5dbdb;">
                                         <h4>📉 Economic Calibrator</h4>
                                         <p style="margin:0;"><strong>Profile: ${profileTitle}</strong></p>
-                                        <div class='cost-highlight' style="margin-top: 8px;">Est. ${finalCost} ${sustMatrix.cost.currency} / day</div>
-                                        <p style="font-size: 0.9em; margin: 8px 0;">${profileGuidance}</p>
-                                        ${noticeBanner}
-                                        <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px; line-height: 1.3;">*Excludes accommodation and international transit. Multiplier applied for local indexing.</p>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-
-                        outputContent.innerHTML = recommendation;
-                        resultsBox.classList.remove('hidden');
-
-                        const encodedCity = encodeURIComponent(formalCity);
-                        document.getElementById('linkP1').href = `pillar-1/index.html?city=${encodedCity}&month=${travelMonth}&term=${encodeURIComponent(termDuration)}`;
-                        document.getElementById('linkP2').href = `pillar-2/index.html?city=${encodedCity}&profile=${budgetProfile}`;
-                    });
-                }
-            });
-        })();
-    </script>
-</body>
-</html>
+                                        <div class='cost-highlight' style="margin-top: 8px;">Est. ${finalCost}${sustMatrix.cost.currency} / day</div>
+                                        <p style="font-size: 0.9em; margin: 8px 0;">${profileGuidance}</p>${noticeBanner}
+                                        <p style="font-size: 0.8em; color: #7f8c8d; margin-top: 8px; line-height: 1.3;">
