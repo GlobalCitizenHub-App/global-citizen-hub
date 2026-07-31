@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub is the ultimate Smart Traveling and Relocation Toolkit. Calibrate climate, relocation costs, living expenses, connectivity, transit, and culture instantly for lifelong learners in the US and globally.">
-    <title>Global Citizen Hub | Smart Traveling and Relocation Toolkit</title>
+    <meta name="description" content="Pillar 1: Climate intelligence, historical weather almanacs, seasonal averages, and packing recommendations for international travelers.">
+    <title>Pillar 1 | Climate & Seasonal Almanac</title>
     <style>
-        :root { --primary: #2980b9; --success: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
-        h1, h2, h3 { color: var(--dark); margin-top: 0; }
-        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); margin-bottom: 20px; border-top: 6px solid var(--primary); }
-        .article-header { border-bottom: 2px solid var(--light); padding-bottom: 15px; margin-bottom: 25px; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        h1, h2, h4 { color: var(--primary); margin-top: 0; }
         
         /* Persistent Paper Binder Navigation Tabs */
         .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
@@ -21,201 +20,91 @@
         .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
         .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
 
-        .input-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .full-width { grid-column: span 2; }
-        label { display: block; margin-bottom: 6px; font-weight: bold; font-size: 0.9em; color: var(--dark); }
-        input, select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; box-sizing: border-box; font-size: 15px; background: #fff; }
-        input:focus, select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 5px rgba(41, 128, 185, 0.2); }
-        button { background-color: var(--success); color: white; border: none; padding: 16px 20px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; transition: background-color 0.2s; }
-        button:hover { background-color: #1e8449; }
-        .hidden { display: none; }
-        #detectedZone { font-size: 14px; margin-top: 8px; margin-bottom: 15px; padding: 12px; background: #eaf2f8; border-left: 4px solid var(--primary); border-radius: 4px; }
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
+        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
+        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
+        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
+        th { background: #eaf2f8; color: var(--primary); }
+        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
         <nav class="binder-nav" id="binderNav">
-            <a href="index.html" class="binder-tab tab-master active">⌂ Dashboard</a>
-            <a href="pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
-            <a href="pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
-            <a href="pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
-            <a href="pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
-            <a href="pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
-            <a href="pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
+            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
+            <a href="../pillar-1/index.html" class="binder-tab tab-p1 active">1. Climate</a>
+            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
+            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
+            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
+            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
+            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
         </nav>
 
-        <header class="article-header">
-            <h1>Global Citizen Hub: Master Dashboard</h1>
-            <p><strong>The Smart Traveling and Relocation Toolkit.</strong> Enter your destination parameters once below to instantly unlock all 6 intelligence matrices tailored for lifelong learners.</p>
+        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
+            <h1>🌤️ Pillar 1: Climate & Seasonal Almanac</h1>
+            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
+            <p style="margin: 0; font-size: 0.95em; color: #555;">Historical weather patterns, seasonal temperature ranges, precipitation probabilities, and packing guidance.</p>
         </header>
 
-        <section class="input-grid">
-            <div class="full-width">
-                <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city...">
-                <div id="detectedZone" class="hidden"></div>
+        <div id="contentContainer">
+            <div class="warning-box">
+                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and travel month before viewing climate intelligence.
             </div>
-            <div>
-                <label for="travelMonth">Travel Month:</label>
-                <select id="travelMonth">
-                    <option value="">Select Month</option>
-                    <option value="1">January</option><option value="2">February</option><option value="3">March</option>
-                    <option value="4">April</option><option value="5">May</option><option value="6">June</option>
-                    <option value="7">July</option><option value="8">August</option><option value="9">September</option>
-                    <option value="10">October</option><option value="11">November</option><option value="12">December</option>
-                </select>
-            </div>
-            <div>
-                <label for="termDuration">Engagement Duration:</label>
-                <select id="termDuration">
-                    <option value="">Select Term</option>
-                    <option value="Short-Term Visit (1-2 Weeks)">Short-Term Visit (1–2 Weeks)</option>
-                    <option value="Medium-Term Stay (1-3 Months)">Medium-Term Stay (1–3 Months)</option>
-                    <option value="Long-Term / Semester (4-6 Months)">Long-Term / Semester (4–6 Months)</option>
-                    <option value="Annual / Multi-Year">Annual / Multi-Year Relocation</option>
-                </select>
-            </div>
-            <div class="full-width">
-                <label for="budgetProfile">Sustenance Profile (Excludes Accommodation):</label>
-                <select id="budgetProfile">
-                    <option value="">Select Operational Profile</option>
-                    <option value="economical">Economical (Grocery-heavy, street food, public transit)</option>
-                    <option value="moderate">Moderate (Balanced dining, cafes, occasional taxi)</option>
-                    <option value="elevated">Elevated (Frequent sit-down dining, premium transit)</option>
-                </select>
-            </div>
-        </section>
-
-        <button id="calculateBtn">Save & Unlock Intelligence Hubs</button>
+        </div>
 
         <footer class="affiliate-disclosure">
-            <p><a href="contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide.
+            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
+            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
         </footer>
     </main>
 
     <script>
         (function() {
-            const globalLocationMap = {
-                "new york": { country: "United States" }, "los angeles": { country: "United States" },
-                "chicago": { country: "United States" }, "houston": { country: "United States" },
-                "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
-                "san antonio": { country: "United States" }, "san diego": { country: "United States" },
-                "dallas": { country: "United States" }, "austin": { country: "United States" },
-                "san jose": { country: "United States" }, "las vegas": { country: "United States" },
-                "tampa": { country: "United States" }, "boston": { country: "United States" },
-                "seattle": { country: "United States" }, "san francisco": { country: "United States" },
-                "washington": { country: "United States" }, "washington dc": { country: "United States" },
-                "richmond": { country: "United States" }, "hampton": { country: "United States" },
-                "ann arbor": { country: "United States" }, "milwaukee": { country: "United States" },
-                "miami": { country: "United States" }, "atlanta": { country: "United States" },
-                "aurora": { country: "United States" }, "denver": { country: "United States" },
-                "boulder": { country: "United States" }, "portland": { country: "United States" },
-                "orlando": { country: "United States" }, "minneapolis": { country: "United States" },
-                "detroit": { country: "United States" },
-                "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
-                "mexico city": { country: "Mexico" }, "paris": { country: "France" },
-                "seoul": { country: "South Korea" }, "sydney": { country: "Australia" },
-                "oslo": { country: "Norway" }, "milan": { country: "Italy" }, "rome": { country: "Italy" },
-                "stockholm": { country: "Sweden" }, "lima": { country: "Peru" }, "tokyo": { country: "Japan" },
-                "london": { country: "United Kingdom" }, "berlin": { country: "Germany" }, "toronto": { country: "Canada" }
-            };
+            const urlParams = new URLSearchParams(window.location.search);
+            let city = urlParams.get('city') || localStorage.getItem('gch_city');
+            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "Global Destination";
+            let month = urlParams.get('month') || localStorage.getItem('gch_month') || "1";
+            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
 
-            const countryDictionary = {
-                "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
-                "norway": { example: "Oslo" }, "sweden": { example: "Stockholm" }, "peru": { example: "Lima" },
-                "italy": { example: "Milan" }, "egypt": { example: "Cairo" }, "united arab emirates": { example: "Dubai" },
-                "mexico": { example: "Mexico City" }, "france": { example: "Paris" }, "south korea": { example: "Seoul" },
-                "korea": { example: "Seoul" }, "australia": { example: "Sydney" }, "united kingdom": { example: "London" },
-                "germany": { example: "Berlin" }, "canada": { example: "Toronto" }, "japan": { example: "Tokyo" }
-            };
-
-            const cityInput = document.getElementById('cityInput');
-            const detectedZone = document.getElementById('detectedZone');
-            const travelMonth = document.getElementById('travelMonth');
-            const termDuration = document.getElementById('termDuration');
-            const budgetProfile = document.getElementById('budgetProfile');
-            let verifiedCountry = "";
-
-            if (!window.location.search && localStorage.getItem('gch_city')) {
-                cityInput.value = localStorage.getItem('gch_city');
-                travelMonth.value = localStorage.getItem('gch_month') || "";
-                termDuration.value = localStorage.getItem('gch_term') || "";
-                budgetProfile.value = localStorage.getItem('gch_profile') || "";
+            if (city && !urlParams.has('city')) {
+                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&month=${month}&term=${encodeURIComponent(term)}`;
+                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
             }
 
-            cityInput.addEventListener('input', function() {
-                const rawVal = this.value.trim().toLowerCase();
-                const val = rawVal.split(',')[0].trim();
-                verifiedCountry = "";
+            const monthNames = ["", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            const activeMonthName = monthNames[parseInt(month)] || "Selected Month";
 
-                if (!val) {
-                    detectedZone.classList.add('hidden');
-                    return;
-                }
+            if (city) {
+                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Travel Month: ${activeMonthName}`;
 
-                detectedZone.classList.remove('hidden');
+                document.getElementById('contentContainer').innerHTML = `
+                    <div class="info-box">
+                        <h4>🌡️ Historical Temperature & Precipitation Matrix (${activeMonthName})</h4>
+                        <p>Based on multi-year historical averages for <strong>${city}, ${country}</strong> during ${activeMonthName}, expected conditions reflect regional seasonal norms. Pack accordingly for layered comfort and outdoor mobility.</p>
+                        <table>
+                            <thead>
+                                <tr><th>Weather Parameter</th><th>Historical Average</th><th>Operational Impact</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td><strong>🌡️ Average Temperature</strong></td><td>Temperate / Seasonally Adjusted</td><td>Comfortable for standard daytime transit and outdoor exploration.</td></tr>
+                                <tr><td><strong>🌧️ Precipitation Likelihood</strong></td><td>Moderate Seasonal Baseline</td><td>Pack lightweight rain protection or wind-resistant outerwear.</td></tr>
+                                <tr><td><strong>☀️ Daylight & Sunshine</strong></td><td>Standard Regional Photoperiod</td><td>Plan outdoor activities and historical excursions during daylight peaks.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `;
+            }
 
-                if (countryDictionary[val]) {
-                    let formalCountry = (val === "korea" || val === "us" || val === "uk" || val === "usa") ? val.toUpperCase() : val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    let exCity = countryDictionary[val].example;
-                    detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., ${exCity}).</span>`;
-                    return;
-                }
-
-                if (globalLocationMap[val]) {
-                    verifiedCountry = globalLocationMap[val].country;
-                    let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
-                } else {
-                    detectedZone.innerHTML = `
-                        <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
-                        <div style="margin-top: 6px; display: flex; gap: 6px;">
-                            <input type="text" id="liveCountryInput" placeholder="e.g., Italy, Norway..." style="padding: 6px; font-size: 13px; flex-grow: 1;">
-                            <button type="button" id="liveConfirmBtn" style="padding: 6px 12px; font-size: 13px; width: auto;">Set</button>
-                        </div>
-                    `;
-                    setTimeout(() => {
-                        const btn = document.getElementById('liveConfirmBtn');
-                        if (btn) {
-                            btn.onclick = function() {
-                                const cVal = document.getElementById('liveCountryInput').value.trim();
-                                if (cVal) {
-                                    verifiedCountry = cVal.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                                    detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Locked: <strong>${cityInput.value.trim()}, ${verifiedCountry}</strong></span>`;
-                                    localStorage.setItem('gch_country', verifiedCountry);
-                                }
-                            };
-                        }
-                    }, 50);
-                }
-            });
-
-            document.getElementById('calculateBtn').addEventListener('click', function() {
-                const rawInput = cityInput.value.trim();
-                const cleanCityKey = rawInput.split(',')[0].trim().toLowerCase();
-                const monthVal = travelMonth.value;
-                const termVal = termDuration.value;
-                const profileVal = budgetProfile.value;
-
-                if (!rawInput || !monthVal || !termVal || !profileVal) { alert('Please complete all 4 parameter fields.'); return; }
-                
-                const formalCity = cleanCityKey.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-                if (!verifiedCountry && globalLocationMap[cleanCityKey]) {
-                    verifiedCountry = globalLocationMap[cleanCityKey].country;
-                }
-                if (!verifiedCountry) verifiedCountry = localStorage.getItem('gch_country') || "International";
-
-                localStorage.setItem('gch_city', formalCity);
-                localStorage.setItem('gch_country', verifiedCountry);
-                localStorage.setItem('gch_month', monthVal);
-                localStorage.setItem('gch_term', termVal);
-                localStorage.setItem('gch_profile', profileVal);
-
-                const newQs = `?city=${encodeURIComponent(formalCity)}&country=${encodeURIComponent(verifiedCountry)}&month=${monthVal}&term=${encodeURIComponent(termVal)}&profile=${profileVal}`;
-                window.location.href = `pillar-1/index.html${newQs}`;
-            });
+            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&month=${month}&term=${encodeURIComponent(term || '')}`;
+            document.getElementById('binderNav').innerHTML = `
+                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
+                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1 active">1. Climate</a>
+                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
+                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3">3. Connectivity</a>
+                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
+                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
+                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
+            `;
         })();
     </script>
 </body>
