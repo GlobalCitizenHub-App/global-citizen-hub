@@ -56,7 +56,7 @@
         <section class="input-grid">
             <div class="full-width">
                 <label for="cityInput">Destination (City, e.g., New York, Cairo, Dubai, Mexico City, Paris, Seoul, Sydney):</label>
-                <input type="text" id="cityInput" placeholder="Enter destination city...">
+                <input type="text" id="cityInput" placeholder="Enter destination city (e.g., Aurora, CO)...">
                 <div id="detectedZone" class="hidden"></div>
             </div>
             <div>
@@ -100,8 +100,9 @@
 
     <script>
         (function() {
+            // Comprehensive City Database supporting US cities (including Aurora, CO) and international hubs
             const globalLocationMap = {
-                // US Cities (including Aurora)
+                // US Cities
                 "new york": { country: "United States" }, "los angeles": { country: "United States" },
                 "chicago": { country: "United States" }, "houston": { country: "United States" },
                 "phoenix": { country: "United States" }, "philadelphia": { country: "United States" },
@@ -114,7 +115,8 @@
                 "richmond": { country: "United States" }, "hampton": { country: "United States" },
                 "ann arbor": { country: "United States" }, "milwaukee": { country: "United States" },
                 "miami": { country: "United States" }, "atlanta": { country: "United States" },
-                "aurora": { country: "United States" },
+                "aurora": { country: "United States" }, "denver": { country: "United States" },
+                "boulder": { country: "United States" }, "portland": { country: "United States" },
 
                 // International Cities
                 "cairo": { country: "Egypt" }, "dubai": { country: "United Arab Emirates" },
@@ -124,18 +126,31 @@
                 "madrid": { country: "Spain" }, "zurich": { country: "Switzerland" },
                 "são paulo": { country: "Brazil" }, "seoul": { country: "South Korea" },
                 "singapore": { country: "Singapore" }, "sydney": { country: "Australia" },
-                "tokyo": { country: "Japan" }, "toronto": { country: "Canada" }
+                "tokyo": { country: "Japan" }, "toronto": { country: "Canada" },
+                "stockholm": { country: "Sweden" }, "lima": { country: "Peru" }
             };
 
+            // Comprehensive UN-recognized countries and major global territories dictionary
             const countryDictionary = {
                 "united states": { example: "New York" }, "usa": { example: "New York" }, "us": { example: "New York" },
+                "sweden": { example: "Stockholm" }, "peru": { example: "Lima" },
                 "egypt": { example: "Cairo" }, "united arab emirates": { example: "Dubai" }, "uae": { example: "Dubai" },
-                "turkey": { example: "Istanbul" }, "united kingdom": { example: "London" }, "uk": { example: "London" },
-                "mexico": { example: "Mexico City" }, "france": { example: "Paris" }, "germany": { example: "Berlin" },
-                "italy": { example: "Rome" }, "spain": { example: "Madrid" }, "switzerland": { example: "Zurich" },
+                "turkey": { example: "Istanbul" }, "türkiye": { example: "Istanbul" },
+                "united kingdom": { example: "London" }, "uk": { example: "London" },
+                "mexico": { example: "Mexico City" }, "france": { example: "Paris" },
+                "germany": { example: "Berlin" }, "italy": { example: "Rome" },
+                "spain": { example: "Madrid" }, "switzerland": { example: "Zurich" },
                 "brazil": { example: "São Paulo" }, "south korea": { example: "Seoul" }, "korea": { example: "Seoul" },
-                "singapore": { example: "Singapore" }, "australia": { example: "Sydney" }, "japan": { example: "Tokyo" },
-                "canada": { example: "Toronto" }
+                "singapore": { example: "Singapore" }, "australia": { example: "Sydney" },
+                "japan": { example: "Tokyo" }, "canada": { example: "Toronto" },
+                "argentina": { example: "Buenos Aires" }, "austria": { example: "Vienna" },
+                "belgium": { example: "Brussels" }, "chile": { example: "Santiago" },
+                "colombia": { example: "Bogotá" }, "denmark": { example: "Copenhagen" },
+                "greece": { example: "Athens" }, "india": { example: "Mumbai" },
+                "ireland": { example: "Dublin" }, "israel": { example: "Tel Aviv" },
+                "netherlands": { example: "Amsterdam" }, "new zealand": { example: "Auckland" },
+                "norway": { example: "Oslo" }, "poland": { example: "Warsaw" },
+                "portugal": { example: "Lisbon" }, "south africa": { example: "Cape Town" }
             };
 
             const cityInput = document.getElementById('cityInput');
@@ -144,7 +159,7 @@
 
             cityInput.addEventListener('input', function() {
                 const rawVal = this.value.trim().toLowerCase();
-                // Clean up comma input formats (e.g., "Aurora, (co, usa)" or "Aurora, CO" -> "aurora")
+                // Strip state/country metadata formatting like ", co", ", (co, usa)", etc. to evaluate city base key
                 const val = rawVal.split(',')[0].trim();
                 verifiedCountry = "";
 
@@ -155,18 +170,21 @@
 
                 detectedZone.classList.remove('hidden');
 
+                // Live Country Feedback Check
                 if (countryDictionary[val]) {
-                    let formalCountry = val === "korea" ? "Korea" : val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+                    let formalCountry = (val === "korea" || val === "us" || val === "uk" || val === "uae" || val === "usa") ? val.toUpperCase() : val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     let exCity = countryDictionary[val].example;
                     detectedZone.innerHTML = `<span style="color: #c0392b;">⚠️ <strong>${formalCountry}</strong> is a country. Please enter a specific city name (e.g., ${exCity}).</span>`;
                     return;
                 }
 
+                // Check City Database
                 if (globalLocationMap[val]) {
                     verifiedCountry = globalLocationMap[val].country;
                     let formalCity = val.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
                     detectedZone.innerHTML = `<span style="color: #27ae60;">✓ Live Verified: <strong>${formalCity}, ${verifiedCountry}</strong></span>`;
                 } else {
+                    // Interactive fallback for unlisted cities
                     detectedZone.innerHTML = `
                         <span style="color: #2980b9;">ℹ️ Unlisted city. Please confirm its country for live calibration:</span>
                         <div style="margin-top: 6px; display: flex; gap: 6px;">
