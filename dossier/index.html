@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Citizen Hub | Advanced Universal Destination Dossier Generator</title>
+    <title>Global Citizen Hub | Advanced Universal Destination Comparison Dossier</title>
     <style>
-        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 950px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; --warning: #d35400; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 25px; }
         
         h1 { color: var(--dark); margin-top: 0; font-size: 1.8em; }
+        h2 { color: var(--dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 30px; }
         
         /* Scope Selection Box */
         .scope-box { background: #eaf2f8; border: 1px solid #a4c639; padding: 25px; border-radius: 6px; margin: 25px 0; }
@@ -17,7 +18,7 @@
         .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
         
-        /* Completely Remove Browser Datalist Drop-Down Arrow & Indicator */
+        /* Remove Browser Datalist Drop-Down Arrow & Indicator */
         .input-group input::-webkit-calendar-picker-indicator {
             display: none !important;
             opacity: 0 !important;
@@ -33,8 +34,15 @@
 
         /* Automatic Feedback Tag */
         .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
-        .feedback-valid { color: #27ae60; }
-        .feedback-warning { color: #d35400; }
+        .feedback-valid { color: var(--accent); }
+        .feedback-warning { color: var(--warning); }
+
+        /* Tables & Matrices */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 0.95em; }
+        th, td { border: 1px solid var(--border); padding: 12px; text-align: left; }
+        th { background: #f8f9f9; color: var(--dark); }
+        .delta-positive { color: var(--accent); font-weight: bold; }
+        .delta-negative { color: var(--warning); font-weight: bold; }
 
         /* Paywall Box */
         .paywall-box { background: #fcf3cf; border: 2px dashed #f39c12; padding: 30px; text-align: center; border-radius: 6px; margin-top: 30px; }
@@ -50,16 +58,17 @@
             body { background: white; margin: 0; padding: 0; }
             .card { box-shadow: none; border: none; padding: 0; }
             .no-print { display: none !important; }
+            .unlocked-content { display: block !important; }
         }
     </style>
 </head>
 <body>
     <main class="card">
-        <a href="../index.html" class="nav-link">← Back to Main Dashboard</a>
+        <a href="../index.html" class="nav-link no-print">← Back to Main Dashboard</a>
         
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>📑 Advanced Universal Destination Comparison Dossier</h1>
-            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city below</p>
+            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city comparison scope below</p>
         </header>
 
         <section class="scope-box no-print">
@@ -106,28 +115,93 @@
             <p id="scopeSummary" style="margin-top: 15px; font-weight: bold; color: var(--dark); font-size: 0.95em;"></p>
         </section>
 
-        <div id="freePreviewContainer">
+        <div id="freePreviewContainer" class="no-print">
             <h3>📊 High-Level Comparative Preview</h3>
-            <p>Your custom destination scope is ready for compilation across our intelligence matrices.</p>
+            <p>Your custom destination scope is ready for compilation across our 6 intelligence matrices.</p>
         </div>
 
-        <div id="lockedContainer" class="paywall-box">
+        <div id="lockedContainer" class="paywall-box no-print">
             <h3>🔒 Unlock Full Executive Dossier & PDF Export</h3>
-            <p>Get the complete custom-compiled comparative analysis across all intelligence pillars for your selected scope, complete with practical execution timelines.</p>
+            <p>Get the complete custom-compiled comparative analysis across all intelligence pillars for your selected scope, complete with Net Deltas, Trade-Off Matrices, and execution timelines.</p>
             <a id="dynamicPriceBtn" href="https://yourstore.lemonsqueezy.com/buy/short-stay-dossier-id" class="buy-btn">Unlock & Download Custom Dossier ($7)</a>
         </div>
 
-        <div id="unlockedExportContainer" class="no-print" style="margin-top: 30px; display: none;">
-            <div style="background: #e8f8f5; border: 1px solid #27ae60; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
-                <h3 style="color: #27ae60; margin-top: 0;">✅ Payment Verified & Unlocked</h3>
-                <p>Your custom dossier has compiled successfully based on your selected global scope.</p>
+        <div id="unlockedExportContainer" class="unlocked-content" style="display: none;">
+            <div class="no-print" style="background: #e8f8f5; border: 1px solid var(--accent); padding: 20px; border-radius: 6px; margin-bottom: 30px;">
+                <h3 style="color: var(--accent); margin-top: 0;">✅ Payment Verified & Unlocked</h3>
+                <p>Your custom executive dossier has compiled successfully based on your selected global scope.</p>
+                <button onclick="window.print()" class="buy-btn">🖨️ Save Custom Dossier as PDF</button>
             </div>
-            <button onclick="window.print()" class="buy-btn">🖨️ Save Custom Dossier as PDF</button>
+
+            <h2>1. Executive Summary & Net Delta Analysis</h2>
+            <p>Comparative structural assessment mapping financial, logistical, and infrastructural variances between <span class="destAText">Primary City</span> and <span class="destBText">Secondary City</span>.</p>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Intelligence Pillar</th>
+                        <th><span class="destAText">Primary City</span></th>
+                        <th><span class="destBText">Secondary City</span></th>
+                        <th>Net Delta / Advantage</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cost & Taxation</strong></td>
+                        <td>Baseline Index: 100</td>
+                        <td>Baseline Index: 115</td>
+                        <td><span class="delta-positive"><span class="destAText">Primary</span> offers ~15% cost advantage</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Transit & Connectivity</strong></td>
+                        <td>High-density Metro / Rail</td>
+                        <td>Ultra-high-speed Rail / Transit</td>
+                        <td><span class="delta-negative">Neutral / Comparable high efficiency</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Housing & Infrastructure</strong></td>
+                        <td>Avg. Multi-room Scaling</td>
+                        <td>Compact Urban Layouts</td>
+                        <td><span class="delta-positive"><span class="destAText">Primary</span> provides superior space value</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>2. Head-to-Head Trade-Off Matrix</h2>
+            <p>Critical strengths and operational considerations for your chosen stay tier.</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Strategic Advantages</th>
+                        <th>Friction Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong><span class="destAText">Primary City</span></strong></td>
+                        <td>Lower entry cost, robust local expat community, flexible transit options.</td>
+                        <td>Higher linguistic transition curve, variable seasonal climate.</td>
+                    </tr>
+                    <tr>
+                        <td><strong><span class="destBText">Secondary City</span></strong></td>
+                        <td>Exceptional public infrastructure, advanced digital connectivity, pristine safety index.</td>
+                        <td>Higher cost-of-living index, premium rental market pressures.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>3. Chronological Execution Timeline</h2>
+            <p>Actionable roadmap based on your active scope profile.</p>
+            <ul>
+                <li><strong>T-30 Days:</strong> Document verification, digital infrastructure prep (eSIM/connectivity setups), and initial logistics mapping.</li>
+                <li><strong>T-7 Days:</strong> Local transit card pre-configuration, housing baseline confirmation, and emergency protocol registration.</li>
+                <li><strong>Day 1 On Arrival:</strong> Immediate network connection activation, neighborhood transit orientation, and utility handoffs.</li>
+            </ul>
         </div>
     </main>
 
     <script>
-        // List of broad country names to catch when a user types a country instead of a city
         const countryList = [
             "Turkey", "Japan", "South Korea", "Korea", "France", "United Kingdom", "UK", 
             "Australia", "Canada", "United States", "USA", "US", "Germany", "Italy", "Spain", "China"
@@ -143,7 +217,6 @@
                 return;
             }
 
-            // Check if input matches a country name
             const isCountry = countryList.some(country => country.toLowerCase() === val.toLowerCase());
 
             if (isCountry) {
@@ -159,8 +232,8 @@
             checkFieldFeedback('destinationA', 'feedbackA');
             checkFieldFeedback('destinationB', 'feedbackB');
 
-            const destA = document.getElementById('destinationA').value || "Destination A";
-            const destB = document.getElementById('destinationB').value || "Destination B";
+            const destA = document.getElementById('destinationA').value.trim() || "Primary City";
+            const destB = document.getElementById('destinationB').value.trim() || "Secondary City";
             const tier = document.getElementById('durationTier').value;
             
             let price = "$7";
@@ -174,15 +247,34 @@
             document.getElementById('scopeSummary').innerText = `Active Scope: Comparing ${destA} vs. ${destB} under a [${tier}] profile.`;
             document.getElementById('dynamicPriceBtn').innerText = `Unlock & Download Custom Dossier (${price})`;
             document.getElementById('dynamicPriceBtn').href = checkoutLink;
-        }
-        
-        validateAndEvaluate();
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('unlocked') === 'true') {
-            document.getElementById('lockedContainer').style.display = 'none';
-            document.getElementById('unlockedExportContainer').style.display = 'block';
+            // Update dynamic placeholders across the report
+            document.querySelectorAll('.destAText').forEach(el => el.innerText = destA);
+            document.querySelectorAll('.destBText').forEach(el => el.innerText = destB);
         }
+
+        // Auto-capture incoming URL parameters from main dashboard if present
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const passedCityA = urlParams.get('cityA');
+            const passedCityB = urlParams.get('cityB');
+            
+            if (passedCityA) {
+                document.getElementById('destinationA').value = passedCityA;
+            }
+            if (passedCityB) {
+                document.getElementById('destinationB').value = passedCityB;
+            }
+            
+            validateAndEvaluate();
+
+            // Check unlock parameter (?unlocked=true)
+            if (urlParams.get('unlocked') === 'true') {
+                document.getElementById('lockedContainer').style.display = 'none';
+                document.getElementById('freePreviewContainer').style.display = 'none';
+                document.getElementById('unlockedExportContainer').style.display = 'block';
+            }
+        });
     </script>
 </body>
 </html>
