@@ -12,7 +12,6 @@
         h1 { color: var(--dark); margin-top: 0; font-size: 1.9em; display: flex; align-items: center; gap: 10px; }
         h2 { color: var(--dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 40px; display: flex; align-items: center; gap: 10px; scroll-margin-top: 20px; }
         
-        /* Universal Scope Selection Box */
         .scope-box { background: #f4f7f6; border: 1px solid #c5dca0; padding: 30px; border-radius: 8px; margin: 25px 0; }
         .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 15px; }
         .input-group label { display: block; font-weight: bold; font-size: 0.9em; color: var(--dark); margin-bottom: 6px; }
@@ -20,18 +19,15 @@
         .input-group input:focus { border-color: var(--primary); outline: none; }
         .input-group input::-webkit-calendar-picker-indicator { display: none !important; opacity: 0 !important; pointer-events: none !important; }
 
-        /* Feedback Tags */
         .feedback-tag { font-size: 0.8em; margin-top: 6px; display: block; font-weight: bold; }
         .feedback-neutral { color: var(--primary); }
         .feedback-valid { color: var(--accent); }
         .feedback-warning { color: var(--warning); }
 
-        /* Badges for Context */
         .badge-free { color: var(--primary); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
         .badge-paid { color: var(--warning); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
         .active-city-badge { background: #eaf2f8; color: var(--primary); padding: 5px 12px; border-radius: 12px; font-size: 0.9em; font-weight: bold; display: inline-block; margin-top: 5px; border: 1px solid #d4e6f1;}
 
-        /* Action Buttons */
         .action-row { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; padding-top: 25px; border-top: 2px dashed #d5dbdb; }
         .btn { padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.2s; border: none; cursor: pointer; text-align: center; flex: 1; min-width: 250px; }
         .btn:hover { opacity: 0.9; }
@@ -39,7 +35,6 @@
         .btn-paid { background: var(--accent); color: white; border: 1px solid #1e8449; }
         .btn small { font-weight: normal; font-size: 0.75em; margin-top: 4px; opacity: 0.9; }
 
-        /* Free Pillars Grid */
         .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
         .pillar-card { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 6px; transition: transform 0.2s, box-shadow 0.2s; }
         .pillar-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); border-color: var(--primary); }
@@ -47,6 +42,12 @@
         .pillar-card p { font-size: 0.95em; color: #555; margin-bottom: 15px; line-height: 1.5; }
         .pillar-card a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.95em; display: inline-block; }
         .pillar-card a:hover { text-decoration: underline; }
+
+        /* Global Footer Styles */
+        .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
+        .global-footer a:hover { text-decoration: underline; }
+        .global-footer p { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
 
         html { scroll-behavior: smooth; }
     </style>
@@ -132,10 +133,16 @@
         </div>
     </main>
 
+    <footer class="global-footer">
+        <div>
+            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+    </footer>
+
     <script>
         const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
         
-        // RESTORED FULL DICTIONARY (Includes US, USA, Germany, Italy, etc.)
         const countryCityMap = {
             "china": "Shanghai", "new zealand": "Auckland", "japan": "Tokyo", 
             "south korea": "Seoul", "korea": "Seoul", "turkey": "Istanbul", 
@@ -152,32 +159,17 @@
         };
 
         const cityCountryResolver = {
-            "seoul": "Seoul, South Korea",
-            "incheon": "Incheon, South Korea",
-            "busan": "Busan, South Korea",
-            "jeju": "Jeju, South Korea",
-            "tokyo": "Tokyo, Japan",
-            "osaka": "Osaka, Japan",
-            "kyoto": "Kyoto, Japan",
-            "paris": "Paris, France",
-            "london": "London, UK",
-            "sydney": "Sydney, Australia",
-            "melbourne": "Melbourne, Australia",
-            "vancouver": "Vancouver, Canada",
-            "toronto": "Toronto, Canada",
-            "istanbul": "Istanbul, Turkey",
-            "dubai": "Dubai, UAE",
-            "singapore": "Singapore",
-            "bangkok": "Bangkok, Thailand",
-            "bali": "Bali, Indonesia",
-            "lisbon": "Lisbon, Portugal",
-            "madrid": "Madrid, Spain",
-            "rome": "Rome, Italy",
-            "berlin": "Berlin, Germany",
-            "amsterdam": "Amsterdam, Netherlands"
+            "seoul": "Seoul, South Korea", "incheon": "Incheon, South Korea", "busan": "Busan, South Korea", "jeju": "Jeju, South Korea",
+            "tokyo": "Tokyo, Japan", "osaka": "Osaka, Japan", "kyoto": "Kyoto, Japan",
+            "paris": "Paris, France", "london": "London, UK",
+            "sydney": "Sydney, Australia", "melbourne": "Melbourne, Australia",
+            "vancouver": "Vancouver, Canada", "toronto": "Toronto, Canada",
+            "istanbul": "Istanbul, Turkey", "dubai": "Dubai, UAE",
+            "singapore": "Singapore", "bangkok": "Bangkok, Thailand", "bali": "Bali, Indonesia",
+            "lisbon": "Lisbon, Portugal", "madrid": "Madrid, Spain", "rome": "Rome, Italy",
+            "berlin": "Berlin, Germany", "amsterdam": "Amsterdam, Netherlands"
         };
 
-        // RESTORED INSTANT LIVE FEEDBACK
         function checkMainFeedback(inputId, feedbackId) {
             const inputElem = document.getElementById(inputId);
             let rawVal = inputElem.value.trim();
@@ -192,22 +184,16 @@
 
             let valLower = rawVal.toLowerCase();
 
-            // 1. INSTANT AUTO-COMPLETE: Instantly snap known cities (e.g., "incheon" -> "Incheon, South Korea")
             if (cityCountryResolver[valLower] && rawVal !== cityCountryResolver[valLower]) {
                 inputElem.value = cityCountryResolver[valLower];
                 rawVal = cityCountryResolver[valLower];
                 valLower = rawVal.toLowerCase();
             }
 
-            // 2. INSTANT US/UK NORMALIZATION
             if (valLower === "us" || valLower === "usa") {
-                rawVal = "US";
-                inputElem.value = rawVal;
-                valLower = "us";
+                rawVal = "US"; inputElem.value = rawVal; valLower = "us";
             } else if (valLower === "uk") {
-                rawVal = "UK";
-                inputElem.value = rawVal;
-                valLower = "uk";
+                rawVal = "UK"; inputElem.value = rawVal; valLower = "uk";
             }
 
             const isContinent = continentList.some(c => c.toLowerCase() === valLower);
@@ -231,11 +217,9 @@
             updateAllLinks();
         }
 
-        // Formats unknown cities (e.g., "boston" -> "Boston") when clicking away
         function smartFormatInput(elem, feedbackId) {
             let val = elem.value.trim();
             if (!val) return;
-
             let lower = val.toLowerCase();
             if (!cityCountryResolver[lower]) {
                 elem.value = val.replace(/\b\w/g, c => c.toUpperCase());
@@ -243,7 +227,6 @@
             checkMainFeedback(elem.id, feedbackId);
         }
 
-        // Allows pressing 'Enter' to instantly format text
         function handleEnterKey(event, elem, feedbackId) {
             if (event.key === 'Enter') {
                 event.preventDefault(); 
@@ -255,10 +238,8 @@
         function resolveCleanCity(inputVal) {
             let clean = inputVal.trim();
             if (!clean) return "";
-
             const lower = clean.toLowerCase();
             if (cityCountryResolver[lower]) return cityCountryResolver[lower];
-
             if (!lower.includes("new york") && !lower.includes("aurora") && !lower.includes("middletown") && !lower.includes("springfield")) {
                 clean = clean.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             }
@@ -289,13 +270,11 @@
         function revealPillars(e) {
             e.preventDefault(); 
             smartFormatInput(document.getElementById('mainCityA'), 'mainFeedbackA');
-            
             const cityA = document.getElementById('mainCityA').value.trim();
             if(!cityA) {
                 alert("Please type a Primary Destination City before generating modules.");
                 return;
             }
-            
             updateAllLinks();
             const container = document.getElementById('free-pillars-container');
             container.style.display = 'block'; 
