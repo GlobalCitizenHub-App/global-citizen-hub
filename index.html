@@ -162,7 +162,7 @@
 
     <footer class="global-footer">
         <div>
-            <a href="./contact/index.html">Contact Us</a> | <a href="./about/index.html">About</a> | <a href="./privacy/index.html">Privacy Policy</a> | <a href="./terms/index.html">Terms of Service</a>
+            <a href="contact/index.html">Contact Us</a> | <a href="about/index.html">About</a> | <a href="privacy/index.html">Privacy Policy</a> | <a href="terms/index.html">Terms of Service</a>
         </div>
         <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
     </footer>
@@ -252,7 +252,7 @@
             document.getElementById('pillarScopeBadge').innerText = cityA ? `📍 Primary City: ${cityA} | 📅 ${month}` : "📍 Primary City: [Awaiting Selection]";
 
             if(cityA && cityB) {
-                document.getElementById('launchDossierBtn').href = `./dossier/index.html?cityA=${encodeURIComponent(cityA)}&cityB=${encodeURIComponent(cityB)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}`;
+                document.getElementById('launchDossierBtn').href = `dossier/index.html?cityA=${encodeURIComponent(cityA)}&cityB=${encodeURIComponent(cityB)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}`;
             } else {
                 document.getElementById('launchDossierBtn').href = "#"; 
             }
@@ -261,7 +261,7 @@
             pillars.forEach((id, index) => {
                 const el = document.getElementById(id);
                 if (el) {
-                    el.href = cityA ? `./pillar-${index + 1}/index.html?city=${encodeURIComponent(cityA)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}` : "#";
+                    el.href = cityA ? `pillar-${index + 1}/index.html?city=${encodeURIComponent(cityA)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}` : "#";
                 }
             });
         }
