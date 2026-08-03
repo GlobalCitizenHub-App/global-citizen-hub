@@ -17,10 +17,14 @@
         .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
         
+        /* Remove Browser Drop-Down / Picker Arrow from Text Inputs */
+        .input-group input::-webkit-calendar-picker-indicator {
+            display: none !important;
+        }
+
         /* Automatic Feedback Tag */
         .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
         .feedback-valid { color: #27ae60; }
-        .feedback-custom { color: #d35400; }
 
         /* Paywall Box */
         .paywall-box { background: #fcf3cf; border: 2px dashed #f39c12; padding: 30px; text-align: center; border-radius: 6px; margin-top: 30px; }
@@ -45,23 +49,23 @@
         
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>📑 Advanced Universal Destination Comparison Dossier</h1>
-            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any U.S. state, domestic hub, or global metro below</p>
+            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city or country below</p>
         </header>
 
         <section class="scope-box no-print">
             <h3>⚙️ Universal Scope Selector with Live Validation</h3>
-            <p style="font-size: 0.9em; color: #555;">Type any city or state. The system provides automatic feedback confirming your selection parameters.</p>
+            <p style="font-size: 0.9em; color: #555;">Type any city or country worldwide. The system provides automatic feedback confirming your selection parameters.</p>
             
             <div class="scope-grid">
                 <div class="input-group">
-                    <label for="destinationA">Primary Destination (A)</label>
-                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type city or state...">
+                    <label for="destinationA">Primary Destination (City or Country)</label>
+                    <input type="text" id="destinationA" list="worldHubs" value="Turkey" oninput="validateAndEvaluate()" placeholder="Type city or country...">
                     <span id="feedbackA" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
-                    <label for="destinationB">Secondary Destination (B)</label>
-                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="validateAndEvaluate()" placeholder="Type city or state...">
+                    <label for="destinationB">Secondary Destination (City or Country)</label>
+                    <input type="text" id="destinationB" list="worldHubs" value="Japan" oninput="validateAndEvaluate()" placeholder="Type city or country...">
                     <span id="feedbackB" class="feedback-tag"></span>
                 </div>
 
@@ -77,27 +81,25 @@
             </div>
 
             <datalist id="worldHubs">
-                <optgroup label="U.S. Domestic Hubs & States">
-                    <option value="New York, NY (US)">
-                    <option value="Los Angeles, CA (US)">
-                    <option value="Austin, TX (US)">
-                    <option value="San Diego, CA (US)">
-                    <option value="Denver, CO (US)">
-                    <option value="Orlando, FL (US)">
-                    <option value="Charleston, SC (US)">
-                    <option value="Salt Lake City, UT (US)">
-                    <option value="Seattle, WA (US)">
-                    <option value="Miami, FL (US)">
-                    <option value="Chicago, IL (US)">
+                <optgroup label="Countries">
+                    <option value="Turkey">
+                    <option value="Japan">
+                    <option value="South Korea">
+                    <option value="France">
+                    <option value="United Kingdom">
+                    <option value="Australia">
+                    <option value="Canada">
+                    <option value="United States">
                 </optgroup>
-                <optgroup label="Global Metros">
+                <optgroup label="Global Metros & Cities">
+                    <option value="Istanbul, Turkey">
                     <option value="Seoul, South Korea">
                     <option value="Tokyo, Japan">
                     <option value="Paris, France">
                     <option value="London, UK">
-                    <option value="Singapore">
-                    <option value="Sydney, Australia">
-                    <option value="Vancouver, Canada">
+                    <option value="New York, NY">
+                    <option value="Los Angeles, CA">
+                    <option value="Austin, TX">
                 </optgroup>
             </datalist>
             
@@ -125,32 +127,19 @@
     </main>
 
     <script>
-        // List of verified preset options for instant feedback matching
-        const verifiedHubs = [
-            "New York, NY (US)", "Los Angeles, CA (US)", "Austin, TX (US)", "San Diego, CA (US)",
-            "Denver, CO (US)", "Orlando, FL (US)", "Charleston, SC (US)", "Salt Lake City, UT (US)",
-            "Seattle, WA (US)", "Miami, FL (US)", "Chicago, IL (US)", "Seoul, South Korea",
-            "Tokyo, Japan", "Paris, France", "London, UK", "Singapore", "Sydney, Australia", "Vancouver, Canada"
-        ];
-
         function checkFieldFeedback(inputId, feedbackId) {
             const val = document.getElementById(inputId).value.trim();
             const feedbackEl = document.getElementById(feedbackId);
             
             if (!val) {
                 feedbackEl.innerText = "⚠️ Please enter a destination";
-                feedbackEl.className = "feedback-tag feedback-custom";
+                feedbackEl.className = "feedback-tag";
+                feedbackEl.style.color = "#d35400";
                 return;
             }
 
-            // Check if input matches preset or contains standard US / Global indicators
-            if (verifiedHubs.includes(val) || val.includes("(US)") || val.includes(",")) {
-                feedbackEl.innerText = "✓ Confirmed destination scope active";
-                feedbackEl.className = "feedback-tag feedback-valid";
-            } else {
-                feedbackEl.innerText = "🌐 Custom custom-query destination registered";
-                feedbackEl.className = "feedback-tag feedback-custom";
-            }
+            feedbackEl.innerText = "✓ Confirmed destination scope active";
+            feedbackEl.className = "feedback-tag feedback-valid";
         }
 
         function validateAndEvaluate() {
@@ -174,10 +163,8 @@
             document.getElementById('dynamicPriceBtn').href = checkoutLink;
         }
         
-        // Run on page load
         validateAndEvaluate();
 
-        // Check unlock parameter
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('unlocked') === 'true') {
             document.getElementById('lockedContainer').style.display = 'none';
