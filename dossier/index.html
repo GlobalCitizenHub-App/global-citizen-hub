@@ -68,23 +68,23 @@
         
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>📑 Advanced Universal Destination Comparison Dossier</h1>
-            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city comparison scope below</p>
+            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any specific global city comparison scope below</p>
         </header>
 
         <section class="scope-box no-print">
             <h3>⚙️ Universal Scope Selector with Live Validation</h3>
-            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide. Entering a country name will prompt for a specific city.</p>
+            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide (e.g., Middletown, DE or Istanbul, Turkey).</p>
             
             <div class="scope-grid">
                 <div class="input-group">
                     <label for="destinationA">Primary Destination (City)</label>
-                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type city name...">
+                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type specific city...">
                     <span id="feedbackA" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
                     <label for="destinationB">Secondary Destination (City)</label>
-                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="validateAndEvaluate()" placeholder="Type city name...">
+                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="validateAndEvaluate()" placeholder="Type specific city...">
                     <span id="feedbackB" class="feedback-tag"></span>
                 </div>
 
@@ -100,6 +100,7 @@
             </div>
 
             <datalist id="worldHubs">
+                <option value="Middletown, DE">
                 <option value="Istanbul, Turkey">
                 <option value="Seoul, South Korea">
                 <option value="Tokyo, Japan">
@@ -154,13 +155,13 @@
                     </tr>
                     <tr>
                         <td><strong>Transit & Connectivity</strong></td>
-                        <td>High-density Metro / Rail</td>
+                        <td>Regional Transit Infrastructure</td>
                         <td>Ultra-high-speed Rail / Transit</td>
-                        <td><span class="delta-negative">Neutral / Comparable high efficiency</span></td>
+                        <td><span class="delta-negative">Neutral / Comparable efficiency</span></td>
                     </tr>
                     <tr>
                         <td><strong>Housing & Infrastructure</strong></td>
-                        <td>Avg. Multi-room Scaling</td>
+                        <td>Suburban / Mid-density Scaling</td>
                         <td>Compact Urban Layouts</td>
                         <td><span class="delta-positive"><span class="destAText">Primary</span> provides superior space value</span></td>
                     </tr>
@@ -180,8 +181,8 @@
                 <tbody>
                     <tr>
                         <td><strong><span class="destAText">Primary City</span></strong></td>
-                        <td>Lower entry cost, robust local expat community, flexible transit options.</td>
-                        <td>Higher linguistic transition curve, variable seasonal climate.</td>
+                        <td>Lower entry cost, localized community infrastructure, flexible lifestyle access.</td>
+                        <td>Regional transit reliance, specific state tax structures.</td>
                     </tr>
                     <tr>
                         <td><strong><span class="destBText">Secondary City</span></strong></td>
@@ -194,7 +195,7 @@
             <h2>3. Chronological Execution Timeline</h2>
             <p>Actionable roadmap based on your active scope profile.</p>
             <ul>
-                <li><strong>T-30 Days:</strong> Document verification, digital infrastructure prep (eSIM/connectivity setups), and initial logistics mapping.</li>
+                <li><strong>T-30 Days:</strong> Document verification, digital infrastructure prep, and initial logistics mapping.</li>
                 <li><strong>T-7 Days:</strong> Local transit card pre-configuration, housing baseline confirmation, and emergency protocol registration.</li>
                 <li><strong>Day 1 On Arrival:</strong> Immediate network connection activation, neighborhood transit orientation, and utility handoffs.</li>
             </ul>
@@ -202,28 +203,43 @@
     </main>
 
     <script>
+        // Reference lists for rigorous live validation
+        const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania", "Australia"];
         const countryList = [
             "Turkey", "Japan", "South Korea", "Korea", "France", "United Kingdom", "UK", 
             "Australia", "Canada", "United States", "USA", "US", "Germany", "Italy", "Spain", "China"
         ];
+        
+        // Common standalone U.S./Global city names that need disambiguation (state/country)
+        const ambiguousTowns = ["middletown", "springfield", "franklin", "columbus", "georgetown", "clinton"];
 
         function checkFieldFeedback(inputId, feedbackId) {
             const val = document.getElementById(inputId).value.trim();
             const feedbackEl = document.getElementById(feedbackId);
             
             if (!val) {
-                feedbackEl.innerText = "⚠️ Please enter a destination city";
+                feedbackEl.innerText = "⚠️ Please enter a specific destination city";
                 feedbackEl.className = "feedback-tag feedback-warning";
                 return;
             }
 
-            const isCountry = countryList.some(country => country.toLowerCase() === val.toLowerCase());
+            const valLower = val.toLowerCase();
+            const isContinent = continentList.some(c => c.toLowerCase() === valLower);
+            const isCountry = countryList.some(country => country.toLowerCase() === valLower);
+            const isAmbiguous = ambiguousTowns.includes(valLower);
 
-            if (isCountry) {
+            if (isContinent) {
+                feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else if (isCountry) {
                 feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., Seoul for South Korea).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
+            } else if (isAmbiguous || (!val.includes(",") && val.split(" ").length === 1 && val.length < 12)) {
+                // If it's a single word without a comma (like "middletown"), prompt for state/country
+                feedbackEl.innerText = `⚠️ Please include state or country (e.g., ${val}, DE).`;
+                feedbackEl.className = "feedback-tag feedback-warning";
             } else {
-                feedbackEl.innerText = "✓ Confirmed destination scope active";
+                feedbackEl.innerText = "✓ Confirmed city destination scope active";
                 feedbackEl.className = "feedback-tag feedback-valid";
             }
         }
