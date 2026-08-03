@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub - Universal Smart Traveling and Relocation Toolkit with dynamic metric-driven intelligence reports.">
+    <meta name="description" content="Global Citizen Hub - Universal Smart Traveling and Relocation Toolkit with metric-driven scientific intelligence reports and embedded conversion tools.">
     <title>Global Citizen Hub | Advanced Intelligence Core</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --success: #27ae60; --error: #c0392b; }
@@ -175,8 +175,8 @@
                 <ul id="reportCulture"></ul>
             </div>
             <div class="module-card">
-                <h4>📦 6. E-Commerce Conversions</h4>
-                <ul id="reportEcommerce"></ul>
+                <h4>📐 6. Cross-Border Unit Conversion Tool</h4>
+                <ul id="reportConversions"></ul>
             </div>
         </div>
     </main>
@@ -186,7 +186,8 @@
             <a href="contact/index.html">Contact Us</a> &nbsp;|&nbsp; 
             <a href="about/index.html">About</a> &nbsp;|&nbsp; 
             <a href="privacy/index.html">Privacy Policy</a> &nbsp;|&nbsp; 
-            <a href="terms/index.html">Terms of Service</a>
+            <a href="terms/index.html">Terms of Service</a> &nbsp;|&nbsp;
+            <a href="tools/conversions.html">Conversion Tool</a>
         </p>
         <p class="affiliate-note">&copy; 2026 Global Citizen Hub. Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
     </footer>
@@ -208,15 +209,40 @@
 
         const usCountryAliases = ["united states", "us", "usa", "united states of america"];
 
-        const internationalDatabase = [
-            { city: "seoul", countryAliases: ["south korea", "korea", "kr"] },
-            { city: "singapore", countryAliases: ["singapore", "sg"] },
-            { city: "tokyo", countryAliases: ["japan", "jp"] },
-            { city: "paris", countryAliases: ["france", "fr"] },
-            { city: "london", countryAliases: ["united kingdom", "uk", "britain", "gb"] },
-            { city: "berlin", countryAliases: ["germany", "de"] },
-            { city: "sydney", countryAliases: ["australia", "au"] },
-            { city: "toronto", countryAliases: ["canada", "ca"] }
+        // Master Verification Database including all U.S. states for Aurora and major international hubs
+        const verifiedDatabase = [
+            // International Global Hubs
+            { city: "seoul", states: [""], country: "south korea", countryAliases: ["south korea", "korea", "kr"] },
+            { city: "singapore", states: [""], country: "singapore", countryAliases: ["singapore", "sg"] },
+            { city: "tokyo", states: ["tokyo", "tokyo prefecture"], country: "japan", countryAliases: ["japan", "jp"] },
+            { city: "paris", states: [""], country: "france", countryAliases: ["france", "fr"] },
+            { city: "london", states: ["england", "greater london"], country: "united kingdom", countryAliases: ["united kingdom", "uk", "britain", "gb"] },
+            { city: "london", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] },
+            { city: "berlin", states: [""], country: "germany", countryAliases: ["germany", "de"] },
+            { city: "sydney", states: ["new south wales", "nsw"], country: "australia", countryAliases: ["australia", "au"] },
+
+            // All 14 U.S. States for Aurora (including New York / NY for Aurora, NY)
+            { city: "aurora", states: ["colorado", "co"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["ohio", "oh"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["oregon", "or"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["missouri", "mo"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["nebraska", "ne"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["texas", "tx"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["utah", "ut"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["minnesota", "mn"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["indiana", "in"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["iowa", "ia"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["kansas", "ks"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["south dakota", "sd"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["maine", "me"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+
+            // Other Major Hubs
+            { city: "new york", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "los angeles", states: ["california", "ca"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "chicago", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "toronto", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] }
         ];
 
         function formatProperCase(str) {
@@ -253,9 +279,19 @@
                     return false;
                 }
 
+                const resolvedState = usStates[stateInput] || stateInput;
                 const isValidUSState = usStates[stateInput] || Object.values(usStates).includes(stateInput);
 
                 if (isValidUSState) {
+                    // Check against verifiedDatabase for accurate U.S. city/state pairing (e.g., Aurora in NY, CO, etc.)
+                    const cityMatchInDB = verifiedDatabase.some(item => {
+                        const cMatch = item.city === cityInput;
+                        const sMatch = item.states.some(s => s === resolvedState || s === stateInput || resolvedState.includes(s) || s.includes(resolvedState));
+                        const ctryMatch = item.country === "united states";
+                        return cMatch && sMatch && ctryMatch;
+                    });
+
+                    // If it's a known city in our DB or a valid generalized US municipality with valid state
                     const formattedCity = formatProperCase(document.getElementById(cityId).value);
                     const formattedState = formatProperCase(document.getElementById(stateId).value);
                     const formattedCountry = formatProperCase(document.getElementById(countryId).value);
@@ -270,7 +306,8 @@
                 }
             }
 
-            const match = internationalDatabase.find(item => {
+            // International check
+            const match = verifiedDatabase.find(item => {
                 const cityMatch = item.city === cityInput;
                 const countryMatch = item.countryAliases.some(alias => alias === countryInput || countryInput.includes(alias) || alias.includes(countryInput));
                 return cityMatch && countryMatch;
@@ -317,13 +354,14 @@
 
             const isKorea = pCountry.toLowerCase().includes('korea');
             const isJapan = pCountry.toLowerCase().includes('japan');
+            const isUS = pCountry.toLowerCase().includes('us') || pCountry.toLowerCase().includes('united states');
             
-            const currencySymbol = isKorea ? '₩ (KRW)' : (isJapan ? '¥ (JPY)' : '$ (USD)');
-            const tempMean = isKorea ? '4°C / 39°F' : (isJapan ? '6°C / 43°F' : '12°C / 54°F');
+            const currencySymbol = isKorea ? '₩ KRW (South Korean Won)' : (isJapan ? '¥ JPY (Japanese Yen)' : '$ USD (U.S. Dollars)');
+            const tempMean = isKorea ? '4°C / 39°F' : (isJapan ? '6°C / 43°F' : (isUS ? '11°C / 52°F' : '12°C / 54°F'));
             const voltage = isKorea ? '220V, 60Hz (Type C / F)' : (isJapan ? '100V, 50/60Hz (Type A / B)' : '120V, 60Hz (Type A / B)');
-            const transitCost = isKorea ? '₩1,500 ($1.15 USD) per baseline transit fare' : '$2.90 USD per baseline municipal fare';
+            const transitCost = isKorea ? '₩1,500 ($1.15 USD) per baseline transit fare' : (isUS ? '$2.90 USD per baseline municipal transit fare' : '$2.50 USD equivalent per baseline transit fare');
 
-            // Dynamic Economic Calculation based on Tier
+            // Dynamic Economic Calculation based on Tier with explicit currency notation
             let baseCostUSD = isKorea ? 2400 : (isJapan ? 2600 : 3100);
             let multiplier = 1.0;
             if (economic.includes('Budget')) multiplier = 0.55;
@@ -331,7 +369,10 @@
             else if (economic.includes('Upscale')) multiplier = 2.1;
             else if (economic.includes('Executive')) multiplier = 4.2;
 
-            const calculatedCost = Math.round(baseCostUSD * multiplier).toLocaleString();
+            const calculatedCostNum = Math.round(baseCostUSD * multiplier);
+            const formattedCostDisplay = isKorea ? `₩${(calculatedCostNum * 1350).toLocaleString()} KRW (~$${calculatedCostNum.toLocaleString()} USD)` : 
+                                         (isJapan ? `¥${(calculatedCostNum * 150).toLocaleString()} JPY (~$${calculatedCostNum.toLocaleString()} USD)` : 
+                                         `$${calculatedCostNum.toLocaleString()} USD`);
 
             document.getElementById('reportClimate').innerHTML = `
                 <li><strong>Mean Thermal Baseline:</strong> ${tempMean} historical average for ${month}.</li>
@@ -340,7 +381,7 @@
             `;
             document.getElementById('reportEconomics').innerHTML = `
                 <li><strong>Purchasing Power Parity Index:</strong> Calibrated for <strong>${economic}</strong> tier.</li>
-                <li><strong>Estimated Baseline Expenditure:</strong> ~${calculatedCost} monthly equivalent benchmark over ${duration}.</li>
+                <li><strong>Estimated Baseline Expenditure:</strong> ~${formattedCostDisplay} monthly equivalent benchmark over ${duration}.</li>
                 <li><strong>Methodological Note:</strong> Stratified expenditure based on OECD / EIU household consumption quartiles.</li>
             `;
             document.getElementById('reportPower').innerHTML = `
@@ -356,9 +397,10 @@
                 <li><strong>Socio-Cultural Protocols:</strong> Direct formal communication norms; local business hours 09:00–18:00.</li>
                 <li><strong>Service Gratuity Standards:</strong> Service tipping is non-customary (0%–10% optional).</li>
             `;
-            document.getElementById('reportEcommerce').innerHTML = `
-                <li><strong>Dimensional Sizing Metrics:</strong> Standardized local apparel sizing conversion ratios active.</li>
-                <li><strong>Logistics Fulfillment Timeframe:</strong> 1–2 business day standard regional delivery window.</li>
+            document.getElementById('reportConversions').innerHTML = `
+                <li><strong>Metric / Imperial Ratio:</strong> 1 Meter = 3.281 Feet | 1 Kilometer = 0.621 Statute Miles.</li>
+                <li><strong>Thermal Conversion Standard:</strong> $C = (°F - 32) \times \frac{5}{9}$ active.</li>
+                <li><strong>Cross-Border Tool Access:</strong> Full live interactive converter available in the <a href="tools/conversions.html">Conversion Tool</a> navigation menu.</li>
             `;
 
             const container = document.getElementById('reportContainer');
