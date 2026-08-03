@@ -37,21 +37,22 @@
         .pillar-card { background: #fafafa; border: 1px solid var(--border); padding: 20px; border-radius: 6px; transition: transform 0.2s; }
         .pillar-card:hover { transform: translateY(-3px); border-color: var(--primary); }
         .pillar-card h3 { margin-top: 0; color: var(--primary); font-size: 1.1em; }
-        .pillar-card a { text-decoration: none; color: var(--dark); font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
-        .pillar-card a:hover { color: var(--primary); text-decoration: underline; }
+        .pillar-card a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
+        .pillar-card a:hover { text-decoration: underline; }
 
-        /* Launch Button */
+        /* Action Buttons */
         .btn { background: var(--primary); color: white; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block; margin-top: 20px; transition: opacity 0.2s; }
         .btn:hover { opacity: 0.9; }
+        .btn-secondary { background: var(--accent); }
     </style>
 </head>
 <body>
     <main class="card">
         <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
-        <p>Configure your destination comparison scope below, or explore individual intelligence pillars.</p>
+        <p>Configure your destination comparison scope below. Your selections automatically apply to both individual free pillars and the comprehensive paid executive dossier.</p>
 
         <section class="scope-box">
-            <h3>⚙️ Quick Scope Selector with Live Validation</h3>
+            <h3>⚙️ Universal Scope Selector with Live Validation</h3>
             <div class="scope-grid">
                 <div class="input-group">
                     <label for="mainCityA">Primary Destination (City)</label>
@@ -66,47 +67,47 @@
                 </div>
             </div>
 
-            <a id="launchDossierBtn" href="dossier/index.html?cityA=Seoul&cityB=Tokyo,%20Japan" class="btn">Launch Advanced Comparison Dossier →</a>
+            <a id="launchDossierBtn" href="dossier/index.html?cityA=Seoul&cityB=Tokyo,%20Japan" class="btn btn-secondary">🚀 Launch Paid Advanced Comparison Dossier →</a>
         </section>
 
-        <h2>🏛️ The 6 Core Intelligence Pillars</h2>
-        <p>Explore standalone free-tier intelligence modules for your active destination scope.</p>
+        <h2>🏛️ The 6 Free Intelligence Pillars</h2>
+        <p>Explore standalone free-tier modular intelligence for your active destination scope.</p>
         
         <div class="pillars-grid">
             <div class="pillar-card">
                 <h3>1. Cost & Financials</h3>
                 <p>Comparative cost of living indexes, currency dynamics, and regional tax structures.</p>
-                <a href="pillars/cost.html">Explore Pillar 1 →</a>
+                <a id="pillarCost" href="pillars/cost.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 1 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>2. Transit & Connectivity</h3>
                 <p>Local SIM logistics, eSIM provisioning, and municipal public transit networks.</p>
-                <a href="pillars/connectivity.html">Explore Pillar 2 →</a>
+                <a id="pillarConnectivity" href="pillars/connectivity.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 2 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>3. Housing & Infrastructure</h3>
                 <p>Rental market baselines, utility setup protocols, and neighborhood density maps.</p>
-                <a href="pillars/housing.html">Explore Pillar 3 →</a>
+                <a id="pillarHousing" href="pillars/housing.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 3 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>4. Legal & Documentation</h3>
                 <p>Visa frameworks, local registration requirements, and legal compliance timelines.</p>
-                <a href="pillars/legal.html">Explore Pillar 4 →</a>
+                <a id="pillarLegal" href="pillars/legal.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 4 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>5. Safety & Healthcare</h3>
                 <p>Emergency medical infrastructure, insurance requirements, and safety indices.</p>
-                <a href="pillars/safety.html">Explore Pillar 5 →</a>
+                <a id="pillarSafety" href="pillars/safety.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 5 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>6. Lifestyle & Culture</h3>
                 <p>Social integration, cultural norms, co-working density, and expat networks.</p>
-                <a href="pillars/lifestyle.html">Explore Pillar 6 →</a>
+                <a id="pillarLifestyle" href="pillars/lifestyle.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 6 →</a>
             </div>
         </div>
     </main>
@@ -115,23 +116,11 @@
         const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
         
         const countryCityMap = {
-            "china": "Shanghai",
-            "new zealand": "Auckland",
-            "japan": "Tokyo",
-            "south korea": "Seoul",
-            "korea": "Seoul",
-            "turkey": "Istanbul",
-            "france": "Paris",
-            "united kingdom": "London",
-            "uk": "London",
-            "australia": "Sydney",
-            "canada": "Vancouver",
-            "united states": "New York",
-            "usa": "New York",
-            "us": "New York",
-            "germany": "Berlin",
-            "italy": "Rome",
-            "spain": "Madrid"
+            "china": "Shanghai", "new zealand": "Auckland", "japan": "Tokyo", 
+            "south korea": "Seoul", "korea": "Seoul", "turkey": "Istanbul", 
+            "france": "Paris", "united kingdom": "London", "uk": "London", 
+            "australia": "Sydney", "canada": "Vancouver", "united states": "New York", 
+            "usa": "New York", "us": "New York", "germany": "Berlin", "italy": "Rome", "spain": "Madrid"
         };
         
         const ambiguousTownsMap = {
@@ -151,7 +140,7 @@
             if (!val) {
                 feedbackEl.innerText = "⚠️ Please enter a specific destination city";
                 feedbackEl.className = "feedback-tag feedback-warning";
-                updateLaunchLink();
+                updateAllLinks();
                 return;
             }
 
@@ -177,13 +166,24 @@
                 feedbackEl.className = "feedback-tag feedback-valid";
             }
 
-            updateLaunchLink();
+            updateAllLinks();
         }
 
-        function updateLaunchLink() {
+        function updateAllLinks() {
             const cityA = encodeURIComponent(document.getElementById('mainCityA').value.trim() || "Seoul");
             const cityB = encodeURIComponent(document.getElementById('mainCityB').value.trim() || "Tokyo, Japan");
+            
+            // Update Paid Dossier Link
             document.getElementById('launchDossierBtn').href = `dossier/index.html?cityA=${cityA}&cityB=${cityB}`;
+            
+            // Update Free Pillar Links
+            const pillars = ['Cost', 'Connectivity', 'Housing', 'Legal', 'Safety', 'Lifestyle'];
+            pillars.forEach(p => {
+                const el = document.getElementById('pillar' + p);
+                if (el) {
+                    el.href = `pillars/${p.toLowerCase()}.html?cityA=${cityA}&cityB=${cityB}`;
+                }
+            });
         }
 
         window.addEventListener('DOMContentLoaded', () => {
