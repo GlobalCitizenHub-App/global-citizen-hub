@@ -53,7 +53,7 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Intelligence Core</h1>
         <p>
-            Deploying unified global scope verification with robust normalization for abbreviations, international codes, and regional multi-state validation.
+            Deploying algorithmic U.S. state validation and global municipal intelligence verification.
         </p>
 
         <div class="selector-box">
@@ -64,15 +64,15 @@
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="primaryCity">City</label>
-                        <input type="text" id="primaryCity" placeholder="e.g., Aurora or Seoul">
+                        <input type="text" id="primaryCity" placeholder="City">
                     </div>
                     <div class="form-group">
-                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., MN or Maine)</span></label>
-                        <input type="text" id="primaryState" placeholder="e.g., MN">
+                        <label for="primaryState">State / Province</label>
+                        <input type="text" id="primaryState" placeholder="State or province">
                     </div>
                     <div class="form-group">
-                        <label for="primaryCountry">Country <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., US or United States)</span></label>
-                        <input type="text" id="primaryCountry" placeholder="e.g., US">
+                        <label for="primaryCountry">Country</label>
+                        <input type="text" id="primaryCountry" placeholder="Country">
                     </div>
                 </div>
                 <div id="primaryStatus" class="verification-badge"></div>
@@ -83,15 +83,15 @@
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="secondaryCity">City</label>
-                        <input type="text" id="secondaryCity" placeholder="e.g., Tokyo">
+                        <input type="text" id="secondaryCity" placeholder="City">
                     </div>
                     <div class="form-group">
                         <label for="secondaryState">State / Province</label>
-                        <input type="text" id="secondaryState" placeholder="e.g., Tokyo Prefecture">
+                        <input type="text" id="secondaryState" placeholder="State or province">
                     </div>
                     <div class="form-group">
                         <label for="secondaryCountry">Country</label>
-                        <input type="text" id="secondaryCountry" placeholder="e.g., Japan">
+                        <input type="text" id="secondaryCountry" placeholder="Country">
                     </div>
                 </div>
                 <div id="secondaryStatus" class="verification-badge"></div>
@@ -182,41 +182,43 @@
     </footer>
 
     <script>
-        // Comprehensive Scalable Normalized Database with Country/State Aliases
-        const verifiedDatabase = [
-            // International Global Hubs
-            { city: "seoul", states: [""], country: "south korea", countryAliases: ["south korea", "korea", "kr"] },
-            { city: "singapore", states: [""], country: "singapore", countryAliases: ["singapore", "sg"] },
-            { city: "tokyo", states: ["tokyo", "tokyo prefecture"], country: "japan", countryAliases: ["japan", "jp"] },
-            { city: "paris", states: [""], country: "france", countryAliases: ["france", "fr"] },
-            { city: "london", states: ["england", "greater london"], country: "united kingdom", countryAliases: ["united kingdom", "uk", "britain", "gb"] },
-            { city: "london", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] },
-            { city: "berlin", states: [""], country: "germany", countryAliases: ["germany", "de"] },
-            { city: "sydney", states: ["new south wales", "nsw"], country: "australia", countryAliases: ["australia", "au"] },
+        // Comprehensive U.S. States Lookup Table (Full names + 2-letter codes)
+        const usStates = {
+            "al": "alabama", "ak": "alaska", "az": "arizona", "ar": "arkansas", "ca": "california", 
+            "co": "colorado", "ct": "connecticut", "de": "delaware", "fl": "florida", "ga": "georgia", 
+            "hi": "hawaii", "id": "idaho", "il": "illinois", "in": "indiana", "ia": "iowa", 
+            "ks": "kansas", "ky": "kentucky", "la": "louisiana", "me": "maine", "md": "maryland", 
+            "ma": "massachusetts", "mi": "michigan", "mn": "minnesota", "ms": "mississippi", "mo": "missouri", 
+            "mt": "montana", "ne": "nebraska", "nv": "nevada", "nh": "new hampshire", "nj": "new jersey", 
+            "nm": "new mexico", "ny": "new york", "nc": "north carolina", "nd": "north dakota", "oh": "ohio", 
+            "ok": "oklahoma", "or": "oregon", "pa": "pennsylvania", "ri": "rhode island", "sc": "south carolina", 
+            "sd": "south dakota", "tn": "tennessee", "tx": "texas", "ut": "utah", "vt": "vermont", 
+            "va": "virginia", "wa": "washington", "wv": "west virginia", "wi": "wisconsin", "wy": "wyoming",
+            "dc": "district of columbia"
+        };
 
-            // Complete 14 U.S. States for Aurora with full names and standard 2-letter postal abbreviations
-            { city: "aurora", states: ["colorado", "co"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["ohio", "oh"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["oregon", "or"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["missouri", "mo"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["nebraska", "ne"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["texas", "tx"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["utah", "ut"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["minnesota", "mn"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["indiana", "in"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["iowa", "ia"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["kansas", "ks"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["south dakota", "sd"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "aurora", states: ["maine", "me"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+        const usCountryAliases = ["united states", "us", "usa", "united states of america"];
 
-            // Other Major Hubs
-            { city: "new york", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "los angeles", states: ["california", "ca"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "chicago", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
-            { city: "toronto", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] }
+        // Master International Global Hubs Database
+        const internationalDatabase = [
+            { city: "seoul", countryAliases: ["south korea", "korea", "kr"] },
+            { city: "singapore", countryAliases: ["singapore", "sg"] },
+            { city: "tokyo", countryAliases: ["japan", "jp"] },
+            { city: "paris", countryAliases: ["france", "fr"] },
+            { city: "london", countryAliases: ["united kingdom", "uk", "britain", "gb"] },
+            { city: "berlin", countryAliases: ["germany", "de"] },
+            { city: "sydney", countryAliases: ["australia", "au"] },
+            { city: "toronto", countryAliases: ["canada", "ca"] }
         ];
+
+        // Helper to format string properly with correct capitalization (Title Case)
+        function formatProperCase(str) {
+            if (!str) return '';
+            if (str.length <= 3 && str === str.toUpperCase() || str.length <= 2) {
+                return str.toUpperCase();
+            }
+            return str.toLowerCase().split(' ').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
+        }
 
         function verifyDestination(cityId, stateId, countryId, statusId) {
             const cityInput = document.getElementById(cityId).value.trim().toLowerCase();
@@ -235,32 +237,49 @@
                 return false;
             }
 
-            const match = verifiedDatabase.find(item => {
-                const cityMatch = item.city === cityInput;
-                const countryMatch = item.countryAliases.some(alias => alias === countryInput || countryInput.includes(alias) || alias.includes(countryInput));
-                
-                if (item.states.includes("")) {
-                    return cityMatch && countryMatch;
-                } else {
-                    const stateMatch = item.states.some(s => s === stateInput || stateInput.includes(s) || s.includes(stateInput));
-                    return cityMatch && countryMatch && stateMatch;
-                }
-            });
+            // Check if Country is United States -> Algorithmic U.S. Municipal Validation
+            const isUS = usCountryAliases.some(alias => countryInput === alias || countryInput.includes(alias));
 
-            if (match) {
-                const stateDisplay = stateInput ? `, ${document.getElementById(stateId).value}` : '';
-                statusBox.textContent = `✔ Verified Target: ${document.getElementById(cityId).value}${stateDisplay}, ${document.getElementById(countryId).value} (Scientific Scope Confirmed)`;
-                statusBox.className = 'verification-badge verified';
-                return true;
-            } else {
-                const isAmbiguousCity = verifiedDatabase.some(item => item.city === cityInput && !item.states.includes(""));
-                if (isAmbiguousCity && !stateInput) {
-                    statusBox.textContent = `⚠ Disambiguation Required: "${document.getElementById(cityId).value}" exists across multiple regions. Please specify State/Province abbreviation (e.g., ME, MN, CO).`;
+            if (isUS) {
+                if (!stateInput) {
+                    statusBox.textContent = `⚠ Disambiguation Required: U.S. municipalities require a State / Province parameter.`;
                     statusBox.className = 'verification-badge unverified';
                     return false;
                 }
 
-                statusBox.textContent = `❌ Unverified Geographic Target: No municipal match found for ${document.getElementById(cityId).value}, ${document.getElementById(stateId).value || 'N/A'}, ${document.getElementById(countryId).value}.`;
+                const isValidUSState = usStates[stateInput] || Object.values(usStates).includes(stateInput);
+
+                if (isValidUSState) {
+                    const formattedCity = formatProperCase(document.getElementById(cityId).value);
+                    const formattedState = formatProperCase(document.getElementById(stateId).value);
+                    const formattedCountry = formatProperCase(document.getElementById(countryId).value);
+
+                    statusBox.textContent = `✔ Verified Target: ${formattedCity}, ${formattedState}, ${formattedCountry} (Scientific Scope Confirmed)`;
+                    statusBox.className = 'verification-badge verified';
+                    return true;
+                } else {
+                    statusBox.textContent = `❌ Unrecognized U.S. State/Territory: "${document.getElementById(stateId).value}".`;
+                    statusBox.className = 'verification-badge unverified';
+                    return false;
+                }
+            }
+
+            // Otherwise, check against International Global Hubs Database
+            const match = internationalDatabase.find(item => {
+                const cityMatch = item.city === cityInput;
+                const countryMatch = item.countryAliases.some(alias => alias === countryInput || countryInput.includes(alias) || alias.includes(countryInput));
+                return cityMatch && countryMatch;
+            });
+
+            if (match) {
+                const formattedCity = formatProperCase(document.getElementById(cityId).value);
+                const formattedCountry = formatProperCase(document.getElementById(countryId).value);
+
+                statusBox.textContent = `✔ Verified Target: ${formattedCity}, ${formattedCountry} (Scientific Scope Confirmed)`;
+                statusBox.className = 'verification-badge verified';
+                return true;
+            } else {
+                statusBox.textContent = `❌ Unverified International Target: No municipal match found for ${formatProperCase(document.getElementById(cityId).value)}, ${formatProperCase(document.getElementById(countryId).value)}.`;
                 statusBox.className = 'verification-badge unverified';
                 return false;
             }
@@ -279,9 +298,9 @@
         }
 
         function generateReport() {
-            const pCity = document.getElementById('primaryCity').value.trim();
-            const pState = document.getElementById('primaryState').value.trim();
-            const pCountry = document.getElementById('primaryCountry').value.trim();
+            const pCity = formatProperCase(document.getElementById('primaryCity').value.trim());
+            const pState = document.getElementById('primaryState').value.trim() ? formatProperCase(document.getElementById('primaryState').value.trim()) : '';
+            const pCountry = formatProperCase(document.getElementById('primaryCountry').value.trim());
             const month = document.getElementById('travelMonth').value;
             const duration = document.getElementById('durationSelect').value;
 
