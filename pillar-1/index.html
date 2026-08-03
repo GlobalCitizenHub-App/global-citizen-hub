@@ -3,36 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pillar 1: Climate & Seasonal Almanac</title>
+    <title>Pillar 1: Climate & Seasonal | Global Citizen Hub</title>
     <style>
-        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        :root { --primary: #5dade2; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
-        
-        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
-        .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
-        
-        /* RESTORED: Original Tab Names and Colors */
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
+        .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
+        .nav-tabs a { padding: 10px 12px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.8em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
         .tab-dash { background: #5d6d7e; }
-        .tab-1 { background: #5dade2; } /* Climate - Active */
-        .tab-2 { background: #7dcea0; opacity: 0.8; } /* Cost */
-        .tab-3 { background: #af7ac5; opacity: 0.8; } /* Connectivity */
-        .tab-4 { background: #e59866; opacity: 0.8; } /* Transit */
-        .tab-5 { background: #cd6155; opacity: 0.8; } /* Culture */
-        .tab-6 { background: #73c6b6; opacity: 0.8; } /* Shop & Convert */
+        .tab-1 { background: #5dade2; }
+        .tab-2 { background: #7dcea0; opacity: 0.8; }
+        .tab-3 { background: #af7ac5; opacity: 0.8; }
+        .tab-4 { background: #e59866; opacity: 0.8; }
+        .tab-5 { background: #cd6155; opacity: 0.8; }
+        .tab-6 { background: #16a085; opacity: 0.8; }
         .nav-tabs a:hover { opacity: 1; }
-
         h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
         .session-info { font-weight: bold; color: var(--primary); font-size: 1.1em; margin-bottom: 5px; }
         .subtitle { color: #555; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
-
         .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
-        .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
-        
+        .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
         th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
         th { background: #f4f6f7; color: var(--primary); }
-        
         .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
         .global-footer a:hover { text-decoration: underline; }
@@ -52,33 +45,24 @@
 
     <main class="card">
         <h1>🌤️ Pillar 1: Climate & Seasonal Almanac</h1>
-        
-        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: <span class="display-month">Loading...</span> | <span class="display-duration"></span></div>
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Month: <span class="display-month"></span> | Duration: <span class="display-duration"></span></div>
         <p class="subtitle">Historical weather patterns, seasonal temperature ranges, precipitation probabilities, and packing guidance.</p>
-
         <div class="matrix-box">
-            <h3>🌡️ Historical Temperature & Precipitation Matrix (<span class="display-month"></span>)</h3>
-            
-            <p>Based on multi-year historical averages for <strong class="display-city">[Loading...]</strong> during <strong class="display-month"></strong>, expected conditions reflect regional seasonal norms. Review the quantitative profile below to pack accordingly.</p>
-
+            <h3>🌡️ Historical Temperature & Precipitation Matrix</h3>
+            <p>Based on multi-year historical averages for <strong class="display-city">[Loading...]</strong> during <strong class="display-month"></strong>.</p>
             <table>
                 <thead>
                     <tr>
                         <th>Weather Parameter</th>
                         <th>Historical Average Range</th>
-                        <th>Operational Impact & Packing Guidance</th>
+                        <th>Operational Guidance</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><strong>🌡️ Average Temperature</strong></td>
-                        <td>Temperate / Seasonally Adjusted<br>(High ~55°F / 13°C)</td>
-                        <td>Comfortable for standard daytime transit; pack flexible layers.</td>
-                    </tr>
-                    <tr>
-                        <td><strong>🌧️ Precipitation & Humidity</strong></td>
-                        <td>Moderate Seasonal Baseline</td>
-                        <td>Ensure outer layers match expected moisture and wind conditions.</td>
+                        <td>Temperate / Seasonally Adjusted</td>
+                        <td>Pack flexible layers appropriate for regional norms.</td>
                     </tr>
                 </tbody>
             </table>
@@ -87,7 +71,7 @@
 
     <footer class="global-footer">
         <div>
-            <a href="../contact.html">Contact Us</a> | <a href="../about.html">About</a> | <a href="../privacy.html">Privacy Policy</a> | <a href="../terms.html">Terms of Service</a>
+            <a href="../contact/index.html">Contact Us</a> | <a href="../about/index.html">About</a> | <a href="../privacy/index.html">Privacy Policy</a> | <a href="../terms/index.html">Terms of Service</a>
         </div>
         <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
     </footer>
@@ -96,43 +80,30 @@
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let activeCity = urlParams.get('city');
-            let travelMonth = urlParams.get('month') || "October"; // Reads choice from URL
-            let travelDuration = urlParams.get('duration') || "Short-Term Visit"; // Reads choice from URL
+            let travelMonth = urlParams.get('month') || "General";
+            let travelDuration = urlParams.get('duration') || "General Overview";
 
             if (!activeCity || activeCity.trim() === '') {
-                document.querySelectorAll('.display-city').forEach(el => {
-                    el.innerText = "⚠️ Missing Data - Return to Dashboard";
-                    el.style.color = "#d35400"; 
-                });
-                document.querySelectorAll('.nav-tabs a').forEach(tab => {
-                    if (!tab.classList.contains('tab-dash')) {
-                        tab.href = "javascript:void(0);";
-                        tab.style.opacity = "0.3";
-                        tab.style.cursor = "not-allowed";
-                    }
-                });
-                return; 
+                document.querySelectorAll('.display-city').forEach(el => el.innerText = "⚠️ Missing Data - Return to Dashboard");
+                return;
             }
 
-            activeCity = decodeURIComponent(activeCity).trim();
-            activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
-            
-            // INJECT DYNAMIC DATA
+            activeCity = decodeURIComponent(activeCity).trim().replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
             document.querySelectorAll('.display-month').forEach(el => el.innerText = travelMonth);
             document.querySelectorAll('.display-duration').forEach(el => el.innerText = travelDuration);
 
-            // PASS ALL PARAMETERS TO OTHER TABS
-            const encodedCity = encodeURIComponent(activeCity);
-            const encodedMonth = encodeURIComponent(travelMonth);
-            const encodedDuration = encodeURIComponent(travelDuration);
-            const paramString = `?city=${encodedCity}&month=${encodedMonth}&duration=${encodedDuration}`;
-
-            document.querySelector('.tab-2').href = `../pillar-2/index.html${paramString}`;
-            document.querySelector('.tab-3').href = `../pillar-3/index.html${paramString}`;
-            document.querySelector('.tab-4').href = `../pillar-4/index.html${paramString}`;
-            document.querySelector('.tab-5').href = `../pillar-5/index.html${paramString}`;
-            document.querySelector('.tab-6').href = `../pillar-6/index.html${paramString}`;
+            const paramString = `?city=${encodeURIComponent(activeCity)}&month=${encodeURIComponent(travelMonth)}&duration=${encodeURIComponent(travelDuration)}`;
+            const tabs = document.querySelectorAll('.nav-tabs a:not(.tab-dash)');
+            const pillarUrls = [
+                `../pillar-1/index.html${paramString}`,
+                `../pillar-2/index.html${paramString}`,
+                `../pillar-3/index.html${paramString}`,
+                `../pillar-4/index.html${paramString}`,
+                `../pillar-5/index.html${paramString}`,
+                `../pillar-6/index.html${paramString}`
+            ];
+            tabs.forEach((tab, index) => { tab.href = pillarUrls[index]; });
         });
     </script>
 </body>
