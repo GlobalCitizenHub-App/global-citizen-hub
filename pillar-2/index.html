@@ -8,34 +8,27 @@
         :root { --primary: #27ae60; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
         .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
-        
         .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
         .nav-tabs a { padding: 10px 12px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.8em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
         .tab-dash { background: #5d6d7e; }
         .tab-1 { background: #5dade2; opacity: 0.8; } 
-        .tab-2 { background: #7dcea0; } /* Active */
+        .tab-2 { background: #7dcea0; }
         .tab-3 { background: #af7ac5; opacity: 0.8; }
         .tab-4 { background: #e59866; opacity: 0.8; }
         .tab-5 { background: #cd6155; opacity: 0.8; }
         .tab-6 { background: #16a085; opacity: 0.8; }
         .nav-tabs a:hover { opacity: 1; }
-
         h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
         .session-info { font-weight: bold; color: var(--primary); font-size: 1.1em; margin-bottom: 5px; }
         .subtitle { color: #555; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
-
-        /* Cost Level Selector Box */
         .profile-selector-box { background: #eafaf1; border: 1px solid #a9dfbf; padding: 20px; border-radius: 6px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
         .profile-selector-box label { font-weight: bold; color: var(--dark); font-size: 0.95em; }
         .profile-selector-box select { padding: 8px 12px; border: 1px solid #7dcea0; border-radius: 4px; background: white; font-size: 0.95em; font-weight: bold; color: var(--primary); cursor: pointer; }
-
         .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
         .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
-        
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
         th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
         th { background: #eafaf1; color: var(--primary); }
-        
         .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
         .global-footer a:hover { text-decoration: underline; }
@@ -55,8 +48,7 @@
 
     <main class="card">
         <h1>💰 Pillar 2: Cost & Relocation Intelligence</h1>
-        
-        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Month: <span class="display-month"></span> | <span class="display-duration"></span></div>
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Month: <span class="display-month"></span> | Duration: <span class="display-duration"></span></div>
         <p class="subtitle">Initial capital outlay, living expenses, currency conversions, and engagement-scaled logistics for global citizens.</p>
 
         <div class="profile-selector-box">
@@ -76,7 +68,6 @@
         <div class="matrix-box">
             <h3 id="profileTitle">📈 Consumer Price Index & Baseline Costs</h3>
             <p>Based on regional economic data for <strong class="display-city">[Loading...]</strong>. Estimates are displayed in <strong class="display-currency">Local Currency</strong> with USD baselines.</p>
-
             <table>
                 <thead>
                     <tr>
@@ -85,8 +76,7 @@
                         <th>Equivalent Value (USD)</th>
                     </tr>
                 </thead>
-                <tbody id="costTableBody">
-                    </tbody>
+                <tbody id="costTableBody"></tbody>
             </table>
         </div>
     </main>
@@ -115,7 +105,6 @@
             "united states": { name: "USD", code: "USD" }, "us": { name: "USD", code: "USD" }
         };
 
-        // Real numerical estimation profiles
         const costProfiles = {
             economical: {
                 title: "📈 Consumer Price Index & Baseline Costs (Economical Profile)",
@@ -148,17 +137,15 @@
             const profileData = costProfiles[selectedProfile];
             document.getElementById('profileTitle').innerText = profileData.title;
             document.getElementById('costTableBody').innerHTML = profileData.rows.join('');
-            
-            // Ensure currency code strings match active code dynamically
-            const activeCode = document.getElementById('activeCodeSpan').innerText;
+            const activeCode = document.getElementById('activeCodeSpan') ? document.getElementById('activeCodeSpan').innerText : "KRW";
             document.querySelectorAll('.cur-code').forEach(el => el.innerText = activeCode);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let activeCity = urlParams.get('city');
-            let travelMonth = urlParams.get('month') || "October";
-            let travelDuration = urlParams.get('duration') || "Short-Term Visit";
+            let travelMonth = urlParams.get('month') || "General";
+            let travelDuration = urlParams.get('duration') || "General Overview";
 
             if (!activeCity || activeCity.trim() === '') {
                 document.querySelectorAll('.display-city').forEach(el => el.innerText = "⚠️ Missing Data - Return to Dashboard");
@@ -166,7 +153,6 @@
             }
 
             activeCity = decodeURIComponent(activeCity).trim().replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
-            
             let determinedCurrency = "KRW (South Korean Won)";
             let determinedCode = "KRW";
             const valLower = activeCity.toLowerCase();
@@ -178,7 +164,7 @@
                     break;
                 }
             }
-            
+
             document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
             document.querySelectorAll('.display-currency').forEach(el => el.innerText = determinedCurrency);
             document.querySelectorAll('.display-currency-code').forEach(el => el.innerHTML = `<span id="activeCodeSpan">${determinedCode}</span>`);
@@ -188,11 +174,16 @@
             updateCostProfile();
 
             const paramString = `?city=${encodeURIComponent(activeCity)}&month=${encodeURIComponent(travelMonth)}&duration=${encodeURIComponent(travelDuration)}`;
-            document.querySelector('.tab-1').href = `../pillar-1/index.html${paramString}`;
-            document.querySelector('.tab-3').href = `../pillar-3/index.html${paramString}`;
-            document.querySelector('.tab-4').href = `../pillar-4/index.html${paramString}`;
-            document.querySelector('.tab-5').href = `../pillar-5/index.html${paramString}`;
-            document.querySelector('.tab-6').href = `../pillar-6/index.html${paramString}`;
+            const tabs = document.querySelectorAll('.nav-tabs a:not(.tab-dash)');
+            const pillarUrls = [
+                `../pillar-1/index.html${paramString}`,
+                `../pillar-2/index.html${paramString}`,
+                `../pillar-3/index.html${paramString}`,
+                `../pillar-4/index.html${paramString}`,
+                `../pillar-5/index.html${paramString}`,
+                `../pillar-6/index.html${paramString}`
+            ];
+            tabs.forEach((tab, index) => { tab.href = pillarUrls[index]; });
         });
     </script>
 </body>
