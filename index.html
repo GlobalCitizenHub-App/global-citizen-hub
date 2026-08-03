@@ -6,108 +6,113 @@
     <title>Global Citizen Hub | Main Dashboard</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; --warning: #d35400; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1050px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
         .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 25px; }
         
-        h1 { color: var(--dark); margin-top: 0; font-size: 1.8em; }
-        h2 { color: var(--dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 30px; }
+        h1 { color: var(--dark); margin-top: 0; font-size: 1.9em; display: flex; align-items: center; gap: 10px; }
+        h2 { color: var(--dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 40px; display: flex; align-items: center; gap: 10px;}
         
-        /* Scope Selection Box */
-        .scope-box { background: #eaf2f8; border: 1px solid #a4c639; padding: 25px; border-radius: 6px; margin: 25px 0; }
-        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
-        .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
-        .input-group input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
+        /* Universal Scope Selection Box */
+        .scope-box { background: #f4f7f6; border: 1px solid #c5dca0; padding: 30px; border-radius: 8px; margin: 25px 0; }
+        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 25px; margin-top: 15px; }
+        .input-group label { display: block; font-weight: bold; font-size: 0.9em; color: var(--dark); margin-bottom: 6px; }
+        .input-group input { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 1em; box-sizing: border-box; transition: border-color 0.2s; }
+        .input-group input:focus { border-color: var(--primary); outline: none; }
         
         /* Remove Browser Datalist Drop-Down Arrow */
-        .input-group input::-webkit-calendar-picker-indicator {
-            display: none !important;
-            opacity: 0 !important;
-            width: 0 !important;
-            height: 0 !important;
-            pointer-events: none !important;
-        }
+        .input-group input::-webkit-calendar-picker-indicator { display: none !important; opacity: 0 !important; width: 0 !important; height: 0 !important; pointer-events: none !important; }
 
-        /* Automatic Feedback Tag */
-        .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
+        /* Automatic Supervisor Feedback Tags */
+        .feedback-tag { font-size: 0.8em; margin-top: 6px; display: block; font-weight: bold; }
         .feedback-valid { color: var(--accent); }
         .feedback-warning { color: var(--warning); }
 
-        /* Pillars Grid */
-        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
-        .pillar-card { background: #fafafa; border: 1px solid var(--border); padding: 20px; border-radius: 6px; transition: transform 0.2s; }
-        .pillar-card:hover { transform: translateY(-3px); border-color: var(--primary); }
-        .pillar-card h3 { margin-top: 0; color: var(--primary); font-size: 1.1em; }
-        .pillar-card a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.9em; display: inline-block; margin-top: 10px; }
+        /* Badges for Context */
+        .badge-free { color: var(--primary); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
+        .badge-paid { color: var(--warning); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
+        .active-city-badge { background: #eaf2f8; color: var(--primary); padding: 5px 12px; border-radius: 12px; font-size: 0.9em; font-weight: bold; display: inline-block; margin-top: 5px; border: 1px solid #d4e6f1;}
+
+        /* Free Pillars Grid */
+        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .pillar-card { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 6px; transition: transform 0.2s, box-shadow 0.2s; }
+        .pillar-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); border-color: var(--primary); }
+        .pillar-card h3 { margin-top: 0; color: var(--primary); font-size: 1.15em; margin-bottom: 10px; }
+        .pillar-card p { font-size: 0.95em; color: #555; margin-bottom: 15px; line-height: 1.5; }
+        .pillar-card a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.95em; display: inline-block; }
         .pillar-card a:hover { text-decoration: underline; }
 
         /* Action Buttons */
-        .btn { background: var(--primary); color: white; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block; margin-top: 20px; transition: opacity 0.2s; }
+        .btn { padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block; transition: opacity 0.2s; border: none; cursor: pointer; text-align: center; }
         .btn:hover { opacity: 0.9; }
-        .btn-secondary { background: var(--accent); }
+        .btn-paid { background: var(--accent); color: white; margin-top: 15px; font-size: 1.05em; }
     </style>
 </head>
 <body>
     <main class="card">
         <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
-        <p>Configure your destination comparison scope below. Your selections automatically apply to both individual free pillars and the comprehensive paid executive dossier.</p>
+        <p style="font-size: 1.05em; color: #444;">Configure your global scope below. Your <strong>Primary Destination</strong> powers the free single-city intelligence pillars, while adding a <strong>Secondary Destination</strong> unlocks the comprehensive head-to-head comparison dossier.</p>
 
         <section class="scope-box">
-            <h3>⚙️ Universal Scope Selector with Live Validation</h3>
+            <h3 style="margin-top:0; font-size: 1.25em;">⚙️ Universal Scope Selector</h3>
             <div class="scope-grid">
                 <div class="input-group">
-                    <label for="mainCityA">Primary Destination (City)</label>
-                    <input type="text" id="mainCityA" value="Seoul" oninput="checkMainFeedback('mainCityA', 'mainFeedbackA')" placeholder="Type specific city...">
+                    <label for="mainCityA">Primary Destination (City) <span class="badge-free">(Free Pillars Scope)</span></label>
+                    <input type="text" id="mainCityA" value="Seoul" oninput="checkMainFeedback('mainCityA', 'mainFeedbackA')" placeholder="Type primary city...">
                     <span id="mainFeedbackA" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
-                    <label for="mainCityB">Secondary Destination (City)</label>
-                    <input type="text" id="mainCityB" value="Tokyo, Japan" oninput="checkMainFeedback('mainCityB', 'mainFeedbackB')" placeholder="Type specific city...">
+                    <label for="mainCityB">Secondary Destination (City) <span class="badge-paid">(Unlocks Comparison)</span></label>
+                    <input type="text" id="mainCityB" value="Tokyo, Japan" oninput="checkMainFeedback('mainCityB', 'mainFeedbackB')" placeholder="Type secondary city...">
                     <span id="mainFeedbackB" class="feedback-tag"></span>
                 </div>
             </div>
 
-            <a id="launchDossierBtn" href="dossier/index.html?cityA=Seoul&cityB=Tokyo,%20Japan" class="btn btn-secondary">🚀 Launch Paid Advanced Comparison Dossier →</a>
+            <div style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #d5dbdb;">
+                <h4 style="margin: 0 0 5px 0; color: var(--dark); font-size: 1.1em;">🔒 Multi-City Executive Comparison</h4>
+                <p style="margin: 0 0 15px 0; font-size: 0.95em; color: #555;">Compile a complete head-to-head analysis across all 6 pillars between <strong id="labelCityA">Seoul</strong> and <strong id="labelCityB">Tokyo, Japan</strong>, including Net Deltas and execution timelines.</p>
+                <a id="launchDossierBtn" href="./dossier/index.html?cityA=Seoul&cityB=Tokyo,%20Japan" class="btn btn-paid">🚀 Launch Paid Comparison Dossier ($7) →</a>
+            </div>
         </section>
 
         <h2>🏛️ The 6 Free Intelligence Pillars</h2>
-        <p>Explore standalone free-tier modular intelligence for your active destination scope.</p>
+        <p>Explore standalone, single-city intelligence modules currently configured for: <br><span id="pillarScopeBadge" class="active-city-badge">📍 Primary City: Seoul</span></p>
         
         <div class="pillars-grid">
             <div class="pillar-card">
                 <h3>1. Cost & Financials</h3>
-                <p>Comparative cost of living indexes, currency dynamics, and regional tax structures.</p>
-                <a id="pillarCost" href="pillars/cost.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 1 →</a>
+                <p>Comparative cost of living indexes, localized currency dynamics, and regional tax structures.</p>
+                <a id="pillar1" href="./pillar-1/index.html?city=Seoul">Explore Pillar 1 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>2. Transit & Connectivity</h3>
-                <p>Local SIM logistics, eSIM provisioning, and municipal public transit networks.</p>
-                <a id="pillarConnectivity" href="pillars/connectivity.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 2 →</a>
+                <p>Local SIM and digital logistics, eSIM provisioning, and municipal public transit networks.</p>
+                <a id="pillar2" href="./pillar-2/index.html?city=Seoul">Explore Pillar 2 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>3. Housing & Infrastructure</h3>
-                <p>Rental market baselines, utility setup protocols, and neighborhood density maps.</p>
-                <a id="pillarHousing" href="pillars/housing.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 3 →</a>
+                <p>Rental market baselines, short-term lease protocols, and neighborhood density maps.</p>
+                <a id="pillar3" href="./pillar-3/index.html?city=Seoul">Explore Pillar 3 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>4. Legal & Documentation</h3>
-                <p>Visa frameworks, local registration requirements, and legal compliance timelines.</p>
-                <a id="pillarLegal" href="pillars/legal.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 4 →</a>
+                <p>Visa frameworks, local residency registration requirements, and legal compliance timelines.</p>
+                <a id="pillar4" href="./pillar-4/index.html?city=Seoul">Explore Pillar 4 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>5. Safety & Healthcare</h3>
-                <p>Emergency medical infrastructure, insurance requirements, and safety indices.</p>
-                <a id="pillarSafety" href="pillars/safety.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 5 →</a>
+                <p>Emergency medical infrastructure, localized insurance requirements, and safety indices.</p>
+                <a id="pillar5" href="./pillar-5/index.html?city=Seoul">Explore Pillar 5 →</a>
             </div>
 
             <div class="pillar-card">
                 <h3>6. Lifestyle & Culture</h3>
-                <p>Social integration, cultural norms, co-working density, and expat networks.</p>
-                <a id="pillarLifestyle" href="pillars/lifestyle.html?cityA=Seoul&cityB=Tokyo,%20Japan">Explore Pillar 6 →</a>
+                <p>Social integration baselines, cultural norms, co-working hub density, and expat networks.</p>
+                <a id="pillar6" href="./pillar-6/index.html?city=Seoul">Explore Pillar 6 →</a>
             </div>
         </div>
     </main>
@@ -144,6 +149,7 @@
                 return;
             }
 
+            // Auto-normalize US/UK abbreviations to uppercase
             let valLower = val.toLowerCase();
             if (valLower === "us" || valLower === "usa") { val = "US"; inputElem.value = val; valLower = "us"; }
             else if (valLower === "uk") { val = "UK"; inputElem.value = val; valLower = "uk"; }
@@ -156,13 +162,13 @@
                 feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else if (specificCityExample) {
-                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., ${specificCityExample} for ${val}).`;
+                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city (e.g., ${specificCityExample}).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else if (specificSuggestion) {
                 feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else {
-                feedbackEl.innerText = "✓ Confirmed city destination scope active";
+                feedbackEl.innerText = "✓ Confirmed destination scope active";
                 feedbackEl.className = "feedback-tag feedback-valid";
             }
 
@@ -170,22 +176,37 @@
         }
 
         function updateAllLinks() {
-            const cityA = encodeURIComponent(document.getElementById('mainCityA').value.trim() || "Seoul");
-            const cityB = encodeURIComponent(document.getElementById('mainCityB').value.trim() || "Tokyo, Japan");
+            // Get Current Values
+            const cityA = document.getElementById('mainCityA').value.trim() || "Seoul";
+            const cityB = document.getElementById('mainCityB').value.trim() || "Tokyo, Japan";
+
+            // Update UI Labels dynamically
+            document.getElementById('labelCityA').innerText = cityA;
+            document.getElementById('labelCityB').innerText = cityB;
+            document.getElementById('pillarScopeBadge').innerText = "📍 Primary City: " + cityA;
+
+            // Update Paid Dossier Link (Passes BOTH cities)
+            document.getElementById('launchDossierBtn').href = `./dossier/index.html?cityA=${encodeURIComponent(cityA)}&cityB=${encodeURIComponent(cityB)}`;
             
-            // Update Paid Dossier Link
-            document.getElementById('launchDossierBtn').href = `dossier/index.html?cityA=${cityA}&cityB=${cityB}`;
-            
-            // Update Free Pillar Links
-            const pillars = ['Cost', 'Connectivity', 'Housing', 'Legal', 'Safety', 'Lifestyle'];
+            // Update Free Pillar Links (Passes ONLY Primary City A, matching precise folder structure)
+            const pillars = [
+                { id: 'pillar1', path: './pillar-1/index.html' },
+                { id: 'pillar2', path: './pillar-2/index.html' },
+                { id: 'pillar3', path: './pillar-3/index.html' },
+                { id: 'pillar4', path: './pillar-4/index.html' },
+                { id: 'pillar5', path: './pillar-5/index.html' },
+                { id: 'pillar6', path: './pillar-6/index.html' }
+            ];
+
             pillars.forEach(p => {
-                const el = document.getElementById('pillar' + p);
+                const el = document.getElementById(p.id);
                 if (el) {
-                    el.href = `pillars/${p.toLowerCase()}.html?cityA=${cityA}&cityB=${cityB}`;
+                    el.href = `${p.path}?city=${encodeURIComponent(cityA)}`;
                 }
             });
         }
 
+        // Initialize checks on page load
         window.addEventListener('DOMContentLoaded', () => {
             checkMainFeedback('mainCityA', 'mainFeedbackA');
             checkMainFeedback('mainCityB', 'mainFeedbackB');
