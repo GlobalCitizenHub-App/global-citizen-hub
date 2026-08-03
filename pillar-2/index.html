@@ -9,8 +9,8 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
         .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         
-        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
-        .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
+        .nav-tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
+        .nav-tabs a { padding: 10px 12px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.8em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
         .tab-dash { background: #5d6d7e; }
         .tab-1 { background: #5dade2; opacity: 0.8; } 
         .tab-2 { background: #7dcea0; } /* Active */
@@ -49,34 +49,38 @@
     </div>
 
     <main class="card">
-        <h1>💰 Pillar 2: Cost & Relocation Intelligence</h1>
+        <h1>💰 Pillar 2: Cost & Financials</h1>
         
-        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Engagement: Short-Term Visit</div>
-        <p class="subtitle">Initial capital outlay, living expenses, currency conversions, and engagement-scaled logistics for global citizens.</p>
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Month: <span class="display-month"></span> | <span class="display-duration"></span></div>
+        <p class="subtitle">Comparative cost of living indexes, localized currency dynamics, and economic baselines.</p>
 
         <div class="matrix-box">
             <h3>📈 Consumer Price Index & Baseline Costs</h3>
-            
-            <p>Based on regional economic data for <strong class="display-city">[Loading...]</strong>. Prices reflect the transition from USD to <strong class="display-currency">Local Currency</strong>.</p>
+            <p>Based on regional economic data for <strong class="display-city">[Loading...]</strong>. Converted from USD to <strong class="display-currency">Local Currency</strong>.</p>
 
             <table>
                 <thead>
                     <tr>
                         <th>Expense Category</th>
-                        <th>Standard Expected Range (<span class="display-currency"></span>)</th>
+                        <th>Estimated Range (<span class="display-currency"></span>)</th>
                         <th>Equivalent Value (USD)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><strong>🍽️ Dining & Groceries</strong></td>
-                        <td>Adjusts dynamically to <span class="display-currency"></span> rates</td>
-                        <td>Highly dependent on import vs. domestic consumption.</td>
+                        <td><strong>🍽️ Dining & Groceries (Per Meal)</strong></td>
+                        <td>~12,000 – 18,000 <span class="display-currency-code"></span></td>
+                        <td>~$9.00 – $14.00 USD</td>
                     </tr>
                     <tr>
-                        <td><strong>☕ Daily Conveniences</strong></td>
-                        <td>Local standard pricing</td>
-                        <td>Usually offers higher purchasing power for USD earners.</td>
+                        <td><strong>☕ Daily Conveniences (Coffee / Snack)</strong></td>
+                        <td>~4,500 – 6,500 <span class="display-currency-code"></span></td>
+                        <td>~$3.50 – $5.00 USD</td>
+                    </tr>
+                    <tr>
+                        <td><strong>🚇 Public Transit Pass (Monthly)</strong></td>
+                        <td>~55,000 – 65,000 <span class="display-currency-code"></span></td>
+                        <td>~$40.00 – $50.00 USD</td>
                     </tr>
                 </tbody>
             </table>
@@ -85,74 +89,65 @@
 
     <footer class="global-footer">
         <div>
-            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+            <a href="../contact.html">Contact Us</a> | <a href="../about.html">About</a> | <a href="../privacy.html">Privacy Policy</a> | <a href="../terms.html">Terms of Service</a>
         </div>
         <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
     </footer>
 
     <script>
         const currencyMap = {
-            "seoul": "KRW (South Korean Won)", "incheon": "KRW", "busan": "KRW",
-            "tokyo": "JPY (Japanese Yen)", "osaka": "JPY", "kyoto": "JPY",
-            "paris": "EUR (Euro)", "berlin": "EUR", "rome": "EUR", "madrid": "EUR",
-            "london": "GBP (British Pound)",
-            "sydney": "AUD (Australian Dollar)", "melbourne": "AUD",
-            "vancouver": "CAD (Canadian Dollar)", "toronto": "CAD",
-            "istanbul": "TRY (Turkish Lira)",
-            "dubai": "AED (UAE Dirham)",
-            "auckland": "NZD (New Zealand Dollar)",
-            "shanghai": "CNY (Chinese Yuan)",
-            "south korea": "KRW", "japan": "JPY", "france": "EUR", "germany": "EUR", "italy": "EUR", "spain": "EUR",
-            "united kingdom": "GBP", "uk": "GBP", "turkey": "TRY", "australia": "AUD", "canada": "CAD",
-            "new zealand": "NZD", "china": "CNY", "uae": "AED",
-            "united states": "USD", "usa": "USD", "us": "USD"
+            "seoul": { name: "KRW (South Korean Won)", code: "KRW" },
+            "incheon": { name: "KRW (South Korean Won)", code: "KRW" },
+            "busan": { name: "KRW (South Korean Won)", code: "KRW" },
+            "tokyo": { name: "JPY (Japanese Yen)", code: "JPY" },
+            "paris": { name: "EUR (Euro)", code: "EUR" },
+            "london": { name: "GBP (British Pound)", code: "GBP" },
+            "sydney": { name: "AUD (Australian Dollar)", code: "AUD" },
+            "vancouver": { name: "CAD (Canadian Dollar)", code: "CAD" },
+            "istanbul": { name: "TRY (Turkish Lira)", code: "TRY" },
+            "south korea": { name: "KRW", code: "KRW" }, "japan": { name: "JPY", code: "JPY" },
+            "france": { name: "EUR", code: "EUR" }, "united kingdom": { name: "GBP", code: "GBP" },
+            "australia": { name: "AUD", code: "AUD" }, "canada": { name: "CAD", code: "CAD" },
+            "united states": { name: "USD", code: "USD" }, "us": { name: "USD", code: "USD" }
         };
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let activeCity = urlParams.get('city');
+            let travelMonth = urlParams.get('month') || "October";
+            let travelDuration = urlParams.get('duration') || "Short-Term Visit";
 
             if (!activeCity || activeCity.trim() === '') {
-                document.querySelectorAll('.display-city').forEach(el => {
-                    el.innerText = "⚠️ Missing Data - Return to Dashboard";
-                    el.style.color = "#d35400"; 
-                });
-                document.querySelectorAll('.display-currency').forEach(el => el.innerText = "");
-                document.querySelectorAll('.nav-tabs a').forEach(tab => {
-                    if (!tab.classList.contains('tab-dash')) {
-                        tab.href = "javascript:void(0);";
-                        tab.style.opacity = "0.3";
-                        tab.style.cursor = "not-allowed";
-                    }
-                });
-                return; 
+                document.querySelectorAll('.display-city').forEach(el => el.innerText = "⚠️ Missing Data - Return to Dashboard");
+                return;
             }
 
-            activeCity = decodeURIComponent(activeCity).trim();
-            const isUSCity = ["new york", "aurora", "middletown", "springfield", "chicago", "los angeles"].some(c => activeCity.toLowerCase().includes(c));
-            if (!isUSCity) {
-                activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
-            }
-
+            activeCity = decodeURIComponent(activeCity).trim().replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
+            
+            let determinedCurrency = "USD (US Dollar)";
+            let determinedCode = "USD";
             const valLower = activeCity.toLowerCase();
-            let determinedCurrency = "USD (US Dollar)"; 
 
-            for (const [key, currency] of Object.entries(currencyMap)) {
+            for (const [key, cur] of Object.entries(currencyMap)) {
                 if (valLower.includes(key)) {
-                    determinedCurrency = currency;
+                    determinedCurrency = cur.name;
+                    determinedCode = cur.code;
                     break;
                 }
             }
             
             document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
             document.querySelectorAll('.display-currency').forEach(el => el.innerText = determinedCurrency);
+            document.querySelectorAll('.display-currency-code').forEach(el => el.innerText = determinedCode);
+            document.querySelectorAll('.display-month').forEach(el => el.innerText = travelMonth);
+            document.querySelectorAll('.display-duration').forEach(el => el.innerText = travelDuration);
 
-            const encodedCity = encodeURIComponent(activeCity);
-            document.querySelector('.tab-1').href = `../pillar-1/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-3').href = `../pillar-3/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-4').href = `../pillar-4/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-5').href = `../pillar-5/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-6').href = `../pillar-6/index.html?city=${encodedCity}`;
+            const paramString = `?city=${encodeURIComponent(activeCity)}&month=${encodeURIComponent(travelMonth)}&duration=${encodeURIComponent(travelDuration)}`;
+            document.querySelector('.tab-1').href = `../pillar-1/index.html${paramString}`;
+            document.querySelector('.tab-3').href = `../pillar-3/index.html${paramString}`;
+            document.querySelector('.tab-4').href = `../pillar-4/index.html${paramString}`;
+            document.querySelector('.tab-5').href = `../pillar-5/index.html${paramString}`;
+            document.querySelector('.tab-6').href = `../pillar-6/index.html${paramString}`;
         });
     </script>
 </body>
