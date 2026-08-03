@@ -75,7 +75,7 @@
             </div>
 
             <div class="action-row">
-                <a href="#free-pillars-section" class="btn btn-free">
+                <a href="#free-pillars-section" class="btn btn-free" onclick="revealPillars(event)">
                     <span>📊 Generate Free Modules</span>
                     <small>(Single-City Deep Dive)</small>
                 </a>
@@ -87,44 +87,46 @@
             </div>
         </section>
 
-        <h2 id="free-pillars-section">🏛️ The 6 Free Intelligence Pillars</h2>
-        <p>Explore standalone, single-city intelligence modules currently configured for: <br><span id="pillarScopeBadge" class="active-city-badge">📍 Primary City: Seoul</span></p>
-        
-        <div class="pillars-grid">
-            <div class="pillar-card">
-                <h3>1. Cost & Financials</h3>
-                <p>Comparative cost of living indexes, localized currency dynamics, and regional tax structures.</p>
-                <a id="pillar1" href="./pillar-1/index.html?city=Seoul">Explore Pillar 1 →</a>
-            </div>
+        <div id="free-pillars-container" style="display: none; padding-top: 20px;">
+            <h2 id="free-pillars-section">🏛️ The 6 Free Intelligence Pillars</h2>
+            <p>Explore standalone, single-city intelligence modules currently configured for: <br><span id="pillarScopeBadge" class="active-city-badge">📍 Primary City: Seoul</span></p>
+            
+            <div class="pillars-grid">
+                <div class="pillar-card">
+                    <h3>1. Cost & Financials</h3>
+                    <p>Comparative cost of living indexes, localized currency dynamics, and regional tax structures.</p>
+                    <a id="pillar1" href="./pillar-1/index.html?city=Seoul">Explore Pillar 1 →</a>
+                </div>
 
-            <div class="pillar-card">
-                <h3>2. Transit & Connectivity</h3>
-                <p>Local SIM and digital logistics, eSIM provisioning, and municipal public transit networks.</p>
-                <a id="pillar2" href="./pillar-2/index.html?city=Seoul">Explore Pillar 2 →</a>
-            </div>
+                <div class="pillar-card">
+                    <h3>2. Transit & Connectivity</h3>
+                    <p>Local SIM and digital logistics, eSIM provisioning, and municipal public transit networks.</p>
+                    <a id="pillar2" href="./pillar-2/index.html?city=Seoul">Explore Pillar 2 →</a>
+                </div>
 
-            <div class="pillar-card">
-                <h3>3. Housing & Infrastructure</h3>
-                <p>Rental market baselines, short-term lease protocols, and neighborhood density maps.</p>
-                <a id="pillar3" href="./pillar-3/index.html?city=Seoul">Explore Pillar 3 →</a>
-            </div>
+                <div class="pillar-card">
+                    <h3>3. Housing & Infrastructure</h3>
+                    <p>Rental market baselines, short-term lease protocols, and neighborhood density maps.</p>
+                    <a id="pillar3" href="./pillar-3/index.html?city=Seoul">Explore Pillar 3 →</a>
+                </div>
 
-            <div class="pillar-card">
-                <h3>4. Legal & Documentation</h3>
-                <p>Visa frameworks, local residency registration requirements, and legal compliance timelines.</p>
-                <a id="pillar4" href="./pillar-4/index.html?city=Seoul">Explore Pillar 4 →</a>
-            </div>
+                <div class="pillar-card">
+                    <h3>4. Legal & Documentation</h3>
+                    <p>Visa frameworks, local residency registration requirements, and legal compliance timelines.</p>
+                    <a id="pillar4" href="./pillar-4/index.html?city=Seoul">Explore Pillar 4 →</a>
+                </div>
 
-            <div class="pillar-card">
-                <h3>5. Safety & Healthcare</h3>
-                <p>Emergency medical infrastructure, localized insurance requirements, and safety indices.</p>
-                <a id="pillar5" href="./pillar-5/index.html?city=Seoul">Explore Pillar 5 →</a>
-            </div>
+                <div class="pillar-card">
+                    <h3>5. Safety & Healthcare</h3>
+                    <p>Emergency medical infrastructure, localized insurance requirements, and safety indices.</p>
+                    <a id="pillar5" href="./pillar-5/index.html?city=Seoul">Explore Pillar 5 →</a>
+                </div>
 
-            <div class="pillar-card">
-                <h3>6. Lifestyle & Culture</h3>
-                <p>Social integration baselines, cultural norms, co-working hub density, and expat networks.</p>
-                <a id="pillar6" href="./pillar-6/index.html?city=Seoul">Explore Pillar 6 →</a>
+                <div class="pillar-card">
+                    <h3>6. Lifestyle & Culture</h3>
+                    <p>Social integration baselines, cultural norms, co-working hub density, and expat networks.</p>
+                    <a id="pillar6" href="./pillar-6/index.html?city=Seoul">Explore Pillar 6 →</a>
+                </div>
             </div>
         </div>
     </main>
@@ -144,7 +146,10 @@
         const ambiguousTownsMap = {
             "aurora": "Aurora, CO or Aurora, IL",
             "middletown": "Middletown, DE or Middletown, NY",
-            "springfield": "Springfield, IL or Springfield, MA"
+            "springfield": "Springfield, IL or Springfield, MA",
+            "columbus": "Columbus, OH or Columbus, GA",
+            "georgetown": "Georgetown, DE or Georgetown, TX",
+            "clinton": "Clinton, MD or Clinton, IA"
         };
 
         // Smart Auto-Complete for Global Hubs
@@ -180,66 +185,4 @@
 
             // Smart Auto-Complete Injection
             if (smartCityComplete[valLower]) {
-                val = smartCityComplete[valLower];
-                inputElem.value = val; // Updates the input box automatically
-                valLower = val.toLowerCase();
-            }
-
-            const isContinent = continentList.some(c => c.toLowerCase() === valLower);
-            const specificCityExample = countryCityMap[valLower];
-            const specificSuggestion = ambiguousTownsMap[valLower];
-
-            if (isContinent) {
-                feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (specificCityExample) {
-                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city (e.g., ${specificCityExample}).`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (specificSuggestion) {
-                feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else {
-                feedbackEl.innerText = "✓ Confirmed destination scope active";
-                feedbackEl.className = "feedback-tag feedback-valid";
-            }
-
-            updateAllLinks();
-        }
-
-        function updateAllLinks() {
-            // Get Current Values
-            const cityA = document.getElementById('mainCityA').value.trim() || "Seoul";
-            const cityB = document.getElementById('mainCityB').value.trim() || "Tokyo, Japan";
-
-            // Update UI Badge dynamically
-            document.getElementById('pillarScopeBadge').innerText = "📍 Primary City: " + cityA;
-
-            // Update Paid Dossier Link (Passes BOTH cities)
-            document.getElementById('launchDossierBtn').href = `./dossier/index.html?cityA=${encodeURIComponent(cityA)}&cityB=${encodeURIComponent(cityB)}`;
-            
-            // Update Free Pillar Links (Passes ONLY Primary City A, matching precise folder structure)
-            const pillars = [
-                { id: 'pillar1', path: './pillar-1/index.html' },
-                { id: 'pillar2', path: './pillar-2/index.html' },
-                { id: 'pillar3', path: './pillar-3/index.html' },
-                { id: 'pillar4', path: './pillar-4/index.html' },
-                { id: 'pillar5', path: './pillar-5/index.html' },
-                { id: 'pillar6', path: './pillar-6/index.html' }
-            ];
-
-            pillars.forEach(p => {
-                const el = document.getElementById(p.id);
-                if (el) {
-                    el.href = `${p.path}?city=${encodeURIComponent(cityA)}`;
-                }
-            });
-        }
-
-        // Initialize checks on page load
-        window.addEventListener('DOMContentLoaded', () => {
-            checkMainFeedback('mainCityA', 'mainFeedbackA');
-            checkMainFeedback('mainCityB', 'mainFeedbackB');
-        });
-    </script>
-</body>
-</html>
+                val = smartCityComplete[val
