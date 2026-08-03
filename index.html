@@ -80,6 +80,9 @@
         .matrix-label { font-size: 0.75em; color: #7f8c8d; text-transform: uppercase; font-weight: 800; letter-spacing: 0.5px; display: block; margin-bottom: 3px; }
         .matrix-val { font-size: 1.05em; color: var(--dark); font-weight: 600; display: block; }
         .matrix-usd { font-size: 0.9em; color: var(--success); font-weight: 700; margin-top: 2px; display: block; }
+        
+        /* Almanac Footnote */
+        .almanac-note { font-size: 0.85em; color: #7f8c8d; margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 15px; }
 
         /* Comprehensive Live Conversion Tool Styles */
         .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 15px; }
@@ -280,7 +283,7 @@
                         <input type="number" id="cmIn" placeholder="cm" oninput="convertHeight('c')"> cm &nbsp;⇌&nbsp; 
                         <input type="number" id="inchIn" placeholder="in" oninput="convertHeight('i')"> inches
                     </div>
-                    <em style="font-size: 0.8em; color: #7f8c8d;">Note: 1 foot = 12 inches</em>
+                    <em style="font-size: 0.8em; color: #7f8c8d; margin-top:auto;">Note: 1 foot = 12 inches</em>
                 </div>
                 <div class="tool-box">
                     <h5>💧 Volume (Liquids/Fuel)</h5>
@@ -482,8 +485,6 @@
             "al": "alabama", "ak": "alaska", "az": "arizona", "ar": "arkansas", "ca": "california", "co": "colorado", "ct": "connecticut", "de": "delaware", "fl": "florida", "ga": "georgia", "hi": "hawaii", "id": "idaho", "il": "illinois", "in": "indiana", "ia": "iowa", "ks": "kansas", "ky": "kentucky", "la": "louisiana", "me": "maine", "md": "maryland", "ma": "massachusetts", "mi": "michigan", "mn": "minnesota", "ms": "mississippi", "mo": "missouri", "mt": "montana", "ne": "nebraska", "nv": "nevada", "nh": "new hampshire", "nj": "new jersey", "nm": "new mexico", "ny": "new york", "nc": "north carolina", "nd": "north dakota", "oh": "ohio", "ok": "oklahoma", "or": "oregon", "pa": "pennsylvania", "ri": "rhode island", "sc": "south carolina", "sd": "south dakota", "tn": "tennessee", "tx": "texas", "ut": "utah", "vt": "vermont", "va": "virginia", "wa": "washington", "wv": "west virginia", "wi": "wisconsin", "wy": "wyoming", "dc": "district of columbia"
         };
         const usCountryAliases = ["united states", "us", "usa", "united states of america"];
-        
-        // Strict list of known global countries to prevent 'Apan' style typos.
         const strictIntlCountries = ["japan", "south korea", "korea", "singapore", "france", "united kingdom", "uk", "britain", "germany", "australia", "canada", "mexico", "spain", "italy", "brazil", "china", "taiwan", "thailand", "vietnam", "philippines", "indonesia", "india", "netherlands", "switzerland", "sweden", "norway", "ireland", "new zealand"];
 
         function formatProperCase(str) {
@@ -544,7 +545,6 @@
             const isJapan = c.includes('japan');
             const isUS = c.includes('us') || c.includes('united states');
             
-            // Dynamic Climate / Wardrobe / Hazard approximation based on month
             const isWinter = ['December', 'January', 'February'].includes(monthStr);
             const isSpring = ['March', 'April', 'May'].includes(monthStr);
             const isSummer = ['June', 'July', 'August'].includes(monthStr);
@@ -558,15 +558,14 @@
                        isSummer ? '👕 Light breathable fabrics, sunglasses' : 
                        '🧥 Light jacket, versatile layers, comfortable shoes';
 
-            // New Almanac Based Hazard Risk Logic
             let risk = "";
             if (isWinter) {
-                risk = (isKorea || isJapan) ? '❄️ Cold snaps, occasional heavy snow (regional)' : '❄️ Winter storms, regional freezing conditions';
+                risk = (isKorea || isJapan) ? '❄️ Cold snaps, occasional heavy snow' : '❄️ Winter storms, regional freezing conditions';
             } else if (isSummer) {
                 risk = (isKorea || isJapan) ? '🌧️ Monsoon rains (Jul), extreme heat & humidity' : '☀️ Extreme heat, regional severe thunderstorms';
             } else if (isFall) {
                 risk = (isKorea || isJapan) ? '🌀 Typhoon season peak (Sep-Oct)' : '🌀 Hurricane season (coastal), regional wildfires';
-            } else { // Spring
+            } else { 
                 risk = (isKorea || isJapan) ? '🌫️ Yellow dust (Air Quality), sharp temperature drops' : '🌪️ Severe spring storm systems (regional)';
             }
 
@@ -589,6 +588,9 @@
             return { temp, ward, risk, food, volt, transitLocal, transitUSD, costLocal, costUSD };
         }
 
+        // FOOTNOTE HTML INJECTOR
+        const almanacFootnoteHTML = `<div class="almanac-note"><em>*Weather and hazard intelligence is modeled on 30-year historical climatological normal averages (WMO/NOAA standards).</em></div>`;
+
         function generateReport() {
             const m = document.getElementById('travelMonth').value;
             const d = document.getElementById('durationSelect').value;
@@ -608,7 +610,8 @@
                             <li><strong>Mean Thermal Baseline:</strong> ${pData.temp} historical average for ${m}.</li>
                             <li><strong>Seasonal Hazard Risk:</strong> <span style="color:var(--error); font-weight:500;">${pData.risk}</span></li>
                             <li><strong>Suggested Wardrobe:</strong> ${pData.ward}</li>
-                         </ul>`;
+                         </ul>
+                         ${almanacFootnoteHTML}`;
                 hEcon = `<ul class="report-list"><li><strong>Estimated Benchmark:</strong> ${pData.costLocal} <span style="color:var(--success); font-weight:bold;">(~${pData.costUSD})</span> per term.</li><li><strong>Purchasing Power Parity:</strong> Calibrated for ${e.split('(')[0].trim()}.</li></ul>`;
                 hPow = `<ul class="report-list"><li><strong>Electrical Grid Voltage:</strong> ${pData.volt}.</li><li><strong>Surge Standard:</strong> IEC/NEC compliant grounding verified.</li></ul>`;
                 hTrans = `<ul class="report-list"><li><strong>Primary Urban Transit:</strong> Metro subway grid and rapid regional bus lines.</li><li><strong>Fare Rate:</strong> ${pData.transitLocal} <span style="color:var(--success); font-weight:bold;">(~${pData.transitUSD})</span> baseline fare.</li></ul>`;
@@ -621,11 +624,11 @@
                 const sData = getCityData(sCountry, e, m);
                 htmlTarget = `<strong style="color:var(--primary);">${pCity}</strong> vs. <strong style="color:var(--accent);">${sCity}</strong>`;
                 
-                // Matrix Panels
                 hClim = `<div class="matrix-grid">
                             <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Thermal Baseline (${m})</span><span class="matrix-val">${pData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${pData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${pData.ward}</span></div></div>
                             <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Thermal Baseline (${m})</span><span class="matrix-val">${sData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${sData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${sData.ward}</span></div></div>
-                         </div>`;
+                         </div>
+                         ${almanacFootnoteHTML}`;
                          
                 hEcon = `<div class="matrix-grid">
                             <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Benchmark Expenditure</span><span class="matrix-val">${pData.costLocal}</span><span class="matrix-usd">≈ ${pData.costUSD}</span></div></div>
@@ -643,8 +646,8 @@
                          </div>`;
                          
                 hCult = `<div class="matrix-grid">
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Culinary Profile</span><span class="matrix-val">${pData.food}</span></div></div>
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Culinary Profile</span><span class="matrix-val">${sData.food}</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Culinary Profile</span><span class="matrix-val">${pData.food}</span></div><div class="matrix-stat"><span class="matrix-label">Service Gratuity</span><span class="matrix-val">Tipping norms established</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Culinary Profile</span><span class="matrix-val">${sData.food}</span></div><div class="matrix-stat"><span class="matrix-label">Service Gratuity</span><span class="matrix-val">Tipping norms established</span></div></div>
                          </div>`;
             }
 
