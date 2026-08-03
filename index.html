@@ -43,14 +43,33 @@
             
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="primaryCity">Primary Destination (City) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Free Scope)</span></label>
-                    <input type="text" id="primaryCity" placeholder="Type primary city...">
+                    <label for="primaryCity">Primary Destination (City/Country) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Free Scope)</span></label>
+                    <input type="text" id="primaryCity" list="destinationList" placeholder="Type primary city or country...">
                 </div>
                 <div class="form-group">
-                    <label for="secondaryCity">Secondary Destination (City) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Comparison)</span></label>
-                    <input type="text" id="secondaryCity" placeholder="Type city to compare...">
+                    <label for="secondaryCity">Secondary Destination (City/Country) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Comparison)</span></label>
+                    <input type="text" id="secondaryCity" list="destinationList" placeholder="Type city to compare...">
                 </div>
             </div>
+
+            <datalist id="destinationList">
+                <option value="New York, United States">
+                <option value="Los Angeles, United States">
+                <option value="Chicago, United States">
+                <option value="London, United Kingdom">
+                <option value="Paris, France">
+                <option value="Tokyo, Japan">
+                <option value="Sydney, Australia">
+                <option value="Berlin, Germany">
+                <option value="Toronto, Canada">
+                <option value="Vancouver, Canada">
+                <option value="Singapore">
+                <option value="Dubai, United Arab Emirates">
+                <option value="Madrid, Spain">
+                <option value="Rome, Italy">
+                <option value="Amsterdam, Netherlands">
+                <option value="Zurich, Switzerland">
+            </datalist>
 
             <div class="form-grid">
                 <div class="form-group">
@@ -102,7 +121,6 @@
     </main>
 
     <script>
-        // Optional parameter propagation logic for dashboard links
         window.addEventListener('DOMContentLoaded', () => {
             const searchParams = window.location.search;
             if (searchParams) {
