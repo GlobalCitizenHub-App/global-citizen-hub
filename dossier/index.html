@@ -73,7 +73,7 @@
 
         <section class="scope-box no-print">
             <h3>⚙️ Universal Scope Selector with Live Validation</h3>
-            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide (e.g., Middletown, DE or Istanbul, Turkey).</p>
+            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide (e.g., Aurora, CO or Istanbul, Turkey).</p>
             
             <div class="scope-grid">
                 <div class="input-group">
@@ -100,7 +100,8 @@
             </div>
 
             <datalist id="worldHubs">
-                <option value="Middletown, DE">
+                <option value="Aurora, CO">
+                <option value="Auckland, New Zealand">
                 <option value="Istanbul, Turkey">
                 <option value="Seoul, South Korea">
                 <option value="Tokyo, Japan">
@@ -203,15 +204,23 @@
     </main>
 
     <script>
-        // Reference lists for rigorous live validation
-        const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania", "Australia"];
+        // Comprehensive reference lists for rigorous live validation
+        const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
         const countryList = [
-            "Turkey", "Japan", "South Korea", "Korea", "France", "United Kingdom", "UK", 
-            "Australia", "Canada", "United States", "USA", "US", "Germany", "Italy", "Spain", "China"
+            "new zealand", "turkey", "japan", "south korea", "korea", "france", "united kingdom", "uk", 
+            "australia", "canada", "united states", "usa", "us", "germany", "italy", "spain", "china", 
+            "singapore", "switzerland", "ireland", "brazil", "india", "mexico"
         ];
         
-        // Common standalone U.S./Global city names that need disambiguation (state/country)
-        const ambiguousTowns = ["middletown", "springfield", "franklin", "columbus", "georgetown", "clinton"];
+        // Smart mapping for common multi-state cities requiring disambiguation
+        const ambiguousTownsMap = {
+            "aurora": "Aurora, CO or Aurora, IL",
+            "middletown": "Middletown, DE or Middletown, NY",
+            "springfield": "Springfield, IL or Springfield, MA",
+            "columbus": "Columbus, OH or Columbus, GA",
+            "georgetown": "Georgetown, DE or Georgetown, TX",
+            "clinton": "Clinton, MD or Clinton, IA"
+        };
 
         function checkFieldFeedback(inputId, feedbackId) {
             const val = document.getElementById(inputId).value.trim();
@@ -225,18 +234,20 @@
 
             const valLower = val.toLowerCase();
             const isContinent = continentList.some(c => c.toLowerCase() === valLower);
-            const isCountry = countryList.some(country => country.toLowerCase() === valLower);
-            const isAmbiguous = ambiguousTowns.includes(valLower);
+            const isCountry = countryList.includes(valLower);
+            const specificSuggestion = ambiguousTownsMap[valLower];
 
             if (isContinent) {
                 feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else if (isCountry) {
-                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., Seoul for South Korea).`;
+                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., Auckland for New Zealand).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (isAmbiguous || (!val.includes(",") && val.split(" ").length === 1 && val.length < 12)) {
-                // If it's a single word without a comma (like "middletown"), prompt for state/country
-                feedbackEl.innerText = `⚠️ Please include state or country (e.g., ${val}, DE).`;
+            } else if (specificSuggestion) {
+                feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else if (!val.includes(",") && val.split(" ").length === 1 && val.length < 12) {
+                feedbackEl.innerText = `⚠️ Please include state or country (e.g., ${val}, CO).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else {
                 feedbackEl.innerText = "✓ Confirmed city destination scope active";
