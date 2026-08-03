@@ -24,11 +24,18 @@
         .profile-selector-box { background: #eafaf1; border: 1px solid #a9dfbf; padding: 20px; border-radius: 6px; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; }
         .profile-selector-box label { font-weight: bold; color: var(--dark); font-size: 0.95em; }
         .profile-selector-box select { padding: 8px 12px; border: 1px solid #7dcea0; border-radius: 4px; background: white; font-size: 0.95em; font-weight: bold; color: var(--primary); cursor: pointer; }
-        .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
+        .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 25px; }
         .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.15em; display: flex; align-items: center; gap: 8px; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
         th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
         th { background: #eafaf1; color: var(--primary); }
+        
+        /* Rationale Panel Box */
+        .rationale-box { background: #f4f6f7; border-left: 4px solid var(--primary); padding: 20px; border-radius: 0 6px 6px 0; margin-top: 25px; font-size: 0.92em; }
+        .rationale-box h4 { color: var(--dark); margin-top: 0; margin-bottom: 10px; font-size: 1em; display: flex; align-items: center; gap: 6px; }
+        .rationale-box ul { margin: 0; padding-left: 20px; color: #555; }
+        .rationale-box li { margin-bottom: 8px; }
+
         .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
         .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
         .global-footer a:hover { text-decoration: underline; }
@@ -78,6 +85,15 @@
                 </thead>
                 <tbody id="costTableBody"></tbody>
             </table>
+
+            <div class="rationale-box">
+                <h4>📐 Estimation Rationale & Methodology</h4>
+                <ul>
+                    <li><strong>Supply Chain Positioning:</strong> Estimates factor in local agricultural and municipal price controls versus imported luxury goods markups.</li>
+                    <li><strong>Operating Profile Scaling:</strong> Costs flex dynamically based on whether you rely on public municipal systems (Economical), hybrid expatriate services (Moderate), or exclusive concierge/michelin-standard infrastructure (Premium).</li>
+                    <li><strong>Purchasing Power Parity (PPP):</strong> Values are calibrated against metropolitan Consumer Price Indexes (CPI) to ensure alignment with real-world spending norms.</li>
+                </ul>
+            </div>
         </div>
     </main>
 
@@ -123,11 +139,11 @@
                 ]
             },
             premium: {
-                title: "📈 Consumer Price Index & Baseline Costs (Premium / High-End Profile)",
+                title: "📈 Consumer Price Index & Baseline Costs (Premium Profile)",
                 rows: [
-                    `<tr><td><strong>🍽️ Dining & Groceries (Fine Dining Meal)</strong></td><td>70,000 – 150,000+ <span class="cur-code">KRW</span></td><td>~$50.00 – $110.00+ USD</td></tr>`,
-                    `<tr><td><strong>☕ Daily Conveniences & Lounge</strong></td><td>10,000 – 18,000 <span class="cur-code">KRW</span></td><td>~$7.50 – $13.50 USD</td></tr>`,
-                    `<tr><td><strong>🚗 Private Taxis & Transit</strong></td><td>250,000 – 400,000 <span class="cur-code">KRW</span></td><td>~$185.00 – $300.00 USD</td></tr>`
+                    `<tr><td><strong>🍽️ Fine Dining & Pairings (Per Meal)</strong></td><td>350,000 – 750,000+ <span class="cur-code">KRW</span></td><td>~$250.00 – $550.00+ USD</td></tr>`,
+                    `<tr><td><strong>☕ Premium Lounge & Amenities</strong></td><td>20,000 – 45,000 <span class="cur-code">KRW</span></td><td>~$15.00 – $33.00 USD</td></tr>`,
+                    `<tr><td><strong>🚗 Private Chauffeur & Airport Transfer</strong></td><td>300,000 – 700,000 <span class="cur-code">KRW</span></td><td>~$220.00 – $515.00 USD</td></tr>`
                 ]
             }
         };
