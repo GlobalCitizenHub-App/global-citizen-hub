@@ -280,12 +280,12 @@
                 <div class="tool-box">
                     <h5>💧 Volume (Liquids/Fuel)</h5>
                     <div class="tool-row">
-                        <input type="number" id="lIn" placeholder="Liters" oninput="convertVol('l')"> L &nbsp;⇌&nbsp; 
-                        <input type="number" id="gIn" placeholder="Gal" oninput="convertVol('g')"> Gal
-                    </div>
-                    <div class="tool-row" style="margin-top: 8px;">
                         <input type="number" id="ozIn" placeholder="fl oz" oninput="convertSmallVol('o')"> oz &nbsp;⇌&nbsp; 
                         <input type="number" id="mlIn" placeholder="ml" oninput="convertSmallVol('m')"> ml
+                    </div>
+                    <div class="tool-row" style="margin-top: 8px;">
+                        <input type="number" id="lIn" placeholder="Liters" oninput="convertVol('l')"> L &nbsp;⇌&nbsp; 
+                        <input type="number" id="gIn" placeholder="Gal" oninput="convertVol('g')"> Gal
                     </div>
                 </div>
                 <div class="tool-box">
@@ -440,7 +440,6 @@
             else if (source === 'g' && g.value !== "") l.value = (parseFloat(g.value) * 3.78541).toFixed(2);
             else { l.value = ""; g.value = ""; }
         }
-        // Small Volume (oz/ml)
         function convertSmallVol(source) {
             let o = document.getElementById('ozIn');
             let m = document.getElementById('mlIn');
@@ -667,6 +666,7 @@
                 container.style.display = 'block';
                 showPillar('clim');
                 
+                // Navigate gracefully down to the tabs section
                 document.querySelector('.pillar-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (err) {
                 console.error("Report Generation Interrupted:", err);
