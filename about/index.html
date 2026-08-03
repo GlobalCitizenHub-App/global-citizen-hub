@@ -3,33 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="About Global Citizen Hub - The universal Smart Traveling and Relocation Toolkit for lifelong learners inclluding students, professionals, families, and retirees across the US and worldwide.">
+    <meta name="description" content="About Global Citizen Hub - The universal Smart Traveling and Relocation Toolkit for lifelong learners including students, professionals, families, and retirees across the US and worldwide.">
     <title>About | Global Citizen Hub</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.7; }
-        .card { background: #ffffff; padding: 45px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 30px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         
-        h1 { color: var(--dark); margin-top: 0; margin-bottom: 10px; font-size: 2em; }
-        h2 { color: var(--dark); margin-top: 40px; margin-bottom: 14px; font-size: 1.35em; border-bottom: 2px solid var(--light); padding-bottom: 8px; }
+        h1, h2 { color: var(--dark); margin-top: 0; }
+        h2 { margin-top: 35px; font-size: 1.35em; border-bottom: 2px solid var(--light); padding-bottom: 8px; }
         p { margin-bottom: 20px; font-size: 1.02em; }
         
-        /* Navigation Buttons Footer Style */
-        .nav-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 45px; padding-top: 25px; border-top: 1px solid var(--light); }
-        .nav-btn { flex: 1; min-width: 120px; padding: 12px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85em; color: white; border-radius: 6px; transition: opacity 0.2s; }
-        .nav-btn:hover { opacity: 0.9; }
-        .btn-dash { background: #34495e; }
-        .btn-contact { background: #2980b9; }
-        .btn-privacy { background: #27ae60; }
+        /* Persistent Paper Binder Navigation Buttons */
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 45px; padding-top: 25px; border-top: 1px solid var(--light); }
+        .nav-btn { flex: 1; min-width: 120px; padding: 12px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85em; color: white; border-radius: 6px; transition: transform 0.1s, opacity 0.2s; opacity: 0.85; }
+        .nav-btn:hover { opacity: 1; transform: translateY(-2px); }
+        .nav-btn.active { opacity: 1; box-shadow: inset 0 -4px 0 #fff, 0 2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
+        
+        .btn-dash { background: #34495e; } 
+        .btn-about { background: #2980b9; } 
+        .btn-contact { background: #16a085; } 
+        .btn-privacy { background: #27ae60; } 
         .btn-terms { background: #8e44ad; }
-
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
+        
+        .affiliate-disclosure { font-size: 0.8em; color: #7f8c8d; text-align: center; margin-top: 30px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
         <h1>About Global Citizen Hub</h1>
-        
         <p style="font-size: 1.15em; color: var(--primary); font-weight: bold; margin-bottom: 25px;">
             The Smart Traveling and Relocation Toolkit.
         </p>
@@ -47,7 +49,7 @@
 
         <h2>The Universal State Architecture</h2>
         <p>
-            Traditional travel guides and relocation calculators force users to repeatedly re-enter their destination and parameters across dozens of disconnected websites and separate forms. 
+            Traditional travel guides and relocation calculators force users to repeatedly re-enter their destination and parameters across dozens of disconnected websites and separate forms.
         </p>
         <p>
             <strong>Global Citizen Hub</strong> introduces a synchronized state machine: you input your destination parameters once on our Master Dashboard, and our platform instantly hydrates all six intelligence pillars—covering climate almanacs, relocation economics, power infrastructure, transit networks, cultural etiquette, and e-commerce conversions.
@@ -55,19 +57,21 @@
 
         <h2>Contact & Feedback</h2>
         <p>
-            For feedback, feature requests, or metric suggestions related to our toolkit, reach out via our <a href="../contact/index.html" style="color: var(--primary); font-weight: bold; text-decoration: none;">Contact Page</a> or directly at <strong>globalcitizenhub.contact@gmail.com</strong>.
+            For feedback, feature requests, or metric suggestions related to our toolkit, reach out via our <a href="../contact/index.html" style="color: var(--primary); font-weight: bold;">Contact Page</a> or directly at <strong>globalcitizenhub.contact@gmail.com</strong>.
         </p>
 
         <div class="nav-buttons">
             <a href="../index.html" class="nav-btn btn-dash">⌂ Dashboard</a>
+            <a href="./index.html" class="nav-btn btn-about active">About</a>
             <a href="../contact/index.html" class="nav-btn btn-contact">Contact</a>
             <a href="../privacy/index.html" class="nav-btn btn-privacy">Privacy</a>
             <a href="../terms/index.html" class="nav-btn btn-terms">Terms</a>
         </div>
-    </main>
 
-    <footer class="affiliate-disclosure">
-        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
-    </footer>
+        <footer class="affiliate-disclosure">
+            <p>&copy; 2026 Global Citizen Hub. All rights reserved.</p>
+            <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+        </footer>
+    </main>
 </body>
 </html>
