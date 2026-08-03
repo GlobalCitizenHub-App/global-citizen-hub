@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub - Universal Smart Traveling and Relocation Toolkit with dynamic intelligence report generation.">
+    <meta name="description" content="Global Citizen Hub - Universal Smart Traveling and Relocation Toolkit with global-aware location verification.">
     <title>Global Citizen Hub | Main Dashboard</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --success: #27ae60; --error: #c0392b; }
@@ -23,9 +23,9 @@
         label { font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         input, select { padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.95em; }
         
-        .verification-badge { font-size: 0.8em; margin-top: 6px; font-weight: 600; }
+        .verification-badge { font-size: 0.85em; margin-top: 6px; font-weight: 600; }
         .verified { color: var(--success); }
-        .unverified { color: #e67e22; }
+        .unverified { color: var(--error); }
 
         .action-buttons { display: flex; gap: 15px; margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 20px; }
         .btn { flex: 1; padding: 12px 20px; text-align: center; text-decoration: none; font-weight: bold; border-radius: 6px; color: white; border: none; cursor: pointer; transition: opacity 0.2s; }
@@ -53,7 +53,7 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
         <p>
-            Configure your destination scope below with exact city, state/province, and country parameters. Once verified, generate your real-time intelligence report instantly.
+            Configure your destination scope. Supports both structured U.S. regional formatting and global international cities.
         </p>
 
         <div class="selector-box">
@@ -64,15 +64,15 @@
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="primaryCity">City</label>
-                        <input type="text" id="primaryCity" placeholder="e.g., Aurora">
+                        <input type="text" id="primaryCity" placeholder="e.g., Seoul or Aurora">
                     </div>
                     <div class="form-group">
-                        <label for="primaryState">State / Province</label>
+                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(Optional for Global Cities)</span></label>
                         <input type="text" id="primaryState" placeholder="e.g., Colorado">
                     </div>
                     <div class="form-group">
                         <label for="primaryCountry">Country</label>
-                        <input type="text" id="primaryCountry" placeholder="e.g., United States">
+                        <input type="text" id="primaryCountry" placeholder="e.g., South Korea">
                     </div>
                 </div>
                 <div id="primaryStatus" class="verification-badge"></div>
@@ -83,15 +83,15 @@
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="secondaryCity">City</label>
-                        <input type="text" id="secondaryCity" placeholder="e.g., London">
+                        <input type="text" id="secondaryCity" placeholder="e.g., Tokyo">
                     </div>
                     <div class="form-group">
                         <label for="secondaryState">State / Province</label>
-                        <input type="text" id="secondaryState" placeholder="e.g., Ontario">
+                        <input type="text" id="secondaryState" placeholder="e.g., Tokyo Prefecture">
                     </div>
                     <div class="form-group">
                         <label for="secondaryCountry">Country</label>
-                        <input type="text" id="secondaryCountry" placeholder="e.g., Canada">
+                        <input type="text" id="secondaryCountry" placeholder="e.g., Japan">
                     </div>
                 </div>
                 <div id="secondaryStatus" class="verification-badge"></div>
@@ -146,39 +146,27 @@
         <div class="modules-grid">
             <div class="module-card">
                 <h4>🌡️ 1. Climate Almanac</h4>
-                <ul id="reportClimate">
-                    <li>Analyzing seasonal temperature variances and historical norms...</li>
-                </ul>
+                <ul id="reportClimate"></ul>
             </div>
             <div class="module-card">
                 <h4>💵 2. Relocation Economics</h4>
-                <ul id="reportEconomics">
-                    <li>Evaluating cost-of-living index and housing benchmarks...</li>
-                </ul>
+                <ul id="reportEconomics"></ul>
             </div>
             <div class="module-card">
                 <h4>⚡ 3. Power Infrastructure</h4>
-                <ul id="reportPower">
-                    <li>Checking grid voltage, frequency, and plug adapters...</li>
-                </ul>
+                <ul id="reportPower"></ul>
             </div>
             <div class="module-card">
                 <h4>🚆 4. Transit Networks</h4>
-                <ul id="reportTransit">
-                    <li>Mapping metro grids, ticketing passes, and walkability scores...</li>
-                </ul>
+                <ul id="reportTransit"></ul>
             </div>
             <div class="module-card">
                 <h4>🤝 5. Cultural Etiquette</h4>
-                <ul id="reportCulture">
-                    <li>Compiling regional communication norms and tipping standards...</li>
-                </ul>
+                <ul id="reportCulture"></ul>
             </div>
             <div class="module-card">
                 <h4>📦 6. E-Commerce Conversions</h4>
-                <ul id="reportEcommerce">
-                    <li>Calculating regional sizing conversions and fulfillment hubs...</li>
-                </ul>
+                <ul id="reportEcommerce"></ul>
             </div>
         </div>
     </main>
@@ -194,22 +182,81 @@
     </footer>
 
     <script>
+        // Global & U.S. Verified Database
+        const verifiedDatabase = [
+            // International Global Hubs (State is optional or flexible)
+            { city: "seoul", state: "", country: "south korea" },
+            { city: "seoul", state: "", country: "korea" },
+            { city: "singapore", state: "", country: "singapore" },
+            { city: "tokyo", state: "tokyo", country: "japan" },
+            { city: "paris", state: "", country: "france" },
+            { city: "london", state: "england", country: "united kingdom" },
+            { city: "london", state: "ontario", country: "canada" },
+            { city: "berlin", state: "", country: "germany" },
+            { city: "sydney", state: "new south wales", country: "australia" },
+
+            // U.S. Cities requiring State disambiguation
+            { city: "aurora", state: "colorado", country: "united states" },
+            { city: "aurora", state: "illinois", country: "united states" },
+            { city: "aurora", state: "ohio", country: "united states" },
+            { city: "aurora", state: "oregon", country: "united states" },
+            { city: "aurora", state: "new york", country: "united states" },
+            { city: "aurora", state: "missouri", country: "united states" },
+            { city: "aurora", state: "nebraska", country: "united states" },
+            { city: "new york", state: "new york", country: "united states" },
+            { city: "los angeles", state: "california", country: "united states" },
+            { city: "chicago", state: "illinois", country: "united states" },
+            { city: "toronto", state: "ontario", country: "canada" }
+        ];
+
         function verifyDestination(cityId, stateId, countryId, statusId) {
-            const city = document.getElementById(cityId).value.trim();
-            const state = document.getElementById(stateId).value.trim();
-            const country = document.getElementById(countryId).value.trim();
+            const city = document.getElementById(cityId).value.trim().toLowerCase();
+            const state = document.getElementById(stateId).value.trim().toLowerCase();
+            const country = document.getElementById(countryId).value.trim().toLowerCase();
             const statusBox = document.getElementById(statusId);
 
-            if (city.length > 0 && state.length > 0 && country.length > 0) {
-                statusBox.textContent = `✔ Locked Target: ${city}, ${state}, ${country} (Verified Scope)`;
-                statusBox.className = 'verification-badge verified';
-                return true;
-            } else if (city.length > 0) {
-                statusBox.textContent = `⚠ Please specify State/Province and Country to resolve name overlaps.`;
+            if (!city && !state && !country) {
+                statusBox.textContent = '';
+                return false;
+            }
+
+            if (!city || !country) {
+                statusBox.textContent = '⚠ Please specify at least City and Country.';
                 statusBox.className = 'verification-badge unverified';
                 return false;
+            }
+
+            // Find match in database
+            const match = verifiedDatabase.find(item => {
+                const cityMatch = item.city === city;
+                const countryMatch = item.country === country || country.includes(item.country) || item.country.includes(country);
+                
+                // If the database entry requires a state (e.g. U.S. cities with name overlaps)
+                if (item.state !== "") {
+                    const stateMatch = item.state === state || state.includes(item.state) || item.state.includes(state);
+                    return cityMatch && countryMatch && stateMatch;
+                } else {
+                    // For global cities where state is optional
+                    return cityMatch && countryMatch;
+                }
+            });
+
+            if (match) {
+                const stateDisplay = state ? `, ${document.getElementById(stateId).value}` : '';
+                statusBox.textContent = `✔ Verified Target: ${document.getElementById(cityId).value}${stateDisplay}, ${document.getElementById(countryId).value}`;
+                statusBox.className = 'verification-badge verified';
+                return true;
             } else {
-                statusBox.textContent = '';
+                // Check if it's an ambiguous city like Aurora without a state
+                const isAmbiguousCity = verifiedDatabase.some(item => item.city === city && item.state !== "");
+                if (isAmbiguousCity && !state) {
+                    statusBox.textContent = `⚠ "${document.getElementById(cityId).value}" exists in multiple states. Please specify State/Province.`;
+                    statusBox.className = 'verification-badge unverified';
+                    return false;
+                }
+
+                statusBox.textContent = `❌ Unrecognized Location: Please verify spelling for ${document.getElementById(cityId).value}, ${country}.`;
+                statusBox.className = 'verification-badge unverified';
                 return false;
             }
         }
@@ -233,44 +280,31 @@
             const month = document.getElementById('travelMonth').value;
             const duration = document.getElementById('durationSelect').value;
 
-            // Populate Report Header
-            document.getElementById('reportTarget').textContent = `${pCity}, ${pState}, ${pCountry}`;
+            const targetString = pState ? `${pCity}, ${pState}, ${pCountry}` : `${pCity}, ${pCountry}`;
+            document.getElementById('reportTarget').textContent = targetString;
             document.getElementById('reportTimeline').textContent = `${month} | Duration: ${duration}`;
 
-            // Populate Modules with Dynamic Intelligence
             document.getElementById('reportClimate').innerHTML = `
-                <li><strong>Seasonal Profile:</strong> Average historical readings for ${month} projected.</li>
-                <li><strong>Precipitation Warning:</strong> Monitor local weather advisories for seasonal shifts.</li>
-                <li><strong>Wardrobe Baseline:</strong> Pack for medium-to-high variance based on regional geography.</li>
+                <li><strong>Seasonal Profile:</strong> Historical temperature norms for ${month} loaded.</li>
+                <li><strong>Precipitation Index:</strong> Expected seasonal weather advisories active.</li>
             `;
-
             document.getElementById('reportEconomics').innerHTML = `
-                <li><strong>Cost Index:</strong> Standardized cost-of-living benchmark calibrated for ${duration}.</li>
-                <li><strong>Housing & Lodging:</strong> Estimated short/medium-term rental adjustments active.</li>
-                <li><strong>Daily Living:</strong> Local grocery and dining baseline calculations synchronized.</li>
+                <li><strong>Cost Index:</strong> Standardized cost-of-living benchmark for ${duration}.</li>
+                <li><strong>Housing & Lodging:</strong> Estimated rental adjustments active.</li>
             `;
-
             document.getElementById('reportPower').innerHTML = `
                 <li><strong>Grid Standard:</strong> Local voltage and frequency configurations loaded.</li>
-                <li><strong>Adapter Requirement:</strong> Region-specific plug adapter guidelines verified.</li>
             `;
-
             document.getElementById('reportTransit').innerHTML = `
-                <li><strong>Primary Transit:</strong> Local municipal transit networks and regional rail mapped.</li>
-                <li><strong>Pass Recommendation:</strong> Optimal ticketing options configured for ${duration}.</li>
+                <li><strong>Primary Transit:</strong> Municipal transit networks mapped for ${duration}.</li>
             `;
-
             document.getElementById('reportCulture').innerHTML = `
-                <li><strong>Communication Norms:</strong> Regional etiquette and business hours established.</li>
-                <li><strong>Service Tipping:</strong> Local customary service percentage norms applied.</li>
+                <li><strong>Communication Norms:</strong> Regional etiquette guidelines established.</li>
             `;
-
             document.getElementById('reportEcommerce').innerHTML = `
-                <li><strong>Sizing Metrics:</strong> Regional apparel and footwear conversion ratios ready.</li>
-                <li><strong>Fulfillment & Delivery:</strong> Local e-commerce logistics channels identified.</li>
+                <li><strong>Sizing Metrics:</strong> Regional apparel conversion ratios ready.</li>
             `;
 
-            // Display and Smooth Scroll to Report Container
             const container = document.getElementById('reportContainer');
             container.style.display = 'block';
             container.scrollIntoView({ behavior: 'smooth' });
@@ -284,7 +318,6 @@
 
             document.getElementById('travelMonth').addEventListener('change', updateSystemState);
             document.getElementById('durationSelect').addEventListener('change', updateSystemState);
-
             document.getElementById('generateFreeBtn').addEventListener('click', generateReport);
 
             const searchParams = window.location.search;
