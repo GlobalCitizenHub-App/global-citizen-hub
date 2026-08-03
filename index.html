@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Global Citizen Hub - The universal Smart Traveling and Relocation Toolkit for lifelong learners navigating life across the United States and worldwide.">
+    <meta name="description" content="Global Citizen Hub - The universal Smart Traveling and Relocation Toolkit with verified destination intelligence and live continental routing.">
     <title>Global Citizen Hub | Main Dashboard</title>
     <style>
-        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --success: #27ae60; --error: #c0392b; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 950px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         
@@ -15,15 +15,53 @@
         
         .selector-box { background: #fafbfc; border: 1px solid var(--border); border-radius: 6px; padding: 25px; margin-top: 25px; margin-bottom: 30px; }
         .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
-        .form-group { display: flex; flex-direction: column; }
+        .form-group { display: flex; flex-direction: column; position: relative; }
         label { font-weight: bold; font-size: 0.9em; color: var(--dark); margin-bottom: 6px; }
         input, select { padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.95em; }
         
+        /* Live Feedback Autocomplete Dropdown */
+        .autocomplete-results {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            border: 1px solid var(--border);
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            max-height: 240px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            display: none;
+        }
+        .autocomplete-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #f0f3f4;
+            font-size: 0.9em;
+        }
+        .autocomplete-item:hover {
+            background-color: #ebf5fb;
+        }
+        .item-title { font-weight: bold; color: var(--dark); }
+        .item-note { font-size: 0.8em; color: #7f8c8d; margin-top: 2px; }
+
+        /* Verification Status Badge */
+        .verification-badge {
+            font-size: 0.8em;
+            margin-top: 5px;
+            font-weight: 600;
+        }
+        .verified { color: var(--success); }
+        .unverified { color: var(--error); }
+
         .action-buttons { display: flex; gap: 15px; margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 20px; }
         .btn { flex: 1; padding: 12px 20px; text-align: center; text-decoration: none; font-weight: bold; border-radius: 6px; color: white; border: none; cursor: pointer; transition: opacity 0.2s; }
         .btn:hover { opacity: 0.9; }
         .btn-free { background: #34495e; }
         .btn-unlock { background: #27ae60; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
         .site-footer { text-align: center; margin-top: 40px; border-top: 1px solid var(--light); padding-top: 20px; font-size: 0.9em; }
         .site-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
@@ -35,135 +73,27 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
         <p>
-            Configure your global scope below. Choose to explore single-city intelligence for free, or unlock our comprehensive head-to-head comparative dossier.
+            Configure your verified continental scope below. Our smart destination intelligence engine analyzes your parameters to instantly hydrate all six core reporting modules.
         </p>
 
         <div class="selector-box">
-            <h2>⚙️ Universal Scope Selector</h2>
+            <h2>⚙️ Universal Scope Selector & Intelligence Verifier</h2>
             
             <div class="form-grid">
                 <div class="form-group">
                     <label for="primaryCity">Primary Destination (City/Country) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Free Scope)</span></label>
-                    <input type="text" id="primaryCity" list="destinationList" placeholder="Type primary city or country...">
+                    <input type="text" id="primaryCity" placeholder="Type city, country, or continent..." autocomplete="off">
+                    <div id="primaryResults" class="autocomplete-results"></div>
+                    <div id="primaryStatus" class="verification-badge"></div>
                 </div>
+
                 <div class="form-group">
                     <label for="secondaryCity">Secondary Destination (City/Country) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Comparison)</span></label>
-                    <input type="text" id="secondaryCity" list="destinationList" placeholder="Type city to compare...">
+                    <input type="text" id="secondaryCity" placeholder="Type city to compare..." autocomplete="off">
+                    <div id="secondaryResults" class="autocomplete-results"></div>
+                    <div id="secondaryStatus" class="verification-badge"></div>
                 </div>
             </div>
-
-            <datalist id="destinationList">
-                <option value="New York, United States">
-                <option value="Los Angeles, United States">
-                <option value="Chicago, United States">
-                <option value="Houston, United States">
-                <option value="Phoenix, United States">
-                <option value="Philadelphia, United States">
-                <option value="San Antonio, United States">
-                <option value="San Diego, United States">
-                <option value="Dallas, United States">
-                <option value="Austin, United States">
-                <option value="Jacksonville, United States">
-                <option value="Fort Worth, United States">
-                <option value="Columbus, United States">
-                <option value="Charlotte, United States">
-                <option value="Indianapolis, United States">
-                <option value="San Francisco, United States">
-                <option value="Seattle, United States">
-                <option value="Denver, United States">
-                <option value="Washington, United States">
-                <option value="Boston, United States">
-                <option value="Nashville, United States">
-                <option value="El Paso, United States">
-                <option value="Detroit, United States">
-                <option value="Oklahoma City, United States">
-                <option value="Portland, United States">
-                <option value="Las Vegas, United States">
-                <option value="Memphis, United States">
-                <option value="Louisville, United States">
-                <option value="Baltimore, United States">
-                <option value="Milwaukee, United States">
-                <option value="Albuquerque, United States">
-                <option value="Tucson, United States">
-                <option value="Fresno, United States">
-                <option value="Sacramento, United States">
-                <option value="Kansas City, United States">
-                <option value="Atlanta, United States">
-                <option value="Omaha, United States">
-                <option value="Colorado Springs, United States">
-                <option value="Raleigh, United States">
-                <option value="Miami, United States">
-                <option value="Minneapolis, United States">
-                <option value="Tulsa, United States">
-                <option value="Cleveland, United States">
-                <option value="Wichita, United States">
-                <option value="New Orleans, United States">
-                <option value="Honolulu, United States">
-                <option value="Anchorage, United States">
-                <option value="Boise, United States">
-                <option value="Salt Lake City, United States">
-                <option value="Cheyenne, United States">
-                <option value="Bismarck, United States">
-                <option value="Des Moines, United States">
-                <option value="Little Rock, United States">
-                <option value="Jackson, United States">
-                <option value="Montgomery, United States">
-                <option value="Tallahassee, United States">
-                <option value="Columbia, United States">
-                <option value="Richmond, United States">
-                <option value="Charleston, United States">
-                <option value="Providence, United States">
-                <option value="Hartford, United States">
-                <option value="Concord, United States">
-                <option value="Montpelier, United States">
-                <option value="Augusta, United States">
-
-                <option value="London, United Kingdom">
-                <option value="Manchester, United Kingdom">
-                <option value="Edinburgh, United Kingdom">
-                <option value="Paris, France">
-                <option value="Lyon, France">
-                <option value="Tokyo, Japan">
-                <option value="Osaka, Japan">
-                <option value="Kyoto, Japan">
-                <option value="Sydney, Australia">
-                <option value="Melbourne, Australia">
-                <option value="Brisbane, Australia">
-                <option value="Berlin, Germany">
-                <option value="Munich, Germany">
-                <option value="Frankfurt, Germany">
-                <option value="Toronto, Canada">
-                <option value="Vancouver, Canada">
-                <option value="Montreal, Canada">
-                <option value="Calgary, Canada">
-                <option value="Singapore">
-                <option value="Dubai, United Arab Emirates">
-                <option value="Abu Dhabi, United Arab Emirates">
-                <option value="Madrid, Spain">
-                <option value="Barcelona, Spain">
-                <option value="Rome, Italy">
-                <option value="Milan, Italy">
-                <option value="Amsterdam, Netherlands">
-                <option value="Rotterdam, Netherlands">
-                <option value="Zurich, Switzerland">
-                <option value="Geneva, Switzerland">
-                <option value="Hong Kong">
-                <option value="Seoul, South Korea">
-                <option value="Busan, South Korea">
-                <option value="Mexico City, Mexico">
-                <option value="Guadalajara, Mexico">
-                <option value="Sao Paulo, Brazil">
-                <option value="Rio de Janeiro, Brazil">
-                <option value="Buenos Aires, Argentina">
-                <option value="Cairo, Egypt">
-                <option value="Cape Town, South Africa">
-                <option value="Johannesburg, South Africa">
-                <option value="Bangkok, Thailand">
-                <option value="Mumbai, India">
-                <option value="New Delhi, India">
-                <option value="Beijing, China">
-                <option value="Shanghai, China">
-            </datalist>
 
             <div class="form-grid">
                 <div class="form-group">
@@ -198,8 +128,8 @@
             </div>
 
             <div class="action-buttons">
-                <button class="btn btn-free" id="generateFreeBtn">📊 Generate Free Modules<br><span style="font-size:0.75em; font-weight:normal;">(Single-City Deep Dive)</span></button>
-                <button class="btn btn-unlock" id="unlockDossierBtn">🚀 Unlock Advanced Dossier<br><span style="font-size:0.75em; font-weight:normal;">(Multi-City Comparison - $7)</span></button>
+                <button class="btn btn-free" id="generateFreeBtn" disabled>📊 Generate Verified Modules<br><span style="font-size:0.75em; font-weight:normal;">(Single-City Deep Dive)</span></button>
+                <button class="btn btn-unlock" id="unlockDossierBtn" disabled>🚀 Unlock Advanced Dossier<br><span style="font-size:0.75em; font-weight:normal;">(Multi-City Comparison - $7)</span></button>
             </div>
         </div>
 
@@ -215,7 +145,139 @@
     </main>
 
     <script>
+        // Comprehensive Intelligence Knowledge Base with Continental/Country/City Hierarchy and Operational Notes
+        const globalDestinationDatabase = [
+            // North America
+            { name: "New York, United States", country: "United States", continent: "North America", note: "Primary financial & transit hub; high e-commerce density." },
+            { name: "Los Angeles, United States", country: "United States", continent: "North America", note: "West Coast economic capital; extensive urban sprawl." },
+            { name: "Chicago, United States", country: "United States", continent: "North America", note: "Midwest transit nexus; distinct seasonal climate variance." },
+            { name: "Houston, United States", country: "United States", continent: "North America", note: "Southern industrial powerhouse; major energy infrastructure." },
+            { name: "San Francisco, United States", country: "United States", continent: "North America", note: "Tech innovation sector; microclimate geography." },
+            { name: "Washington, United States", country: "United States", continent: "North America", note: "Federal governance hub; robust metro transit network." },
+            { name: "Boston, United States", country: "United States", continent: "North America", note: "Academic corridor; historic walking city layout." },
+            { name: "Miami, United States", country: "United States", continent: "North America", note: "Gateway to Latin America; tropical climate profile." },
+            { name: "Toronto, Canada", country: "Canada", continent: "North America", note: "Multicultural financial center; subterranean PATH network." },
+            { name: "Vancouver, Canada", country: "Canada", continent: "North America", note: "Pacific maritime gateway; mild coastal climate." },
+            { name: "Mexico City, Mexico", country: "Mexico", continent: "North America", note: "High-altitude basin; rich cultural etiquette framework." },
+
+            // Europe
+            { name: "London, United Kingdom", country: "United Kingdom", continent: "Europe", note: "Global financial nexus; Oyster/contactless transit standard." },
+            { name: "Manchester, United Kingdom", country: "United Kingdom", continent: "Europe", note: "Northern digital & industrial hub." },
+            { name: "Paris, France", country: "France", continent: "Europe", note: "Continental cultural capital; extensive underground Metro grid." },
+            { name: "Berlin, Germany", country: "Germany", continent: "Europe", note: "Central European tech and creative sector." },
+            { name: "Munich, Germany", country: "Germany", continent: "Europe", note: "Bavarian economic center; high living standards." },
+            { name: "Madrid, Spain", country: "Spain", continent: "Europe", note: "Iberian business hub; robust high-speed rail integration." },
+            { name: "Barcelona, Spain", country: "Spain", continent: "Europe", note: "Mediterranean coastal trade and tourism center." },
+            { name: "Rome, Italy", country: "Italy", continent: "Europe", note: "Historical administrative center; ancient urban transit." },
+            { name: "Milan, Italy", country: "Italy", continent: "Europe", note: "Global fashion and industrial finance capital." },
+            { name: "Amsterdam, Netherlands", country: "Netherlands", continent: "Europe", note: "Cycling-first infrastructure; digital commerce hub." },
+            { name: "Zurich, Switzerland", country: "Switzerland", continent: "Europe", note: "Global banking center; precise rail synchronization." },
+
+            // Asia-Pacific
+            { name: "Tokyo, Japan", country: "Japan", continent: "Asia", note: "Ultra-dense urban transit; advanced power infrastructure." },
+            { name: "Osaka, Japan", country: "Japan", continent: "Asia", note: "Kansai commercial and culinary capital." },
+            { name: "Singapore", country: "Singapore", continent: "Asia", note: "Southeast Asian sovereign financial powerhouse." },
+            { name: "Dubai, United Arab Emirates", country: "United Arab Emirates", continent: "Middle East", note: "Middle Eastern logistics & trade hub; desert climate." },
+            { name: "Sydney, Australia", country: "Australia", continent: "Oceania", note: "Southern Hemisphere maritime trade and finance." },
+            { name: "Melbourne, Australia", country: "Australia", continent: "Oceania", note: "Cultural and academic capital of Southeastern Australia." },
+            { name: "Seoul, South Korea", country: "South Korea", continent: "Asia", note: "High-speed digital infrastructure; hyper-connected transit." },
+            { name: "Hong Kong", country: "Hong Kong", continent: "Asia", note: "Global trade gateway; dense vertical urban planning." },
+            { name: "Mumbai, India", country: "India", continent: "Asia", note: "South Asian financial capital; monsoon climate variance." },
+            { name: "Beijing, China", country: "China", continent: "Asia", note: "Political and technological administration nexus." },
+            { name: "Shanghai, China", country: "China", continent: "Asia", note: "East Asian commercial shipping and financial leader." },
+
+            // Latin America & Africa
+            { name: "Sao Paulo, Brazil", country: "Brazil", continent: "South America", note: "South American industrial & financial heartland." },
+            { name: "Buenos Aires, Argentina", country: "Argentina", continent: "South America", note: "Cultural gateway of the Southern Cone." },
+            { name: "Cape Town, South Africa", country: "South Africa", continent: "Africa", note: "Sub-Saharan innovation hub; scenic coastal logistics." },
+            { name: "Cairo, Egypt", country: "Egypt", continent: "Africa", note: "North African historical trade and political hub." }
+        ];
+
+        function setupAutocomplete(inputId, resultsId, statusId) {
+            const input = document.getElementById(inputId);
+            const resultsBox = document.getElementById(resultsId);
+            const statusBox = document.getElementById(statusId);
+
+            let isVerified = false;
+
+            input.addEventListener('input', function() {
+                const query = this.value.trim().toLowerCase();
+                isVerified = false;
+                updateButtonStates();
+
+                if (query.length === 0) {
+                    resultsBox.style.display = 'none';
+                    statusBox.textContent = '';
+                    return;
+                }
+
+                // Filter database based on city, country, or continent match
+                const matches = globalDestinationDatabase.filter(item => 
+                    item.name.toLowerCase().includes(query) ||
+                    item.country.toLowerCase().includes(query) ||
+                    item.continent.toLowerCase().includes(query)
+                );
+
+                if (matches.length > 0) {
+                    resultsBox.innerHTML = '';
+                    matches.forEach(match => {
+                        const div = document.createElement('div');
+                        div.className = 'autocomplete-item';
+                        div.innerHTML = `
+                            <div class="item-title">${match.name} <span style="font-weight:normal; color:#7f8c8d; font-size:0.85em;">(${match.continent} > ${match.country})</span></div>
+                            <div class="item-note">${match.note}</div>
+                        `;
+                        div.addEventListener('click', function() {
+                            input.value = match.name;
+                            resultsBox.style.display = 'none';
+                            isVerified = true;
+                            statusBox.textContent = '✔ Verified Destination Intelligence Loaded';
+                            statusBox.className = 'verification-badge verified';
+                            updateButtonStates();
+                        });
+                        resultsBox.appendChild(div);
+                    });
+                    resultsBox.style.display = 'block';
+                } else {
+                    resultsBox.style.display = 'none';
+                    statusBox.textContent = '⚠ Custom destination (Unverified - requires manual review)';
+                    statusBox.className = 'verification-badge unverified';
+                }
+            });
+
+            // Hide results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!input.contains(e.target) && !resultsBox.contains(e.target)) {
+                    resultsBox.style.display = 'none';
+                }
+            });
+        }
+
+        function updateButtonStates() {
+            const primaryVal = document.getElementById('primaryCity').value.trim();
+            const secondaryVal = document.getElementById('secondaryCity').value.trim();
+            const monthVal = document.getElementById('travelMonth').value;
+            const durationVal = document.getElementById('durationSelect').value;
+
+            const hasPrimary = primaryVal.length > 0;
+            const hasSecondary = secondaryVal.length > 0;
+            const hasMonthAndDuration = monthVal !== "" && durationVal !== "";
+
+            // Free button requires primary destination + month/duration
+            document.getElementById('generateFreeBtn').disabled = !(hasPrimary && hasMonthAndDuration);
+            
+            // Unlock comparison requires both destinations + month/duration
+            document.getElementById('unlockDossierBtn').disabled = !(hasPrimary && hasSecondary && hasMonthAndDuration);
+        }
+
         window.addEventListener('DOMContentLoaded', () => {
+            setupAutocomplete('primaryCity', 'primaryResults', 'primaryStatus');
+            setupAutocomplete('secondaryCity', 'secondaryResults', 'secondaryStatus');
+
+            document.getElementById('travelMonth').addEventListener('change', updateButtonStates);
+            document.getElementById('durationSelect').addEventListener('change', updateButtonStates);
+
+            // Parameter propagation logic for footer links
             const searchParams = window.location.search;
             if (searchParams) {
                 document.querySelectorAll('.site-footer a').forEach(a => {
