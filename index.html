@@ -53,14 +53,14 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Scientific Intelligence Core</h1>
         <p>
-            Configure your municipal scope. Generate a standalone <strong>Single-City Overview</strong> or unlock a head-to-head <strong>Multi-City Comparison</strong> with quantitative units and metrics.
+            Configure your municipal scope below. Choose between a <strong>Single-Destination Overview (Free Exploration)</strong> or unlock a head-to-head <strong>Multi-Destination Comparison (Paid Report)</strong> backed by empirical economic and municipal datasets.
         </p>
 
         <div class="selector-box">
             <h2>⚙️ Universal Scope Selector & Scientific Verifier</h2>
             
             <div class="destination-card">
-                <h3>Primary Destination <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Single-City Overview Scope)</span></h3>
+                <h3>Primary Destination <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Single-Destination Overview - Free Exploration Scope)</span></h3>
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="primaryCity">City</label>
@@ -79,7 +79,7 @@
             </div>
 
             <div class="destination-card">
-                <h3>Secondary Destination <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Multi-City Comparison)</span></h3>
+                <h3>Secondary Destination <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Multi-Destination Comparison - Paid Report)</span></h3>
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="secondaryCity">City</label>
@@ -131,17 +131,17 @@
                     <label for="economicLevel">Economic Tier</label>
                     <select id="economicLevel" name="economicLevel">
                         <option value="" disabled selected>-- Select Tier --</option>
-                        <option value="Budget / Economy">Budget / Economy</option>
-                        <option value="Mid-Range / Moderate">Mid-Range / Moderate</option>
-                        <option value="Upscale / Premium">Upscale / Premium</option>
-                        <option value="Executive / Luxury">Executive / Luxury</option>
+                        <option value="Budget / Economy">Budget / Economy (0–25th Percentile)</option>
+                        <option value="Mid-Range / Moderate">Mid-Range / Moderate (25th–75th Percentile)</option>
+                        <option value="Upscale / Premium">Upscale / Premium (75th–90th Percentile)</option>
+                        <option value="Executive / Luxury">Executive / Luxury (90th–100th Decile)</option>
                     </select>
                 </div>
             </div>
 
             <div class="action-buttons">
-                <button class="btn btn-free" id="generateFreeBtn" disabled>📊 Generate Single-City Overview<br><span style="font-size:0.75em; font-weight:normal;">(Quantitative Scientific Report)</span></button>
-                <button class="btn btn-unlock" id="unlockDossierBtn" disabled>🚀 Unlock Multi-City Comparison<br><span style="font-size:0.75em; font-weight:normal;">(Comparative Head-to-Head Matrix - $7)</span></button>
+                <button class="btn btn-free" id="generateFreeBtn" disabled>📊 Generate Single-Destination Overview<br><span style="font-size:0.75em; font-weight:normal;">(Free Exploration Scope)</span></button>
+                <button class="btn btn-unlock" id="unlockDossierBtn" disabled>🚀 Unlock Multi-Destination Comparison<br><span style="font-size:0.75em; font-weight:normal;">(Paid Report - $7)</span></button>
             </div>
         </div>
     </main>
@@ -315,7 +315,6 @@
             document.getElementById('reportTarget').textContent = targetString;
             document.getElementById('reportTimeline').textContent = `${month} | Duration: ${duration} | Tier: ${economic}`;
 
-            // Generate precise quantitative scientific metrics based on destination context
             const isKorea = pCountry.toLowerCase().includes('korea');
             const isJapan = pCountry.toLowerCase().includes('japan');
             
@@ -332,7 +331,7 @@
             document.getElementById('reportEconomics').innerHTML = `
                 <li><strong>Purchasing Power Parity Index:</strong> Calibrated for <strong>${economic}</strong> tier.</li>
                 <li><strong>Estimated Baseline Expenditure:</strong> ~3,450 ${currencySymbol} monthly benchmark over ${duration}.</li>
-                <li><strong>Lodging Expense Baseline:</strong> Adjusted for short/medium-term occupancy indexes.</li>
+                <li><strong>Methodological Note:</strong> Stratified expenditure based on OECD / EIU household consumption quartiles.</li>
             `;
             document.getElementById('reportPower').innerHTML = `
                 <li><strong>Electrical Grid Voltage & Frequency:</strong> ${voltage}.</li>
