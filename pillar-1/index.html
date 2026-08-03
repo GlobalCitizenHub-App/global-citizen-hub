@@ -59,8 +59,7 @@
                         <th>Operational Guidance</th>
                     </tr>
                 </thead>
-                <tbody id="climateTableBody">
-                    </tbody>
+                <tbody id="climateTableBody"></tbody>
             </table>
         </div>
     </main>
@@ -73,35 +72,59 @@
     </footer>
 
     <script>
-        // Climate Database for popular destinations
-        const climateDataDB = {
+        const globalClimateDB = {
             "seoul": {
-                "march": { temp: "2°C to 12°C (36°F to 54°F)", precip: "Moderate spring transition, occasional dust haze.", packing: "Layered sweaters, medium jacket, windbreaker." },
-                "october": { temp: "10°C to 20°C (50°F to 68°F)", precip: "Low precipitation, clear crisp autumn days.", packing: "Light jackets, cardigans, comfortable walking shoes." },
-                "default": { temp: "Seasonal Average (Temperate)", precip: "Variable seasonal patterns.", packing: "Pack flexible layers appropriate for local forecasts." }
+                "spring": "2°C to 16°C (36°F to 61°F)", "summer": "22°C to 30°C (72°F to 86°F)", "autumn": "10°C to 22°C (50°F to 72°F)", "winter": "-6°C to 3°C (21°F to 37°F)",
+                "precip": "Moderate seasonal transition; crisp dry winters, humid monsoonal summers.", "packing": "Pack versatile layers, thermal innerwear for winter, light raincoat for summer."
             },
             "tokyo": {
-                "march": { temp: "5°C to 13°C (41°F to 55°F)", precip: "Moderate spring showers.", packing: "Light overcoat, sweaters, compact umbrella." },
-                "october": { temp: "15°C to 22°C (59°F to 72°F)", precip: "Pleasant autumn climate.", packing: "Light jackets and long sleeves." },
-                "default": { temp: "Seasonal Average (Temperate)", precip: "Variable seasonal patterns.", packing: "Pack versatile layers." }
+                "spring": "8°C to 18°C (46°F to 64°F)", "summer": "24°C to 31°C (75°F to 88°F)", "autumn": "15°C to 23°C (59°F to 73°F)", "winter": "2°C to 10°C (36°F to 50°F)",
+                "precip": "High humidity in summer, frequent spring showers.", "packing": "Compact umbrella, comfortable walking shoes, and breathable layers."
             },
             "paris": {
-                "march": { temp: "4°C to 12°C (39°F to 54°F)", precip: "Frequent light drizzle.", packing: "Waterproof trench coat, layers, scarf." },
-                "october": { temp: "9°C to 16°C (48°F to 61°F)", precip: "Moderate autumn rainfall.", packing: "Medium jacket, sweaters, umbrella." },
-                "default": { temp: "Seasonal Average (Temperate)", precip: "Variable seasonal patterns.", packing: "Pack versatile layers." }
+                "spring": "6°C to 16°C (43°F to 61°F)", "summer": "16°C to 25°C (61°F to 77°F)", "autumn": "10°C to 16°C (50°F to 61°F)", "winter": "3°C to 7°C (37°F to 45°F)",
+                "precip": "Year-round light drizzle and intermittent rain.", "packing": "Waterproof trench coat, scarf, and layered apparel."
             },
             "london": {
-                "march": { temp: "4°C to 11°C (39°F to 52°F)", precip: "Typical spring showers.", packing: "Waterproof outer shell, sweaters." },
-                "october": { temp: "9°C to 15°C (48°F to 59°F)", precip: "Frequent overcast skies and showers.", packing: "Sturdy umbrella, waterproof jacket." },
-                "default": { temp: "Seasonal Average (Temperate)", precip: "Variable seasonal patterns.", packing: "Pack versatile layers." }
+                "spring": "6°C to 14°C (43°F to 57°F)", "summer": "14°C to 23°C (57°F to 73°F)", "autumn": "10°C to 16°C (50°F to 61°F)", "winter": "2°C to 8°C (36°F to 46°F)",
+                "precip": "Frequent overcast skies and predictable showers.", "packing": "Sturdy umbrella, waterproof jacket, and versatile sweaters."
+            },
+            "sydney": {
+                "spring": "13°C to 22°C (55°F to 72°F)", "summer": "19°C to 26°C (66°F to 79°F)", "autumn": "14°C to 23°C (57°F to 73°F)", "winter": "8°C to 17°C (46°F to 63°F)",
+                "precip": "Coastal rain events spread evenly across months.", "packing": "Sunscreen, sunglasses, light layers, and swimwear."
+            },
+            "vancouver": {
+                "spring": "5°C to 13°C (41°F to 55°F)", "summer": "13°C to 22°C (55°F to 72°F)", "autumn": "8°C to 14°C (46°F to 57°F)", "winter": "1°C to 6°C (34°F to 43°F)",
+                "precip": "Frequent Pacific rainfall, especially from October to March.", "packing": "Waterproof Gore-Tex shell, sturdy boots, and umbrella."
+            },
+            "new york": {
+                "spring": "7°C to 17°C (45°F to 63°F)", "summer": "20°C to 30°C (68°F to 86°F)", "autumn": "11°C to 20°C (52°F to 68°F)", "winter": "-2°C to 5°C (28°F to 41°F)",
+                "precip": "Four distinct seasons with steady year-round precipitation.", "packing": "Comfortable walking shoes, winter overcoat, and light summer layers."
             }
         };
+
+        function getSeason(month, isSouthernHemisphere = false) {
+            const m = month.toLowerCase();
+            let season = "spring";
+            if (["june", "july", "august"].includes(m)) season = "summer";
+            else if (["september", "october", "november"].includes(m)) season = "autumn";
+            else if (["december", "january", "february"].includes(m)) season = "winter";
+            else if (["march", "april", "may"].includes(m)) season = "spring";
+
+            if (isSouthernHemisphere) {
+                if (season === "summer") season = "winter";
+                else if (season === "winter") season = "summer";
+                else if (season === "spring") season = "autumn";
+                else if (season === "autumn") season = "spring";
+            }
+            return season;
+        }
 
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let activeCity = urlParams.get('city');
-            let travelMonth = urlParams.get('month') || "General";
-            let travelDuration = urlParams.get('duration') || "General Overview";
+            let travelMonth = urlParams.get('month') || "March";
+            let travelDuration = urlParams.get('duration') || "Short-Term Visit";
 
             if (!activeCity || activeCity.trim() === '') {
                 document.querySelectorAll('.display-city').forEach(el => el.innerText = "⚠️ Missing Data - Return to Dashboard");
@@ -113,33 +136,53 @@
             document.querySelectorAll('.display-month').forEach(el => el.innerText = travelMonth);
             document.querySelectorAll('.display-duration').forEach(el => el.innerText = travelDuration);
 
-            // Lookup Climate Data
             const cityKey = activeCity.toLowerCase().split(',')[0].trim();
-            const monthKey = travelMonth.toLowerCase().trim();
-            const cityRecord = climateDataDB[cityKey] || {};
-            const weather = cityRecord[monthKey] || cityRecord["default"] || { temp: "10°C to 22°C (50°F to 72°F)", precip: "Normal seasonal rainfall.", packing: "Standard versatile layers and weather gear." };
+            const southernCities = ["sydney", "melbourne", "auckland", "buenos aires", "sao paulo", "capetown", "johannesburg", "lima", "santiago"];
+            const isSouthern = southernCities.some(sc => cityKey.includes(sc));
+            const seasonKey = getSeason(travelMonth, isSouthern);
 
-            // Render Climate Table Rows
+            // Fallback Generator for any unlisted city worldwide
+            let weatherData;
+            if (globalClimateDB[cityKey]) {
+                weatherData = {
+                    temp: globalClimateDB[cityKey][seasonKey],
+                    precip: globalClimateDB[cityKey].precip,
+                    packing: globalClimateDB[cityKey].packing
+                };
+            } else {
+                // Algorithmic fallback based on season
+                const defaultTemps = {
+                    "spring": "10°C to 20°C (50°F to 68°F)",
+                    "summer": "22°C to 32°C (72°F to 90°F)",
+                    "autumn": "12°C to 22°C (54°F to 72°F)",
+                    "winter": "0°C to 10°C (32°F to 50°F)"
+                };
+                weatherData = {
+                    temp: defaultTemps[seasonKey],
+                    precip: "Standard regional precipitation patterns for " + travelMonth + ".",
+                    packing: "Pack versatile seasonal layers and appropriate footwear for " + travelDuration.toLowerCase() + "."
+                };
+            }
+
             const tableBody = document.getElementById('climateTableBody');
             tableBody.innerHTML = `
                 <tr>
-                    <td><strong>🌡️ Expected Temperature Range</strong></td>
-                    <td>${weather.temp}</td>
-                    <td>Primary thermal baseline for ${travelMonth}.</td>
+                    <td><strong>🌡️ Expected Temperature Range (${travelMonth})</strong></td>
+                    <td>${weatherData.temp}</td>
+                    <td>Primary thermal baseline for ${travelDuration.toLowerCase()}.</td>
                 </tr>
                 <tr>
-                    <td><strong>🌧️ Precipitation & Conditions</strong></td>
-                    <td>${weather.precip}</td>
-                    <td>Environmental preparedness factor.</td>
+                    <td><strong>🌧️ Precipitation & Environmental Patterns</strong></td>
+                    <td>${weatherData.precip}</td>
+                    <td>Seasonal preparedness factor.</td>
                 </tr>
                 <tr>
                     <td><strong>🧳 Recommended Packing Guidance</strong></td>
-                    <td>${weather.packing}</td>
-                    <td>Optimized for ${travelDuration.toLowerCase()}.</td>
+                    <td>${weatherData.packing}</td>
+                    <td>Optimized for regional climate norms.</td>
                 </tr>
             `;
 
-            // Wire up navigation tabs
             const paramString = `?city=${encodeURIComponent(activeCity)}&month=${encodeURIComponent(travelMonth)}&duration=${encodeURIComponent(travelDuration)}`;
             const tabs = document.querySelectorAll('.nav-tabs a:not(.tab-dash)');
             const pillarUrls = [
