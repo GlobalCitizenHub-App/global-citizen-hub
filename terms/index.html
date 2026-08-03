@@ -3,63 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Terms of Service for Global Citizen Hub - Usage guidelines, digital product licensing, and disclaimer disclosures.">
+    <meta name="description" content="Terms of Service for Global Citizen Hub - Usage guidelines, licensing terms, and liability disclaimers for our smart traveling and relocation toolkit.">
     <title>Terms of Service | Global Citizen Hub</title>
     <style>
         :root { --primary: #8e44ad; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.7; }
-        .card { background: #ffffff; padding: 45px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 30px; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         
-        h1 { color: var(--dark); margin-top: 0; margin-bottom: 10px; font-size: 2em; }
-        h2 { color: var(--dark); margin-top: 35px; margin-bottom: 14px; font-size: 1.35em; border-bottom: 2px solid var(--light); padding-bottom: 8px; }
+        h1, h2 { color: var(--dark); margin-top: 0; }
+        h2 { margin-top: 35px; font-size: 1.25em; border-bottom: 2px solid var(--light); padding-bottom: 8px; color: var(--primary); }
         p { margin-bottom: 20px; font-size: 1.02em; }
         
-        .nav-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 45px; padding-top: 25px; border-top: 1px solid var(--light); }
-        .nav-btn { flex: 1; min-width: 120px; padding: 12px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85em; color: white; border-radius: 6px; transition: opacity 0.2s; }
-        .nav-btn:hover { opacity: 0.9; }
-        .btn-dash { background: #34495e; }
-        .btn-about { background: #2980b9; }
-        .btn-privacy { background: #27ae60; }
-
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 35px; border-top: 1px solid var(--light); padding-top: 15px; }
+        /* Persistent Paper Binder Navigation Buttons */
+        .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 45px; padding-top: 25px; border-top: 1px solid var(--light); }
+        
+        /* Inactive buttons: muted opacity */
+        .nav-btn { 
+            flex: 1; 
+            min-width: 120px; 
+            padding: 12px; 
+            text-align: center; 
+            text-decoration: none; 
+            font-weight: bold; 
+            font-size: 0.85em; 
+            color: white; 
+            border-radius: 6px; 
+            transition: all 0.2s ease; 
+            opacity: 0.6; 
+            filter: brightness(0.9);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        }
+        .nav-btn:hover { 
+            opacity: 0.9; 
+            transform: translateY(-2px); 
+            filter: brightness(1);
+        }
+        
+        /* Active Button: Outstanding 3D elevation and ring (Purple Theme) */
+        .nav-btn.active {
+            opacity: 1 !important;
+            background: linear-gradient(to bottom, #9b59b6, #5b2c6f) !important;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.5), 
+                        0 8px 18px rgba(0, 0, 0, 0.35), 
+                        0 0 0 3px #ffffff;
+            transform: translateY(-4px) scale(1.02);
+            font-weight: 900;
+            letter-spacing: 0.3px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+        
+        .btn-dash { background: #34495e; } 
+        .btn-about { background: #2980b9; } 
+        .btn-contact { background: #16a085; } 
+        .btn-privacy { background: #27ae60; } 
+        .btn-terms { background: #8e44ad; }
+        
+        .affiliate-disclosure { font-size: 0.8em; color: #7f8c8d; text-align: center; margin-top: 30px; border-top: 1px solid var(--light); padding-top: 15px; }
     </style>
 </head>
 <body>
     <main class="card">
         <h1>Terms of Service</h1>
-        <p style="font-size: 0.95em; color: #7f8c8d; font-weight: bold; margin-bottom: 25px;">
-            The Smart Traveling and Relocation Toolkit. | Last updated: August 2026
+        <p style="font-size: 1.05em; color: var(--primary); font-weight: bold; margin-bottom: 5px;">
+            The Smart Traveling and Relocation Toolkit.
+        </p>
+        <p style="font-size: 0.85em; color: #7f8c8d; margin-bottom: 25px;">
+            Last updated: August 2026
         </p>
 
         <h2>1. Acceptance of Terms</h2>
         <p>
-            By accessing and using Global Citizen Hub, you agree to comply with and be bound by these Terms of Service. Our platform is designed as a universal intelligence toolkit for lifelong learners, including students, professionals, families, and retirees, moving across domestic and international regions.
+            By accessing and using <strong>Global Citizen Hub</strong>, you agree to comply with and be bound by these Terms of Service. If you do not agree with any part of these terms, please discontinue use of our toolkit.
         </p>
 
-        <h2>2. Informational Purpose & Legal Disclaimer</h2>
+        <h2>2. Informational Purpose & Scope</h2>
         <p>
-            The intelligence matrices, cost estimates, climate guidance, and conversion tools provided on this site are for general informational purposes only. Relocation requirements, immigration policies, local laws, and living costs are subject to change; users should independently verify critical legal, financial, and regulatory details prior to relocation.
+            Global Citizen Hub provides intelligent destination summaries, calculators, and relocation guides for informational and educational purposes. While we strive for high accuracy across our climate almanacs, cost matrices, transit data, and e-commerce converters, international rules, exchange rates, and local regulations change frequently. Users should independently verify critical legal, financial, or visa requirements before making major relocation decisions.
         </p>
 
-        <h2>3. Digital Products & Licensing</h2>
+        <h2>3. Digital Purchases & Licensing</h2>
         <p>
-            Purchasing downloadable multi-city comparison dossiers grants the user a non-exclusive, non-transferable personal or professional license to use, print, and reference the document. Unauthorized redistribution, resale, or public publishing of purchased digital dossiers is strictly prohibited. Due to the digital nature of instant-download comparison files, all sales are final upon delivery.
+            Paid digital products, comparison dossiers, and specialized tools are licensed for personal, non-commercial use. All transactions are securely processed via our Merchant of Record, Lemon Squeezy. Unauthorized redistribution, scraping, or commercial resale of our proprietary intelligence data is strictly prohibited.
         </p>
 
-        <h2>4. External Links & Support</h2>
+        <h2>4. Limitation of Liability</h2>
         <p>
-            Global Citizen Hub is an informational guide. Some external links or partner services may earn us a small commission to support this toolkit, at no extra cost to you.
+            Global Citizen Hub and its creators shall not be held liable for any direct, indirect, incidental, or consequential damages resulting from the use of our calculators, guides, or outbound third-party recommendations.
         </p>
 
-        <div class="nav-buttons">
+        <h2>5. Contact Inquiries</h2>
+        <p>
+            For questions regarding these terms, please reach out directly at <strong>globalcitizenhub.contact@gmail.com</strong>.
+        </p>
+
+        <div class="nav-buttons" id="bottomNav">
             <a href="../index.html" class="nav-btn btn-dash">⌂ Dashboard</a>
             <a href="../about/index.html" class="nav-btn btn-about">About</a>
+            <a href="../contact/index.html" class="nav-btn btn-contact">Contact</a>
             <a href="../privacy/index.html" class="nav-btn btn-privacy">Privacy</a>
+            <a href="./index.html" class="nav-btn btn-terms active">Terms</a>
         </div>
+
+        <footer class="affiliate-disclosure">
+            <p>&copy; 2026 Global Citizen Hub. All rights reserved.</p>
+            <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+        </footer>
     </main>
 
-    <footer class="affiliate-disclosure">
-        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
-    </footer>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const searchParams = window.location.search;
+            if (searchParams) {
+                document.querySelectorAll('.nav-buttons a').forEach(a => {
+                    const basePath = a.getAttribute('href').split('?')[0];
+                    a.setAttribute('href', basePath + searchParams);
+                });
+            }
+        });
+    </script>
 </body>
 </html>
