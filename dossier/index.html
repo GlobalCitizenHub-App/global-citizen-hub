@@ -73,12 +73,12 @@
 
         <section class="scope-box no-print">
             <h3>⚙️ Universal Scope Selector with Live Validation</h3>
-            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide (e.g., Aurora, CO or Istanbul, Turkey).</p>
+            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide (e.g., Seoul, Incheon, or Istanbul, Turkey).</p>
             
             <div class="scope-grid">
                 <div class="input-group">
                     <label for="destinationA">Primary Destination (City)</label>
-                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type specific city...">
+                    <input type="text" id="destinationA" list="worldHubs" value="Seoul" oninput="validateAndEvaluate()" placeholder="Type specific city...">
                     <span id="feedbackA" class="feedback-tag"></span>
                 </div>
 
@@ -100,12 +100,12 @@
             </div>
 
             <datalist id="worldHubs">
+                <option value="Seoul">
+                <option value="Incheon">
+                <option value="Tokyo, Japan">
                 <option value="Aurora, CO">
-                <option value="Auckland, New Zealand">
                 <option value="Shanghai, China">
                 <option value="Istanbul, Turkey">
-                <option value="Seoul, South Korea">
-                <option value="Tokyo, Japan">
                 <option value="Paris, France">
                 <option value="London, UK">
                 <option value="New York, NY">
@@ -207,7 +207,7 @@
     <script>
         const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
         
-        // Country-to-City Example Mapping for precise feedback
+        // Country-to-City Example Mapping
         const countryCityMap = {
             "china": "Shanghai",
             "new zealand": "Auckland",
@@ -228,6 +228,7 @@
             "spain": "Madrid"
         };
         
+        // Strictly ambiguous multi-state U.S. towns requiring state disambiguation
         const ambiguousTownsMap = {
             "aurora": "Aurora, CO or Aurora, IL",
             "middletown": "Middletown, DE or Middletown, NY",
@@ -261,10 +262,8 @@
             } else if (specificSuggestion) {
                 feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (!val.includes(",") && val.split(" ").length === 1 && val.length < 12) {
-                feedbackEl.innerText = `⚠️ Please include state or country (e.g., ${val}, CO).`;
-                feedbackEl.className = "feedback-tag feedback-warning";
             } else {
+                // All other valid city inputs (Seoul, Incheon, Tokyo, etc.) pass cleanly
                 feedbackEl.innerText = "✓ Confirmed city destination scope active";
                 feedbackEl.className = "feedback-tag feedback-valid";
             }
