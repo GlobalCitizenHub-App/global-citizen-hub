@@ -67,12 +67,12 @@
                         <input type="text" id="primaryCity" placeholder="e.g., Seoul or Aurora">
                     </div>
                     <div class="form-group">
-                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(If U.S. / Overlap)</span></label>
-                        <input type="text" id="primaryState" placeholder="e.g., Colorado">
+                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., Maine or ME)</span></label>
+                        <input type="text" id="primaryState" placeholder="e.g., Maine">
                     </div>
                     <div class="form-group">
                         <label for="primaryCountry">Country</label>
-                        <input type="text" id="primaryCountry" placeholder="e.g., South Korea">
+                        <input type="text" id="primaryCountry" placeholder="e.g., United States">
                     </div>
                 </div>
                 <div id="primaryStatus" class="verification-badge"></div>
@@ -182,31 +182,41 @@
     </footer>
 
     <script>
-        // Master Unified Geographic & Scientific Database
+        // Master Unified Geographic & Scientific Database (Full 14 U.S. states for Aurora + Global Hubs)
         const verifiedDatabase = [
             // International Global Hubs (State Optional)
-            { city: "seoul", state: "", country: "south korea" },
-            { city: "seoul", state: "", country: "korea" },
-            { city: "singapore", state: "", country: "singapore" },
-            { city: "tokyo", state: "tokyo", country: "japan" },
-            { city: "paris", state: "", country: "france" },
-            { city: "london", state: "england", country: "united kingdom" },
-            { city: "london", state: "ontario", country: "canada" },
-            { city: "berlin", state: "", country: "germany" },
-            { city: "sydney", state: "new south wales", country: "australia" },
+            { city: "seoul", states: [""], country: "south korea" },
+            { city: "seoul", states: [""], country: "korea" },
+            { city: "singapore", states: [""], country: "singapore" },
+            { city: "tokyo", states: ["tokyo", "tokyo prefecture"], country: "japan" },
+            { city: "paris", states: [""], country: "france" },
+            { city: "london", states: ["england"], country: "united kingdom" },
+            { city: "london", states: ["ontario"], country: "canada" },
+            { city: "berlin", states: [""], country: "germany" },
+            { city: "sydney", states: ["new south wales"], country: "australia" },
 
-            // U.S. Overlapping Cities (State Required)
-            { city: "aurora", state: "colorado", country: "united states" },
-            { city: "aurora", state: "illinois", country: "united states" },
-            { city: "aurora", state: "ohio", country: "united states" },
-            { city: "aurora", state: "oregon", country: "united states" },
-            { city: "aurora", state: "new york", country: "united states" },
-            { city: "aurora", state: "missouri", country: "united states" },
-            { city: "aurora", state: "nebraska", country: "united states" },
-            { city: "new york", state: "new york", country: "united states" },
-            { city: "los angeles", state: "california", country: "united states" },
-            { city: "chicago", state: "illinois", country: "united states" },
-            { city: "toronto", state: "ontario", country: "canada" }
+            // All 14 U.S. States for Aurora + Abbreviations
+            { city: "aurora", states: ["colorado", "co"], country: "united states" },
+            { city: "aurora", states: ["illinois", "il"], country: "united states" },
+            { city: "aurora", states: ["ohio", "oh"], country: "united states" },
+            { city: "aurora", states: ["oregon", "or"], country: "united states" },
+            { city: "aurora", states: ["new york", "ny"], country: "united states" },
+            { city: "aurora", states: ["missouri", "mo"], country: "united states" },
+            { city: "aurora", states: ["nebraska", "ne"], country: "united states" },
+            { city: "aurora", states: ["texas", "tx"], country: "united states" },
+            { city: "aurora", states: ["utah", "ut"], country: "united states" },
+            { city: "aurora", states: ["minnesota", "mn"], country: "united states" },
+            { city: "aurora", states: ["indiana", "in"], country: "united states" },
+            { city: "aurora", states: ["iowa", "ia"], country: "united states" },
+            { city: "aurora", states: ["kansas", "ks"], country: "united states" },
+            { city: "aurora", states: ["south dakota", "sd"], country: "united states" },
+            { city: "aurora", states: ["maine", "me"], country: "united states" },
+
+            // Other Major U.S. / Global Cities
+            { city: "new york", states: ["new york", "ny"], country: "united states" },
+            { city: "los angeles", states: ["california", "ca"], country: "united states" },
+            { city: "chicago", states: ["illinois", "il"], country: "united states" },
+            { city: "toronto", states: ["ontario"], country: "canada" }
         ];
 
         function verifyDestination(cityId, stateId, countryId, statusId) {
@@ -230,11 +240,11 @@
                 const cityMatch = item.city === city;
                 const countryMatch = item.country === country || country.includes(item.country) || item.country.includes(country);
                 
-                if (item.state !== "") {
-                    const stateMatch = item.state === state || state.includes(item.state) || item.state.includes(state);
-                    return cityMatch && countryMatch && stateMatch;
-                } else {
+                if (item.states.includes("")) {
                     return cityMatch && countryMatch;
+                } else {
+                    const stateMatch = item.states.some(s => s === state || state.includes(s) || s.includes(state));
+                    return cityMatch && countryMatch && stateMatch;
                 }
             });
 
@@ -244,14 +254,14 @@
                 statusBox.className = 'verification-badge verified';
                 return true;
             } else {
-                const isAmbiguousCity = verifiedDatabase.some(item => item.city === city && item.state !== "");
+                const isAmbiguousCity = verifiedDatabase.some(item => item.city === city && !item.states.includes(""));
                 if (isAmbiguousCity && !state) {
                     statusBox.textContent = `⚠ Disambiguation Required: "${document.getElementById(cityId).value}" exists across multiple regions. Please specify State/Province.`;
                     statusBox.className = 'verification-badge unverified';
                     return false;
                 }
 
-                statusBox.textContent = `❌ Unverified Geographic Target: No municipal match found for ${document.getElementById(cityId).value}, ${country}.`;
+                statusBox.textContent = `❌ Unverified Geographic Target: No municipal match found for ${document.getElementById(cityId).value}, ${document.getElementById(stateId).value || ''}, ${country}.`;
                 statusBox.className = 'verification-badge unverified';
                 return false;
             }
