@@ -53,7 +53,7 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Intelligence Core</h1>
         <p>
-            Deploying unified global scope verification. Enter any municipal destination worldwide—our intelligence matrix automatically resolves regional parameters and temporal variables.
+            Deploying unified global scope verification with robust normalization for abbreviations, international codes, and regional multi-state validation.
         </p>
 
         <div class="selector-box">
@@ -64,15 +64,15 @@
                 <div class="form-grid-3">
                     <div class="form-group">
                         <label for="primaryCity">City</label>
-                        <input type="text" id="primaryCity" placeholder="e.g., Seoul or Aurora">
+                        <input type="text" id="primaryCity" placeholder="e.g., Aurora or Seoul">
                     </div>
                     <div class="form-group">
-                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., Maine or ME)</span></label>
-                        <input type="text" id="primaryState" placeholder="e.g., Maine">
+                        <label for="primaryState">State / Province <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., MN or Maine)</span></label>
+                        <input type="text" id="primaryState" placeholder="e.g., MN">
                     </div>
                     <div class="form-group">
-                        <label for="primaryCountry">Country</label>
-                        <input type="text" id="primaryCountry" placeholder="e.g., United States">
+                        <label for="primaryCountry">Country <span style="font-weight:normal; color:#7f8c8d; font-size:0.8em;">(e.g., US or United States)</span></label>
+                        <input type="text" id="primaryCountry" placeholder="e.g., US">
                     </div>
                 </div>
                 <div id="primaryStatus" class="verification-badge"></div>
@@ -182,86 +182,85 @@
     </footer>
 
     <script>
-        // Master Unified Geographic & Scientific Database (Full 14 U.S. states for Aurora + Global Hubs)
+        // Comprehensive Scalable Normalized Database with Country/State Aliases
         const verifiedDatabase = [
-            // International Global Hubs (State Optional)
-            { city: "seoul", states: [""], country: "south korea" },
-            { city: "seoul", states: [""], country: "korea" },
-            { city: "singapore", states: [""], country: "singapore" },
-            { city: "tokyo", states: ["tokyo", "tokyo prefecture"], country: "japan" },
-            { city: "paris", states: [""], country: "france" },
-            { city: "london", states: ["england"], country: "united kingdom" },
-            { city: "london", states: ["ontario"], country: "canada" },
-            { city: "berlin", states: [""], country: "germany" },
-            { city: "sydney", states: ["new south wales"], country: "australia" },
+            // International Global Hubs
+            { city: "seoul", states: [""], country: "south korea", countryAliases: ["south korea", "korea", "kr"] },
+            { city: "singapore", states: [""], country: "singapore", countryAliases: ["singapore", "sg"] },
+            { city: "tokyo", states: ["tokyo", "tokyo prefecture"], country: "japan", countryAliases: ["japan", "jp"] },
+            { city: "paris", states: [""], country: "france", countryAliases: ["france", "fr"] },
+            { city: "london", states: ["england", "greater london"], country: "united kingdom", countryAliases: ["united kingdom", "uk", "britain", "gb"] },
+            { city: "london", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] },
+            { city: "berlin", states: [""], country: "germany", countryAliases: ["germany", "de"] },
+            { city: "sydney", states: ["new south wales", "nsw"], country: "australia", countryAliases: ["australia", "au"] },
 
-            // All 14 U.S. States for Aurora + Abbreviations
-            { city: "aurora", states: ["colorado", "co"], country: "united states" },
-            { city: "aurora", states: ["illinois", "il"], country: "united states" },
-            { city: "aurora", states: ["ohio", "oh"], country: "united states" },
-            { city: "aurora", states: ["oregon", "or"], country: "united states" },
-            { city: "aurora", states: ["new york", "ny"], country: "united states" },
-            { city: "aurora", states: ["missouri", "mo"], country: "united states" },
-            { city: "aurora", states: ["nebraska", "ne"], country: "united states" },
-            { city: "aurora", states: ["texas", "tx"], country: "united states" },
-            { city: "aurora", states: ["utah", "ut"], country: "united states" },
-            { city: "aurora", states: ["minnesota", "mn"], country: "united states" },
-            { city: "aurora", states: ["indiana", "in"], country: "united states" },
-            { city: "aurora", states: ["iowa", "ia"], country: "united states" },
-            { city: "aurora", states: ["kansas", "ks"], country: "united states" },
-            { city: "aurora", states: ["south dakota", "sd"], country: "united states" },
-            { city: "aurora", states: ["maine", "me"], country: "united states" },
+            // Complete 14 U.S. States for Aurora with full names and standard 2-letter postal abbreviations
+            { city: "aurora", states: ["colorado", "co"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["ohio", "oh"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["oregon", "or"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["missouri", "mo"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["nebraska", "ne"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["texas", "tx"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["utah", "ut"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["minnesota", "mn"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["indiana", "in"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["iowa", "ia"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["kansas", "ks"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["south dakota", "sd"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "aurora", states: ["maine", "me"], country: "united states", countryAliases: ["united states", "us", "usa"] },
 
-            // Other Major U.S. / Global Cities
-            { city: "new york", states: ["new york", "ny"], country: "united states" },
-            { city: "los angeles", states: ["california", "ca"], country: "united states" },
-            { city: "chicago", states: ["illinois", "il"], country: "united states" },
-            { city: "toronto", states: ["ontario"], country: "canada" }
+            // Other Major Hubs
+            { city: "new york", states: ["new york", "ny"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "los angeles", states: ["california", "ca"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "chicago", states: ["illinois", "il"], country: "united states", countryAliases: ["united states", "us", "usa"] },
+            { city: "toronto", states: ["ontario", "on"], country: "canada", countryAliases: ["canada", "ca"] }
         ];
 
         function verifyDestination(cityId, stateId, countryId, statusId) {
-            const city = document.getElementById(cityId).value.trim().toLowerCase();
-            const state = document.getElementById(stateId).value.trim().toLowerCase();
-            const country = document.getElementById(countryId).value.trim().toLowerCase();
+            const cityInput = document.getElementById(cityId).value.trim().toLowerCase();
+            const stateInput = document.getElementById(stateId).value.trim().toLowerCase();
+            const countryInput = document.getElementById(countryId).value.trim().toLowerCase();
             const statusBox = document.getElementById(statusId);
 
-            if (!city && !state && !country) {
+            if (!cityInput && !stateInput && !countryInput) {
                 statusBox.textContent = '';
                 return false;
             }
 
-            if (!city || !country) {
+            if (!cityInput || !countryInput) {
                 statusBox.textContent = '⚠ Scientific Scope Error: City and Country parameters are mandatory.';
                 statusBox.className = 'verification-badge unverified';
                 return false;
             }
 
             const match = verifiedDatabase.find(item => {
-                const cityMatch = item.city === city;
-                const countryMatch = item.country === country || country.includes(item.country) || item.country.includes(country);
+                const cityMatch = item.city === cityInput;
+                const countryMatch = item.countryAliases.some(alias => alias === countryInput || countryInput.includes(alias) || alias.includes(countryInput));
                 
                 if (item.states.includes("")) {
                     return cityMatch && countryMatch;
                 } else {
-                    const stateMatch = item.states.some(s => s === state || state.includes(s) || s.includes(state));
+                    const stateMatch = item.states.some(s => s === stateInput || stateInput.includes(s) || s.includes(stateInput));
                     return cityMatch && countryMatch && stateMatch;
                 }
             });
 
             if (match) {
-                const stateDisplay = state ? `, ${document.getElementById(stateId).value}` : '';
+                const stateDisplay = stateInput ? `, ${document.getElementById(stateId).value}` : '';
                 statusBox.textContent = `✔ Verified Target: ${document.getElementById(cityId).value}${stateDisplay}, ${document.getElementById(countryId).value} (Scientific Scope Confirmed)`;
                 statusBox.className = 'verification-badge verified';
                 return true;
             } else {
-                const isAmbiguousCity = verifiedDatabase.some(item => item.city === city && !item.states.includes(""));
-                if (isAmbiguousCity && !state) {
-                    statusBox.textContent = `⚠ Disambiguation Required: "${document.getElementById(cityId).value}" exists across multiple regions. Please specify State/Province.`;
+                const isAmbiguousCity = verifiedDatabase.some(item => item.city === cityInput && !item.states.includes(""));
+                if (isAmbiguousCity && !stateInput) {
+                    statusBox.textContent = `⚠ Disambiguation Required: "${document.getElementById(cityId).value}" exists across multiple regions. Please specify State/Province abbreviation (e.g., ME, MN, CO).`;
                     statusBox.className = 'verification-badge unverified';
                     return false;
                 }
 
-                statusBox.textContent = `❌ Unverified Geographic Target: No municipal match found for ${document.getElementById(cityId).value}, ${document.getElementById(stateId).value || ''}, ${country}.`;
+                statusBox.textContent = `❌ Unverified Geographic Target: No municipal match found for ${document.getElementById(cityId).value}, ${document.getElementById(stateId).value || 'N/A'}, ${document.getElementById(countryId).value}.`;
                 statusBox.className = 'verification-badge unverified';
                 return false;
             }
