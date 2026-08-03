@@ -293,33 +293,55 @@
                 </div>
                 
                 <div class="tool-box" style="grid-column: 1 / -1;">
-                    <h5>👕 Apparel & Footwear (Live Sizing & Asian Metrics)</h5>
+                    <h5>👕 Apparel & Footwear (Live Converters)</h5>
                     
-                    <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed var(--border);">
-                        <strong style="display:block; margin-bottom: 10px; font-size: 0.9em; color: var(--dark);">Live Adult Shoe Size Converter (Approximate)</strong>
-                        <div class="tool-row" style="flex-wrap: wrap;">
-                            <select id="shoeGender" onchange="convertShoes('us')">
-                                <option value="m">Men's</option>
-                                <option value="w">Women's</option>
-                            </select>
-                            <input type="number" id="shoeUS" placeholder="US" oninput="convertShoes('us')" step="0.5" style="width: 70px;"> US &nbsp;⇌&nbsp;
-                            <input type="number" id="shoeEU" placeholder="EU" oninput="convertShoes('eu')" step="0.5" style="width: 70px;"> EU &nbsp;⇌&nbsp;
-                            <input type="number" id="shoeUK" placeholder="UK" oninput="convertShoes('uk')" step="0.5" style="width: 70px;"> UK &nbsp;⇌&nbsp;
-                            <input type="number" id="shoeJP" placeholder="Asia" oninput="convertShoes('jp')" step="0.5" style="width: 70px;"> Asia (cm)
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                        
+                        <div style="padding-bottom: 15px; border-bottom: 1px dashed var(--border);">
+                            <strong style="display:block; margin-bottom: 10px; font-size: 0.9em; color: var(--dark);">👞 Adult Shoe Sizes</strong>
+                            <div class="tool-row" style="flex-wrap: wrap;">
+                                <select id="shoeGender" onchange="convertShoes('us')">
+                                    <option value="m">Men's</option>
+                                    <option value="w">Women's</option>
+                                </select>
+                                <input type="number" id="shoeUS" placeholder="US" oninput="convertShoes('us')" step="0.5" style="width: 65px;"> US ⇌
+                                <input type="number" id="shoeEU" placeholder="EU" oninput="convertShoes('eu')" step="0.5" style="width: 65px;"> EU ⇌
+                                <input type="number" id="shoeUK" placeholder="UK" oninput="convertShoes('uk')" step="0.5" style="width: 65px;"> UK ⇌
+                                <input type="number" id="shoeJP" placeholder="Asia" oninput="convertShoes('jp')" step="0.5" style="width: 65px;"> Asia
+                            </div>
+                        </div>
+
+                        <div style="padding-bottom: 15px; border-bottom: 1px dashed var(--border);">
+                            <strong style="display:block; margin-bottom: 10px; font-size: 0.9em; color: var(--dark);">👔 Adult Clothing (Numeric)</strong>
+                            <div class="tool-row" style="flex-wrap: wrap;">
+                                <select id="clothGender" onchange="convertClothing('us')">
+                                    <option value="w">Women's (Dress)</option>
+                                    <option value="m">Men's (Suit/Chest)</option>
+                                </select>
+                                <input type="number" id="clothUS" placeholder="US" oninput="convertClothing('us')" step="2" style="width: 65px;"> US ⇌
+                                <input type="number" id="clothEU" placeholder="EU" oninput="convertClothing('eu')" step="2" style="width: 65px;"> EU ⇌
+                                <input type="number" id="clothUK" placeholder="UK" oninput="convertClothing('uk')" step="2" style="width: 65px;"> UK ⇌
+                                <input type="number" id="clothJP" placeholder="Asia" oninput="convertClothing('jp')" step="2" style="width: 65px;"> Asia
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="margin-top: 15px;">
+                        <strong style="display:block; margin-bottom: 10px; font-size: 0.9em; color: var(--dark);">Specialty Fit Guide</strong>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                            <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
+                                <li><strong>Kids (Youth Shoes):</strong> US 1Y = EU 32 = UK 13 = Asia 20cm</li>
+                                <li><strong>Standard Clothing (Alphanumeric):</strong> US Medium = EU 48 = UK 38 = Asia Large</li>
+                            </ul>
+                            <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
+                                <li><strong>Petite:</strong> US 6P = EU 36P = UK 8P = Asia M</li>
+                                <li><strong>Plus / Curve:</strong> US 18W = EU 50 = UK 22 = Asia 3XL</li>
+                                <li><strong>Tall:</strong> Add 'T' (e.g., LT); metric inseam > 86cm</li>
+                            </ul>
                         </div>
                     </div>
 
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
-                        <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
-                            <li><strong>Standard Clothing:</strong> US M = EU 48 = UK 38 = Asia L</li>
-                            <li><strong>Kids (Youth Shoes):</strong> US 1Y = EU 32 = UK 13 = Asia 20cm</li>
-                        </ul>
-                        <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
-                            <li><strong>Petite:</strong> US 6P = EU 36P = UK 8P = Asia M</li>
-                            <li><strong>Plus / Curve:</strong> US 18W = EU 50 = UK 22 = Asia 3XL</li>
-                            <li><strong>Tall:</strong> Add 'T' (e.g., LT); metric inseam > 86cm</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
@@ -367,7 +389,7 @@
             });
         }
 
-        // Helper to launch tools from Global Links (Nav & Footer)
+        // Helper to launch tools from Global Links
         function launchTools() {
             document.getElementById('reportContainer').style.display = 'block';
             showPillar('tools');
@@ -420,7 +442,7 @@
             else { m.value = ""; f.value = ""; }
         }
         
-        // Live Shoe Converter Logic
+        // Live Shoe Converter
         function convertShoes(source) {
             let gender = document.getElementById('shoeGender').value;
             let us = document.getElementById('shoeUS');
@@ -429,18 +451,43 @@
             let jp = document.getElementById('shoeJP');
 
             let usVal = 0;
-            // Capture base value into US equivalent
             if (source === 'us' && us.value !== "") usVal = parseFloat(us.value);
             else if (source === 'eu' && eu.value !== "") usVal = gender === 'm' ? parseFloat(eu.value) - 33 : parseFloat(eu.value) - 30;
             else if (source === 'uk' && uk.value !== "") usVal = gender === 'm' ? parseFloat(uk.value) + 1 : parseFloat(uk.value) + 2;
             else if (source === 'jp' && jp.value !== "") usVal = gender === 'm' ? parseFloat(jp.value) - 18 : parseFloat(jp.value) - 17;
             else { us.value = ""; eu.value = ""; uk.value = ""; jp.value = ""; return; }
 
-            // Distribute calculations
             if (source !== 'us') us.value = usVal;
             if (source !== 'eu') eu.value = gender === 'm' ? (usVal + 33) : (usVal + 30);
             if (source !== 'uk') uk.value = gender === 'm' ? (usVal - 1) : (usVal - 2);
             if (source !== 'jp') jp.value = gender === 'm' ? (usVal + 18) : (usVal + 17);
+        }
+
+        // Live Clothing Converter (Numeric)
+        function convertClothing(source) {
+            let gender = document.getElementById('clothGender').value; // 'w' = Dress, 'm' = Suit/Chest
+            let us = document.getElementById('clothUS');
+            let eu = document.getElementById('clothEU');
+            let uk = document.getElementById('clothUK');
+            let jp = document.getElementById('clothJP');
+
+            let usVal = 0;
+            if (source === 'us' && us.value !== "") usVal = parseFloat(us.value);
+            else if (source === 'eu' && eu.value !== "") {
+                usVal = gender === 'w' ? parseFloat(eu.value) - 30 : parseFloat(eu.value) - 10;
+            }
+            else if (source === 'uk' && uk.value !== "") {
+                usVal = gender === 'w' ? parseFloat(uk.value) - 4 : parseFloat(uk.value);
+            }
+            else if (source === 'jp' && jp.value !== "") {
+                usVal = gender === 'w' ? parseFloat(jp.value) - 5 : parseFloat(jp.value);
+            }
+            else { us.value = ""; eu.value = ""; uk.value = ""; jp.value = ""; return; }
+
+            if (source !== 'us') us.value = usVal;
+            if (source !== 'eu') eu.value = gender === 'w' ? (usVal + 30) : (usVal + 10);
+            if (source !== 'uk') uk.value = gender === 'w' ? (usVal + 4) : usVal;
+            if (source !== 'jp') jp.value = gender === 'w' ? (usVal + 5) : usVal;
         }
 
         // ----------------------------------------------------
@@ -482,7 +529,6 @@
 
             const isUS = usCountryAliases.some(alias => countryInput.toLowerCase() === alias || countryInput.toLowerCase().includes(alias));
 
-            // U.S. Regional Validation (Ensures State is provided and valid)
             if (isUS) {
                 if (!stateInput) { 
                     statusBox.textContent = `⚠ Disambiguation Required: U.S. municipalities require a State / Province parameter.`; 
@@ -502,7 +548,6 @@
                     return false;
                 }
             } else {
-                // International Open Validation (Accepts any international pairing dynamically)
                 const stateDisplay = stateInput ? `, ${formatProperCase(stateInput)}` : '';
                 statusBox.textContent = `✔ Verified Target: ${formatProperCase(cityInput)}${stateDisplay}, ${formatProperCase(countryInput)}`;
                 statusBox.className = 'verification-badge verified';
@@ -596,7 +641,6 @@
                 container.style.display = 'block';
                 showPillar('clim');
                 
-                // Navigate gracefully down to the tabs section
                 document.querySelector('.pillar-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
             } catch (err) {
                 console.error("Report Generation Interrupted:", err);
