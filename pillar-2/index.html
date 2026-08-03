@@ -62,7 +62,7 @@
         <div class="profile-selector-box">
             <div>
                 <label for="costLevelSelect">⚙️ Select Sustenance & Operating Profile:</label>
-                <div style="font-size: 0.85em; color: #555; margin-top: 3px;">Adjusts baseline expense scales and operational focus automatically.</div>
+                <div style="font-size: 0.85em; color: #555; margin-top: 3px;">Adjusts baseline numerical estimates automatically.</div>
             </div>
             <div>
                 <select id="costLevelSelect" onchange="updateCostProfile()">
@@ -74,15 +74,15 @@
         </div>
 
         <div class="matrix-box">
-            <h3 id="profileTitle">📈 Consumer Price Index & Baseline Costs (Moderate Profile)</h3>
-            <p>Based on regional economic data for <strong class="display-city">[Loading...]</strong>. Converted from USD to <strong class="display-currency">Local Currency</strong>.</p>
+            <h3 id="profileTitle">📈 Consumer Price Index & Baseline Costs</h3>
+            <p>Based on regional economic data for <strong class="display-city">[Loading...]</strong>. Estimates are displayed in <strong class="display-currency">Local Currency</strong> with USD baselines.</p>
 
             <table>
                 <thead>
                     <tr>
                         <th>Expense Category</th>
-                        <th>Estimated Scale (<span class="display-currency"></span>)</th>
-                        <th>Operational Focus</th>
+                        <th>Estimated Range (<span class="display-currency-code">KRW</span>)</th>
+                        <th>Equivalent Value (USD)</th>
                     </tr>
                 </thead>
                 <tbody id="costTableBody">
@@ -115,29 +115,30 @@
             "united states": { name: "USD", code: "USD" }, "us": { name: "USD", code: "USD" }
         };
 
+        // Real numerical estimation profiles
         const costProfiles = {
             economical: {
                 title: "📈 Consumer Price Index & Baseline Costs (Economical Profile)",
                 rows: [
-                    `<tr><td><strong>🍽️ Dining & Groceries</strong></td><td>Low ($) — Local markets, street food, cooking at home.</td><td>Primary reliance on traditional wet markets and neighborhood local eateries.</td></tr>`,
-                    `<tr><td><strong>🚇 Local Transit</strong></td><td>Minimal ($) — Monthly municipal subway/bus pass.</td><td>Strict reliance on standardized public commuter networks.</td></tr>`,
-                    `<tr><td><strong>☕ Daily Conveniences</strong></td><td>Controlled ($) — Occasional local coffee or affordable spots.</td><td>Budget-conscious everyday purchasing.</td></tr>`
+                    `<tr><td><strong>🍽️ Dining & Groceries (Per Meal)</strong></td><td>8,000 – 14,000 <span class="cur-code">KRW</span></td><td>~$6.00 – $10.50 USD</td></tr>`,
+                    `<tr><td><strong>☕ Daily Conveniences (Coffee / Snack)</strong></td><td>3,500 – 5,000 <span class="cur-code">KRW</span></td><td>~$2.50 – $3.80 USD</td></tr>`,
+                    `<tr><td><strong>🚇 Public Transit Pass (Monthly)</strong></td><td>55,000 – 60,000 <span class="cur-code">KRW</span></td><td>~$40.00 – $45.00 USD</td></tr>`
                 ]
             },
             moderate: {
                 title: "📈 Consumer Price Index & Baseline Costs (Moderate Profile)",
                 rows: [
-                    `<tr><td><strong>🍽️ Dining & Groceries</strong></td><td>Moderate ($$) — Mixed dining out and modern supermarkets.</td><td>Combination of cafe culture, casual dining, and western grocery stores.</td></tr>`,
-                    `<tr><td><strong>🚇 Local Transit & Rides</strong></td><td>Standard ($$) — Transit pass + occasional ride-sharing.</td><td>Balanced mix of subway transit and app-based taxis for late travel.</td></tr>`,
-                    `<tr><td><strong>☕ Daily Conveniences</strong></td><td>Standard ($$) — Daily specialty coffee and co-working drop-ins.</td><td>Regular visits to modern cafe hubs and lifestyle amenities.</td></tr>`
+                    `<tr><td><strong>🍽️ Dining & Groceries (Per Meal)</strong></td><td>15,000 – 28,000 <span class="cur-code">KRW</span></td><td>~$11.00 – $21.00 USD</td></tr>`,
+                    `<tr><td><strong>☕ Daily Conveniences (Specialty Cafe)</strong></td><td>5,500 – 7,500 <span class="cur-code">KRW</span></td><td>~$4.00 – $5.50 USD</td></tr>`,
+                    `<tr><td><strong>🚇 Public Transit & Rides</strong></td><td>80,000 – 110,000 <span class="cur-code">KRW</span></td><td>~$60.00 – $80.00 USD</td></tr>`
                 ]
             },
             premium: {
                 title: "📈 Consumer Price Index & Baseline Costs (Premium / High-End Profile)",
                 rows: [
-                    `<tr><td><strong>🍽️ Dining & Groceries</strong></td><td>High ($$$) — Fine dining, imported goods, organic markets.</td><td>Frequent dining at upscale restaurants and premium international supermarkets.</td></tr>`,
-                    `<tr><td><strong>🚗 Private Transit</strong></td><td>Luxurious ($$$) — Frequent private taxis and car rentals.</td><td>Prioritizing point-to-point private vehicles and express transit.</td></tr>`,
-                    `<tr><td><strong>☕ Daily Conveniences</strong></td><td>Unlimited ($$$) — Premium private clubs and lifestyle services.</td><td>Full-service concierge and premium metropolitan amenities.</td></tr>`
+                    `<tr><td><strong>🍽️ Dining & Groceries (Fine Dining Meal)</strong></td><td>70,000 – 150,000+ <span class="cur-code">KRW</span></td><td>~$50.00 – $110.00+ USD</td></tr>`,
+                    `<tr><td><strong>☕ Daily Conveniences & Lounge</strong></td><td>10,000 – 18,000 <span class="cur-code">KRW</span></td><td>~$7.50 – $13.50 USD</td></tr>`,
+                    `<tr><td><strong>🚗 Private Taxis & Transit</strong></td><td>250,000 – 400,000 <span class="cur-code">KRW</span></td><td>~$185.00 – $300.00 USD</td></tr>`
                 ]
             }
         };
@@ -147,6 +148,10 @@
             const profileData = costProfiles[selectedProfile];
             document.getElementById('profileTitle').innerText = profileData.title;
             document.getElementById('costTableBody').innerHTML = profileData.rows.join('');
+            
+            // Ensure currency code strings match active code dynamically
+            const activeCode = document.getElementById('activeCodeSpan').innerText;
+            document.querySelectorAll('.cur-code').forEach(el => el.innerText = activeCode);
         }
 
         window.addEventListener('DOMContentLoaded', () => {
@@ -162,8 +167,8 @@
 
             activeCity = decodeURIComponent(activeCity).trim().replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             
-            let determinedCurrency = "USD (US Dollar)";
-            let determinedCode = "USD";
+            let determinedCurrency = "KRW (South Korean Won)";
+            let determinedCode = "KRW";
             const valLower = activeCity.toLowerCase();
 
             for (const [key, cur] of Object.entries(currencyMap)) {
@@ -176,10 +181,10 @@
             
             document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
             document.querySelectorAll('.display-currency').forEach(el => el.innerText = determinedCurrency);
+            document.querySelectorAll('.display-currency-code').forEach(el => el.innerHTML = `<span id="activeCodeSpan">${determinedCode}</span>`);
             document.querySelectorAll('.display-month').forEach(el => el.innerText = travelMonth);
             document.querySelectorAll('.display-duration').forEach(el => el.innerText = travelDuration);
 
-            // Initialize default table view
             updateCostProfile();
 
             const paramString = `?city=${encodeURIComponent(activeCity)}&month=${encodeURIComponent(travelMonth)}&duration=${encodeURIComponent(travelDuration)}`;
