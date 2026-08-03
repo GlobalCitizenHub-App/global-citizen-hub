@@ -1,55 +1,146 @@
-<div class="input-group">
-    <label for="mainDestinationA">Primary Destination (City)</label>
-    <input type="text" id="mainDestinationA" value="Seoul" oninput="checkMainFieldFeedback('mainDestinationA', 'mainFeedbackA')" placeholder="Type specific city...">
-    <span id="mainFeedbackA" class="feedback-tag"></span>
-</div>
-
-<script>
-    const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
-    const countryCityMap = {
-        "china": "Shanghai", "new zealand": "Auckland", "japan": "Tokyo", 
-        "south korea": "Seoul", "korea": "Seoul", "turkey": "Istanbul", 
-        "france": "Paris", "united kingdom": "London", "uk": "London", 
-        "australia": "Sydney", "canada": "Vancouver", "united states": "New York", 
-        "usa": "New York", "us": "New York", "germany": "Berlin", "italy": "Rome", "spain": "Madrid"
-    };
-    const ambiguousTownsMap = {
-        "aurora": "Aurora, CO or Aurora, IL",
-        "middletown": "Middletown, DE or Middletown, NY",
-        "springfield": "Springfield, IL or Springfield, MA"
-    };
-
-    function checkMainFieldFeedback(inputId, feedbackId) {
-        const inputElem = document.getElementById(inputId);
-        let val = inputElem.value.trim();
-        const feedbackEl = document.getElementById(feedbackId);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Citizen Hub | Main Dashboard</title>
+    <style>
+        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; --warning: #d35400; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         
-        if (!val) {
-            feedbackEl.innerText = "⚠️ Please enter a specific destination city";
-            feedbackEl.className = "feedback-tag feedback-warning";
-            return;
+        h1 { color: var(--dark); margin-top: 0; font-size: 1.8em; }
+        
+        /* Scope Selection Box */
+        .scope-box { background: #eaf2f8; border: 1px solid #a4c639; padding: 25px; border-radius: 6px; margin: 25px 0; }
+        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
+        .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
+        .input-group input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
+        
+        /* Remove Browser Datalist Drop-Down Arrow */
+        .input-group input::-webkit-calendar-picker-indicator {
+            display: none !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            pointer-events: none !important;
         }
 
-        let valLower = val.toLowerCase();
-        if (valLower === "us" || valLower === "usa") { val = "US"; inputElem.value = val; valLower = "us"; }
-        else if (valLower === "uk") { val = "UK"; inputElem.value = val; valLower = "uk"; }
+        /* Automatic Feedback Tag */
+        .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
+        .feedback-valid { color: var(--accent); }
+        .feedback-warning { color: var(--warning); }
 
-        const isContinent = continentList.some(c => c.toLowerCase() === valLower);
-        const specificCityExample = countryCityMap[valLower];
-        const specificSuggestion = ambiguousTownsMap[valLower];
+        /* Launch Button */
+        .btn { background: var(--primary); color: white; padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: inline-block; margin-top: 20px; transition: opacity 0.2s; }
+        .btn:hover { opacity: 0.9; }
+    </style>
+</head>
+<body>
+    <main class="card">
+        <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
+        <p>Configure your destination comparison scope below. Your choices will carry over instantly to the advanced dossier.</p>
 
-        if (isContinent) {
-            feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
-            feedbackEl.className = "feedback-tag feedback-warning";
-        } else if (specificCityExample) {
-            feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., ${specificCityExample} for ${val}).`;
-            feedbackEl.className = "feedback-tag feedback-warning";
-        } else if (specificSuggestion) {
-            feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
-            feedbackEl.className = "feedback-tag feedback-warning";
-        } else {
-            feedbackEl.innerText = "✓ Confirmed city destination scope active";
-            feedbackEl.className = "feedback-tag feedback-valid";
+        <section class="scope-box">
+            <h3>⚙️ Quick Scope Selector with Live Validation</h3>
+            <div class="scope-grid">
+                <div class="input-group">
+                    <label for="mainCityA">Primary Destination (City)</label>
+                    <input type="text" id="mainCityA" value="Seoul" oninput="checkMainFeedback('mainCityA', 'mainFeedbackA')" placeholder="Type specific city...">
+                    <span id="mainFeedbackA" class="feedback-tag"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="mainCityB">Secondary Destination (City)</label>
+                    <input type="text" id="mainCityB" value="Tokyo, Japan" oninput="checkMainFeedback('mainCityB', 'mainFeedbackB')" placeholder="Type specific city...">
+                    <span id="mainFeedbackB" class="feedback-tag"></span>
+                </div>
+            </div>
+
+            <a id="launchDossierBtn" href="dossier/index.html?cityA=Seoul&cityB=Tokyo,%20Japan" class="btn">Launch Advanced Comparison Dossier →</a>
+        </section>
+    </main>
+
+    <script>
+        const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
+        
+        const countryCityMap = {
+            "china": "Shanghai",
+            "new zealand": "Auckland",
+            "japan": "Tokyo",
+            "south korea": "Seoul",
+            "korea": "Seoul",
+            "turkey": "Istanbul",
+            "france": "Paris",
+            "united kingdom": "London",
+            "uk": "London",
+            "australia": "Sydney",
+            "canada": "Vancouver",
+            "united states": "New York",
+            "usa": "New York",
+            "us": "New York",
+            "germany": "Berlin",
+            "italy": "Rome",
+            "spain": "Madrid"
+        };
+        
+        const ambiguousTownsMap = {
+            "aurora": "Aurora, CO or Aurora, IL",
+            "middletown": "Middletown, DE or Middletown, NY",
+            "springfield": "Springfield, IL or Springfield, MA",
+            "columbus": "Columbus, OH or Columbus, GA",
+            "georgetown": "Georgetown, DE or Georgetown, TX",
+            "clinton": "Clinton, MD or Clinton, IA"
+        };
+
+        function checkMainFeedback(inputId, feedbackId) {
+            const inputElem = document.getElementById(inputId);
+            let val = inputElem.value.trim();
+            const feedbackEl = document.getElementById(feedbackId);
+            
+            if (!val) {
+                feedbackEl.innerText = "⚠️ Please enter a specific destination city";
+                feedbackEl.className = "feedback-tag feedback-warning";
+                updateLaunchLink();
+                return;
+            }
+
+            let valLower = val.toLowerCase();
+            if (valLower === "us" || valLower === "usa") { val = "US"; inputElem.value = val; valLower = "us"; }
+            else if (valLower === "uk") { val = "UK"; inputElem.value = val; valLower = "uk"; }
+
+            const isContinent = continentList.some(c => c.toLowerCase() === valLower);
+            const specificCityExample = countryCityMap[valLower];
+            const specificSuggestion = ambiguousTownsMap[valLower];
+
+            if (isContinent) {
+                feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else if (specificCityExample) {
+                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., ${specificCityExample} for ${val}).`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else if (specificSuggestion) {
+                feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else {
+                feedbackEl.innerText = "✓ Confirmed city destination scope active";
+                feedbackEl.className = "feedback-tag feedback-valid";
+            }
+
+            updateLaunchLink();
         }
-    }
-</script>
+
+        function updateLaunchLink() {
+            const cityA = encodeURIComponent(document.getElementById('mainCityA').value.trim() || "Seoul");
+            const cityB = encodeURIComponent(document.getElementById('mainCityB').value.trim() || "Tokyo, Japan");
+            document.getElementById('launchDossierBtn').href = `dossier/index.html?cityA=${cityA}&cityB=${cityB}`;
+        }
+
+        // Run initial check on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkMainFeedback('mainCityA', 'mainFeedbackA');
+            checkMainFeedback('mainCityB', 'mainFeedbackB');
+        });
+    </script>
+</body>
+</html>
