@@ -14,11 +14,22 @@
         h2 { margin-top: 35px; font-size: 1.35em; border-bottom: 2px solid var(--light); padding-bottom: 8px; }
         p { margin-bottom: 20px; font-size: 1.02em; }
         
-        /* Persistent Paper Binder Navigation Buttons */
+        /* Persistent Paper Binder Navigation Buttons with Dramatic 3D Depth */
         .nav-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 45px; padding-top: 25px; border-top: 1px solid var(--light); }
-        .nav-btn { flex: 1; min-width: 120px; padding: 12px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85em; color: white; border-radius: 6px; transition: transform 0.1s, opacity 0.2s; opacity: 0.85; }
+        .nav-btn { flex: 1; min-width: 120px; padding: 12px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.85em; color: white; border-radius: 6px; transition: transform 0.1s, opacity 0.2s; opacity: 0.85; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         .nav-btn:hover { opacity: 1; transform: translateY(-2px); }
-        .nav-btn.active { opacity: 1; box-shadow: inset 0 -4px 0 #fff, 0 2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
+        
+        /* Dramatic 3D Active State */
+        .nav-btn.active {
+            opacity: 1;
+            background: linear-gradient(to bottom, #3498db, #1b4f72) !important;
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 
+                        0 6px 12px rgba(0, 0, 0, 0.25), 
+                        0 0 0 2px #ffffff;
+            transform: translateY(-3px);
+            font-weight: 800;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
         
         .btn-dash { background: #34495e; } 
         .btn-about { background: #2980b9; } 
@@ -33,19 +44,19 @@
     <main class="card">
         <h1>About Global Citizen Hub</h1>
         <p style="font-size: 1.15em; color: var(--primary); font-weight: bold; margin-bottom: 25px;">
-            The Smart Traveling and Relocation Toolkit.
+            The universal Smart Traveling and Relocation Toolkit.
         </p>
         <p>
             Empowering lifelong learners—including students, professionals, families, and retirees—navigating journeys across the United States and worldwide.
         </p>
 
         <h2>Our Mission</h2>
-<p>
-    Whether you are planning a cross-country domestic move, a short-term cultural getaway, a study abroad semester, a digital nomad stint, a family vacation, or a permanent international relocation, navigating interstate travel or cross-border moves introduces countless hidden friction points: unexpected climate shifts, fluctuating living costs, unfamiliar transit networks, cultural communication barriers, and e-commerce sizing challenges.
-</p>
-<p>
-    Our mission is to eliminate that overwhelm by consolidating critical destination intelligence into a single, lightning-fast platform built for global citizens navigating life across the United States and worldwide.
-</p>
+        <p>
+            Whether you are planning a cross-country domestic move, a short-term cultural getaway, a study abroad semester, a digital nomad stint, a family vacation, or a permanent international relocation, navigating interstate travel or cross-border moves introduces countless hidden friction points: unexpected climate shifts, fluctuating living costs, unfamiliar transit networks, cultural communication barriers, and e-commerce sizing challenges.
+        </p>
+        <p>
+            Our mission is to eliminate that overwhelm by consolidating critical destination intelligence into a single, lightning-fast platform built for global citizens navigating life across the United States and worldwide.
+        </p>
 
         <h2>The Universal State Architecture</h2>
         <p>
@@ -57,10 +68,10 @@
 
         <h2>Feedback & Contact</h2>
         <p>
-            For feedback, feature requests, or metric suggestions related to our toolkit, reach out via our <a href="../contact/index.html" style="color: var(--primary); font-weight: bold;">Contact Page</a> or directly at <strong>globalcitizenhub.contact@gmail.com</strong>.
+            For feedback, feature requests, or metric suggestions related to our toolkit, reach out via our <a id="contactInlineLink" href="../contact/index.html" style="color: var(--primary); font-weight: bold;">Contact Page</a> or directly at <strong>globalcitizenhub.contact@gmail.com</strong>.
         </p>
 
-        <div class="nav-buttons">
+        <div class="nav-buttons" id="bottomNav">
             <a href="../index.html" class="nav-btn btn-dash">⌂ Dashboard</a>
             <a href="./index.html" class="nav-btn btn-about active">About</a>
             <a href="../contact/index.html" class="nav-btn btn-contact">Contact</a>
@@ -73,5 +84,22 @@
             <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
         </footer>
     </main>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const searchParams = window.location.search;
+            if (searchParams) {
+                document.querySelectorAll('.nav-buttons a').forEach(a => {
+                    const basePath = a.getAttribute('href').split('?')[0];
+                    a.setAttribute('href', basePath + searchParams);
+                });
+                const contactLink = document.getElementById('contactInlineLink');
+                if (contactLink) {
+                    const basePath = contactLink.getAttribute('href').split('?')[0];
+                    contactLink.setAttribute('href', basePath + searchParams);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
