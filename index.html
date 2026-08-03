@@ -3,289 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Global Citizen Hub - The universal Smart Traveling and Relocation Toolkit for lifelong learners navigating life across the United States and worldwide.">
     <title>Global Citizen Hub | Main Dashboard</title>
     <style>
-        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; --warning: #d35400; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1050px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 25px; }
+        :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 950px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
         
-        h1 { color: var(--dark); margin-top: 0; font-size: 1.9em; display: flex; align-items: center; gap: 10px; }
-        h2 { color: var(--dark); border-bottom: 2px solid var(--border); padding-bottom: 8px; margin-top: 40px; display: flex; align-items: center; gap: 10px; scroll-margin-top: 20px; }
+        h1, h2 { color: var(--dark); margin-top: 0; }
+        p { margin-bottom: 20px; font-size: 1.02em; }
         
-        .scope-box { background: #f4f7f6; border: 1px solid #c5dca0; padding: 30px; border-radius: 8px; margin: 25px 0; }
-        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 15px; }
-        .input-group label { display: block; font-weight: bold; font-size: 0.9em; color: var(--dark); margin-bottom: 6px; }
-        .input-group input, .input-group select { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; background: white; font-size: 1em; box-sizing: border-box; transition: border-color 0.2s; }
-        .input-group input:focus, .input-group select:focus { border-color: var(--primary); outline: none; }
+        .selector-box { background: #fafbfc; border: 1px solid var(--border); border-radius: 6px; padding: 25px; margin-top: 25px; margin-bottom: 30px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group { display: flex; flex-direction: column; }
+        label { font-weight: bold; font-size: 0.9em; color: var(--dark); margin-bottom: 6px; }
+        input, select { padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.95em; }
         
-        .feedback-tag { font-size: 0.8em; margin-top: 6px; display: block; font-weight: bold; }
-        .feedback-neutral { color: var(--primary); }
-        .feedback-valid { color: var(--accent); }
-        .feedback-warning { color: var(--warning); }
-
-        .badge-free { color: var(--primary); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
-        .badge-paid { color: var(--warning); font-size: 0.85em; font-weight: normal; margin-left: 5px; }
-        .active-city-badge { background: #eaf2f8; color: var(--primary); padding: 5px 12px; border-radius: 12px; font-size: 0.9em; font-weight: bold; display: inline-block; margin-top: 5px; border: 1px solid #d4e6f1;}
-
-        .action-row { display: flex; gap: 15px; margin-top: 25px; flex-wrap: wrap; padding-top: 25px; border-top: 2px dashed #d5dbdb; }
-        .btn { padding: 14px 28px; text-decoration: none; font-weight: bold; border-radius: 6px; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.2s; border: none; cursor: pointer; text-align: center; flex: 1; min-width: 250px; }
+        .action-buttons { display: flex; gap: 15px; margin-top: 25px; border-top: 1px dashed var(--border); padding-top: 20px; }
+        .btn { flex: 1; padding: 12px 20px; text-align: center; text-decoration: none; font-weight: bold; border-radius: 6px; color: white; border: none; cursor: pointer; transition: opacity 0.2s; }
         .btn:hover { opacity: 0.9; }
-        .btn-free { background: var(--primary); color: white; border: 1px solid #1f618d; }
-        .btn-paid { background: var(--accent); color: white; border: 1px solid #1e8449; }
-        .btn small { font-weight: normal; font-size: 0.75em; margin-top: 4px; opacity: 0.9; }
-
-        .pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
-        .pillar-card { background: #fff; border: 1px solid var(--border); padding: 25px; border-radius: 6px; transition: transform 0.2s, box-shadow 0.2s; }
-        .pillar-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0,0,0,0.08); border-color: var(--primary); }
-        .pillar-card h3 { margin-top: 0; color: var(--primary); font-size: 1.15em; margin-bottom: 10px; }
-        .pillar-card p { font-size: 0.95em; color: #555; margin-bottom: 15px; line-height: 1.5; }
-        .pillar-card a { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 0.95em; display: inline-block; }
-        .pillar-card a:hover { text-decoration: underline; }
-
-        .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
-        .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
-        .global-footer a:hover { text-decoration: underline; }
-        .global-footer p { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
-        html { scroll-behavior: smooth; }
+        .btn-free { background: #34495e; }
+        .btn-unlock { background: #27ae60; }
+        
+        .site-footer { text-align: center; margin-top: 40px; border-top: 1px solid var(--light); padding-top: 20px; font-size: 0.9em; }
+        .site-footer a { color: var(--primary); text-decoration: none; font-weight: 500; }
+        .site-footer a:hover { text-decoration: underline; }
+        .affiliate-note { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
     </style>
 </head>
 <body>
     <main class="card">
         <h1>🌍 Global Citizen Hub | Main Dashboard</h1>
-        <p style="font-size: 1.05em; color: #444;">Configure your global scope below. Choose to explore single-city intelligence for free, or unlock our comprehensive head-to-head comparative dossier.</p>
+        <p>
+            Configure your global scope below. Choose to explore single-city intelligence for free, or unlock our comprehensive head-to-head comparative dossier.
+        </p>
 
-        <section class="scope-box">
-            <h3 style="margin-top:0; font-size: 1.25em;">⚙️ Universal Scope Selector</h3>
+        <div class="selector-box">
+            <h2>⚙️ Universal Scope Selector</h2>
             
-            <div class="scope-grid">
-                <div class="input-group">
-                    <label for="mainCityA">Primary Destination (City) <span class="badge-free">(Free Scope)</span></label>
-                    <input type="text" id="mainCityA" value="" 
-                           oninput="checkMainFeedback('mainCityA', 'mainFeedbackA')" 
-                           onblur="smartFormatInput(this, 'mainFeedbackA')" 
-                           onkeypress="handleEnterKey(event, this, 'mainFeedbackA')"
-                           placeholder="Type primary city...">
-                    <span id="mainFeedbackA" class="feedback-tag"></span>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="primaryCity">Primary Destination (City) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Free Scope)</span></label>
+                    <input type="text" id="primaryCity" placeholder="Type primary city...">
                 </div>
-
-                <div class="input-group">
-                    <label for="mainCityB">Secondary Destination (City) <span class="badge-paid">(Unlocks Comparison)</span></label>
-                    <input type="text" id="mainCityB" value="" 
-                           oninput="checkMainFeedback('mainCityB', 'mainFeedbackB')" 
-                           onblur="smartFormatInput(this, 'mainFeedbackB')" 
-                           onkeypress="handleEnterKey(event, this, 'mainFeedbackB')"
-                           placeholder="Type city to compare...">
-                    <span id="mainFeedbackB" class="feedback-tag"></span>
+                <div class="form-group">
+                    <label for="secondaryCity">Secondary Destination (City) <span style="font-weight:normal; font-size:0.85em; color:#7f8c8d;">(Unlocks Comparison)</span></label>
+                    <input type="text" id="secondaryCity" placeholder="Type city to compare...">
                 </div>
             </div>
 
-            <div class="scope-grid" style="margin-top: 20px;">
-                <div class="input-group">
+            <div class="form-grid">
+                <div class="form-group">
                     <label for="travelMonth">Planned Travel Month</label>
-                    <select id="travelMonth" onchange="updateAllLinks()">
+                    <select id="travelMonth">
                         <option value="" disabled selected>-- Select Month --</option>
-                        <option value="January">January</option>
-                        <option value="February">February</option>
-                        <option value="March">March</option>
-                        <option value="April">April</option>
-                        <option value="May">May</option>
-                        <option value="June">June</option>
-                        <option value="July">July</option>
-                        <option value="August">August</option>
-                        <option value="September">September</option>
-                        <option value="October">October</option>
-                        <option value="November">November</option>
-                        <option value="December">December</option>
+                        <option value="january">January</option>
+                        <option value="february">February</option>
+                        <option value="march">March</option>
+                        <option value="april">April</option>
+                        <option value="may">May</option>
+                        <option value="june">June</option>
+                        <option value="july">July</option>
+                        <option value="august">August</option>
+                        <option value="september">September</option>
+                        <option value="october">October</option>
+                        <option value="november">November</option>
+                        <option value="december">December</option>
                     </select>
                 </div>
-
-                <div class="input-group">
-                    <label for="travelDuration">Engagement Duration</label>
-                    <select id="travelDuration" onchange="updateAllLinks()">
+                <div class="form-group">
+                    <label for="durationSelect">Engagement Duration</label>
+                    <select id="durationSelect" name="duration">
                         <option value="" disabled selected>-- Select Duration --</option>
-                        <option value="Short-Term Visit (1-2 Weeks)">Short-Term Visit (1-2 Weeks)</option>
-                        <option value="Mid-Term Stay (1-3 Months)">Mid-Term Stay (1-3 Months)</option>
-                        <option value="Extended Stay (3-6 Months)">Extended Stay (3-6 Months)</option>
-                        <option value="Long-Term Relocation (3+ Months)">Long-Term Relocation (6+ Months)</option>
+                        <option value="1-2-weeks">Short Stay / Vacation (1–2 weeks)</option>
+                        <option value="3-4-weeks">Extended Getaway (~3–4 weeks / 1 Month)</option>
+                        <option value="1-3-months">Digital Nomad / Medium-Term (1–3 Months)</option>
+                        <option value="3-6-months">Academic / Project Term (3–6 Months)</option>
+                        <option value="6-plus-months">Long-Term / Relocation (6+ Months / Permanent)</option>
                     </select>
                 </div>
             </div>
 
-            <div class="action-row">
-                <a href="#free-pillars-section" class="btn btn-free" onclick="revealPillars(event)">
-                    <span>📊 Generate Free Modules</span>
-                    <small>(Single-City Deep Dive)</small>
-                </a>
-                
-                <a id="launchDossierBtn" href="#" class="btn btn-paid">
-                    <span>🚀 Unlock Advanced Dossier</span>
-                    <small>(Multi-City Comparison - $7)</small>
-                </a>
-            </div>
-        </section>
-
-        <div id="free-pillars-container" style="display: none; padding-top: 20px;">
-            <h2 id="free-pillars-section">🏛️ The 6 Free Intelligence Pillars</h2>
-            <p>Explore standalone, single-city intelligence modules currently configured for: <br><span id="pillarScopeBadge" class="active-city-badge">📍 Primary City: [Awaiting Selection]</span></p>
-            
-            <div class="pillars-grid">
-                <div class="pillar-card">
-                    <h3>1. Climate & Seasonal</h3>
-                    <p>Historical weather patterns, seasonal temperature ranges, precipitation probabilities, and packing guidance.</p>
-                    <a id="pillar1" href="#">Explore Pillar 1 →</a>
-                </div>
-                <div class="pillar-card">
-                    <h3>2. Cost & Financials</h3>
-                    <p>Comparative cost of living indexes, localized currency dynamics, and economic baselines.</p>
-                    <a id="pillar2" href="#">Explore Pillar 2 →</a>
-                </div>
-                <div class="pillar-card">
-                    <h3>3. Connectivity</h3>
-                    <p>Local SIM and digital logistics, eSIM provisioning, and internet infrastructure standards.</p>
-                    <a id="pillar3" href="#">Explore Pillar 3 →</a>
-                </div>
-                <div class="pillar-card">
-                    <h3>4. Transit</h3>
-                    <p>Municipal public transit networks, ride-sharing availability, and local transportation logistics.</p>
-                    <a id="pillar4" href="#">Explore Pillar 4 →</a>
-                </div>
-                <div class="pillar-card">
-                    <h3>5. Culture</h3>
-                    <p>Social integration baselines, cultural norms, communication styles, and expat networks.</p>
-                    <a id="pillar5" href="#">Explore Pillar 5 →</a>
-                </div>
-                <div class="pillar-card">
-                    <h3>6. Shop & Convert</h3>
-                    <p>Essential utility toolkits: local currency conversions, clothing size charts, and metric/imperial unit translators.</p>
-                    <a id="pillar6" href="#">Explore Pillar 6 →</a>
-                </div>
+            <div class="action-buttons">
+                <button class="btn btn-free" id="generateFreeBtn">📊 Generate Free Modules<br><span style="font-size:0.75em; font-weight:normal;">(Single-City Deep Dive)</span></button>
+                <button class="btn btn-unlock" id="unlockDossierBtn">🚀 Unlock Advanced Dossier<br><span style="font-size:0.75em; font-weight:normal;">(Multi-City Comparison - $7)</span></button>
             </div>
         </div>
+
+        <footer class="site-footer">
+            <p>
+                <a href="contact/index.html">Contact Us</a> &nbsp;|&nbsp; 
+                <a href="about/index.html">About</a> &nbsp;|&nbsp; 
+                <a href="privacy/index.html">Privacy Policy</a> &nbsp;|&nbsp; 
+                <a href="terms/index.html">Terms of Service</a>
+            </p>
+            <p class="affiliate-note">&copy; 2026 Global Citizen Hub. Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+        </footer>
     </main>
 
-    <footer class="global-footer">
-        <div>
-            <a href="./contact/index.html">Contact Us</a> | <a href="./about/index.html">About</a> | <a href="./privacy/index.html">Privacy Policy</a> | <a href="./terms/index.html">Terms of Service</a>
-        </div>
-        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
-    </footer>
-
     <script>
-        const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
-        const countryCityMap = { "china": "Shanghai", "new zealand": "Auckland", "japan": "Tokyo", "south korea": "Seoul", "korea": "Seoul", "turkey": "Istanbul", "france": "Paris", "united kingdom": "London", "uk": "London", "australia": "Sydney", "canada": "Vancouver", "united states": "New York", "usa": "New York", "us": "New York", "germany": "Berlin", "italy": "Rome", "spain": "Madrid" };
-        const ambiguousTownsMap = { "aurora": "Aurora, CO or Aurora, IL", "middletown": "Middletown, DE or Middletown, NY", "springfield": "Springfield, IL or Springfield, MA" };
-        const cityCountryResolver = { "seoul": "Seoul, South Korea", "incheon": "Incheon, South Korea", "busan": "Busan, South Korea", "tokyo": "Tokyo, Japan", "osaka": "Osaka, Japan", "paris": "Paris, France", "london": "London, UK", "sydney": "Sydney, Australia", "vancouver": "Vancouver, Canada", "istanbul": "Istanbul, Turkey", "dubai": "Dubai, UAE" };
-
-        function checkMainFeedback(inputId, feedbackId) {
-            const inputElem = document.getElementById(inputId);
-            let rawVal = inputElem.value.trim();
-            const feedbackEl = document.getElementById(feedbackId);
-            
-            if (!rawVal) {
-                feedbackEl.innerText = "ℹ️ Please enter/type a destination city.";
-                feedbackEl.className = "feedback-tag feedback-neutral";
-                updateAllLinks();
-                return;
-            }
-
-            let valLower = rawVal.toLowerCase();
-            if (cityCountryResolver[valLower] && rawVal !== cityCountryResolver[valLower]) {
-                inputElem.value = cityCountryResolver[valLower];
-                rawVal = cityCountryResolver[valLower];
-                valLower = rawVal.toLowerCase();
-            }
-            if (valLower === "us" || valLower === "usa") { rawVal = "US"; inputElem.value = rawVal; valLower = "us"; } 
-            else if (valLower === "uk") { rawVal = "UK"; inputElem.value = rawVal; valLower = "uk"; }
-
-            const isContinent = continentList.some(c => c.toLowerCase() === valLower);
-            const specificCityExample = countryCityMap[valLower];
-            const specificSuggestion = ambiguousTownsMap[valLower];
-
-            if (isContinent) {
-                feedbackEl.innerText = `⚠️ ${rawVal} is a continent, please enter a specific city name.`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (specificCityExample) {
-                feedbackEl.innerText = `⚠️ ${rawVal} is a country, please enter a specific city (e.g., ${specificCityExample}).`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (specificSuggestion) {
-                feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
-                feedbackEl.className = "feedback-tag feedback-warning";
-            } else {
-                feedbackEl.innerText = "✓ Confirmed destination scope active";
-                feedbackEl.className = "feedback-tag feedback-valid";
-            }
-            updateAllLinks();
-        }
-
-        function smartFormatInput(elem, feedbackId) {
-            let val = elem.value.trim();
-            if (!val) return;
-            let lower = val.toLowerCase();
-            if (!cityCountryResolver[lower]) {
-                elem.value = val.replace(/\b\w/g, c => c.toUpperCase());
-            }
-            checkMainFeedback(elem.id, feedbackId);
-        }
-
-        function handleEnterKey(event, elem, feedbackId) {
-            if (event.key === 'Enter') {
-                event.preventDefault(); 
-                smartFormatInput(elem, feedbackId);
-                elem.blur(); 
-            }
-        }
-
-        function resolveCleanCity(inputVal) {
-            let clean = inputVal.trim();
-            if (!clean) return "";
-            const lower = clean.toLowerCase();
-            if (cityCountryResolver[lower]) return cityCountryResolver[lower];
-            if (!lower.includes("new york") && !lower.includes("aurora") && !lower.includes("middletown") && !lower.includes("springfield")) {
-                clean = clean.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
-            }
-            return clean;
-        }
-
-        function updateAllLinks() {
-            const cityA = resolveCleanCity(document.getElementById('mainCityA').value);
-            const cityB = resolveCleanCity(document.getElementById('mainCityB').value);
-            const month = document.getElementById('travelMonth').value || "General";
-            const duration = document.getElementById('travelDuration').value || "General Overview";
-
-            document.getElementById('pillarScopeBadge').innerText = cityA ? `📍 Primary City: ${cityA} | 📅 ${month}` : "📍 Primary City: [Awaiting Selection]";
-
-            if(cityA && cityB) {
-                document.getElementById('launchDossierBtn').href = `./dossier/index.html?cityA=${encodeURIComponent(cityA)}&cityB=${encodeURIComponent(cityB)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}`;
-            } else {
-                document.getElementById('launchDossierBtn').href = "#"; 
-            }
-            
-            const pillars = ['pillar1', 'pillar2', 'pillar3', 'pillar4', 'pillar5', 'pillar6'];
-            pillars.forEach((id, index) => {
-                const el = document.getElementById(id);
-                if (el) {
-                    el.href = cityA ? `./pillar-${index + 1}/index.html?city=${encodeURIComponent(cityA)}&month=${encodeURIComponent(month)}&duration=${encodeURIComponent(duration)}` : "#";
-                }
-            });
-        }
-
-        function revealPillars(e) {
-            e.preventDefault(); 
-            smartFormatInput(document.getElementById('mainCityA'), 'mainFeedbackA');
-            const cityA = document.getElementById('mainCityA').value.trim();
-            if(!cityA) {
-                alert("Please type a Primary Destination City before generating modules.");
-                return;
-            }
-            updateAllLinks();
-            const container = document.getElementById('free-pillars-container');
-            container.style.display = 'block'; 
-            document.getElementById('free-pillars-section').scrollIntoView({ behavior: 'smooth' });
-        }
-
+        // Optional parameter propagation logic for dashboard links
         window.addEventListener('DOMContentLoaded', () => {
-            checkMainFeedback('mainCityA', 'mainFeedbackA');
-            checkMainFeedback('mainCityB', 'mainFeedbackB');
+            const searchParams = window.location.search;
+            if (searchParams) {
+                document.querySelectorAll('.site-footer a').forEach(a => {
+                    const basePath = a.getAttribute('href').split('?')[0];
+                    a.setAttribute('href', basePath + searchParams);
+                });
+            }
         });
     </script>
 </body>
