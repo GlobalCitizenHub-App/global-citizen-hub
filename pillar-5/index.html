@@ -3,107 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 5: Cultural etiquette, tipping norms, social customs, and local communication guidelines for international travelers.">
-    <title>Pillar 5 | Cultural & Etiquette Intelligence</title>
+    <title>Pillar 5: Safety & Healthcare</title>
     <style>
         :root { --primary: #c0392b; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
-        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         
-        /* Persistent Paper Binder Navigation Tabs */
-        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
-        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
-        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
-        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
-        
-        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
-        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
+        .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
+        .tab-dash { background: #5d6d7e; }
+        .tab-1 { background: #5dade2; opacity: 0.8; } 
+        .tab-2 { background: #7dcea0; opacity: 0.8; }
+        .tab-3 { background: #af7ac5; opacity: 0.8; } 
+        .tab-4 { background: #e59866; opacity: 0.8; } 
+        .tab-5 { background: #cd6155; } /* Active */
+        .tab-6 { background: #73c6b6; opacity: 0.8; }
+        .nav-tabs a:hover { opacity: 1; }
 
-        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
-        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
-        .timeline-badge { display: inline-block; background: #fadbd8; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
-        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
-        th { background: #fadbd8; color: var(--primary); }
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
+        h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
+        .session-info { font-weight: bold; color: var(--primary); font-size: 1.1em; margin-bottom: 5px; }
+        .subtitle { color: #555; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+
+        .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
+        .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
+        th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
+        th { background: #f9ebea; color: var(--primary); }
+        
+        .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
+        .global-footer a:hover { text-decoration: underline; }
+        .global-footer p { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
     </style>
 </head>
 <body>
+    <div class="nav-tabs">
+        <a href="../index.html" class="tab-dash">⌂ Dashboard</a>
+        <a href="../pillar-1/index.html" class="tab-1">1. Climate</a>
+        <a href="../pillar-2/index.html" class="tab-2">2. Cost</a>
+        <a href="../pillar-3/index.html" class="tab-3">3. Housing</a>
+        <a href="../pillar-4/index.html" class="tab-4">4. Legal</a>
+        <a href="#" class="tab-5">5. Safety</a>
+        <a href="../pillar-6/index.html" class="tab-6">6. Lifestyle</a>
+    </div>
+
     <main class="card">
-        <nav class="binder-nav" id="binderNav">
-            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
-            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
-            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
-            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
-            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
-            <a href="../pillar-5/index.html" class="binder-tab tab-p5 active">5. Culture</a>
-            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
-        </nav>
+        <h1>🏥 Pillar 5: Safety & Healthcare</h1>
+        
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: <span class="display-month">Loading...</span></div>
+        <p class="subtitle">Emergency medical infrastructure, localized insurance requirements, and safety indices.</p>
 
-        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>🎭 Pillar 5: Cultural & Etiquette Intelligence</h1>
-            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Social norms, tipping customs, etiquette protocols, and local communication guidelines for respectful engagement.</p>
-        </header>
+        <div class="matrix-box">
+            <h3>🛡️ Health & Safety Infrastructure</h3>
+            <p>Based on municipal safety indices and healthcare networks for <strong class="display-city">[Loading...]</strong>.</p>
 
-        <div id="contentContainer">
-            <div class="warning-box">
-                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city before viewing cultural intelligence.
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Infrastructure Category</th>
+                        <th>Standard Baseline</th>
+                        <th>Global Citizen Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Medical Quality</strong></td>
+                        <td>Modern facilities; variable English-speaking staff.</td>
+                        <td>Secure comprehensive travel/expat health insurance prior to arrival.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>General Safety</strong></td>
+                        <td>Generally safe urban environment.</td>
+                        <td>Exercise standard situational awareness in dense transport hubs.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <footer class="affiliate-disclosure">
-            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
-        </footer>
     </main>
 
+    <footer class="global-footer">
+        <div>
+            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+    </footer>
+
     <script>
-        (function() {
+        window.addEventListener('DOMContentLoaded', () => {
+            const date = new Date();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.querySelectorAll('.display-month').forEach(el => el.innerText = monthNames[date.getMonth()]);
+
             const urlParams = new URLSearchParams(window.location.search);
-            let city = urlParams.get('city') || localStorage.getItem('gch_city');
-            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "Global Destination";
-            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
+            let activeCity = urlParams.get('city');
 
-            if (city && !urlParams.has('city')) {
-                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}`;
-                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            if (!activeCity || activeCity.trim() === '') {
+                document.querySelectorAll('.display-city').forEach(el => {
+                    el.innerText = "⚠️ Missing Data - Return to Dashboard";
+                    el.style.color = "#d35400"; 
+                });
+                document.querySelectorAll('.nav-tabs a').forEach(tab => {
+                    if (!tab.classList.contains('tab-dash')) {
+                        tab.href = "javascript:void(0);";
+                        tab.style.opacity = "0.3";
+                        tab.style.cursor = "not-allowed";
+                    }
+                });
+                return; 
             }
 
-            if (city) {
-                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Engagement: ${term}`;
-
-                document.getElementById('contentContainer').innerHTML = `
-                    <div class="info-box">
-                        <span class="timeline-badge">📅 Cultural Benchmark: Q3 2026</span>
-                        <h4>🤝 Social Norms & Etiquette Protocols (${city}, ${country})</h4>
-                        <p>Navigating daily life in <strong>${city}, ${country}</strong> requires awareness of local customs, professional etiquette, and dining courtesies.</p>
-                        <table>
-                            <thead>
-                                <tr><th>Etiquette Domain</th><th>Local Custom & Norm</th><th>Actionable Guidance</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>💬 Greetings & Interaction</strong></td><td>Polite Formal / Regional Greeting</td><td>Initiate interactions with respectful local greetings and polite tone.</td></tr>
-                                <tr><td><strong>🍽️ Dining & Tipping</strong></td><td>Service Invoiced / Modest Round-Up</td><td>Review local hospitality norms; tipping is typically service-included or modest.</td></tr>
-                                <tr><td><strong>🏛️ Public Conduct</strong></td><td>Mindful & Respectful Space</td><td>Observe local quiet hours, queue discipline, and heritage site dress codes.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
+            activeCity = decodeURIComponent(activeCity).trim();
+            const isUSCity = ["new york", "aurora", "middletown", "springfield", "chicago", "los angeles"].some(c => activeCity.toLowerCase().includes(c));
+            if (!isUSCity) {
+                activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             }
+            
+            document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
 
-            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&term=${encodeURIComponent(term || '')}`;
-            document.getElementById('binderNav').innerHTML = `
-                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
-                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
-                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3">3. Connectivity</a>
-                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
-                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5 active">5. Culture</a>
-                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
-            `;
-        })();
+            const encodedCity = encodeURIComponent(activeCity);
+            document.querySelector('.tab-1').href = `../pillar-1/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-2').href = `../pillar-2/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-3').href = `../pillar-3/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-4').href = `../pillar-4/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-6').href = `../pillar-6/index.html?city=${encodedCity}`;
+        });
     </script>
 </body>
 </html>
