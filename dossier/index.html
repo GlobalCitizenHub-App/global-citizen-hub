@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Citizen Hub | Advanced Multi-City Dossier Generator</title>
+    <title>Global Citizen Hub | Advanced Destination Comparison Dossier Generator</title>
     <style>
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --accent: #27ae60; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 950px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
@@ -13,7 +13,7 @@
         
         /* Scope Selection Box */
         .scope-box { background: #eaf2f8; border: 1px solid #a4c639; padding: 25px; border-radius: 6px; margin: 25px 0; }
-        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
         .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         .input-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; }
 
@@ -39,42 +39,59 @@
         <a href="../index.html" class="nav-link">← Back to Main Dashboard</a>
         
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>📑 Advanced Multi-City Comparison Dossier</h1>
-            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure your custom intelligence scope below</p>
+            <h1>📑 Advanced Destination Comparison Dossier</h1>
+            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure your custom domestic or international scope below</p>
         </header>
 
         <section class="scope-box no-print">
             <h3>⚙️ Select Your Comparison Scope</h3>
-            <p style="font-size: 0.9em; color: #555;">Choose your target hubs and duration profile to dynamically structure your custom dossier.</p>
+            <p style="font-size: 0.9em; color: #555;">Choose your target hubs (U.S. Interstate or International) and your operational duration tier.</p>
             
             <div class="scope-grid">
                 <div class="input-group">
-                    <label for="cityA">Primary Hub (City A)</label>
-                    <select id="cityA" onchange="updateScopeSummary()">
-                        <option value="Seoul, South Korea">Seoul, South Korea</option>
-                        <option value="Tokyo, Japan">Tokyo, Japan</option>
-                        <option value="Paris, France">Paris, France</option>
-                        <option value="New York, USA">New York, USA</option>
+                    <label for="destinationA">Primary Destination (A)</label>
+                    <select id="destinationA" onchange="updateScopeSummary()">
+                        <optgroup label="U.S. Domestic & Sunbelt">
+                            <option value="Orlando, FL (US)">Orlando, FL (US)</option>
+                            <option value="Charleston, SC (US)">Charleston, SC (US)</option>
+                            <option value="Denver, CO (US)">Denver, CO (US)</option>
+                            <option value="Salt Lake City, UT (US)">Salt Lake City, UT (US)</option>
+                            <option value="San Diego, CA (US)">San Diego, CA (US)</option>
+                            <option value="Austin, TX (US)">Austin, TX (US)</option>
+                        </optgroup>
+                        <optgroup label="International Global Metros">
+                            <option value="Seoul, South Korea">Seoul, South Korea</option>
+                            <option value="Tokyo, Japan">Tokyo, Japan</option>
+                            <option value="Paris, France">Paris, France</option>
+                        </optgroup>
                     </select>
                 </div>
 
                 <div class="input-group">
-                    <label for="cityB">Secondary Hub (City B)</label>
-                    <select id="cityB" onchange="updateScopeSummary()">
-                        <option value="Tokyo, Japan">Tokyo, Japan</option>
-                        <option value="Seoul, South Korea">Seoul, South Korea</option>
-                        <option value="Paris, France">Paris, France</option>
-                        <option value="London, UK">London, UK</option>
-                        <option value="Los Angeles, USA">Los Angeles, USA</option>
+                    <label for="destinationB">Secondary Destination (B)</label>
+                    <select id="destinationB" onchange="updateScopeSummary()">
+                        <optgroup label="U.S. Domestic & Sunbelt">
+                            <option value="Austin, TX (US)">Austin, TX (US)</option>
+                            <option value="San Diego, CA (US)">San Diego, CA (US)</option>
+                            <option value="Denver, CO (US)">Denver, CO (US)</option>
+                            <option value="Orlando, FL (US)">Orlando, FL (US)</option>
+                            <option value="Charleston, SC (US)">Charleston, SC (US)</option>
+                        </optgroup>
+                        <optgroup label="International Global Metros">
+                            <option value="Tokyo, Japan">Tokyo, Japan</option>
+                            <option value="Seoul, South Korea">Seoul, South Korea</option>
+                            <option value="Paris, France">Paris, France</option>
+                        </optgroup>
                     </select>
                 </div>
 
                 <div class="input-group">
-                    <label for="duration">Duration / Stay Profile</label>
-                    <select id="duration" onchange="updateScopeSummary()">
-                        <option value="3-Month Digital Nomad Stay">3-Month Digital Nomad Stay</option>
-                        <option value="Study Abroad Semester">Study Abroad Semester</option>
-                        <option value="Long-Term Relocation">Long-Term Relocation</option>
+                    <label for="durationTier">Duration / Scope Tier</label>
+                    <select id="durationTier" onchange="updateScopeSummary()">
+                        <option value="Short Stay (3–5 Days)">Short Stay (3–5 Days)</option>
+                        <option value="Medium Stay (1–2 Weeks)">Medium Stay (1–2 Weeks)</option>
+                        <option value="Long Stay (1–3 Months)">Long Stay (1–3 Months)</option>
+                        <option value="Permanent Relocation">Permanent Relocation</option>
                     </select>
                 </div>
             </div>
@@ -84,37 +101,46 @@
 
         <div id="freePreviewContainer">
             <h3>📊 High-Level Comparative Preview</h3>
-            <p>Your selected scope is ready for analysis across our 6 core pillars (Cost, Climate, Connectivity, Transit, Housing, and Culture).</p>
+            <p>Your selected regional scope is ready for compilation across our intelligence matrices.</p>
         </div>
 
         <div id="lockedContainer" class="paywall-box">
             <h3>🔒 Unlock Full Executive Dossier & PDF Export</h3>
-            <p>Get the complete custom-compiled comparative analysis across all 6 intelligence pillars for your selected scope, complete with app navigation guides and relocation timelines.</p>
-            <a href="https://yourstore.lemonsqueezy.com/buy/your-product-id" class="buy-btn">Unlock & Download Custom Dossier ($7)</a>
+            <p>Get the complete custom-compiled comparative analysis across all intelligence pillars for your selected scope, complete with practical execution timelines.</p>
+            <a id="dynamicPriceBtn" href="https://yourstore.lemonsqueezy.com/buy/short-stay-dossier-id" class="buy-btn">Unlock & Download Custom Dossier ($7)</a>
         </div>
 
         <div id="unlockedExportContainer" class="no-print" style="margin-top: 30px; display: none;">
             <div style="background: #e8f8f5; border: 1px solid #27ae60; padding: 20px; border-radius: 6px; margin-bottom: 20px;">
                 <h3 style="color: #27ae60; margin-top: 0;">✅ Payment Verified & Unlocked</h3>
-                <p>Your custom dossier has compiled successfully based on your selected scope.</p>
+                <p>Your custom dossier has compiled successfully based on your selected domestic/international scope.</p>
             </div>
             <button onclick="window.print()" class="buy-btn">🖨️ Save Custom Dossier as PDF</button>
         </div>
     </main>
 
     <script>
-        // Update live summary text when user changes dropdowns
         function updateScopeSummary() {
-            const cityA = document.getElementById('cityA').value;
-            const cityB = document.getElementById('cityB').value;
-            const duration = document.getElementById('duration').value;
-            document.getElementById('scopeSummary').innerText = `Active Scope: Comparing ${cityA} vs. ${cityB} for a ${duration}.`;
+            const destA = document.getElementById('destinationA').value;
+            const destB = document.getElementById('destinationB').value;
+            const tier = document.getElementById('durationTier').value;
+            
+            // Dynamic Pricing & Checkout Link Logic
+            let price = "$7";
+            let checkoutLink = "https://yourstore.lemonsqueezy.com/buy/short-stay-dossier-id"; // Replace with your Lemon Squeezy Short/Medium product link
+            
+            if (tier.includes("Long Stay") || tier.includes("Permanent Relocation")) {
+                price = "$15";
+                checkoutLink = "https://yourstore.lemonsqueezy.com/buy/relocation-dossier-id"; // Replace with your Lemon Squeezy Relocation product link
+            }
+            
+            document.getElementById('scopeSummary').innerText = `Active Scope: Comparing ${destA} vs. ${destB} under a [${tier}] profile.`;
+            document.getElementById('dynamicPriceBtn').innerText = `Unlock & Download Custom Dossier (${price})`;
+            document.getElementById('dynamicPriceBtn').href = checkoutLink;
         }
         
-        // Run on load
         updateScopeSummary();
 
-        // Check if user returned from successful payment via URL parameter (?unlocked=true)
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('unlocked') === 'true') {
             document.getElementById('lockedContainer').style.display = 'none';
