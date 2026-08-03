@@ -3,129 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 3: Connectivity intelligence, mobile eSIM options, electrical voltage standards, and regional digital infrastructure.">
-    <title>Pillar 3 | Connectivity & Power Infrastructure</title>
+    <title>Pillar 3: Housing & Infrastructure</title>
     <style>
         :root { --primary: #8e44ad; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
-        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         
-        /* Persistent Paper Binder Navigation Tabs */
-        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
-        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
-        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
-        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
-        
-        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
-        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
+        .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
+        .tab-dash { background: #5d6d7e; }
+        .tab-1 { background: #5dade2; opacity: 0.8;} 
+        .tab-2 { background: #7dcea0; opacity: 0.8;}
+        .tab-3 { background: #af7ac5; } /* Active */
+        .tab-4 { background: #e59866; opacity: 0.8; }
+        .tab-5 { background: #cd6155; opacity: 0.8; }
+        .tab-6 { background: #73c6b6; opacity: 0.8; }
+        .nav-tabs a:hover { opacity: 1; }
 
-        .info-box { background: #f9fbfb; padding: 20px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
-        .warning-box { background: #fcf3cf; border-left: 4px solid #f39c12; padding: 20px; border-radius: 6px; color: #7d6608; margin-bottom: 20px; }
-        .timeline-badge { display: inline-block; background: #f4ecf7; color: var(--primary); padding: 4px 8px; border-radius: 4px; font-size: 0.8em; font-weight: bold; margin-bottom: 10px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9em; margin-bottom: 20px; }
-        th, td { border: 1px solid var(--border); padding: 10px 12px; text-align: left; }
-        th { background: #f4ecf7; color: var(--primary); }
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
+        h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
+        .session-info { font-weight: bold; color: var(--primary); font-size: 1.1em; margin-bottom: 5px; }
+        .subtitle { color: #555; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+
+        .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
+        .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
+        th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
+        th { background: #f5eef8; color: var(--primary); }
+        
+        /* Global Footer Styles */
+        .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
+        .global-footer a:hover { text-decoration: underline; }
+        .global-footer p { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
     </style>
 </head>
 <body>
+    <div class="nav-tabs">
+        <a href="../index.html" class="tab-dash">⌂ Dashboard</a>
+        <a href="../pillar-1/index.html" class="tab-1">1. Climate</a>
+        <a href="../pillar-2/index.html" class="tab-2">2. Cost</a>
+        <a href="#" class="tab-3">3. Housing</a>
+        <a href="../pillar-4/index.html" class="tab-4">4. Legal</a>
+        <a href="../pillar-5/index.html" class="tab-5">5. Safety</a>
+        <a href="../pillar-6/index.html" class="tab-6">6. Lifestyle</a>
+    </div>
+
     <main class="card">
-        <nav class="binder-nav" id="binderNav">
-            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
-            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
-            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
-            <a href="../pillar-3/index.html" class="binder-tab tab-p3 active">3. Connectivity</a>
-            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
-            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
-            <a href="../pillar-6/index.html" class="binder-tab tab-p6">6. Shop & Convert</a>
-        </nav>
+        <h1>🏙️ Pillar 3: Housing & Infrastructure</h1>
+        
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: <span class="display-month">Loading...</span></div>
+        <p class="subtitle">Rental market baselines, short-term lease protocols, and neighborhood density maps.</p>
 
-        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>📶 Pillar 3: Connectivity & Power Infrastructure</h1>
-            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant mobile data strategy, eSIM deployment, electrical voltage/plug standards, and digital network readiness.</p>
-        </header>
+        <div class="matrix-box">
+            <h3>🏘️ Baseline Accommodation Matrix</h3>
+            <p>Based on regional infrastructure data for <strong class="display-city">[Loading...]</strong>. Expected baseline standards for global citizens.</p>
 
-        <div id="contentContainer">
-            <div class="warning-box">
-                ⚠️ <strong>Destination Not Set:</strong> Please return to the <a href="../index.html" style="color: var(--primary); font-weight: bold;">Master Dashboard</a> to enter your destination city and parameters before viewing calibrated connectivity intelligence.
-            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Housing Category</th>
+                        <th>Availability & Protocol</th>
+                        <th>Infrastructure Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Short-Term (1-3 Months)</strong></td>
+                        <td>Moderate to High availability via digital platforms.</td>
+                        <td>Usually includes standard Wi-Fi and basic utilities.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Long-Term Leases</strong></td>
+                        <td>Requires local documentation and local bank setup.</td>
+                        <td>Utility setup often requires resident status.</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-
-        <footer class="affiliate-disclosure">
-            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
-        </footer>
     </main>
 
+    <footer class="global-footer">
+        <div>
+            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+    </footer>
+
     <script>
-        (function() {
-            const voltageMap = {
-                "Italy": { voltage: "230V", frequency: "50Hz", plugs: "Type C, F & L (Schuko compatible)" },
-                "Norway": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Standard European)" },
-                "Sweden": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Standard European)" },
-                "United Kingdom": { voltage: "230V", frequency: "50Hz", plugs: "Type G (3-pin rectangular)" },
-                "France": { voltage: "230V", frequency: "50Hz", plugs: "Type C & E (Standard European)" },
-                "Germany": { voltage: "230V", frequency: "50Hz", plugs: "Type C & F (Schuko)" },
-                "Japan": { voltage: "100V", frequency: "50/60Hz", plugs: "Type A & B (North American style)" },
-                "United States": { voltage: "120V", frequency: "60Hz", plugs: "Type A & B (2/3 prong)" }
-            };
+        window.addEventListener('DOMContentLoaded', () => {
+            // 1. Dynamic Month Generator
+            const date = new Date();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.querySelectorAll('.display-month').forEach(el => el.innerText = monthNames[date.getMonth()]);
 
+            // 2. City Data Retrieval
             const urlParams = new URLSearchParams(window.location.search);
-            let city = urlParams.get('city') || localStorage.getItem('gch_city');
-            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "United States";
-            let term = urlParams.get('term') || localStorage.getItem('gch_term') || "Short-Term Visit (1-2 Weeks)";
+            let activeCity = urlParams.get('city');
 
-            if (city && !urlParams.has('city')) {
-                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}&term=${encodeURIComponent(term)}`;
-                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            if (!activeCity || activeCity.trim() === '') {
+                document.querySelectorAll('.display-city').forEach(el => {
+                    el.innerText = "⚠️ Missing Data - Return to Dashboard";
+                    el.style.color = "#d35400"; 
+                });
+                document.querySelectorAll('.nav-tabs a').forEach(tab => {
+                    if (!tab.classList.contains('tab-dash')) {
+                        tab.href = "javascript:void(0);";
+                        tab.style.opacity = "0.3";
+                        tab.style.cursor = "not-allowed";
+                    }
+                });
+                return; 
             }
 
-            if (city) {
-                document.getElementById('statusHeader').innerText = `Active Session: ${city}, ${country} | Engagement: ${term}`;
-                
-                const powerInfo = voltageMap[country] || { voltage: "230V", frequency: "50Hz", plugs: "Standard Regional Plug" };
-
-                document.getElementById('contentContainer').innerHTML = `
-                    <div class="info-box">
-                        <span class="timeline-badge">📅 Infrastructure Benchmark: Q3 2026</span>
-                        <h4>📶 Mobile Data & eSIM Strategy</h4>
-                        <p>For your <strong>${term}</strong> stay in <strong>${city}, ${country}</strong>, deploying an international eSIM prior to departure ensures seamless connectivity right at the tarmac, bypassing airport kiosk queues.</p>
-                    </div>
-
-                    <div class="info-box">
-                        <h4>⚡ Electrical Voltage & Plug Standards</h4>
-                        <p>Destination Grid Specification for <strong>${country}</strong>: <strong>${powerInfo.voltage}</strong> (${powerInfo.frequency}), utilizing <strong>${powerInfo.plugs}</strong>. Verify that your electronics support dual voltage input (100–240V) before plugging in directly.</p>
-                    </div>
-
-                    <div class="info-box">
-                        <h4>🌐 Network Infrastructure Matrix</h4>
-                        <table>
-                            <thead>
-                                <tr><th>Service Layer</th><th>Recommended Solution</th><th>Operational Notes</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td><strong>📶 Immediate Arrival Data</strong></td><td>Global eSIM (e.g., Airalo / Holafly)</td><td>Pre-installed digital data package active upon landing for airport navigation and rideshares.</td></tr>
-                                <tr><td><strong>🔌 Power & Voltage Adapter</strong></td><td>Regional Plug Adapter / Converter</td><td>Ensure your devices support dual voltage (100–240V) or acquire a grounded Type C/F adapter.</td></tr>
-                                <tr><td><strong>🌐 Home Broadband</strong></td><td>Fiber-Optic / High-Speed Cable</td><td>Essential for remote work, streaming, and reliable home connectivity.</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `;
+            // 3. Ghost Text Cleaner
+            activeCity = decodeURIComponent(activeCity).trim();
+            const isUSCity = ["new york", "aurora", "middletown", "springfield", "chicago", "los angeles"].some(c => activeCity.toLowerCase().includes(c));
+            if (!isUSCity) {
+                activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             }
+            
+            document.querySelectorAll('.display-city').forEach(el => {
+                el.innerText = activeCity;
+            });
 
-            const activeQs = window.location.search || `?city=${encodeURIComponent(city || '')}&country=${encodeURIComponent(country || '')}&term=${encodeURIComponent(term || '')}`;
-            document.getElementById('binderNav').innerHTML = `
-                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
-                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
-                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3 active">3. Connectivity</a>
-                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
-                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
-                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6">6. Shop & Convert</a>
-            `;
-        })();
+            // 4. Pass Data to Tabs
+            const encodedCity = encodeURIComponent(activeCity);
+            document.querySelector('.tab-1').href = `../pillar-1/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-2').href = `../pillar-2/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-4').href = `../pillar-4/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-5').href = `../pillar-5/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-6').href = `../pillar-6/index.html?city=${encodedCity}`;
+        });
     </script>
 </body>
 </html>
