@@ -11,13 +11,15 @@
         
         .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
         .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
+        
+        /* RESTORED: Original Tab Names and Colors */
         .tab-dash { background: #5d6d7e; }
-        .tab-1 { background: #5dade2; } 
-        .tab-2 { background: #7dcea0; opacity: 0.8; }
-        .tab-3 { background: #af7ac5; opacity: 0.8; }
-        .tab-4 { background: #e59866; opacity: 0.8; }
-        .tab-5 { background: #cd6155; opacity: 0.8; }
-        .tab-6 { background: #73c6b6; opacity: 0.8; }
+        .tab-1 { background: #5dade2; } /* Climate - Active */
+        .tab-2 { background: #7dcea0; opacity: 0.8; } /* Cost */
+        .tab-3 { background: #af7ac5; opacity: 0.8; } /* Connectivity */
+        .tab-4 { background: #e59866; opacity: 0.8; } /* Transit */
+        .tab-5 { background: #cd6155; opacity: 0.8; } /* Culture */
+        .tab-6 { background: #73c6b6; opacity: 0.8; } /* Shop & Convert */
         .nav-tabs a:hover { opacity: 1; }
 
         h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
@@ -51,13 +53,13 @@
     <main class="card">
         <h1>🌤️ Pillar 1: Climate & Seasonal Almanac</h1>
         
-        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: October</div>
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: <span class="display-month">Loading...</span> | <span class="display-duration"></span></div>
         <p class="subtitle">Historical weather patterns, seasonal temperature ranges, precipitation probabilities, and packing guidance.</p>
 
         <div class="matrix-box">
-            <h3>🌡️ Historical Temperature & Precipitation Matrix (October)</h3>
+            <h3>🌡️ Historical Temperature & Precipitation Matrix (<span class="display-month"></span>)</h3>
             
-            <p>Based on multi-year historical averages for <strong class="display-city">[Loading...]</strong> during October, expected conditions reflect regional seasonal norms. Review the quantitative profile below to pack accordingly.</p>
+            <p>Based on multi-year historical averages for <strong class="display-city">[Loading...]</strong> during <strong class="display-month"></strong>, expected conditions reflect regional seasonal norms. Review the quantitative profile below to pack accordingly.</p>
 
             <table>
                 <thead>
@@ -78,11 +80,6 @@
                         <td>Moderate Seasonal Baseline</td>
                         <td>Ensure outer layers match expected moisture and wind conditions.</td>
                     </tr>
-                    <tr>
-                        <td><strong>☀️ Daylight & Sunshine</strong></td>
-                        <td>Standard Regional Photoperiod</td>
-                        <td>Plan outdoor excursions and historical visits during peak daylight hours.</td>
-                    </tr>
                 </tbody>
             </table>
         </div>
@@ -90,7 +87,7 @@
 
     <footer class="global-footer">
         <div>
-            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+            <a href="../contact.html">Contact Us</a> | <a href="../about.html">About</a> | <a href="../privacy.html">Privacy Policy</a> | <a href="../terms.html">Terms of Service</a>
         </div>
         <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
     </footer>
@@ -99,6 +96,8 @@
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             let activeCity = urlParams.get('city');
+            let travelMonth = urlParams.get('month') || "October"; // Reads choice from URL
+            let travelDuration = urlParams.get('duration') || "Short-Term Visit"; // Reads choice from URL
 
             if (!activeCity || activeCity.trim() === '') {
                 document.querySelectorAll('.display-city').forEach(el => {
@@ -116,19 +115,24 @@
             }
 
             activeCity = decodeURIComponent(activeCity).trim();
-            // Final failsafe to strip ghost formatting if it ever reaches here
             activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
             
-            document.querySelectorAll('.display-city').forEach(el => {
-                el.innerText = activeCity;
-            });
+            // INJECT DYNAMIC DATA
+            document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
+            document.querySelectorAll('.display-month').forEach(el => el.innerText = travelMonth);
+            document.querySelectorAll('.display-duration').forEach(el => el.innerText = travelDuration);
 
+            // PASS ALL PARAMETERS TO OTHER TABS
             const encodedCity = encodeURIComponent(activeCity);
-            document.querySelector('.tab-2').href = `../pillar-2/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-3').href = `../pillar-3/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-4').href = `../pillar-4/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-5').href = `../pillar-5/index.html?city=${encodedCity}`;
-            document.querySelector('.tab-6').href = `../pillar-6/index.html?city=${encodedCity}`;
+            const encodedMonth = encodeURIComponent(travelMonth);
+            const encodedDuration = encodeURIComponent(travelDuration);
+            const paramString = `?city=${encodedCity}&month=${encodedMonth}&duration=${encodedDuration}`;
+
+            document.querySelector('.tab-2').href = `../pillar-2/index.html${paramString}`;
+            document.querySelector('.tab-3').href = `../pillar-3/index.html${paramString}`;
+            document.querySelector('.tab-4').href = `../pillar-4/index.html${paramString}`;
+            document.querySelector('.tab-5').href = `../pillar-5/index.html${paramString}`;
+            document.querySelector('.tab-6').href = `../pillar-6/index.html${paramString}`;
         });
     </script>
 </body>
