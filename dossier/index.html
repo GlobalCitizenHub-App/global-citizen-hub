@@ -102,6 +102,7 @@
             <datalist id="worldHubs">
                 <option value="Aurora, CO">
                 <option value="Auckland, New Zealand">
+                <option value="Shanghai, China">
                 <option value="Istanbul, Turkey">
                 <option value="Seoul, South Korea">
                 <option value="Tokyo, Japan">
@@ -204,15 +205,29 @@
     </main>
 
     <script>
-        // Comprehensive reference lists for rigorous live validation
         const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
-        const countryList = [
-            "new zealand", "turkey", "japan", "south korea", "korea", "france", "united kingdom", "uk", 
-            "australia", "canada", "united states", "usa", "us", "germany", "italy", "spain", "china", 
-            "singapore", "switzerland", "ireland", "brazil", "india", "mexico"
-        ];
         
-        // Smart mapping for common multi-state cities requiring disambiguation
+        // Country-to-City Example Mapping for precise feedback
+        const countryCityMap = {
+            "china": "Shanghai",
+            "new zealand": "Auckland",
+            "japan": "Tokyo",
+            "south korea": "Seoul",
+            "korea": "Seoul",
+            "turkey": "Istanbul",
+            "france": "Paris",
+            "united kingdom": "London",
+            "uk": "London",
+            "australia": "Sydney",
+            "canada": "Vancouver",
+            "united states": "New York",
+            "usa": "New York",
+            "us": "New York",
+            "germany": "Berlin",
+            "italy": "Rome",
+            "spain": "Madrid"
+        };
+        
         const ambiguousTownsMap = {
             "aurora": "Aurora, CO or Aurora, IL",
             "middletown": "Middletown, DE or Middletown, NY",
@@ -234,14 +249,14 @@
 
             const valLower = val.toLowerCase();
             const isContinent = continentList.some(c => c.toLowerCase() === valLower);
-            const isCountry = countryList.includes(valLower);
+            const specificCityExample = countryCityMap[valLower];
             const specificSuggestion = ambiguousTownsMap[valLower];
 
             if (isContinent) {
                 feedbackEl.innerText = `⚠️ ${val} is a continent, please enter a specific city name.`;
                 feedbackEl.className = "feedback-tag feedback-warning";
-            } else if (isCountry) {
-                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., Auckland for New Zealand).`;
+            } else if (specificCityExample) {
+                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., ${specificCityExample} for ${val}).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else if (specificSuggestion) {
                 feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
@@ -275,12 +290,10 @@
             document.getElementById('dynamicPriceBtn').innerText = `Unlock & Download Custom Dossier (${price})`;
             document.getElementById('dynamicPriceBtn').href = checkoutLink;
 
-            // Update dynamic placeholders across the report
             document.querySelectorAll('.destAText').forEach(el => el.innerText = destA);
             document.querySelectorAll('.destBText').forEach(el => el.innerText = destB);
         }
 
-        // Auto-capture incoming URL parameters from main dashboard if present
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const passedCityA = urlParams.get('cityA');
@@ -295,7 +308,6 @@
             
             validateAndEvaluate();
 
-            // Check unlock parameter (?unlocked=true)
             if (urlParams.get('unlocked') === 'true') {
                 document.getElementById('lockedContainer').style.display = 'none';
                 document.getElementById('freePreviewContainer').style.display = 'none';
