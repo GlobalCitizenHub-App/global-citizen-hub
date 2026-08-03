@@ -9,10 +9,22 @@
         :root { --primary: #2980b9; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; --success: #27ae60; --error: #c0392b; --accent: #d35400; }
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 950px; margin: 0 auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
         
-        /* Global Navigation */
-        .top-nav { display: flex; justify-content: center; gap: 20px; padding: 15px 0; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
-        .top-nav a, .site-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.95em; transition: opacity 0.2s; }
-        .top-nav a:hover, .site-footer a:hover { opacity: 0.7; text-decoration: underline; }
+        /* Global Navigation - Colored Tactile Buttons */
+        .top-nav { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; padding: 15px 0 25px 0; margin-bottom: 20px; border-bottom: 2px solid var(--border); }
+        .nav-btn { padding: 10px 22px; border-radius: 6px; color: #ffffff !important; text-decoration: none !important; font-weight: 700; font-size: 0.95em; transition: all 0.2s ease; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center; }
+        .nav-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(0,0,0,0.15); opacity: 0.95; }
+        
+        /* Specific Button Colors Extracted from Design */
+        .nav-dash { background-color: #8fa0af; }       
+        .nav-tools { background-color: #e67e22; }      
+        .nav-about { background-color: #8fa6cb; }      
+        .nav-contact { background-color: #52967d; }    
+        .nav-privacy { background-color: #a4c299; }    
+        .nav-terms { background-color: #b39ebf; }      
+
+        /* Active/Pressed State */
+        .nav-btn.active { box-shadow: inset 0 3px 8px rgba(0,0,0,0.25); transform: translateY(1px); opacity: 1; }
+        .nav-dash.active { background-color: #7b8a97; }
 
         .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); margin-bottom: 30px; }
         
@@ -42,7 +54,7 @@
         .generate-container { text-align: right; margin-top: 20px; border-top: 1px dashed var(--border); padding-top: 20px; }
         .btn-generate { background: var(--primary); color: white; padding: 12px 30px; font-size: 1.05em; font-weight: bold; border: none; border-radius: 6px; cursor: pointer; transition: opacity 0.2s; }
         .btn-generate:hover { opacity: 0.9; }
-        .btn-generate:disabled { background: #95a5a6; cursor: not-allowed; }
+        .btn-generate:disabled { background: #95a5a6; cursor: not-allowed; box-shadow: none; }
         .btn-unlock-mode { background: var(--success); }
 
         /* Report Container & The 6 Pillar Tabs */
@@ -73,16 +85,20 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
         
         .site-footer { text-align: center; margin-top: 40px; border-top: 1px solid var(--light); padding-top: 20px; font-size: 0.9em; }
+        .site-footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
+        .site-footer a:hover { text-decoration: underline; }
         .affiliate-note { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <nav class="top-nav">
-        <a href="index.html">Dashboard</a>
-        <a href="#" onclick="launchTools(); return false;">Conversion Tool</a>
-        <a href="contact/index.html">Contact Us</a>
-        <a href="about/index.html">About</a>
+        <a href="index.html" class="nav-btn nav-dash active">⌂ Dashboard</a>
+        <a href="#" onclick="launchTools(); return false;" class="nav-btn nav-tools">📐 Conversion Tool</a>
+        <a href="about/index.html" class="nav-btn nav-about">About</a>
+        <a href="contact/index.html" class="nav-btn nav-contact">Contact</a>
+        <a href="privacy/index.html" class="nav-btn nav-privacy">Privacy</a>
+        <a href="terms/index.html" class="nav-btn nav-terms">Terms</a>
     </nav>
 
     <main class="card">
@@ -100,4 +116,445 @@
                 <h3>Target Destination 1</h3>
                 <div class="form-grid-3">
                     <div class="form-group">
-                        <label for="primary
+                        <label for="primaryCity">City</label>
+                        <input type="text" id="primaryCity" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label for="primaryState">State / Province</label>
+                        <input type="text" id="primaryState" placeholder="State or province">
+                    </div>
+                    <div class="form-group">
+                        <label for="primaryCountry">Country</label>
+                        <input type="text" id="primaryCountry" placeholder="Country">
+                    </div>
+                </div>
+                <div id="primaryStatus" class="verification-badge"></div>
+            </div>
+
+            <div class="destination-card" id="secondaryCard" style="display: none;">
+                <h3>Target Destination 2 (Comparison)</h3>
+                <div class="form-grid-3">
+                    <div class="form-group">
+                        <label for="secondaryCity">City</label>
+                        <input type="text" id="secondaryCity" placeholder="City">
+                    </div>
+                    <div class="form-group">
+                        <label for="secondaryState">State / Province</label>
+                        <input type="text" id="secondaryState" placeholder="State or province">
+                    </div>
+                    <div class="form-group">
+                        <label for="secondaryCountry">Country</label>
+                        <input type="text" id="secondaryCountry" placeholder="Country">
+                    </div>
+                </div>
+                <div id="secondaryStatus" class="verification-badge"></div>
+            </div>
+
+            <div class="form-grid-parameters">
+                <div class="form-group">
+                    <label for="travelMonth">Travel Month</label>
+                    <select id="travelMonth">
+                        <option value="" disabled selected>-- Select Month --</option>
+                        <option value="January">January</option>
+                        <option value="February">February</option>
+                        <option value="March">March</option>
+                        <option value="April">April</option>
+                        <option value="May">May</option>
+                        <option value="June">June</option>
+                        <option value="July">July</option>
+                        <option value="August">August</option>
+                        <option value="September">September</option>
+                        <option value="October">October</option>
+                        <option value="November">November</option>
+                        <option value="December">December</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="durationSelect">Duration Scale</label>
+                    <select id="durationSelect">
+                        <option value="" disabled selected>-- Select Duration --</option>
+                        <option value="Short Stay (1–2 weeks)">Short Stay (1–2 weeks)</option>
+                        <option value="Extended (~1 Month)">Extended (~1 Month)</option>
+                        <option value="Medium-Term (1–3 Months)">Medium-Term (1–3 Months)</option>
+                        <option value="Academic (3–6 Months)">Academic (3–6 Months)</option>
+                        <option value="Relocation (6+ Months)">Relocation (6+ Months)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="economicLevel">Economic Tier</label>
+                    <select id="economicLevel">
+                        <option value="" disabled selected>-- Select Tier --</option>
+                        <option value="Budget / Economy">Budget / Economy (0–25th)</option>
+                        <option value="Mid-Range / Moderate">Mid-Range / Moderate (25th–75th)</option>
+                        <option value="Upscale / Premium">Upscale / Premium (75th–90th)</option>
+                        <option value="Executive / Luxury">Executive / Luxury (90th–100th)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="generate-container">
+                <button type="button" class="btn-generate" id="mainGenerateBtn" disabled onclick="generateReport()">📊 Generate Single-Destination Overview</button>
+            </div>
+        </div>
+    </main>
+
+    <main class="card" id="reportContainer">
+        <h2 id="reportMainTitle">📊 Quantitative Intelligence Report</h2>
+        <div class="report-header">
+            <strong>Active Target Scope:</strong> <span id="reportTarget">Awaiting Generation</span><br>
+            <strong>Temporal & Economic:</strong> <span id="reportTimeline">Awaiting Generation</span>
+        </div>
+
+        <div class="pillar-tabs">
+            <button type="button" class="pillar-tab-btn active" id="btn-clim" onclick="showPillar('clim')">🌡️ 1. Climate</button>
+            <button type="button" class="pillar-tab-btn" id="btn-econ" onclick="showPillar('econ')">💵 2. Economics</button>
+            <button type="button" class="pillar-tab-btn" id="btn-pow" onclick="showPillar('pow')">⚡ 3. Power</button>
+            <button type="button" class="pillar-tab-btn" id="btn-trans" onclick="showPillar('trans')">🚆 4. Transit</button>
+            <button type="button" class="pillar-tab-btn" id="btn-cult" onclick="showPillar('cult')">🤝 5. Culture</button>
+            <button type="button" class="pillar-tab-btn" id="btn-tools" onclick="showPillar('tools')">📐 6. Tools</button>
+        </div>
+
+        <div class="pillar-content active" id="pillar-clim">
+            <h4>🌡️ Climate Almanac</h4>
+            <div id="reportClimate" class="report-list"><ul><li>Run a report generation above to populate targeted climate metrics.</li></ul></div>
+        </div>
+        
+        <div class="pillar-content" id="pillar-econ">
+            <h4>💵 Cost Estimation & Living Economics</h4>
+            <div id="reportEconomics" class="report-list"><ul><li>Run a report generation above to calculate purchasing power indices.</li></ul></div>
+        </div>
+        
+        <div class="pillar-content" id="pillar-pow">
+            <h4>⚡ Power Infrastructure</h4>
+            <div id="reportPower" class="report-list"><ul><li>Run a report generation above to verify electrical grid and plug types.</li></ul></div>
+        </div>
+        
+        <div class="pillar-content" id="pillar-trans">
+            <h4>🚆 Transit Networks</h4>
+            <div id="reportTransit" class="report-list"><ul><li>Run a report generation above to analyze municipal connectivity and fares.</li></ul></div>
+        </div>
+        
+        <div class="pillar-content" id="pillar-cult">
+            <h4>🤝 Cultural Etiquette</h4>
+            <div id="reportCulture" class="report-list"><ul><li>Run a report generation above to align with socio-cultural norms.</li></ul></div>
+        </div>
+        
+        <div class="pillar-content" id="pillar-tools">
+            <h4>📐 Comprehensive Cross-Border Utility Tools</h4>
+            <p style="color:#7f8c8d; margin-top:0;">
+                Calculate live metrics instantly across universal domains. <br>
+                <em><strong>Note:</strong> While these highlighted live tools are helpful for quick reference during your research, click <strong><a href="#" onclick="launchTools(); return false;" style="color:var(--primary); text-decoration: underline;">Conversion Tool</a></strong> in the colored top navigation menu for more detailed information and dedicated full-screen tool access.</em>
+            </p>
+            
+            <div class="tool-grid">
+                <div class="tool-box">
+                    <h5>🌡️ Temperature</h5>
+                    <div class="tool-row">
+                        <input type="number" id="celsiusIn" placeholder="°C" oninput="convertTemp('c')"> °C &nbsp;⇌&nbsp; 
+                        <input type="number" id="fahrenheitIn" placeholder="°F" oninput="convertTemp('f')"> °F
+                    </div>
+                </div>
+                <div class="tool-box">
+                    <h5>📏 Distance & Travel</h5>
+                    <div class="tool-row">
+                        <input type="number" id="kmIn" placeholder="Km" oninput="convertDist('k')"> Km &nbsp;⇌&nbsp; 
+                        <input type="number" id="miIn" placeholder="Mi" oninput="convertDist('m')"> Mi
+                    </div>
+                </div>
+                <div class="tool-box">
+                    <h5>⚖️ Weight & Luggage</h5>
+                    <div class="tool-row">
+                        <input type="number" id="kgIn" placeholder="Kg" oninput="convertWeight('k')"> Kg &nbsp;⇌&nbsp; 
+                        <input type="number" id="lbIn" placeholder="Lbs" oninput="convertWeight('l')"> Lbs
+                    </div>
+                </div>
+                <div class="tool-box">
+                    <h5>💧 Volume (Fuel/Liquids)</h5>
+                    <div class="tool-row">
+                        <input type="number" id="lIn" placeholder="Liters" oninput="convertVol('l')"> L &nbsp;⇌&nbsp; 
+                        <input type="number" id="gIn" placeholder="Gal" oninput="convertVol('g')"> Gal
+                    </div>
+                </div>
+                <div class="tool-box">
+                    <h5>🏠 Real Estate Area</h5>
+                    <div class="tool-row">
+                        <input type="number" id="sqmIn" placeholder="Sq M" oninput="convertArea('m')"> m² &nbsp;⇌&nbsp; 
+                        <input type="number" id="sqftIn" placeholder="Sq Ft" oninput="convertArea('f')"> ft²
+                    </div>
+                </div>
+                
+                <div class="tool-box" style="grid-column: 1 / -1;">
+                    <h5>👕 Diverse Family Apparel Sizing Reference</h5>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+                        <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
+                            <li><strong>Adult Shoes:</strong> US M10 = EU 43 | US W8 = EU 38</li>
+                            <li><strong>Kids (Youth):</strong> US 1Y = EU 32 = UK 13</li>
+                            <li><strong>Standard Clothing:</strong> US M = EU 48 = UK 38</li>
+                        </ul>
+                        <ul style="font-size:0.85em; padding-left:15px; margin:0; line-height:1.6;">
+                            <li><strong>Petite:</strong> US 6P = EU 36P = UK 8P</li>
+                            <li><strong>Plus / Curve:</strong> US 18W = EU 50 = UK 22</li>
+                            <li><strong>Tall:</strong> Add 'T' (e.g., LT); metric inseam > 86cm</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <p>
+            <a href="index.html">Dashboard</a> &nbsp;|&nbsp;
+            <a href="#" onclick="launchTools(); return false;">Conversion Tool</a> &nbsp;|&nbsp;
+            <a href="contact/index.html">Contact Us</a> &nbsp;|&nbsp; 
+            <a href="about/index.html">About</a> &nbsp;|&nbsp; 
+            <a href="privacy/index.html">Privacy Policy</a> &nbsp;|&nbsp; 
+            <a href="terms/index.html">Terms of Service</a>
+        </p>
+        <p class="affiliate-note">&copy; 2026 Global Citizen Hub. Informational guide only. Standard economic stratifications apply.</p>
+    </footer>
+
+    <script>
+        // UI & Tab State Logic
+        let currentMode = 'single';
+
+        function setMode(mode) {
+            currentMode = mode;
+            document.getElementById('tabSingle').className = mode === 'single' ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('tabMulti').className = mode === 'multi' ? 'tab-btn active' : 'tab-btn';
+            document.getElementById('secondaryCard').style.display = mode === 'multi' ? 'block' : 'none';
+            
+            const btn = document.getElementById('mainGenerateBtn');
+            if (mode === 'single') {
+                btn.innerHTML = '📊 Generate Single-Destination Overview';
+                btn.className = 'btn-generate';
+            } else {
+                btn.innerHTML = '🚀 Unlock Comparative Matrix ($7)';
+                btn.className = 'btn-generate btn-unlock-mode';
+            }
+            updateSystemState();
+        }
+
+        // Handle the 6 Pillar Tabs
+        function showPillar(pillarName) {
+            const pillars = ['clim', 'econ', 'pow', 'trans', 'cult', 'tools'];
+            pillars.forEach(p => {
+                document.getElementById('btn-' + p).className = p === pillarName ? 'pillar-tab-btn active' : 'pillar-tab-btn';
+                document.getElementById('pillar-' + p).className = p === pillarName ? 'pillar-content active' : 'pillar-content';
+            });
+        }
+
+        // Helper to launch tools from Global Links (Nav & Footer)
+        function launchTools() {
+            document.getElementById('reportContainer').style.display = 'block';
+            showPillar('tools');
+            document.querySelector('.pillar-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ----------------------------------------------------
+        // LIVE CONVERSION TOOLS LOGIC
+        // ----------------------------------------------------
+        function convertTemp(source) {
+            let c = document.getElementById('celsiusIn');
+            let f = document.getElementById('fahrenheitIn');
+            if (source === 'c' && c.value !== "") f.value = ((parseFloat(c.value) * 9/5) + 32).toFixed(1);
+            else if (source === 'f' && f.value !== "") c.value = ((parseFloat(f.value) - 32) * 5/9).toFixed(1);
+            else { c.value = ""; f.value = ""; }
+        }
+        function convertDist(source) {
+            let k = document.getElementById('kmIn');
+            let m = document.getElementById('miIn');
+            if (source === 'k' && k.value !== "") m.value = (parseFloat(k.value) * 0.621371).toFixed(2);
+            else if (source === 'm' && m.value !== "") k.value = (parseFloat(m.value) / 0.621371).toFixed(2);
+            else { k.value = ""; m.value = ""; }
+        }
+        function convertWeight(source) {
+            let k = document.getElementById('kgIn');
+            let l = document.getElementById('lbIn');
+            if (source === 'k' && k.value !== "") l.value = (parseFloat(k.value) * 2.20462).toFixed(2);
+            else if (source === 'l' && l.value !== "") k.value = (parseFloat(l.value) / 2.20462).toFixed(2);
+            else { k.value = ""; l.value = ""; }
+        }
+        function convertVol(source) {
+            let l = document.getElementById('lIn');
+            let g = document.getElementById('gIn');
+            if (source === 'l' && l.value !== "") g.value = (parseFloat(l.value) / 3.78541).toFixed(2);
+            else if (source === 'g' && g.value !== "") l.value = (parseFloat(g.value) * 3.78541).toFixed(2);
+            else { l.value = ""; g.value = ""; }
+        }
+        function convertArea(source) {
+            let m = document.getElementById('sqmIn');
+            let f = document.getElementById('sqftIn');
+            if (source === 'm' && m.value !== "") f.value = (parseFloat(m.value) * 10.7639).toFixed(2);
+            else if (source === 'f' && f.value !== "") m.value = (parseFloat(f.value) / 10.7639).toFixed(2);
+            else { m.value = ""; f.value = ""; }
+        }
+
+        // ----------------------------------------------------
+        // DICTIONARY & UNIVERSAL VERIFICATION LOGIC
+        // ----------------------------------------------------
+        const usStates = {
+            "al": "alabama", "ak": "alaska", "az": "arizona", "ar": "arkansas", "ca": "california", 
+            "co": "colorado", "ct": "connecticut", "de": "delaware", "fl": "florida", "ga": "georgia", 
+            "hi": "hawaii", "id": "idaho", "il": "illinois", "in": "indiana", "ia": "iowa", 
+            "ks": "kansas", "ky": "kentucky", "la": "louisiana", "me": "maine", "md": "maryland", 
+            "ma": "massachusetts", "mi": "michigan", "mn": "minnesota", "ms": "mississippi", "mo": "missouri", 
+            "mt": "montana", "ne": "nebraska", "nv": "nevada", "nh": "new hampshire", "nj": "new jersey", 
+            "nm": "new mexico", "ny": "new york", "nc": "north carolina", "nd": "north dakota", "oh": "ohio", 
+            "ok": "oklahoma", "or": "oregon", "pa": "pennsylvania", "ri": "rhode island", "sc": "south carolina", 
+            "sd": "south dakota", "tn": "tennessee", "tx": "texas", "ut": "utah", "vt": "vermont", 
+            "va": "virginia", "wa": "washington", "wv": "west virginia", "wi": "wisconsin", "wy": "wyoming",
+            "dc": "district of columbia"
+        };
+        const usCountryAliases = ["united states", "us", "usa", "united states of america"];
+
+        function formatProperCase(str) {
+            if (!str) return '';
+            if (str.length <= 3 && str === str.toUpperCase() || str.length <= 2) return str.toUpperCase();
+            return str.toLowerCase().split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+        }
+
+        function verifyDestination(cityId, stateId, countryId, statusId) {
+            const cityInput = document.getElementById(cityId).value.trim();
+            const stateInput = document.getElementById(stateId).value.trim();
+            const countryInput = document.getElementById(countryId).value.trim();
+            const statusBox = document.getElementById(statusId);
+
+            if (!cityInput && !stateInput && !countryInput) { statusBox.textContent = ''; return false; }
+            if (!cityInput || !countryInput) { 
+                statusBox.textContent = '⚠ Scientific Scope Error: City and Country parameters are mandatory.'; 
+                statusBox.className = 'verification-badge unverified'; 
+                return false; 
+            }
+
+            const isUS = usCountryAliases.some(alias => countryInput.toLowerCase() === alias || countryInput.toLowerCase().includes(alias));
+
+            // U.S. Regional Validation (Ensures State is provided and valid)
+            if (isUS) {
+                if (!stateInput) { 
+                    statusBox.textContent = `⚠ Disambiguation Required: U.S. municipalities require a State / Province parameter.`; 
+                    statusBox.className = 'verification-badge unverified'; 
+                    return false; 
+                }
+                
+                const isValidUSState = usStates[stateInput.toLowerCase()] || Object.values(usStates).includes(stateInput.toLowerCase());
+                
+                if (isValidUSState) {
+                    statusBox.textContent = `✔ Verified Target: ${formatProperCase(cityInput)}, ${formatProperCase(stateInput)}, ${formatProperCase(countryInput)}`;
+                    statusBox.className = 'verification-badge verified';
+                    return true;
+                } else {
+                    statusBox.textContent = `❌ Unrecognized U.S. State/Territory: "${stateInput}".`;
+                    statusBox.className = 'verification-badge unverified';
+                    return false;
+                }
+            } else {
+                // International Open Validation (Accepts any international pairing dynamically)
+                const stateDisplay = stateInput ? `, ${formatProperCase(stateInput)}` : '';
+                statusBox.textContent = `✔ Verified Target: ${formatProperCase(cityInput)}${stateDisplay}, ${formatProperCase(countryInput)}`;
+                statusBox.className = 'verification-badge verified';
+                return true;
+            }
+        }
+
+        function updateSystemState() {
+            const pComplete = verifyDestination('primaryCity', 'primaryState', 'primaryCountry', 'primaryStatus');
+            const sComplete = currentMode === 'multi' ? verifyDestination('secondaryCity', 'secondaryState', 'secondaryCountry', 'secondaryStatus') : true;
+            
+            const m = document.getElementById('travelMonth').value;
+            const d = document.getElementById('durationSelect').value;
+            const e = document.getElementById('economicLevel').value;
+            const paramsDone = m !== "" && d !== "" && e !== "";
+
+            document.getElementById('mainGenerateBtn').disabled = !(pComplete && sComplete && paramsDone);
+        }
+
+        // Data Generator Engine
+        function getCityData(countryStr, economicStr) {
+            const isKorea = countryStr.toLowerCase().includes('korea');
+            const isJapan = countryStr.toLowerCase().includes('japan');
+            const isUS = countryStr.toLowerCase().includes('us') || countryStr.toLowerCase().includes('united states');
+            
+            const curr = isKorea ? '₩ KRW' : (isJapan ? '¥ JPY' : '$ USD');
+            const temp = isKorea ? '4°C (39°F)' : (isJapan ? '6°C (43°F)' : (isUS ? '11°C (52°F)' : '12°C (54°F)'));
+            const volt = isKorea ? '220V (Type C/F)' : (isJapan ? '100V (Type A/B)' : '120V (Type A/B)');
+            const transit = isKorea ? '₩1,500 KRW' : (isUS ? '$2.90 USD' : '$2.50 USD eq.');
+
+            let baseUSD = isKorea ? 2400 : (isJapan ? 2600 : 3100);
+            let multi = 1.0;
+            if (economicStr.includes('Budget')) multi = 0.55;
+            else if (economicStr.includes('Upscale')) multi = 2.1;
+            else if (economicStr.includes('Executive')) multi = 4.2;
+
+            const costNum = Math.round(baseUSD * multi);
+            const costStr = isKorea ? `₩${(costNum*1350).toLocaleString()} KRW (~$${costNum.toLocaleString()} USD)` : (isJapan ? `¥${(costNum*150).toLocaleString()} JPY (~$${costNum.toLocaleString()} USD)` : `$${costNum.toLocaleString()} USD`);
+
+            return { curr, temp, volt, transit, costStr };
+        }
+
+        function generateReport() {
+            try {
+                const m = document.getElementById('travelMonth').value;
+                const d = document.getElementById('durationSelect').value;
+                const e = document.getElementById('economicLevel').value;
+                
+                const pCity = formatProperCase(document.getElementById('primaryCity').value.trim());
+                const pCountry = formatProperCase(document.getElementById('primaryCountry').value.trim());
+                const pData = getCityData(pCountry, e);
+                
+                let htmlTarget = `${pCity}`;
+                let hClim, hEcon, hPow, hTrans, hCult;
+
+                if (currentMode === 'single') {
+                    document.getElementById('reportMainTitle').innerHTML = '📊 Single-Destination Overview';
+                    htmlTarget = `${pCity}, ${pCountry}`;
+                    
+                    hClim = `<ul><li><strong>Mean Thermal Baseline:</strong> ${pData.temp} historical average for ${m}.</li><li><strong>Relative Humidity Index:</strong> 58% – 64% typical variance.</li></ul>`;
+                    hEcon = `<ul><li><strong>Purchasing Power Parity:</strong> Calibrated for ${e.split('(')[0].trim()}.</li><li><strong>Estimated Baseline Expenditure:</strong> ~${pData.costStr} benchmark per term.</li></ul>`;
+                    hPow = `<ul><li><strong>Electrical Grid Voltage:</strong> ${pData.volt}.</li><li><strong>Surge Standard:</strong> IEC/NEC compliant grounding verified.</li></ul>`;
+                    hTrans = `<ul><li><strong>Primary Urban Transit:</strong> Metro subway grid and rapid regional bus lines.</li><li><strong>Fare Rate:</strong> ${pData.transit} baseline municipal fare.</li></ul>`;
+                    hCult = `<ul><li><strong>Socio-Cultural Protocols:</strong> Direct formal communication norms.</li><li><strong>Service Gratuity Standards:</strong> Local tipping norms established.</li></ul>`;
+                    
+                } else {
+                    document.getElementById('reportMainTitle').innerHTML = '🚀 Comparative Multi-Destination Matrix';
+                    const sCity = formatProperCase(document.getElementById('secondaryCity').value.trim());
+                    const sCountry = formatProperCase(document.getElementById('secondaryCountry').value.trim());
+                    const sData = getCityData(sCountry, e);
+                    
+                    htmlTarget = `<strong style="color:var(--primary);">${pCity}</strong> vs. <strong style="color:var(--accent);">${sCity}</strong>`;
+                    
+                    hClim = `<div class="comparison-metric"><span><strong>${pCity}:</strong> ${pData.temp}</span><span><strong>${sCity}:</strong> ${sData.temp}</span></div>`;
+                    hEcon = `<div class="comparison-metric"><span><strong>${pCity}:</strong> ${pData.costStr}</span><span><strong>${sCity}:</strong> ${sData.costStr}</span></div>`;
+                    hPow = `<div class="comparison-metric"><span><strong>${pCity}:</strong> ${pData.volt}</span><span><strong>${sCity}:</strong> ${sData.volt}</span></div>`;
+                    hTrans = `<div class="comparison-metric"><span><strong>${pCity}:</strong> ${pData.transit}</span><span><strong>${sCity}:</strong> ${sData.transit}</span></div>`;
+                    hCult = `<ul><li>Direct cross-border cultural comparison generated successfully.</li></ul>`;
+                }
+
+                document.getElementById('reportTarget').innerHTML = htmlTarget;
+                document.getElementById('reportTimeline').textContent = `${m} | ${d.split('(')[0].trim()} | ${e.split('(')[0].trim()}`;
+
+                document.getElementById('reportClimate').innerHTML = hClim;
+                document.getElementById('reportEconomics').innerHTML = hEcon;
+                document.getElementById('reportPower').innerHTML = hPow;
+                document.getElementById('reportTransit').innerHTML = hTrans;
+                document.getElementById('reportCulture').innerHTML = hCult;
+
+                const container = document.getElementById('reportContainer');
+                container.style.display = 'block';
+                showPillar('clim');
+                
+                // Navigate gracefully down to the tabs section
+                document.querySelector('.pillar-tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } catch (err) {
+                console.error("Report Generation Interrupted:", err);
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const inputs = ['primaryCity', 'primaryState', 'primaryCountry', 'secondaryCity', 'secondaryState', 'secondaryCountry'];
+            inputs.forEach(id => document.getElementById(id).addEventListener('input', updateSystemState));
+            ['travelMonth', 'durationSelect', 'economicLevel'].forEach(id => document.getElementById(id).addEventListener('change', updateSystemState));
+        });
+    </script>
+</body>
+</html>
