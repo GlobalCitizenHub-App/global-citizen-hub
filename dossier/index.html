@@ -13,9 +13,14 @@
         
         /* Scope Selection Box */
         .scope-box { background: #eaf2f8; border: 1px solid #a4c639; padding: 25px; border-radius: 6px; margin: 25px 0; }
-        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; margin-top: 15px; }
+        .scope-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-top: 15px; }
         .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
+        
+        /* Automatic Feedback Tag */
+        .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
+        .feedback-valid { color: #27ae60; }
+        .feedback-custom { color: #d35400; }
 
         /* Paywall Box */
         .paywall-box { background: #fcf3cf; border: 2px dashed #f39c12; padding: 30px; text-align: center; border-radius: 6px; margin-top: 30px; }
@@ -44,23 +49,25 @@
         </header>
 
         <section class="scope-box no-print">
-            <h3>⚙️ Universal Scope Selector</h3>
-            <p style="font-size: 0.9em; color: #555;">Select from suggestions or type any custom city worldwide for your comparison profile.</p>
+            <h3>⚙️ Universal Scope Selector with Live Validation</h3>
+            <p style="font-size: 0.9em; color: #555;">Type any city or state. The system provides automatic feedback confirming your selection parameters.</p>
             
             <div class="scope-grid">
                 <div class="input-group">
                     <label for="destinationA">Primary Destination (A)</label>
-                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="updateScopeSummary()" placeholder="Type any city or state...">
+                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type city or state...">
+                    <span id="feedbackA" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
                     <label for="destinationB">Secondary Destination (B)</label>
-                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="updateScopeSummary()" placeholder="Type any city or state...">
+                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="validateAndEvaluate()" placeholder="Type city or state...">
+                    <span id="feedbackB" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
                     <label for="durationTier">Duration / Scope Tier</label>
-                    <select id="durationTier" onchange="updateScopeSummary()">
+                    <select id="durationTier" onchange="validateAndEvaluate()">
                         <option value="Short Stay (3–5 Days)">Short Stay (3–5 Days)</option>
                         <option value="Medium Stay (1–2 Weeks)">Medium Stay (1–2 Weeks)</option>
                         <option value="Long Stay (1–3 Months)">Long Stay (1–3 Months)</option>
@@ -118,9 +125,40 @@
     </main>
 
     <script>
-        function updateScopeSummary() {
-            const destA = document.getElementById('destinationA').value || "Custom Destination A";
-            const destB = document.getElementById('destinationB').value || "Custom Destination B";
+        // List of verified preset options for instant feedback matching
+        const verifiedHubs = [
+            "New York, NY (US)", "Los Angeles, CA (US)", "Austin, TX (US)", "San Diego, CA (US)",
+            "Denver, CO (US)", "Orlando, FL (US)", "Charleston, SC (US)", "Salt Lake City, UT (US)",
+            "Seattle, WA (US)", "Miami, FL (US)", "Chicago, IL (US)", "Seoul, South Korea",
+            "Tokyo, Japan", "Paris, France", "London, UK", "Singapore", "Sydney, Australia", "Vancouver, Canada"
+        ];
+
+        function checkFieldFeedback(inputId, feedbackId) {
+            const val = document.getElementById(inputId).value.trim();
+            const feedbackEl = document.getElementById(feedbackId);
+            
+            if (!val) {
+                feedbackEl.innerText = "⚠️ Please enter a destination";
+                feedbackEl.className = "feedback-tag feedback-custom";
+                return;
+            }
+
+            // Check if input matches preset or contains standard US / Global indicators
+            if (verifiedHubs.includes(val) || val.includes("(US)") || val.includes(",")) {
+                feedbackEl.innerText = "✓ Confirmed destination scope active";
+                feedbackEl.className = "feedback-tag feedback-valid";
+            } else {
+                feedbackEl.innerText = "🌐 Custom custom-query destination registered";
+                feedbackEl.className = "feedback-tag feedback-custom";
+            }
+        }
+
+        function validateAndEvaluate() {
+            checkFieldFeedback('destinationA', 'feedbackA');
+            checkFieldFeedback('destinationB', 'feedbackB');
+
+            const destA = document.getElementById('destinationA').value || "Destination A";
+            const destB = document.getElementById('destinationB').value || "Destination B";
             const tier = document.getElementById('durationTier').value;
             
             let price = "$7";
@@ -136,8 +174,10 @@
             document.getElementById('dynamicPriceBtn').href = checkoutLink;
         }
         
-        updateScopeSummary();
+        // Run on page load
+        validateAndEvaluate();
 
+        // Check unlock parameter
         const urlParams = new URLSearchParams(window.location.search);
         if (urlParams.get('unlocked') === 'true') {
             document.getElementById('lockedContainer').style.display = 'none';
