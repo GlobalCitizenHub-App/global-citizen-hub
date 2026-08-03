@@ -18,7 +18,7 @@
         .destination-card h3 { margin-top: 0; color: var(--primary); font-size: 1.1em; border-bottom: 1px solid var(--light); padding-bottom: 8px; }
         
         .form-grid-3 { display: grid; grid-template-columns: 2fr 1.5fr 1.5fr; gap: 15px; margin-bottom: 15px; }
-        .form-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-grid-parameters { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .form-group { display: flex; flex-direction: column; }
         label { font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         input, select { padding: 10px; border: 1px solid var(--border); border-radius: 4px; font-size: 0.95em; }
@@ -53,7 +53,7 @@
     <main class="card">
         <h1>🌍 Global Citizen Hub | Intelligence Core</h1>
         <p>
-            Deploying algorithmic U.S. state validation and global municipal intelligence verification.
+            Deploying algorithmic U.S. state validation and global municipal intelligence verification with economic tier calibration.
         </p>
 
         <div class="selector-box">
@@ -97,7 +97,7 @@
                 <div id="secondaryStatus" class="verification-badge"></div>
             </div>
 
-            <div class="form-grid-2">
+            <div class="form-grid-parameters">
                 <div class="form-group">
                     <label for="travelMonth">Planned Travel Month</label>
                     <select id="travelMonth">
@@ -127,6 +127,16 @@
                         <option value="Long-Term / Relocation (6+ Months / Permanent)">Long-Term / Relocation (6+ Months / Permanent)</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="economicLevel">Economic Tier</label>
+                    <select id="economicLevel" name="economicLevel">
+                        <option value="" disabled selected>-- Select Tier --</option>
+                        <option value="Budget / Economy">Budget / Economy</option>
+                        <option value="Mid-Range / Moderate">Mid-Range / Moderate</option>
+                        <option value="Upscale / Premium">Upscale / Premium</option>
+                        <option value="Executive / Luxury">Executive / Luxury</option>
+                    </select>
+                </div>
             </div>
 
             <div class="action-buttons">
@@ -140,7 +150,7 @@
         <h2>📊 Scientific Intelligence Dossier</h2>
         <div class="report-header">
             <strong>Active Target Scope:</strong> <span id="reportTarget"></span><br>
-            <strong>Temporal & Duration Parameters:</strong> <span id="reportTimeline"></span>
+            <strong>Temporal & Economic Parameters:</strong> <span id="reportTimeline"></span>
         </div>
 
         <div class="modules-grid">
@@ -291,10 +301,11 @@
             
             const monthVal = document.getElementById('travelMonth').value;
             const durationVal = document.getElementById('durationSelect').value;
-            const hasMonthAndDuration = monthVal !== "" && durationVal !== "";
+            const economicVal = document.getElementById('economicLevel').value;
+            const hasAllParameters = monthVal !== "" && durationVal !== "" && economicVal !== "";
 
-            document.getElementById('generateFreeBtn').disabled = !(primaryComplete && hasMonthAndDuration);
-            document.getElementById('unlockDossierBtn').disabled = !(primaryComplete && secondaryComplete && hasMonthAndDuration);
+            document.getElementById('generateFreeBtn').disabled = !(primaryComplete && hasAllParameters);
+            document.getElementById('unlockDossierBtn').disabled = !(primaryComplete && secondaryComplete && hasAllParameters);
         }
 
         function generateReport() {
@@ -303,18 +314,19 @@
             const pCountry = formatProperCase(document.getElementById('primaryCountry').value.trim());
             const month = document.getElementById('travelMonth').value;
             const duration = document.getElementById('durationSelect').value;
+            const economic = document.getElementById('economicLevel').value;
 
             const targetString = pState ? `${pCity}, ${pState}, ${pCountry}` : `${pCity}, ${pCountry}`;
             document.getElementById('reportTarget').textContent = targetString;
-            document.getElementById('reportTimeline').textContent = `${month} | Duration Tier: ${duration}`;
+            document.getElementById('reportTimeline').textContent = `${month} | Duration: ${duration} | Tier: ${economic}`;
 
             document.getElementById('reportClimate').innerHTML = `
                 <li><strong>Thermal Baseline:</strong> Historical mean temperatures calibrated for ${month}.</li>
                 <li><strong>Atmospheric Pressure & Humidity:</strong> Regional meteorological profile loaded.</li>
             `;
             document.getElementById('reportEconomics').innerHTML = `
-                <li><strong>Purchasing Power Parity:</strong> Standardized cost index for ${duration}.</li>
-                <li><strong>Accommodation Index:</strong> Medium/Short-term lodging expenditure projection active.</li>
+                <li><strong>Purchasing Power Parity:</strong> Standardized cost index calibrated for ${economic} tier over ${duration}.</li>
+                <li><strong>Accommodation Index:</strong> Lodging expenditure projection active for ${economic}.</li>
             `;
             document.getElementById('reportPower').innerHTML = `
                 <li><strong>Grid Specifications:</strong> Standard voltage and frequency matrix verified.</li>
@@ -346,6 +358,7 @@
 
             document.getElementById('travelMonth').addEventListener('change', updateSystemState);
             document.getElementById('durationSelect').addEventListener('change', updateSystemState);
+            document.getElementById('economicLevel').addEventListener('change', updateSystemState);
             document.getElementById('generateFreeBtn').addEventListener('click', generateReport);
 
             const searchParams = window.location.search;
