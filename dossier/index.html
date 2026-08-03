@@ -207,7 +207,7 @@
     <script>
         const continentList = ["Africa", "Asia", "Europe", "North America", "South America", "Antarctica", "Oceania"];
         
-        // Country-to-City Example Mapping
+        // Country-to-City Example Mapping (normalized keys to lowercase)
         const countryCityMap = {
             "china": "Shanghai",
             "new zealand": "Auckland",
@@ -239,7 +239,8 @@
         };
 
         function checkFieldFeedback(inputId, feedbackId) {
-            const val = document.getElementById(inputId).value.trim();
+            const inputElem = document.getElementById(inputId);
+            let val = inputElem.value.trim();
             const feedbackEl = document.getElementById(feedbackId);
             
             if (!val) {
@@ -248,7 +249,19 @@
                 return;
             }
 
-            const valLower = val.toLowerCase();
+            let valLower = val.toLowerCase();
+
+            // Auto-normalize common abbreviations like us -> US, uk -> UK, usa -> USA
+            if (valLower === "us" || valLower === "usa") {
+                val = "US";
+                inputElem.value = val;
+                valLower = "us";
+            } else if (valLower === "uk") {
+                val = "UK";
+                inputElem.value = val;
+                valLower = "uk";
+            }
+
             const isContinent = continentList.some(c => c.toLowerCase() === valLower);
             const specificCityExample = countryCityMap[valLower];
             const specificSuggestion = ambiguousTownsMap[valLower];
@@ -263,7 +276,6 @@
                 feedbackEl.innerText = `⚠️ Please specify state (e.g., ${specificSuggestion}).`;
                 feedbackEl.className = "feedback-tag feedback-warning";
             } else {
-                // All other valid city inputs (Seoul, Incheon, Tokyo, etc.) pass cleanly
                 feedbackEl.innerText = "✓ Confirmed city destination scope active";
                 feedbackEl.className = "feedback-tag feedback-valid";
             }
