@@ -17,14 +17,24 @@
         .input-group label { display: block; font-weight: bold; font-size: 0.85em; color: var(--dark); margin-bottom: 5px; }
         .input-group input, .input-group select { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: white; font-size: 0.95em; box-sizing: border-box; }
         
-        /* Remove Browser Drop-Down / Picker Arrow from Text Inputs */
+        /* Completely Remove Browser Datalist Drop-Down Arrow & Indicator */
         .input-group input::-webkit-calendar-picker-indicator {
             display: none !important;
+            opacity: 0 !important;
+            width: 0 !important;
+            height: 0 !important;
+            pointer-events: none !important;
+        }
+        .input-group input {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
 
         /* Automatic Feedback Tag */
         .feedback-tag { font-size: 0.78em; margin-top: 5px; display: block; font-weight: bold; }
         .feedback-valid { color: #27ae60; }
+        .feedback-warning { color: #d35400; }
 
         /* Paywall Box */
         .paywall-box { background: #fcf3cf; border: 2px dashed #f39c12; padding: 30px; text-align: center; border-radius: 6px; margin-top: 30px; }
@@ -49,23 +59,23 @@
         
         <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
             <h1>📑 Advanced Universal Destination Comparison Dossier</h1>
-            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city or country below</p>
+            <p id="reportHeader" style="font-weight: bold; color: var(--primary);">Configure any global city below</p>
         </header>
 
         <section class="scope-box no-print">
             <h3>⚙️ Universal Scope Selector with Live Validation</h3>
-            <p style="font-size: 0.9em; color: #555;">Type any city or country worldwide. The system provides automatic feedback confirming your selection parameters.</p>
+            <p style="font-size: 0.9em; color: #555;">Type any specific city worldwide. Entering a country name will prompt for a specific city.</p>
             
             <div class="scope-grid">
                 <div class="input-group">
-                    <label for="destinationA">Primary Destination (City or Country)</label>
-                    <input type="text" id="destinationA" list="worldHubs" value="Turkey" oninput="validateAndEvaluate()" placeholder="Type city or country...">
+                    <label for="destinationA">Primary Destination (City)</label>
+                    <input type="text" id="destinationA" list="worldHubs" value="Seoul, South Korea" oninput="validateAndEvaluate()" placeholder="Type city name...">
                     <span id="feedbackA" class="feedback-tag"></span>
                 </div>
 
                 <div class="input-group">
-                    <label for="destinationB">Secondary Destination (City or Country)</label>
-                    <input type="text" id="destinationB" list="worldHubs" value="Japan" oninput="validateAndEvaluate()" placeholder="Type city or country...">
+                    <label for="destinationB">Secondary Destination (City)</label>
+                    <input type="text" id="destinationB" list="worldHubs" value="Tokyo, Japan" oninput="validateAndEvaluate()" placeholder="Type city name...">
                     <span id="feedbackB" class="feedback-tag"></span>
                 </div>
 
@@ -81,26 +91,16 @@
             </div>
 
             <datalist id="worldHubs">
-                <optgroup label="Countries">
-                    <option value="Turkey">
-                    <option value="Japan">
-                    <option value="South Korea">
-                    <option value="France">
-                    <option value="United Kingdom">
-                    <option value="Australia">
-                    <option value="Canada">
-                    <option value="United States">
-                </optgroup>
-                <optgroup label="Global Metros & Cities">
-                    <option value="Istanbul, Turkey">
-                    <option value="Seoul, South Korea">
-                    <option value="Tokyo, Japan">
-                    <option value="Paris, France">
-                    <option value="London, UK">
-                    <option value="New York, NY">
-                    <option value="Los Angeles, CA">
-                    <option value="Austin, TX">
-                </optgroup>
+                <option value="Istanbul, Turkey">
+                <option value="Seoul, South Korea">
+                <option value="Tokyo, Japan">
+                <option value="Paris, France">
+                <option value="London, UK">
+                <option value="New York, NY">
+                <option value="Los Angeles, CA">
+                <option value="Austin, TX">
+                <option value="Sydney, Australia">
+                <option value="Vancouver, Canada">
             </datalist>
             
             <p id="scopeSummary" style="margin-top: 15px; font-weight: bold; color: var(--dark); font-size: 0.95em;"></p>
@@ -127,19 +127,32 @@
     </main>
 
     <script>
+        // List of broad country names to catch when a user types a country instead of a city
+        const countryList = [
+            "Turkey", "Japan", "South Korea", "Korea", "France", "United Kingdom", "UK", 
+            "Australia", "Canada", "United States", "USA", "US", "Germany", "Italy", "Spain", "China"
+        ];
+
         function checkFieldFeedback(inputId, feedbackId) {
             const val = document.getElementById(inputId).value.trim();
             const feedbackEl = document.getElementById(feedbackId);
             
             if (!val) {
-                feedbackEl.innerText = "⚠️ Please enter a destination";
-                feedbackEl.className = "feedback-tag";
-                feedbackEl.style.color = "#d35400";
+                feedbackEl.innerText = "⚠️ Please enter a destination city";
+                feedbackEl.className = "feedback-tag feedback-warning";
                 return;
             }
 
-            feedbackEl.innerText = "✓ Confirmed destination scope active";
-            feedbackEl.className = "feedback-tag feedback-valid";
+            // Check if input matches a country name
+            const isCountry = countryList.some(country => country.toLowerCase() === val.toLowerCase());
+
+            if (isCountry) {
+                feedbackEl.innerText = `⚠️ ${val} is a country, please enter a specific city name (e.g., Seoul for South Korea).`;
+                feedbackEl.className = "feedback-tag feedback-warning";
+            } else {
+                feedbackEl.innerText = "✓ Confirmed destination scope active";
+                feedbackEl.className = "feedback-tag feedback-valid";
+            }
         }
 
         function validateAndEvaluate() {
