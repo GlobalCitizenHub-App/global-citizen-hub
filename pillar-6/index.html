@@ -3,238 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Pillar 6: Universal conversion, height, diverse clothing/shoe sizing (Petite, Regular, Plus, Tall, Kids), living space, and e-commerce calculators for international travelers and global movers.">
-    <title>Pillar 6 | Shopping, Sizing & Conversions</title>
+    <title>Pillar 6: Lifestyle & Culture</title>
     <style>
         :root { --primary: #16a085; --dark: #2c3e50; --light: #f4f6f7; --border: #d5dbdb; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; max-width: 900px; margin: 40px auto; padding: 20px; background-color: var(--light); color: #333; line-height: 1.6; }
-        .card { background: #ffffff; padding: 35px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); border-top: 6px solid var(--primary); }
-        h1, h2, h4 { color: var(--primary); margin-top: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; max-width: 1000px; margin: 40px auto; padding: 20px; background: var(--light); color: #333; line-height: 1.6; }
+        .card { background: #fff; padding: 40px; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.06); }
         
-        /* Persistent Paper Binder Navigation Tabs */
-        .binder-nav { display: flex; flex-wrap: wrap; gap: 4px; background: #e5e8e8; padding: 8px 8px 0 8px; border-radius: 8px 8px 0 0; border-bottom: 3px solid #bdc3c7; margin-bottom: 25px; }
-        .binder-tab { flex: 1; min-width: 95px; padding: 10px 6px; text-align: center; text-decoration: none; font-weight: bold; font-size: 0.78em; color: white; border-radius: 6px 6px 0 0; box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15); transition: transform 0.1s, opacity 0.2s; opacity: 0.8; }
-        .binder-tab:hover { opacity: 1; transform: translateY(-2px); }
-        .binder-tab.active { opacity: 1; box-shadow: inset 0 -5px 0 #fff, 0 -2px 5px rgba(0,0,0,0.2); filter: brightness(1.1); }
-        
-        .tab-master { background: #34495e; } .tab-p1 { background: #2980b9; } .tab-p2 { background: #27ae60; }
-        .tab-p3 { background: #8e44ad; } .tab-p4 { background: #d35400; } .tab-p5 { background: #c0392b; } .tab-p6 { background: #16a085; }
+        .nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px; border-bottom: 3px solid var(--border); padding-bottom: 15px; }
+        .nav-tabs a { padding: 10px 15px; text-decoration: none; color: white; font-weight: bold; border-radius: 4px; font-size: 0.85em; text-align: center; flex: 1 1 auto; transition: opacity 0.2s; }
+        .tab-dash { background: #5d6d7e; }
+        .tab-1 { background: #5dade2; opacity: 0.8; } 
+        .tab-2 { background: #7dcea0; opacity: 0.8; }
+        .tab-3 { background: #af7ac5; opacity: 0.8; } 
+        .tab-4 { background: #e59866; opacity: 0.8; } 
+        .tab-5 { background: #cd6155; opacity: 0.8; }
+        .tab-6 { background: #73c6b6; } /* Active */
+        .nav-tabs a:hover { opacity: 1; }
 
-        /* Rationalized Single-Row Stacked Layout */
-        .conv-row { display: flex; align-items: center; gap: 12px; margin-top: 10px; }
-        .conv-group { flex: 1; }
-        input, select { width: 100%; padding: 10px 12px; border: 1px solid var(--border); border-radius: 6px; font-size: 15px; text-align: center; background: #fff; box-sizing: border-box; }
-        label { font-weight: bold; font-size: 0.82em; color: #7f8c8d; display: block; margin-bottom: 4px; }
-        .eq { font-weight: bold; font-size: 1.3em; color: #bdc3c7; padding-top: 20px; }
-        .calc-box { background: #f9fbfb; padding: 22px; border-radius: 6px; margin-bottom: 20px; border: 1px solid var(--border); }
-        .note-box { background: #e8f8f5; border-left: 4px solid var(--primary); padding: 12px 15px; border-radius: 4px; font-size: 0.88em; color: #2c3e50; margin-bottom: 15px; }
+        h1 { color: var(--primary); margin-top: 0; font-size: 2em; display: flex; align-items: center; gap: 10px; }
+        .session-info { font-weight: bold; color: var(--primary); font-size: 1.1em; margin-bottom: 5px; }
+        .subtitle { color: #555; margin-top: 0; border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px; }
+
+        .matrix-box { border: 1px solid var(--border); border-radius: 6px; padding: 25px; background: #fdfefe; margin-bottom: 30px; }
+        .matrix-box h3 { color: var(--primary); margin-top: 0; font-size: 1.1em; display: flex; align-items: center; gap: 8px; }
         
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.88em; margin-bottom: 20px; }
-        th, td { border: 1px solid var(--border); padding: 9px 12px; text-align: center; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95em; }
+        th, td { border: 1px solid var(--border); padding: 15px; text-align: left; }
         th { background: #e8f8f5; color: var(--primary); }
-        .affiliate-disclosure { font-size: 0.75em; color: #95a5a6; text-align: center; margin-top: 25px; border-top: 1px solid var(--light); padding-top: 15px; }
+        
+        .global-footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .global-footer a { color: var(--primary); text-decoration: none; font-weight: bold; font-size: 0.9em; margin: 0 8px; }
+        .global-footer a:hover { text-decoration: underline; }
+        .global-footer p { font-size: 0.8em; color: #7f8c8d; margin-top: 10px; }
     </style>
 </head>
 <body>
+    <div class="nav-tabs">
+        <a href="../index.html" class="tab-dash">⌂ Dashboard</a>
+        <a href="../pillar-1/index.html" class="tab-1">1. Climate</a>
+        <a href="../pillar-2/index.html" class="tab-2">2. Cost</a>
+        <a href="../pillar-3/index.html" class="tab-3">3. Housing</a>
+        <a href="../pillar-4/index.html" class="tab-4">4. Legal</a>
+        <a href="../pillar-5/index.html" class="tab-5">5. Safety</a>
+        <a href="#" class="tab-6">6. Lifestyle</a>
+    </div>
+
     <main class="card">
-        <nav class="binder-nav" id="binderNav">
-            <a href="../index.html" class="binder-tab tab-master">⌂ Dashboard</a>
-            <a href="../pillar-1/index.html" class="binder-tab tab-p1">1. Climate</a>
-            <a href="../pillar-2/index.html" class="binder-tab tab-p2">2. Cost</a>
-            <a href="../pillar-3/index.html" class="binder-tab tab-p3">3. Connectivity</a>
-            <a href="../pillar-4/index.html" class="binder-tab tab-p4">4. Transit</a>
-            <a href="../pillar-5/index.html" class="binder-tab tab-p5">5. Culture</a>
-            <a href="../pillar-6/index.html" class="binder-tab tab-p6 active">6. Shop & Convert</a>
-        </nav>
-
-        <header style="border-bottom: 2px solid var(--primary); padding-bottom: 15px; margin-bottom: 25px;">
-            <h1>🛍️ Pillar 6: Shopping, Sizing & Conversions</h1>
-            <p id="statusHeader" style="font-weight: bold; color: var(--primary); margin: 0 0 5px 0;"></p>
-            <p style="margin: 0; font-size: 0.95em; color: #555;">Instant calculators for international e-commerce gear, diverse body sizing (Petite, Regular, Plus, Tall, Kids), and unit conversions.</p>
-        </header>
+        <h1>🎭 Pillar 6: Lifestyle & Culture</h1>
         
-        <div class="calc-box">
-            <h4>📏 Height Converter (Apparel & Licensing)</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Feet (ft)</label><input type="number" id="ftInput" placeholder="e.g. 5" oninput="calcHeight()"></div>
-                <div class="conv-group"><label>Inches (in)</label><input type="number" id="inHeightInput" placeholder="e.g. 10" oninput="calcHeight()"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group" style="flex: 1.2;"><label>Centimeters (cm)</label><input type="number" id="cmHeightInput" placeholder="e.g. 178" oninput="calcHeightRev()"></div>
-            </div>
-        </div>
+        <div class="session-info">Active Session: <span class="display-city" style="color: var(--primary);">[Loading...]</span> | Travel Month: <span class="display-month">Loading...</span></div>
+        <p class="subtitle">Social integration baselines, cultural norms, co-working hub density, and expat networks.</p>
 
-        <div class="calc-box">
-            <h4>📐 Living Space & Apartment Area</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Square Feet (sq ft)</label><input type="number" id="sqftInput" placeholder="e.g. 650" oninput="calcArea('sqft','sqm')"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group"><label>Square Meters (sq m)</label><input type="number" id="sqmInput" placeholder="e.g. 60" oninput="calcArea('sqm','sqft')"></div>
-            </div>
-        </div>
+        <div class="matrix-box">
+            <h3>🌐 Cultural Integration Baseline</h3>
+            <p>Societal norms and digital nomad integration expectations for <strong class="display-city">[Loading...]</strong>.</p>
 
-        <div class="calc-box">
-            <h4>🌡️ Temperature Converter</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Fahrenheit (°F)</label><input type="number" id="fInput" placeholder="e.g. 72" oninput="calcTemp('f','c')"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group"><label>Celsius (°C)</label><input type="number" id="cInput" placeholder="e.g. 22" oninput="calcTemp('c','f')"></div>
-            </div>
-        </div>
-
-        <div class="calc-box">
-            <h4>📦 Dimensions & Distance</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Inches (in)</label><input type="number" id="inInput" placeholder="e.g. 10" oninput="calcLen()"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group"><label>Centimeters (cm)</label><input type="number" id="cmInput" placeholder="e.g. 25.4" oninput="calcLenRev()"></div>
-            </div>
-        </div>
-
-        <div class="calc-box">
-            <h4>🧴 Liquid Volume (Groceries & Cosmetics)</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Fluid Ounces (fl oz)</label><input type="number" id="ozInput" placeholder="e.g. 16" oninput="calcVol('oz','ml')"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group"><label>Milliliters (ml)</label><input type="number" id="mlInput" placeholder="e.g. 473" oninput="calcVol('ml','oz')"></div>
-            </div>
-        </div>
-
-        <div class="calc-box">
-            <h4>⚖️ Weight (Shipping & Luggage)</h4>
-            <div class="conv-row">
-                <div class="conv-group"><label>Pounds (lbs)</label><input type="number" id="lbsInput" placeholder="e.g. 50" oninput="calcWt('lbs','kg')"></div>
-                <div class="eq">⇌</div>
-                <div class="conv-group"><label>Kilograms (kg)</label><input type="number" id="kgInput" placeholder="e.g. 22.6" oninput="calcWt('kg','lbs')"></div>
-            </div>
-        </div>
-
-        <div class="calc-box">
-            <h4>👕 Comprehensive International & Inclusive Sizing Reference</h4>
-            <p style="font-size: 0.85em; color: #666; margin-top: 0;">Inclusive cross-border sizing guide covering Petite, Regular, Tall, Plus sizes, and Kids/Youth apparel and footwear.</p>
-            
-            <div class="note-box">
-                🌍 <strong>Global Sizing Diversity Note:</strong> International storefronts vary significantly in cut and proportions. <strong>Petite</strong> ranges generally accommodate heights under 5'4" (162 cm), while <strong>Tall</strong> ranges accommodate heights over 5'9" (175 cm). <strong>Plus / Extended Sizes</strong> scale proportion and rise rather than just width. Always cross-reference merchant chest/waist measurements in centimeters or inches.
-            </div>
-
-            <h5 style="color: var(--dark); margin-bottom: 5px;">👚 Women's Sizing Matrix (Petite, Regular, Plus, Tall)</h5>
             <table>
                 <thead>
-                    <tr><th>Category</th><th>US Standard</th><th>UK / AUS</th><th>EU Continental</th><th>Intl Scale</th></tr>
+                    <tr>
+                        <th>Cultural Metric</th>
+                        <th>Local Baseline</th>
+                        <th>Integration Strategy</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr><td><strong>Petite</strong></td><td>US 2P – 6P</td><td>UK 6P – 10P</td><td>EU 32P – 36P</td><td>XXS-P to M-P</td></tr>
-                    <tr><td><strong>Regular</strong></td><td>US 4 – 10</td><td>UK 8 – 14</td><td>EU 36 – 42</td><td>S – L</td></tr>
-                    <tr><td><strong>Plus / Extended</strong></td><td>US 14W – 24W</td><td>UK 18 – 28</td><td>EU 46 – 56</td><td>1X – 3X</td></tr>
-                    <tr><td><strong>Tall</strong></td><td>US 6T – 14T</td><td>UK 10T – 18T</td><td>EU 38T – 46T</td><td>S-Tall to XL-Tall</td></tr>
-                </tbody>
-            </table>
-
-            <h5 style="color: var(--dark); margin-bottom: 5px; margin-top: 15px;">👔 Men's Sizing Matrix (Regular, Big & Tall)</h5>
-            <table>
-                <thead>
-                    <tr><th>Category</th><th>US Standard</th><th>UK / AUS</th><th>EU Continental</th><th>Chest / Waist Scale</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Regular</strong></td><td>Small – XL</td><td>Small – XL</td><td>EU 46 – 56</td><td>36" – 44" Chest</td></tr>
-                    <tr><td><strong>Big & Tall / Extended</strong></td><td>2XL – 5XL / XLT</td><td>2XL – 5XL</td><td>EU 58 – 68</td><td>46" – 56"+ Chest</td></tr>
-                </tbody>
-            </table>
-
-            <h5 style="color: var(--dark); margin-bottom: 5px; margin-top: 15px;">👟 Footwear Sizing Matrix (Adult & Kids)</h5>
-            <table>
-                <thead>
-                    <tr><th>Category</th><th>US Standard</th><th>UK / Commonwealth</th><th>EU Continental</th><th>CM / JP</th></tr>
-                </thead>
-                <tbody>
-                    <tr><td><strong>Women's Standard</strong></td><td>US 6 / 7 / 8</td><td>UK 3.5 / 4.5 / 5.5</td><td>EU 36 / 38 / 39</td><td>23 / 24 / 25 cm</td></tr>
-                    <tr><td><strong>Men's Standard</strong></td><td>US 8 / 9 / 10</td><td>UK 7.5 / 8.5 / 9.5</td><td>EU 41 / 42 / 43</td><td>26 / 27 / 28 cm</td></tr>
-                    <tr><td><strong>Kids' / Youth</strong></td><td>US 10C / 1Y / 3Y</td><td>UK 9.5 / 13.5 / 2.5</td><td>EU 27 / 33 / 35</td><td>16 / 20 / 22 cm</td></tr>
+                    <tr>
+                        <td><strong>Social Norms</strong></td>
+                        <td>Respect for local hierarchy and public decorum.</td>
+                        <td>Learn basic greetings in the local language; observe transit etiquette.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Digital Community</strong></td>
+                        <td>Growing cafe and co-working culture.</td>
+                        <td>Engage with local expat forums and co-working events for rapid networking.</td>
+                    </tr>
                 </tbody>
             </table>
         </div>
-
-        <footer class="affiliate-disclosure">
-            <p><a href="../contact/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Contact Us</a> | <a href="../about/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">About</a> | <a href="../privacy/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Privacy Policy</a> | <a href="../terms/index.html" style="color: var(--primary); text-decoration: none; font-weight: bold;">Terms of Service</a></p>
-            Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.
-        </footer>
     </main>
 
-    <script>
-        function calcHeight() {
-            let ft = parseFloat(document.getElementById("ftInput").value) || 0;
-            let inches = parseFloat(document.getElementById("inHeightInput").value) || 0;
-            if (ft === 0 && inches === 0) { document.getElementById("cmHeightInput").value = ""; return; }
-            let totalInches = (ft * 12) + inches;
-            let cm = totalInches * 2.54;
-            document.getElementById("cmHeightInput").value = cm.toFixed(1);
-        }
-        function calcHeightRev() {
-            let cm = parseFloat(document.getElementById("cmHeightInput").value);
-            if (isNaN(cm)) { document.getElementById("ftInput").value = ""; document.getElementById("inHeightInput").value = ""; return; }
-            let totalInches = cm / 2.54;
-            let ft = Math.floor(totalInches / 12);
-            let inches = Math.round(totalInches % 12);
-            document.getElementById("ftInput").value = ft;
-            document.getElementById("inHeightInput").value = inches;
-        }
-        function calcTemp(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'f') ? (val - 32) * 5/9 : (val * 9/5) + 32;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcLen() {
-            let val = parseFloat(document.getElementById("inInput").value);
-            if (isNaN(val)) { document.getElementById("cmInput").value = ""; return; }
-            document.getElementById("cmInput").value = (val * 2.54).toFixed(1);
-        }
-        function calcLenRev() {
-            let val = parseFloat(document.getElementById("cmInput").value);
-            if (isNaN(val)) { document.getElementById("inInput").value = ""; return; }
-            document.getElementById("inInput").value = (val / 2.54).toFixed(1);
-        }
-        function calcArea(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'sqft') ? val * 0.092903 : val / 0.092903;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcVol(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'oz') ? val * 29.5735 : val / 29.5735;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
-        function calcWt(from, to) {
-            let val = parseFloat(document.getElementById(from + "Input").value);
-            if (isNaN(val)) { document.getElementById(to + "Input").value = ""; return; }
-            let res = (from === 'lbs') ? val * 0.453592 : val / 0.453592;
-            document.getElementById(to + "Input").value = res.toFixed(1);
-        }
+    <footer class="global-footer">
+        <div>
+            <a href="#">Contact Us</a> | <a href="#">About</a> | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a>
+        </div>
+        <p>Global Citizen Hub is an informational travel guide. Clicking certain links may earn us a small commission to support this toolkit, at no extra cost to you.</p>
+    </footer>
 
-        (function() {
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const date = new Date();
+            const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+            document.querySelectorAll('.display-month').forEach(el => el.innerText = monthNames[date.getMonth()]);
+
             const urlParams = new URLSearchParams(window.location.search);
-            let city = urlParams.get('city') || localStorage.getItem('gch_city') || "Global Destination";
-            let country = urlParams.get('country') || localStorage.getItem('gch_country') || "";
-            
-            if (city !== "Global Destination" && !urlParams.has('city')) {
-                const recoveryQs = `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}`;
-                window.history.replaceState({}, '', window.location.pathname + recoveryQs);
+            let activeCity = urlParams.get('city');
+
+            if (!activeCity || activeCity.trim() === '') {
+                document.querySelectorAll('.display-city').forEach(el => {
+                    el.innerText = "⚠️ Missing Data - Return to Dashboard";
+                    el.style.color = "#d35400"; 
+                });
+                document.querySelectorAll('.nav-tabs a').forEach(tab => {
+                    if (!tab.classList.contains('tab-dash')) {
+                        tab.href = "javascript:void(0);";
+                        tab.style.opacity = "0.3";
+                        tab.style.cursor = "not-allowed";
+                    }
+                });
+                return; 
             }
 
-            document.getElementById('statusHeader').innerText = `Active Session: ${city}${country ? ', ' + country : ''}`;
+            activeCity = decodeURIComponent(activeCity).trim();
+            const isUSCity = ["new york", "aurora", "middletown", "springfield", "chicago", "los angeles"].some(c => activeCity.toLowerCase().includes(c));
+            if (!isUSCity) {
+                activeCity = activeCity.replace(/,?\s*(United States|US|U\.S\.|USA)$/i, '');
+            }
             
-            const activeQs = window.location.search || `?city=${encodeURIComponent(city)}&country=${encodeURIComponent(country)}`;
-            document.getElementById('binderNav').innerHTML = `
-                <a href="../index.html${activeQs}" class="binder-tab tab-master">⌂ Dashboard</a>
-                <a href="../pillar-1/index.html${activeQs}" class="binder-tab tab-p1">1. Climate</a>
-                <a href="../pillar-2/index.html${activeQs}" class="binder-tab tab-p2">2. Cost</a>
-                <a href="../pillar-3/index.html${activeQs}" class="binder-tab tab-p3">3. Connectivity</a>
-                <a href="../pillar-4/index.html${activeQs}" class="binder-tab tab-p4">4. Transit</a>
-                <a href="../pillar-5/index.html${activeQs}" class="binder-tab tab-p5">5. Culture</a>
-                <a href="../pillar-6/index.html${activeQs}" class="binder-tab tab-p6 active">6. Shop & Convert</a>
-            `;
-        })();
+            document.querySelectorAll('.display-city').forEach(el => el.innerText = activeCity);
+
+            const encodedCity = encodeURIComponent(activeCity);
+            document.querySelector('.tab-1').href = `../pillar-1/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-2').href = `../pillar-2/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-3').href = `../pillar-3/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-4').href = `../pillar-4/index.html?city=${encodedCity}`;
+            document.querySelector('.tab-5').href = `../pillar-5/index.html?city=${encodedCity}`;
+        });
     </script>
 </body>
 </html>
