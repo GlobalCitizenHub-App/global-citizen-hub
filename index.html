@@ -550,9 +550,10 @@
             const isSummer = ['June', 'July', 'August'].includes(monthStr);
             const isFall = ['September', 'October', 'November'].includes(monthStr);
             
-            let temp = isKorea ? (isWinter ? '2°C (35°F)' : isSummer ? '26°C (78°F)' : '14°C (57°F)') :
-                       isJapan ? (isWinter ? '6°C (43°F)' : isSummer ? '27°C (80°F)' : '16°C (61°F)') :
-                       (isWinter ? '5°C (41°F)' : isSummer ? '28°C (82°F)' : '15°C (59°F)');
+            // Replaced generic average with Daily Temperature Range (High/Low)
+            let temp = isKorea ? (isWinter ? '−3°C to 4°C (27°F to 39°F)' : isSummer ? '22°C to 30°C (72°F to 86°F)' : '10°C to 18°C (50°F to 64°F)') :
+                       isJapan ? (isWinter ? '2°C to 10°C (36°F to 50°F)' : isSummer ? '23°C to 31°C (73°F to 88°F)' : '12°C to 20°C (54°F to 68°F)') :
+                       (isWinter ? '−1°C to 7°C (30°F to 45°F)' : isSummer ? '18°C to 29°C (64°F to 84°F)' : '10°C to 21°C (50°F to 70°F)');
                        
             let ward = isWinter ? '🧥 Heavy coat, thermal layers, gloves' : 
                        isSummer ? '👕 Light breathable fabrics, sunglasses' : 
@@ -588,7 +589,6 @@
             return { temp, ward, risk, food, volt, transitLocal, transitUSD, costLocal, costUSD };
         }
 
-        // FOOTNOTE HTML INJECTOR
         const almanacFootnoteHTML = `<div class="almanac-note"><em>*Weather and hazard intelligence is modeled on 30-year historical climatological normal averages (WMO/NOAA standards).</em></div>`;
 
         function generateReport() {
@@ -607,14 +607,14 @@
                 htmlTarget = `${pCity}, ${pCountry}`;
                 
                 hClim = `<ul class="report-list">
-                            <li><strong>Mean Thermal Baseline:</strong> ${pData.temp} historical average for ${m}.</li>
+                            <li><strong>Daily Temperature Range:</strong> ${pData.temp} historical daily high/low for ${m}.</li>
                             <li><strong>Seasonal Hazard Risk:</strong> <span style="color:var(--error); font-weight:500;">${pData.risk}</span></li>
                             <li><strong>Suggested Wardrobe:</strong> ${pData.ward}</li>
                          </ul>
                          ${almanacFootnoteHTML}`;
                 hEcon = `<ul class="report-list"><li><strong>Estimated Benchmark:</strong> ${pData.costLocal} <span style="color:var(--success); font-weight:bold;">(~${pData.costUSD})</span> per term.</li><li><strong>Purchasing Power Parity:</strong> Calibrated for ${e.split('(')[0].trim()}.</li></ul>`;
                 hPow = `<ul class="report-list"><li><strong>Electrical Grid Voltage:</strong> ${pData.volt}.</li><li><strong>Surge Standard:</strong> IEC/NEC compliant grounding verified.</li></ul>`;
-                hTrans = `<ul class="report-list"><li><strong>Primary Urban Transit:</strong> Metro subway grid and rapid regional bus lines.</li><li><strong>Fare Rate:</strong> ${pData.transitLocal} <span style="color:var(--success); font-weight:bold;">(~${pData.transitUSD})</span> baseline fare.</li></ul>`;
+                hTrans = `<ul class="report-list"><li><strong>Primary Urban Transit:</strong> Metro subway grid and rapid regional bus lines.</li><li><strong>Fare Rate:</strong> ${pData.transitLocal} <span style="color:var(--success); font-weight:bold;">(~${pData.transitUSD})</span> per single one-way trip (subway/bus).</li></ul>`;
                 hCult = `<ul class="report-list"><li><strong>Culinary Profile:</strong> ${pData.food}</li><li><strong>Service Gratuity:</strong> Tipping norms established for standard service.</li></ul>`;
                 
             } else {
@@ -625,8 +625,8 @@
                 htmlTarget = `<strong style="color:var(--primary);">${pCity}</strong> vs. <strong style="color:var(--accent);">${sCity}</strong>`;
                 
                 hClim = `<div class="matrix-grid">
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Thermal Baseline (${m})</span><span class="matrix-val">${pData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${pData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${pData.ward}</span></div></div>
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Thermal Baseline (${m})</span><span class="matrix-val">${sData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${sData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${sData.ward}</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Daily Temp Range (${m})</span><span class="matrix-val">${pData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${pData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${pData.ward}</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Daily Temp Range (${m})</span><span class="matrix-val">${sData.temp}</span></div><div class="matrix-stat"><span class="matrix-label">Seasonal Hazard Risk</span><span class="matrix-val" style="color:var(--error); font-weight:600;">${sData.risk}</span></div><div class="matrix-stat"><span class="matrix-label">Wardrobe</span><span class="matrix-val">${sData.ward}</span></div></div>
                          </div>
                          ${almanacFootnoteHTML}`;
                          
@@ -641,8 +641,8 @@
                          </div>`;
                          
                 hTrans = `<div class="matrix-grid">
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Baseline Fare</span><span class="matrix-val">${pData.transitLocal}</span><span class="matrix-usd">≈ ${pData.transitUSD}</span></div></div>
-                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Baseline Fare</span><span class="matrix-val">${sData.transitLocal}</span><span class="matrix-usd">≈ ${sData.transitUSD}</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${pCity}</div><div class="matrix-stat"><span class="matrix-label">Single Trip Fare (Subway/Bus)</span><span class="matrix-val">${pData.transitLocal}</span><span class="matrix-usd">≈ ${pData.transitUSD}</span></div></div>
+                            <div class="matrix-panel"><div class="matrix-title">📍 ${sCity}</div><div class="matrix-stat"><span class="matrix-label">Single Trip Fare (Subway/Bus)</span><span class="matrix-val">${sData.transitLocal}</span><span class="matrix-usd">≈ ${sData.transitUSD}</span></div></div>
                          </div>`;
                          
                 hCult = `<div class="matrix-grid">
